@@ -1,0 +1,30 @@
+#LateX
+*.toc
+*.aux
+*.lof
+*.lot
+*.lox
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+*.ind
+*.loa
+*.idx
+*.out
+*.spl
+*.rel
+*.nav
+*.snm
+*.vrb
+
+# Emacs stuff
+_region_.tex
+auto/
+
+# Random OS stuff
+.DS_Store
+Thumbs.db
+*.bak
+*.log
+*~

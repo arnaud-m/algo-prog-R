@@ -1,0 +1,14 @@
+#+SETUPFILE: ~/.emacs.d/org-templates/base.org
+#+TITLE:       Algorithmique & Programmation avec R
+#+KEYWORDS:    computer science, teaching
+#+OPTIONS: H:2 num:nil toc:nil
+#+LANGUAGE: en
+[[https://creativecommons.org/licenses/by-nc/4.0/][https://licensebuttons.net/l/by-nc/4.0/80x15.png]]
+* About
+
+  This repository hosts the source files of the lectures given in the course "Algorithmique & Programmation avec R".
+  The course is an introduction to R programming targeted for non-programmers.
+
+* Support and Issues
+
+Do not hesitate to post issues in order to help us improve this course.
