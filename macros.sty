@@ -1,0 +1,125 @@
+%%%%%%%%%% Common definitions %%%%%%%%%%
+
+\subtitle{\href{http://www.i3s.unice.fr/~malapert/org/teaching/introR.html}{Algo \& Prog avec R}}
+\date{\today}
+\author{A. Malapert, B. Martin, M. Pelleau, et J.-P. Roy}
+\institute{Universit\'{e} C\^{o}te d'Azur, CNRS, I3S, France\\\texttt{firstname.lastname@univ-cotedazur.fr}}
+\titlegraphic{\hfill\includegraphics[height=2.5cm]{logo_uns_membre_uca_quadri.png}}
+
+%%%%%%%%% Package import %%%%%%%%%%
+
+\usetheme[sectionpage=none,numbering=fraction,progressbar=foot]{metropolis}
+\usepackage{appendixnumberbeamer}
+
+\usepackage[frenchb]{babel}
+\usepackage[utf8]{inputenc}
+
+
+\usepackage{amsmath,amssymb}
+
+\usepackage{xspace}
+
+\graphicspath{{fig/}{../fig/}}
+\DeclareGraphicsExtensions{.pdf,.jpg,.png,.jpeg}
+
+%%%%% Appendix Management %%%%%%%%%%
+
+\newcommand{\questionSlide}{
+  \begin{frame}[standout]
+    Questions?
+    \\[25pt]
+    Retrouvez ce cours sur le site web \\
+    \url{www.i3s.unice.fr/~malapert/R}
+  \end{frame}
+}
+
+
+%% Moving slides to appendix
+%% Define a variable to store everything
+\newcommand{\backupSlides}{}
+%% Define command to append text to backup variable
+\newcommand{\backup}[1]{%
+\expandafter\def\expandafter\backupSlides\expandafter{\backupSlides#1}
+}
+
+%%%%% Customize the theme %%%%%%%%%%%
+
+\DefineNamedColor{named}{DarkBlue}      {cmyk}{1,1,0,0.2}
+\DefineNamedColor{named}{BrickRed}      {cmyk}{0,0.89,0.94,0.28}
+\DefineNamedColor{named}{ForestGreen}   {cmyk}{0.91,0,0.88,0.12}
+
+
+\setbeamertemplate{theorems}[numbered]
+\setbeamertemplate{itemize item}[triangle]
+\setbeamertemplate{itemize subitem}[triangle]
+
+\usepackage{marvosym} %%smileys
+\newcommand{\cYinYang}{{\LARGE \YinYang{}}\xspace}
+\newcommand{\cSmiley}{{\LARGE\color{ForestGreen} \Smiley{}}\xspace}
+\newcommand{\cFrowny}{{\LARGE\color{BrickRed} \Frowny{}}\xspace}
+%%symbols
+\newenvironment{plusenv}{\only{\setbeamertemplate{itemize item}{\cSmiley}}}{}
+\newenvironment{moinsenv}{\only{\setbeamertemplate{itemize item}{\cFrowny}}}{}
+\newenvironment{yyenv}{\only{\setbeamertemplate{itemize item}{\cYinYang}}}{}
+
+%%%%% Default hypersetup %%%%%%%%%%%
+
+\hypersetup{
+  pdfauthor = {Arnaud Malapert, Marie Pelleau},
+%  pdftitle =  {UCAnCODE et Fablab},
+  pdfsubject = {Algo \& Prog avec R},
+  pdfkeywords = {algorithmique, programmation, langage R},
+  pdfcreator = {LaTeX with hyperref package},
+  pdfproducer = {pdflatex},
+  colorlinks=true,       % false: boxed links; true: colored links
+  linkcolor=black,          % color of internal links (change box color with linkbordercolor)
+  citecolor=BrickRed,        % color of links to bibliography
+  filecolor=BrickRed,      % color of file links
+  urlcolor=BrickRed           % color of external links
+}
+
+  
+%%%%% For nice drawing with tikz :) %%%%%
+
+
+\definecolor{rose}{rgb}{0.8,0,0.4}
+\definecolor{bleu}{rgb}{0,0.6,0.8}
+\definecolor{vert}{rgb}{0, 0.8, 0.8}
+\definecolor{vertc}{rgb}{0,0.8,0.4}
+\definecolor{orange}{rgb}{1,0.4,0.2}
+\definecolor{dore}{rgb}{0.7,0.5,0}
+\definecolor{jaune}{rgb}{0.9,0.7,0}
+\definecolor{mauve}{rgb}{0.6,0,0.8}
+\definecolor{bleuc}{rgb}{0.48,0.75,0.86}
+\definecolor{bleutc}{rgb}{0.65,0.84,0.9}
+\definecolor{bleuttc}{rgb}{0.82,0.95,1}
+
+
+
+
+%%%%%%%%%% Coloration syntaxique %%%%%%%%%%
+
+\usepackage{listings}
+
+%% https://en.wikibooks.org/wiki/LaTeX/Source_Code_Listings
+%% TODO Try to highlight the functions from the reference card that must be known !
+% See complex highlighting : https://tex.stackexchange.com/questions/283170/using-different-colors-for-different-keywords-in-lstlisting
+
+\lstset{
+  language=R,
+  aboveskip = 0pt,
+  breaklines = true,
+  basicstyle = \footnotesize,
+  keywordstyle = \color{DarkBlue},
+  commentstyle = \itshape\color{ForestGreen},
+  stringstyle = \color{BrickRed},
+  keepspaces = false,
+  frame = single,
+  % columns = flexible
+  % gobble = 4
+}
+  
+
+
+  
+  

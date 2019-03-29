@@ -1,0 +1,135 @@
+\documentclass[10pt]{beamer}
+
+\usepackage{../macros}
+
+\title{Représentation des nombres}
+\author{Arnaud Malapert}
+
+\hypersetup{
+  pdfauthor = {Arnaud Malapert},
+  pdftitle =  {Représentation des nombres},
+}
+
+
+\begin{document}
+
+\maketitle
+
+
+\begin{frame}{Cours en AUTOFORMATION}
+  
+  \begin{block}{Représentation des nombres}
+    \begin{itemize}
+    \item Système positionel : binaire, décimal, octal, et héxadécimal.
+    \item Nombre non signé seulement (positif).
+    \item Pas d'étude de la représentation en machine.
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{Prérequis}
+    Savoir additionner, soustraire, multiplier, et diviser ! Surtout par 2 !
+  \end{block}
+
+  \begin{alertblock}{Évaluation : Gagner un max de points en peu de temps !
+}
+    \begin{itemize}
+    \item QCM sur Moodle comptant un peu pour le contrôle continu. 
+    \item 3 points du même QCM dans le contrôle terminal.
+    \item Exercices de programmation autour des algorithmes de conversion.
+    \item Activité de programmation d'une appli web de conversion.
+    \end{itemize}
+  \end{alertblock}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Table of contents}
+  \setbeamertemplate{section in toc}[sections numbered]
+  % \tableofcontents[hideallsubsections]
+  \tableofcontents
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{UCAnCODE}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{UCAnCODE II}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{UCAnCODE III}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{frame}[fragile]
+  \frametitle{Test Code R}
+  \begin{lstlisting}[caption={My Caption}]
+    print(sample(1:3))
+    print(sample(1:3, size=3, replace=FALSE))  # same as previous line
+    print(sample(c(2,5,3), size=4, replace=TRUE)
+    print(sample(1:2, size=10, prob=c(1,3), replace=TRUE))    
+  \end{lstlisting}
+
+
+  \begin{exampleblock}{Code dans block}
+      \begin{lstlisting}
+print(sample(1:3))
+    print(sample(1:3, size=3, replace=FALSE))  # same as previous line
+    print(sample(c(2,5,3), size=4, replace=TRUE)
+    print(sample(1:2, size=10, prob=c(1,3), replace=TRUE))
+    x <- 5
+    if(x > 0){
+      print("Positive number")
+    }
+  \end{lstlisting}
+  \end{exampleblock}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ \questionSlide
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\appendix
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{frame}[fragile]{Backup slides}
+%   Sometimes, it is useful to add slides at the end of your presentation to
+%   refer to during audience questions.
+
+%   The best way to do this is to include the \verb|appendixnumberbeamer|
+%   package in your preamble and call \verb|\appendix| before your backup slides.
+
+%   will automatically turn off slide numbering and progress bars for
+%   slides in the appendix.
+% \end{frame}
+
+% \begin{frame}
+%   \frametitle{test I}
+  
+% \end{frame}
+
+\backupSlides
+
+\begin{frame}
+  \frametitle{test II}
+  
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{frame}[allowframebreaks]{References}
+
+%   % \bibliography{../bib_parallelism,../bib_others}
+%   % \bibliographystyle{abbrv}
+
+% \end{frame}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
