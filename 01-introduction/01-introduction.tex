@@ -1,0 +1,892 @@
+\documentclass[10pt]{beamer}
+%\documentclass[handout,10pt]{beamer} % printable version
+
+\usepackage{../macros}
+
+
+\title{Introduction au langage R}
+
+\hypersetup{
+  pdftitle =  {Introduction au langage R},
+}
+
+\metroset{sectionpage=progressbar,subsectionpage=progressbar}
+
+
+\begin{document}
+
+\maketitle
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Ressources sur cet enseignement}
+
+  \begin{alertblock}{La page Web du cours, que vous enregistrez dans vos signets.}
+    \begin{center}
+      \url{www.i3s.unice.fr/~malapert/R}
+    \end{center}
+
+  \end{alertblock}
+  
+\begin{columns}[t]
+\begin{column}{0.48\textwidth}
+  \begin{block}{Langage de programmation}
+    \begin{center}
+      \includegraphics[height=3cm]{R_logo}
+    \end{center}
+  \end{block}
+\end{column}
+\begin{column}{0.51\textwidth}
+  \begin{block}{Environnement de développement}
+    \begin{center}
+      \includegraphics[height=3.5cm]{RStudio-hex}          
+    \end{center}
+  \end{block}
+\end{column}
+\end{columns}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Table des matières}
+  \setbeamertemplate{section in toc}[sections numbered]
+  % \tableofcontents[hideallsubsections]
+  \tableofcontents
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{Qu'est-ce que la programmation ?}
+  \begin{alertblock}{  L'art de rédiger des textes dans une langue artificielle.}
+    \begin{description}
+    \item[Art] Science ?
+    \item[Textes] Programmes
+    \item[Langue artificielle] Langage de programmation
+    \end{description}
+  \end{alertblock}
+
+  \begin{block}{Dans quel but ?}
+    Faire exécuter une tâche à un ordinateur.
+  \end{block}
+
+  \begin{block}{Il s'agit d'une activité de résolution de problèmes.}
+    \begin{itemize}
+    \item Hum, on va faire des maths, alors ?
+    \item Un peu quand même, mais pas trop, le monde est vaste. Nous allons tâcher d'en modéliser de petites portions pour les faire rentrer dans la machine. Des nombres, du texte, des images, le Web \dots
+    \item On pourrait presque dire : calculer le Monde ?
+    \item Oui, bravo, c'est cela, \alert{réduire le Monde à des ensembles d'objets sur lesquels on peut faire des calculs.}
+
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Jouer avec des nombres entiers}
+  \begin{alertblock}{Dans toutes les sciences, les nombres jouent un rôle important.}
+    R se présente comme une calculette interactive à travers son \alert{toplevel}.
+    Il présente son \alert{prompt $>$} pour que vous lui soumettiez un calcul \dots
+  \end{alertblock}
+  
+\begin{columns}[t]
+\begin{column}{0.38\textwidth}
+\begin{lstlisting}
+> 10 + 3
+[1] 13
+> 10 + 3 * 5
+[1] 25
+> 16 / 3
+[1] 5.333333
+> 16 %/% 3
+[1] 5
+> 16 %% 3
+[1] 1
+\end{lstlisting}
+\end{column}
+\begin{column}{0.58\textwidth}
+  \begin{block}{Opérateurs de base sur les entiers}
+    \begin{itemize}
+    \item \texttt{+} et \texttt{-} : addition et soustraction.
+    \item \texttt{*} et \texttt{/} : multiplication et division.
+    \item \texttt{**} : puissance.
+    \item \texttt{\%/\%} ou \texttt{\%\%} : quotient et reste.
+    \end{itemize}
+  \end{block}
+\end{column}
+\end{columns}
+\begin{exampleblock}{Le kilo informatique}
+\begin{lstlisting}[style=block]
+> 2**10 # le kilo informatique  
+[1] 1024
+\end{lstlisting}  
+\end{exampleblock}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{Division euclidienne}
+  Si \texttt{a} et \texttt{b} sont deux entiers avec \texttt{b$\neq$ 0}, alors :
+  \[
+    \alert{\mathtt{a = b * (a \%/\% b) + (a \%\% b)}}
+  \]
+  \begin{itemize}
+  \item \alert{$\mathtt{a \%/\% b}$} fournit le \alert{quotient} de la division de l'entier \texttt{a} par \texttt{b}.
+  \item \alert{$\mathtt{a \%\% b}$} fournit le \alert{reste} de la division de l'entier \texttt{a} par \texttt{b}.
+
+  \end{itemize}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Erreurs de calcul}
+  Mal utilisée, une opération peut provoquer une ERREUR.
+
+  \begin{block}{Gestion des erreurs avec une valeur spéciale}
+  \begin{lstlisting}[style=block]
+> 16 \%\% 0
+[1] NaN
+> 0/0
+[1] NaN
+\end{lstlisting}
+\end{block}
+
+
+\begin{block}{Gestion des erreurs avec une exception}
+\begin{lstlisting}[style=block]
+> 'a' + 5
+Error in "a" + 5 : argument non numérique pour un opérateur binaire
+\end{lstlisting}
+\end{block}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Priorité des opérations}
+  L'ordre du calcul d'une expression arithmétique tient compte de la priorité de chaque opérateur.
+
+  \begin{table}
+    \begin{tabular}{ll}
+      \toprule
+      Priorité   & Opérateurs                                              \\
+      \midrule
+      Faible     & \texttt{+} et \texttt{-}                                \\
+      Haute      & \texttt{*}, \texttt{/}, \texttt{\%/\%} et \texttt{\%\%} \\
+      Très haute & \texttt{**}                                             \\
+      \bottomrule
+    \end{tabular}
+  \end{table}
+\begin{lstlisting}
+> 5 - 8 + 4 * 2 ** 3
+[1] 29
+> (5 - 8) + (4 * (2 ** 3))
+[1] 29
+\end{lstlisting}
+Dans le doute, \alert{mieux vaut mettre des parenthèses} !
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Représentation des nombres (voir l'autoformation)}
+  \alert{La taille} des entiers \alert{est toujours limitée par} la mémoire de \alert{la machine}. \\
+  En R, les entiers sont représentés sur 32 bits.
+\begin{lstlisting}
+> .Machine$integer.max
+[1] 2147483647
+\end{lstlisting}
+% $ % for auctex
+On dit que l'on travaille avec des nombres entiers en \alert{précision finie} !
+
+Pourtant, R peut renvoyer un résultat entier au-delà de cette valeur.
+\begin{lstlisting}
+> 2^31
+[1] 2147483648
+\end{lstlisting}
+R va automatiquement transformer le résultat en un \alert{nombre flottant}.
+Les nombres flottants représentent les nombres réels sur 64 bits.
+Attention, l’arithmétique flottante n’est pas exacte !
+\begin{lstlisting}
+> x <- 2 ** 221
+> x + 1 == x
+[1] TRUE  
+\end{lstlisting}
+ Comment expliquer vous ce résultat ? Quels sont les autres problèmes ?
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+  \frametitle{Prgrammer avec des variables}
+  \begin{alertblock}{Variable}
+    Un peu comme les \alert{inconnues} en Algèbre, sauf qu'ici une variable devra être \alert{connue} et contenir une valeur.
+  \end{alertblock}
+      \begin{lstlisting}
+> a <- 2 # lire : a prend pour valeur 2
+> p <- 10 # p prend pour valeur 10
+> c <- a ** p # c prend pour valeur celle de a p
+> c  # toujours le kilo informatique
+[1] 1024 
+\end{lstlisting}
+
+\begin{alertblock}{Instruction d'affectation : \texttt{variable <- expression}}
+  Ce signe \texttt{<-} (ou \texttt{=}) non commutatif n'a rien à voir avec celui des maths !
+\end{alertblock}
+
+\begin{exampleblock}{  L'écriture \texttt{2 + 3 = a} n'aura donc aucun sens !!}
+\begin{lstlisting}[style=block]
+> 2 + 3 = a
+Error in 2 + 3 = a : 
+  la cible de l'assignation est un objet n'appartenant pas au langage
+> 2 + 3 = 5
+Error in 2 + 3 = 5 : ...
+\end{lstlisting}
+\end{exampleblock}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]
+  \frametitle{Expression ou instruction ?}
+  Ne confondez pas les EXPRESSIONS et les INSTRUCTIONS, qui toutes deux vont contenir des variables.
+  \begin{itemize}
+  \item Une expression sera \alert{calculée},
+  \item tandis qu'une instruction sera \alert{exécutée} !
+  \end{itemize}
+
+
+  
+\begin{columns}[b]
+\begin{column}{0.33\textwidth}
+    \begin{lstlisting}
+> a <- 5
+> x <- 3
+\end{lstlisting}
+    
+\end{column}
+    
+\begin{column}{0.33\textwidth}
+  \begin{alertblock}{Expression}
+    Renvoie un résultat.
+    \begin{lstlisting}
+> a * x ** 2
+[1] 45      
+    \end{lstlisting}
+    
+  \end{alertblock}
+\end{column}
+\begin{column}{0.33\textwidth}
+  \begin{alertblock}{Instruction}
+    Aucun résultat.
+    \begin{lstlisting}
+> c <- a * x ** 2
+>
+    \end{lstlisting}
+  \end{alertblock}
+\end{column}
+\end{columns}
+
+\begin{block}{les séparateur d'instructions : saut de ligne et le point virgule.}
+  \begin{lstlisting}[style=block]
+> a <- 5 ; x <- 3
+\end{lstlisting}
+  
+\end{block}
+\begin{lstlisting}[style=editor]
+  test
+  
+\end{lstlisting}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Une variable a le droit de changer de valeur}
+
+  \begin{lstlisting}
+> a <- 2
+> b <- a # la valeur de a est calculée puis c'est elle qui est transmise à b
+> a <- a + 1 # qui se lit : a "devient égal à " a + 1
+> b # et non 3, ok ?
+[1] 2
+\end{lstlisting}
+
+
+\begin{exampleblock}{Échange de deux variables}
+  Avec une variable temporaire.
+  \begin{lstlisting}[style=block]
+> temp <- a
+> a <- b
+> b <- temp
+> a
+[1] 2
+> b
+[1] 3
+  \end{lstlisting}
+\end{exampleblock}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Comparaison}
+ 
+\begin{columns}[t]
+\begin{column}{0.59\textwidth}
+  \begin{block}{Opérateurs de comparaison}
+  \begin{lstlisting}[style=block]
+> a <- 2 
+> a == 3 # égalité mathématique
+[1] FALSE
+> a > 3 # strictement supérieur 
+[1] FALSE
+> a + 1 >= 3 # supérieur ou égal
+[1] TRUE
+> a + 1 < 3 # strictement inférieur
+[1] FALSE
+> a + 1 <= 3 # inférieur ou égal
+[1] TRUE
+> a + 1 != 3 # différent
+[1] FALSE
+  \end{lstlisting}
+\end{block}
+\end{column}
+\begin{column}{0.39\textwidth}
+  \begin{block}{Booléens \texttt{TRUE} et \texttt{FALSE}}
+    Dans une expression arithmétique,
+    \begin{itemize}
+    \item \texttt{TRUE == 1},
+    \item \texttt{FALSE == 0}.
+    \end{itemize}
+  \begin{lstlisting}
+> 5 + TRUE
+[1] 6
+> TRUE * FALSE
+[1] 0
+> FALSE + 1
+[1] 1
+> FALSE + 1 == TRUE
+[1] TRUE
+\end{lstlisting}
+\alert{Evitez ce genre de facilités !}    
+  \end{block}
+\end{column}
+\end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Affichage de résultats avec \texttt{printf}}
+  La fonction print(...) permet d'afficher une expression :
+  \begin{lstlisting}
+> a = 2
+> print(a * a)
+4
+>
+\end{lstlisting}
+
+Ce qui est affiché n'est pas le résultat de la fonction \texttt{print}, mais l'effet de cette fonction.
+
+Cependant, la fonction renvoie aussi l'objet \texttt{x} passé en paramètre de manière invisible.
+\begin{lstlisting}
+> print(5)==5
+[1] 5                  # l'effet de print(5)
+[1] TRUE               # le résultat du test d'égalité
+>  
+\end{lstlisting}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+\frametitle{Construction de résultats avec \texttt{paste}}
+La fonction \texttt{paste(\dots)} permet de concaténer une expression :
+\begin{lstlisting}
+> paste('le carre de', a, 'vaut', a*a)
+[1] "le carre de 2 vaut 4"  
+\end{lstlisting}
+Remarquez l'espace automatique.
+
+\begin{itemize}
+\item Ce qui est affiché est le \alert{résultat} de la fonction \texttt{paste}.
+\item La fonction \texttt{paste} accepte des paramètres optionnels modifiant le format du résultat.
+\end{itemize}
+\begin{lstlisting}
+> paste('le carre de', a, 'vaut', a*a, sep='|')
+[1] "le carre de|2|vaut|4"
+\end{lstlisting}
+Cependant, les possibilités de la fonction paste(...) sont limitées.
+  
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+\frametitle{Construction de résultats avec \texttt{sprintf}}
+La fonction \texttt{sprintf(\dots)} permet de concaténer et formater finement une expression :
+\begin{lstlisting}
+> sprintf('le carre de %d vaut %d', a, a*a)
+[1] "le carre de 2 vaut 4"
+\end{lstlisting}
+\begin{itemize}
+\item Ce qui est affiché est le résultat de la fonction sprintf.
+\item Les fonctions de la famille \alert{\texttt{printf}} sont très puissantes et disponibles dans de \alert{nombreux langages}.
+\end{itemize}
+\begin{lstlisting}
+> sprintf('le carre de %.5f vaut %08.5f', pi, pi*pi)
+[1] "le carre de 3.14159 vaut 09.86960"
+\end{lstlisting}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Rédaction de texte dans un éditeur}
+  Le travail interactif au \alert{toplevel} est pratique pour de petits calculs.
+  Mais mieux vaut en général travailler dans un \alert{éditeur de texte}.
+\begin{columns}[t]
+\begin{column}{0.49\textwidth}
+    \begin{center}
+      \includegraphics[height=3.5cm]{RStudio-hex}          
+    \end{center}
+\end{column}
+\begin{column}{0.49\textwidth}
+    \begin{center}
+      \includegraphics[height=3.2cm]{emacsIcon}
+    \end{center}
+\end{column}
+\end{columns}  
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Conditionnelle : la prise de décisions \texttt{if}}
+  \alert{L'instruction conditionnelle if permet de prendre une décision.}
+
+  \begin{block}{Dans l'éditeur}
+    \begin{columns}[c]
+      \begin{column}{0.53\textwidth}
+  \begin{lstlisting}[style=editor]
+a <- -2
+if (a > 0) {
+  paste(a,'est positif')
+} else {
+  paste(a,'est negatif ou nul')
+}    
+\end{lstlisting}
+
+\end{column}
+\begin{column}{0.47\textwidth}
+  \RUN
+  -2 est négatif ou nul
+\end{column}
+\end{columns} 
+  \end{block}
+  
+
+
+\begin{block}{Au toplevel}
+  C'est moins agréable, il faut faire attention au(x) saut(s) de ligne.
+\end{block}
+\begin{columns}[c]
+\begin{column}{0.65\textwidth}
+  \begin{lstlisting}
+> a <- -2
+> if(a>0) {paste(a,'est positif') }
+> else {paste(a,'est negatif ou nul')}
+  \end{lstlisting}
+\end{column}
+\begin{column}{0.35\textwidth}
+  \RUN 
+  \alert{Erreur : 'else' inattendu(e) in "else"}
+\end{column}
+\end{columns}
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{Bloc et indentation}
+  \begin{block}{Indentation}
+    La bonne distance à la marge d'une ligne permet de structurer et de comprendre un programme.
+        \newcommand{\indentrule}{\color{DarkBlue}\vrule\hspace{2pt}}        
+  \begin{lstlisting}[style=editor, escapechar=?]
+?\indentrule?a <- -2
+?\indentrule?if (a > 0) {
+?\indentrule?  ?\indentrule?paste(a,'est positif')
+?\indentrule?} else {
+?\indentrule?  ?\indentrule?paste(a,'est negatif ou nul')
+?\indentrule?}    
+\end{lstlisting}
+ \end{block}
+
+ \begin{block}{Bloc d'instructions}
+   Un bloc d'instructions est une suite d'instructions alignées à la verticale.
+   Il est nécessaire d’ouvrir et fermer les paires d’accolades : \{\dots\}.
+   \begin{columns}[c]
+     \begin{column}{0.58\textwidth}
+       \newcommand{\indentrule}{\color{DarkBlue}\vrule\hspace{2pt}}        
+       \begin{lstlisting}[style=editor, escapechar=?]
+a <- -2
+if (a > 0) {
+  paste(a,'est positif')
+else { 
+  paste(a,'est negatif ou nul')
+}    
+\end{lstlisting}
+\end{column}
+\begin{column}{0.42\textwidth}
+\RUN
+\alert{Erreur : 'else' inattendu(e) in "else"}
+\end{column}
+\end{columns} 
+\end{block}
+
+\begin{center}
+  \alert{Une utilisation correcte des accolades est obligatoire en R.}
+\end{center}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Opérateurs logiques : ET (\texttt{\&\&}) et OU (\texttt{||})}
+  \begin{block}{Table de vérité : ces opérateurs ressemblent à ceux de la Logique.}
+  \begin{table}
+    \centering
+    \begin{tabular}{|l|c|c|c|c|}
+      \hline
+      \texttt{p}        & \T & \T & \F & \F \\ \hline
+      \texttt{q}        & \T & \F & \T & \F \\ \hline
+      \texttt{p \&\& q} & \T & \F & \F & \F \\ \hline
+      \texttt{p || q} & \T & \T & \T & \F \\ \hline
+    \end{tabular}
+  \end{table}
+\end{block}
+
+
+\begin{block}{Mais, ils sont court-circuités}
+  \begin{lstlisting}[style=block]
+> a <- -2
+> x == 3
+Erreur : objet 'x' introuvable
+> (a > 0) && (x==3)
+[1] FALSE    
+\end{lstlisting}
+L'expression \lstinline[columns=fixed]{x == 3} n'a pas été évaluée car \texttt{FALSE \&\& ? == FALSE}
+
+La priorité de \texttt{\&\&} étant plus faible que celle des opérations arithmétiques,
+on aurait pu écrire : \lstinline[columns=fixed]{a > 0 and x == 3} .
+
+\end{block}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]
+  \frametitle{Liens avec l'électronique numérique}
+  \begin{block}{L'opérateur \texttt{||} est aussi court-circuité}
+    
+\begin{columns}[c]
+\begin{column}{0.48\textwidth}
+  \begin{lstlisting}[style=block]
+> a <- -2
+> x == 3
+Erreur : objet 'x' introuvable
+> (a < 0) || (x==3)
+[1] TRUE    
+\end{lstlisting}
+\end{column}
+\begin{column}{0.48\textwidth}
+ car \texttt{TRUE || ? == TRUE}
+\end{column}
+\end{columns}
+\end{block}
+
+\begin{block}{Portes logiques en électronique} 
+%\begin{figure}[h]
+%  \centering
+  \includegraphics[width=0.8\textwidth]{portes-logiques} \\
+%\end{figure}
+L'opérateur \texttt{!} inverse les valeurs \texttt{TRUE} et \texttt{FALSE}. C'est l'inverseur \dots\\
+Les constructeurs d'ordinateurs utilisent beaucoup la \alert{porte nand}.
+  \includegraphics[width=0.8\textwidth]{porte-nand}  
+\end{block}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Les fonctions prédéfinies de R}
+  Tous les langages de programmation fournissent un large ensemble de fonctions prêtes à être utilisées.
+  \begin{exampleblock}{Exemples dans les entiers}
+  \begin{lstlisting}[style=block]
+> abs(-5) # la fonction "valeur absolue"
+5
+> '+'(4,9) # les opérateurs sont des fonctions cachées
+13
+\end{lstlisting}
+\end{exampleblock}
+
+Certaines fonctions résident dans des \alert{modules/packages} spécialisés, comme \texttt{TurtleGraphics} ou \texttt{shiny} \dots
+\begin{lstlisting}
+> turtle_forward(dist=15) # je veux réaliser un graphisme tortue
+Erreur : impossible de trouver la fonction "turtle_forward"
+> library(TurtleGraphics) # il faut charger l'extension
+> turtle_init()
+> turtle_forward(dist=15)  
+\end{lstlisting}
+
+\begin{center}
+  \alert{Il faut consulter la documentation.}
+\end{center}
+\end{frame}  
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Comment définir une nouvelle fonction ?}
+
+  \begin{alertblock}{Syntaxte pour la définition d'une fonction}
+  \begin{lstlisting}[style=edblock]
+nomFonction <- function(listeDeParamètres) {
+  blocInstructions
+  return(résultatFonction)
+}
+\end{lstlisting}
+Le mot \alert{return} signifie "le résultat est \dots".
+\end{alertblock}
+
+\begin{exampleblock}{Définir la fonction $f(n) \rightarrow 2n + 1$}
+  \begin{lstlisting}[style=block]
+> f <- function(n) {return( 2*n - 1)}
+> f(5)
+[1] 9    
+\end{lstlisting}
+\end{exampleblock}
+\begin{block}{Paramètres non typés : \texttt{n} n'est pas forcément un entier.}
+ \begin{lstlisting}[style=block]
+> f(5.2) # avec des réels approchés
+9.4
+> f(complex(real = 1, imaginary = 1)) # avec des complexes
+[1] 1+2i
+  \end{lstlisting}  
+\end{block}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Les choix multiples avec \texttt{if \dots else if \dots else \dots}}
+  
+\begin{columns}[c]
+\begin{column}{0.48\textwidth}
+  \begin{lstlisting}[style=editor]
+f <- function(x) {
+  if( x < -1) return(-1)
+  else if( x > 1) return(1)
+  else return(x)
+}   
+\end{lstlisting}
+
+ou de manière équivalente
+\begin{lstlisting}[style=editor]
+f <- function(x) {
+  if( x < -1) return(-1)
+  else {
+    if( x > 1) return(1)
+    else return(x)
+}
+\end{lstlisting}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{tikzpicture}
+  % horizontal axis
+  \draw[->] (-2,0) -- (2,0) node[anchor=north] {$x$};
+  % vertical axis
+  \draw[->] (0,-2) -- (0,2) node[anchor=east] {$y$};
+  % labels
+  \draw	(-1,0) node[anchor=south] {-1} (1,0) node[anchor=north] {1};
+  \draw	(0,-1) node[anchor=west] {-1} (0,1) node[anchor=east] {1};
+  % filter
+  \draw[thick] (-2,-1) -- (-1,-1) -- (1,1) -- (2, 1);
+  % dotted lines
+  \draw[dotted] (-1,-1) -- (-1,0);
+  \draw[dotted] (1,0) -- (1,1);
+  
+  \draw[dotted] (-1,-1) -- (0, -1);
+  \draw[dotted] (0, 1) -- (1,1);
+\end{tikzpicture}
+\end{column}
+\end{columns}
+
+
+
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Comment (re)définir la valeur absolue ?}
+  
+\begin{columns}[c]
+\begin{column}{0.43\textwidth}
+  \begin{lstlisting}[style=editor]
+valabs <- function(n) {
+if(n>0) {
+  return(n)
+} else {
+  return (-n)
+}
+\end{lstlisting}
+\end{column}
+\begin{column}{0.57\textwidth}
+  \begin{lstlisting}
+> paste('|-5| vaut', valabs(-5))
+[1] "|-5| vaut 5"    
+  \end{lstlisting}
+\end{column}
+\end{columns}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{Notions élémentaires sur les nombres premiers}
+  \begin{block}{Nombre premier}
+    Un nombre premier ne peut être divisé que par lui-même et par 1.
+  \end{block}
+  \begin{block}{Plus grand commun diviseur (PGCD)}
+    Le PGCD de deux nombres entiers non nuls est le plus grand entier qui les divise simultanément. 
+  \end{block}
+
+  \begin{block}{Premiers entre eux}
+    on dit que deux entiers sont premiers entre eux si leur plus grand commun diviseur est égal à 1.
+  \end{block}
+
+  Supposons que la fonction \texttt{gcd(p, q)} existe et renvoie le plus grand diviseur commun des entiers \texttt{p} et \texttt{q} (nous la programmerons en TP).
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Composition de fonctions I}
+  Créons une fonction \texttt{premiersEntreEux(p,q)} basée sur la fonction \texttt{gcd}.
+  \begin{lstlisting}[style=editor]
+premiersEntreEux <- function(p,q) {
+  if (gcd(p,q) == 1) {
+    return(TRUE)
+  } else {
+    return(FALSE)
+  }
+}    
+\end{lstlisting}
+ou encore
+\begin{lstlisting}[style=editor]
+premiersEntreEux <- function (p,q) {
+  if (gcd(p,q) == 1) {
+    return(TRUE)
+  }
+  return(FALSE)
+}  
+\end{lstlisting}
+Le mot clé \alert{\texttt{return} provoque un échappement}. 
+Le reste du texte de la fonction est abandonné !
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Composition de fonctions II}
+ 
+Une version qui renvoie directement le résultat de l'évaluation de l'expression.
+\begin{lstlisting}[style=editor]
+premiersEntreEux <- function(p,q) {
+  return(gcd(p,q) == 1)
+}  
+\end{lstlisting}
+
+Une version encore plus courte qui omet les accolades et \texttt{return}.
+\begin{lstlisting}[style=editor]
+premiersEntreEux <- function(p,q) gcd(p,q) == 1
+\end{lstlisting}
+
+\begin{lstlisting}
+> premiersEntreEux(21,6)
+[1] FALSE
+> premiersEntreEux(21,8)
+[1] TRUE  
+\end{lstlisting}
+
+Vous voyez qu'il existe différentes manières de coder une fonction.
+Elles se distinguent par leur \alert{efficacité}, mais aussi leur \alert{élégance}.
+
+
+\end{frame}
+
+
+
+
+
+
+
+% \begin{frame}[fragile]
+%   \frametitle{Test Code R}
+%   \begin{lstlisting}[caption={My Caption}]
+%     print(sample(1:3))
+%     print(sample(1:3, size=3, replace=FALSE))  # same as previous line
+%     print(sample(c(2,5,3), size=4, replace=TRUE)
+%     print(sample(1:2, size=10, prob=c(1,3), replace=TRUE))    
+%   \end{lstlisting}
+
+
+%   \begin{exampleblock}{Code dans block}
+%       \begin{lstlisting}
+% print(sample(1:3))
+%     print(sample(1:3, size=3, replace=FALSE))  # same as previous line
+%     print(sample(c(2,5,3), size=4, replace=TRUE)
+%     print(sample(1:2, size=10, prob=c(1,3), replace=TRUE))
+%     x <- 5
+%     if(x > 0){
+%       print("Positive number")
+%     }
+%   \end{lstlisting}
+%   \end{exampleblock}
+% \end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ \questionSlide
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ \appendix
+ \backupSlides
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{frame}[fragile]{Backup slides}
+%   Sometimes, it is useful to add slides at the end of your presentation to
+%   refer to during audience questions.
+
+%   The best way to do this is to include the \verb|appendixnumberbeamer|
+%   package in your preamble and call \verb|\appendix| before your backup slides.
+
+%   will automatically turn off slide numbering and progress bars for
+%   slides in the appendix.
+% \end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{frame}[allowframebreaks]{References}
+
+%   % \bibliography{../bib_parallelism,../bib_others}
+%   % \bibliographystyle{abbrv}
+
+% \end{frame}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
