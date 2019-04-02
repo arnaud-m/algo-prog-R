@@ -1,0 +1,171 @@
+\begin{frame}{Multiplication égyptienne}
+  \begin{block}{Principe}
+    \begin{itemize}
+    \item Décomposition d'un des nombres en une somme.\\
+      On décompose généralement le plus petit.
+    \item Création d'une table de puissance pour l'autre nombre
+    \item Très souvent, traduction du décimal vers le binaire.\\
+      Il existe des variantes en fonction de la complexité de l'opération.
+    \item Il suffit de savoir multiplier par deux et additionner !
+    \end{itemize}
+  \end{block}
+
+
+\end{frame}
+
+
+
+\begin{frame}{Multiplication égyptienne : $x \times y$}
+
+  \begin{itemize}
+  \item On construit la ligne $i+1$ en multipliant par deux $2^i$ et $x \times 2^i$ tant que $2^{i+1}< y$.
+  \item<2> On traduit $21$ en binaire en remontant dans le tableau. 
+  \item<2> On calcule $\sum_0^{n} a_i (x \times  2^i)$.
+  \end{itemize}
+
+\begin{exampleblock}{$189\times 21=3969$}
+      \begin{tabular}{c|c|r|rcc}
+
+        $i$ & $a_i$           & $2^i$ & $189 \times 2^i$                               \\
+        \cline{1-4}
+        0   & \onslide<2->{1} & 1     & 189  & \onslide<2->{\checkmark & (1 -1 = 0)}   \\
+        1   & \onslide<2->{0} & 2     & 378  &                                         \\
+        2   & \onslide<2->{1} & 4     & 756  & \onslide<2->{\checkmark & (5 -4 = 1)}   \\
+        3   & \onslide<2->{0} & 8     & 1512 &                                         \\
+        4   & \onslide<2->{1} & 16    & 3024 & \onslide<2->{\checkmark & (21 -16 = 5)} \\
+        \cline{1-4}
+            &                 &       & \onslide<2>{3969}
+
+      \end{tabular}
+\end{exampleblock}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Méthode genérale}
+
+Des opérations plus complexes faisant intervenir par exemple des fractions exigeaient une décomposition avec:
+\begin{itemize}
+\item  les puissances de deux,
+\item les fractions fondamentales,
+\item les dizaines. 
+\end{itemize}
+La technique est rigoureusement la même mais offre plus de liberté au scribe quant à la décomposition du petit nombre.
+\begin{columns}
+\begin{column}[t]{0.48\textwidth}
+  \begin{exampleblock}{$243\times27 = 6561$}
+    \begin{tabular}{r|r}
+      1 & 243 \\
+      2 & 486 \\
+      4 & 972 \\
+      20 & 4860 \\ \hline
+      27 & 6561
+      \end{tabular}    
+  \end{exampleblock}
+\end{column}
+
+\begin{column}[t]{0.48\textwidth}
+  \begin{exampleblock}{Papyrus Rhind: $\frac{1}{14} \times \frac{7}{4} = \frac{1}{8}$}
+    \begin{tabular}{r|rl}
+      $1$ & $\frac{1}{14}$& \\[3pt]
+      $\frac{1}{2}$ & $\frac{1}{28}$& \\[3pt]
+      $\frac{1}{4}$ & $\frac{1}{56}$& \\[3pt] \cline{1-2} \\[-1.0em] 
+      $\frac{7}{4}$ & $\frac{1}{8}$& $(\frac{4+2+1}{56})$ 
+    \end{tabular}
+  \end{exampleblock}
+\end{column}
+\end{columns}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Division égyptienne : $x \div y$}
+  \begin{block}{Par quoi doit-on multiplier $y$ pour trouver $x$ ?}
+    \begin{itemize}
+    \item On construit la ligne $i+1$ en multipliant par deux $2^i$ et $y\times 2^i$ tant que $y \times 2^{i+1}< x$.
+    \item<2> On décompose $x$ par les $y\times 2^i$ en remontant dans le tableau. 
+    \item<2> On calcule la somme des $2^i$ de la décomposition.
+
+    \end{itemize}
+  \end{block}
+
+
+\begin{exampleblock}{$539\div 7=77$}
+  \begin{tabular}{c|r|rcc}
+    $i$ & $2^i$ & $7 \times 2^i$& \\
+    \cline{1-3}
+    0& 1&7  & \onslide<2>{\checkmark & ($7-7=0$)}\\
+    1& 2&14 & \\
+    2& 4&28 &\onslide<2>{\checkmark & ($35-28=7$)}\\
+    3& 8&56 & \onslide<2>{\checkmark & ($91-56=35$)}\\
+    4& 16&112 & \\
+    5& 32&224 & \\        
+    6& 64&448 & \onslide<2>{\checkmark & ($539-448=91$)}\\  
+    \cline{1-3}
+    &  \onslide<2->{77} & 
+  \end{tabular}
+\end{exampleblock}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Division dont le résultat est fractionnaire}
+
+\begin{exampleblock}{$234\div 12=19.5$}
+  \begin{tabular}{r|r|rcc}
+    $i$ & $2^i$ & $12 \times 2^i$& \\
+    \cline{1-3}
+    \onslide<3->{-1& $\frac{1}{2}$ & 6  & \checkmark & ($0$)}\\
+    0& 1&12  & \onslide<2->{\checkmark & ($6$)}\\
+    1& 2&24 & \onslide<2->{\checkmark & ($18$)}\\
+    2& 4&48 &\\
+    3& 8&96 & \\
+    4& 16&192 & \onslide<2->{\checkmark & ($42$)}\\
+    \cline{1-3}
+    &  \onslide<3->{19.5} & 
+  \end{tabular}
+\end{exampleblock}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Exercices}
+  
+  \begin{enumerate}
+  \item Multipliez 187 par 11.
+  \item Multipliez 2012 par 1515 (indice: utilisez la méthode genérale).
+  \end{enumerate}
+\begin{columns}
+\begin{column}[t]{0.48\textwidth}
+  \begin{exampleblock}<2->{$187\times 11$}
+    \begin{tabular}{c|c|r|r}
+        $i$ & $a_i$ & $2^i$ & $21 \times 2^i$ \\
+        \hline
+        0& 1 & 1 & 187\\
+        1& 1 & 2 & 374\\
+        2& 0 & 4 & 748\\
+        3& 1 & 8 & 1496\\ \hline
+        &  & 11 &2057
+      \end{tabular}    
+  \end{exampleblock}
+\end{column}
+\begin{column}[t]{0.48\textwidth}
+    \begin{exampleblock}<2>{$2012\times 1515$}
+      \begin{tabular}{r|r}
+        5& 10060 \\
+        10& 20120 \\
+        500 & 1006000 \\
+        1000 & 2012000\\ \hline
+        1515 & 3048180 
+      \end{tabular}
+  \end{exampleblock}
+\end{column}
+\end{columns}
+
+\end{frame}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../representation-nombres"
+%%% End:

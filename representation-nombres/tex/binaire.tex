@@ -1,0 +1,132 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\carry}{\scriptsize{1}}
+
+\begin{frame}{Représentation de l'information en machine}
+  \begin{itemize}
+  \item Informations en général représentées et manipulées sous forme binaire.
+  \item L’unité d’information est le chiffre binaire ou bit (binary digit).
+  \item Les opérations arithmétiques de base sont faciles à exprimer en base~2.
+  \item La représentation binaire est facile à réaliser : systèmes à deux états obtenus à l’aide de transistors.
+  \end{itemize}
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Addition binaire}
+    \begin{block}{Tables d'addition}
+    \begin{itemize}
+    \item $0 + 0 = 0$
+    \item $1 + 0 = 1$
+    \item $0 + 1 = 1$
+    \item $1 + 1 = 10$ ($0$ et on retient $1$)
+    \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{$91+71=162$}
+    \begin{tabular}{c*{7}{@{\,}c}}
+      \carry &   & \carry & \carry & \carry & \carry & \carry &   \\
+             & 1 & 0      & 1      & 1      & 0      & 1      & 1 \\
+      +      & 1 & 0      & 0      & 0      & 1      & 1      & 1 \\
+      \hline
+      1      & 0 & 1      & 0      & 0      & 0      & 1      & 0 
+    \end{tabular}
+  \end{exampleblock}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Soustraction binaire}
+  \begin{block}{Tables de soustraction}
+    \begin{itemize}
+    \item $0 - 0 = 0$
+    \item $1 - 0 = 1$
+    \item $(1)0 - 1 = 1$ ($1$ et on retient $1$)
+    \item $1 - 1 = 0$
+    \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{$83- 79=4$}
+    \begin{tabular}{c*{7}{@{\,}c}}
+        &   &   &        & \carry & \carry &   &   \\
+        & 1 & 0 & 1      & 0      & 0      & 1 & 1 \\
+      - & 1 & 0 & 0      & 1      & 1      & 1 & 1 \\
+        &   &   & \carry & \carry &        &   &   \\
+      \hline
+        & 0 & 0 & 0      & 0      & 1      & 0 & 0 
+    \end{tabular}
+  \end{exampleblock}
+
+  \begin{alertblock}{Limitation: résultat négatif}
+    On ne peut traiter $x - y$ que si $x \geq y$. 
+  \end{alertblock}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Multiplication binaire}
+  \begin{block}{Tables de multiplication}
+    \begin{itemize}
+    \item $0 \times 0 = 0$
+    \item $1 \times 0 = 0$
+    \item $1 \times 1 = 1$
+    \end{itemize}
+  \end{block}
+  \begin{exampleblock}{$23\times11=253$}
+    \begin{tabular}{c*{9}{@{\,}c}}
+               &   &        &        & 1      & 0      & 1      & 1 & 1 \\
+      $\times$ &   &        &        &        & 1      & 0      & 1 & 1 \\
+      \hline
+               &   & \carry & \carry & \carry & \carry & \carry &   &   \\
+               &   &        &        & 1      & 0      & 1      & 1 & 1 \\
+      +        &   &        & 1      & 0      & 1      & 1      & 1 &   \\
+      +        & 1 & 0      & 1      & 1      & 1      &        &   &   \\\hline
+               & 1 & 1      & 1      & 1      & 1      & 1      & 0 & 1 
+    \end{tabular}
+  \end{exampleblock}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Division binaire}
+  \begin{block}{Soustractions et décalages comme la division décimale}
+    \begin{itemize}
+    \item sauf que les digits du quotient ne peuvent être que 1 ou 0.
+    \item Le bit du quotient est 1 si on peut soustraire le diviseur, sinon il est~0. 
+    \end{itemize}
+    
+  \end{block}
+  \begin{exampleblock}{$231 \div 11 = 21$}
+        \begin{tabular}{c*{8}{@{\,}c}|l}
+          & 1 & 1   & 1 & 0   & 0 & 1 & 1 & 1 & 1011  \\ \cline{10-10}
+      $-$ & 1 & 0   & 1 & 1   &   &   &   &   & 10101 \\ \cline{2-5}
+          &   &     & 1 & 1   & 0 & 1 &   &   &       \\
+          &   & $-$ & 1 & 0   & 1 & 1 &   &   &       \\\cline{4-7}
+          &   &     &   &     & 1 & 0 & 1 & 1 &       \\
+          &   &     &   & $-$ & 1 & 0 & 1 & 1 &       \\\cline{6-9}
+          &   &     &   &     &   &   &   & 0 &       \\
+      
+    \end{tabular}
+  \end{exampleblock}
+
+  \begin{alertblock}{Limitation: division entière}
+    Pour l'instant, on ne peut pas calculer la partie fractionnaire.
+  \end{alertblock}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Exercices}
+  \begin{enumerate}
+  \item Traduire $(1100101)_2$ et $(10101111)_2$ en écriture décimale.
+  \item Calculez la somme $(1100101)_2 + (10101111)_2$.
+  \item Calculez le produit $(10101111)_2 \times (1100101)$.
+ \item Calculez la soustraction $(10101111)_2 - (1100101)_2$.
+ \item Vérifier tous les résultat en les traduisant en écriture décimale.  
+ \end{enumerate}
+
+\end{frame}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../representation-nombres"
+%%% End:

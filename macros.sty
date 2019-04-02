@@ -13,10 +13,10 @@
 
 \usepackage[frenchb]{babel}
 \usepackage[utf8]{inputenc}
-
-
+%\usepackage[T1]{fontenc}
+\usepackage{lmodern}
 \usepackage{amsmath,amssymb}
-
+\usepackage{booktabs}
 \usepackage{xspace}
 
 \graphicspath{{fig/}{../fig/}}
@@ -62,6 +62,10 @@
 \newenvironment{moinsenv}{\only{\setbeamertemplate{itemize item}{\cFrowny}}}{}
 \newenvironment{yyenv}{\only{\setbeamertemplate{itemize item}{\cYinYang}}}{}
 
+%% Misc symbols and notations
+\newcommand{\RUN}{\ensuremath{{\Large{\xrightarrow{\text{\textbf{RUN}}}}}}\xspace}
+\newcommand{\T}{\texttt{TRUE}}
+\newcommand{\F}{\texttt{FALSE}}
 %%%%% Default hypersetup %%%%%%%%%%%
 
 \hypersetup{
@@ -75,7 +79,7 @@
   linkcolor=black,          % color of internal links (change box color with linkbordercolor)
   citecolor=BrickRed,        % color of links to bibliography
   filecolor=BrickRed,      % color of file links
-  urlcolor=BrickRed           % color of external links
+  urlcolor=BrickRed         % color of external links
 }
 
   
@@ -104,21 +108,54 @@
 %% https://en.wikibooks.org/wiki/LaTeX/Source_Code_Listings
 %% TODO Try to highlight the functions from the reference card that must be known !
 % See complex highlighting : https://tex.stackexchange.com/questions/283170/using-different-colors-for-different-keywords-in-lstlisting
-
+% https://studiostyl.es/schemes
 \lstset{
   language=R,
-  aboveskip = 0pt,
+  aboveskip = \smallskipamount,
+  belowskip = \smallskipamount,
   breaklines = true,
-  basicstyle = \footnotesize,
+  basicstyle = \footnotesize\ttfamily,
   keywordstyle = \color{DarkBlue},
   commentstyle = \itshape\color{ForestGreen},
   stringstyle = \color{BrickRed},
   keepspaces = false,
   frame = single,
-  % columns = flexible
-  % gobble = 4
-}
-  
+  %rulecolor=\color{BrickRed},
+   inputencoding=utf8,
+   extendedchars=true,
+   literate=%
+   {é}{{\'{e}}}1
+   {è}{{\`{e}}}1
+   {ê}{{\^{e}}}1
+   {ë}{{\¨{e}}}1
+   {û}{{\^{u}}}1
+   {ù}{{\`{u}}}1
+   {â}{{\^{a}}}1
+   {à}{{\`{a}}}1
+   {î}{{\^{i}}}1
+   {ô}{{\^{o}}}1
+   {ç}{{\c{c}}}1
+   {Ç}{{\c{C}}}1
+   {É}{{\'{E}}}1
+   {Ê}{{\^{E}}}1
+   {À}{{\`{A}}}1
+   {Â}{{\^{A}}}1
+   {Î}{{\^{I}}}1
+ }
+
+ \lstdefinestyle{editor}{
+   rulecolor=\color{BrickRed}
+ }
+
+ \lstdefinestyle{block}{
+   aboveskip = \medskipamount
+ }
+
+ \lstdefinestyle{edblock}{
+   aboveskip = \medskipamount,
+   rulecolor=\color{BrickRed}
+ }
+
 
 
   

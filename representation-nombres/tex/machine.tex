@@ -1,0 +1,80 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Représentation des nombres en machine}
+
+  \begin{block}{Précision finie}
+    \begin{itemize}
+    \item Codés généralement sur 16, 32 ou 64 bits.
+    \item Un codage sur $n$ bits permet de représenter $2^n$ valeurs distinctes.
+    \end{itemize}
+  \end{block}
+  
+  \begin{alertblock}{Un ordinateur ne calcule pas bien !}
+  \begin{itemize}
+   \item Pour un ordinateur, le nombre de chiffres est fixé.
+   \item Pour un mathématicien, le nombre de chiffres dépend de la valeur représentée.
+   \item Lorsque le résultat d’un calcul doit être représenté sur plus de chiffres que ceux disponibles, il y a dépassement de capacité.
+  \end{itemize}
+\end{alertblock}
+
+\end{frame}
+
+
+\begin{frame}{Représentation des entiers en machine}
+  \begin{block}{Entiers naturels}
+    \begin{itemize}
+    \item Un codage sur $n$ bits : tous les entiers entre 0 et $2^n-1$.
+    \item La conversion d’un nombre entier s’arrête toujours.
+    \item On ne peut traiter $x - y$ que si $x \geq y$. 
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{Entiers relatifs : plusieurs représentations existent.}
+    Valeur absolue signée ; complément à 1 ; complément à 2.
+  \end{block}
+
+  \begin{block}{Tous les processeurs actuels utilisent le complément à 2.}
+    \begin{itemize}
+    \item il y a un seul code pour 0 ;
+    \item l'addition de deux nombres se fait en additionnant leurs codes ;
+    \item et il est très simple d'obtenir l'opposé d'un nombre.
+    \item les processeurs disposent de fonctions spéciales pour l'implémenter.
+    \end{itemize}
+
+  \end{block}
+\end{frame}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Représentation des nombres réels}                                                                                                                
+  \begin{itemize}
+  %\item \R est l'ensemble des nombre réels.
+  \item Les ressources d'un ordinateur étant limitées, on représente seulement un \alert{sous-ensemble $\F \subset \R$ de cardinal fini}.
+  \item Les éléments de \F sont appelés \alert{nombres à virgule flottante}.
+  \item<alert@1> Les propriétés de \F sont différentes de celles de \R.
+  \item Généralement, un nombre réel $x$ est tronqué par la machine, définissant ainsi un nouveau nombre $fl(x)$ qui ne coïncide pas forcément avec le nombre $x$ original. 
+  \end{itemize}
+
+  \begin{alertblock}{Problèmes et limitations}
+    \begin{itemize}
+    \item les calculs sont nécessairement arrondis.
+    \item il y a des erreurs d’arrondi et de précision
+    \item On ne peut plus faire les opérations de façon transparente
+  \end{itemize}
+\end{alertblock}
+
+\begin{lstlisting}
+> 0.1 + 0.1 + 0.1 == 0.3
+[1] FALSE
+> 10^20 + 1 == 10^20
+[1] TRUE
+\end{lstlisting}
+\end{frame}
+
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../representation-nombres"
+%%% End:

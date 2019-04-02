@@ -1,0 +1,423 @@
+
+\begin{frame}{Représentation des nombres}                                                                                                                
+  \begin{center}
+    \alert{On représente les nombres grâce à des symboles.}
+  \end{center}
+
+
+  \begin{block}{Représentation unaire: un symbole de valeur unique.}
+    \begin{itemize}
+    \item I=1, II = 2, III = 3, Iet IIIIIIIII = 10.
+    \item Le calcul est facile.
+      \begin{itemize}
+      \item       I + III = IIII; 
+      \item II $\times$ III = II II II = IIIIII
+      \end{itemize}
+    \item<alert@1> mais cela devient vite \emph{incompréhensible}
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{Chiffres Romains : plusieurs symboles ayant des valeurs différentes.}
+    \begin{itemize}
+    \item Le nombre de symboles est théoriquement infini.
+      \begin{itemize}
+      \item I=1, V=5, X = 10, L = 50 \dots.
+      \end{itemize}
+
+    \item<alert@1> Le calcul est impossible.
+    \end{itemize}
+  \end{block}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{frame}{Représentation des nombres}                                                                                                                
+  \begin{alertblock}{Système positionnel : symboles dont la valeur dépend de la position}
+    \begin{itemize}
+    \item 999 = 900 + 90 + 9
+    \item À Babylone, système sexagésimal (60) (IIe millénaire av J-C).
+    \item Transmission de l'orient vers l'occident avec le zéro (env. 825~ap.~J-C)
+      \footnote{\og Al-jabr wa’l-muqâbalah \fg  Muhammad ibn Müsä al-Khuwärizmï}
+    \end{itemize}
+  \end{alertblock}
+
+  \begin{block}{Un brin de cynisme}
+    \begin{quote}
+      Les hommes sont comme les chiffres, ils n'acquièrent de la valeur que par leur position.
+      \begin{flushright}
+        Napoléon Bonaparte 
+      \end{flushright}
+    \end{quote}
+  \end{block}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Système positionnel}
+  \begin{block}{Utilisation d'une base $b$}
+  \begin{itemize}
+  \item Les nombres sont représentés à l’aide de $b$ symboles distincts.
+  \item La valeur d’un chiffre dépend de la base.
+  \end{itemize}
+  \end{block}
+
+  \begin{alertblock}{Un nombre $x$ est représenté par une suite de symboles :}
+    \alert{
+      \[
+        x = a_n a_{n-1} \ldots a_1 a_0 .
+      \]
+    }
+  \end{alertblock}
+
+    \begin{description}[Hexadécimale] 
+  \item[Décimale] $(b = 10),\ a_i \in \{0, 1, 2, 3, 4, 5, 6, 7, 8, 9\}$
+  \item[Binaire] $(b = 2),\ a_i \in \{0, 1\}$
+  \item[Hexadécimale] $(b = 16),\ a_i \in \{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, A, B, C, D, E, F\}$
+  \end{description}
+  Les bases les plus utilisées sont : 10, 2, 3, $2^k$ , 12, 16, 60, $\frac{\sqrt{5}- 1}{2}$ \dots \\
+  \begin{block}{Notation}
+    $(x)_b$ indique que le nombre $x$ est écrit en base $b$.
+  \end{block}
+
+\end{frame}
+
+
+\subsection{Entiers naturels}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Représentation des entiers naturels}                                                                                                                
+ \begin{block}{En base $b$}
+ \[
+  x = a_n a_{n-1} \ldots a_1 a_0  = \sum_{i=0}^n a_i b^i
+  \]
+  \begin{itemize}
+  \item $a_0$ est le chiffre de poids faible,
+  \item $a_n$ est le chiffre de poids fort.
+  \end{itemize}
+\end{block}
+\begin{exampleblock}{En base 10}
+    \[
+      (1998)_{10} = 1 \times 10^3 + 9 \times 10^2 + 9 \times 10^1 + 8 \times 10^0 .
+    \]
+\end{exampleblock}
+
+\begin{exampleblock}{En base 2}
+  \begin{align*}
+    (101)_2 & = 1 \times 2^2 + 0 \times 2^1 + 1 \times 2^0 \\
+            &= 4 + 0 + 1 = 5.
+  \end{align*}
+          
+\end{exampleblock}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Traduction vers la base 10}
+  \begin{block}{Méthode simple}
+    \begin{itemize}
+    \item On applique simplement la formule.
+    \item Cela revient donc à une simple somme.
+    \item En pratique, on peut utiliser la multiplication égyptienne \ref{}.
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{Schéma de Horner}
+    \begin{itemize}
+    \item Méthode générale pour calculer l'image d'un polynôme en un point.
+    \item Moins d'opération que la méthode simple.
+    \item Plus efficace pour une machine, pas nécessairement pour un humain.
+    \end{itemize}
+
+  \end{block}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Schéma de Horner}                                                                                                                
+  \only<1>{
+    \begin{block}{Une reformulation judicieuse de l'écriture en base $b$}
+      \begin{align*}
+      a_n a_{n-1} \ldots a_1 a_0  & = \sum_{i=0}^n a_i b^i \\
+                                  & = ((\ldots ((a_ nb + a_{n-1})b + a_{n-2})\ldots)b + a_{1})b + a_0   
+      \end{align*}
+    \end{block}
+  }
+
+  \begin{alertblock}{Algorithme simple et efficace}
+  \begin{itemize}
+  \item   Initialiser l'accumulateur : $v = 0$. 
+  \item Pour chaque chiffre $a_i$ en partant de la gauche : $ v \leftarrow (v \times b) + a_i$.
+  \end{itemize}
+\end{alertblock}
+
+\only<2>{
+\begin{columns}[t]
+\begin{column}{0.48\textwidth}
+  \begin{exampleblock}{$(10110)_2 = (22)_{10}$}
+    \begin{tabular}{lll}
+      $a_i$ & $v$  & Calcul de $v$     \\ 
+      1     & 1    & $2 \times 0 + 1$  \\
+      0     & $2$  & $2 \times 1 + 0$  \\
+      1     & $5$  & $2 \times 2 + 1$  \\
+      1     & $11$ & $2 \times 5 + 1$  \\
+      0     & $22$ & $2 \times 11 + 0$ \\
+    \end{tabular}
+\end{exampleblock}
+
+\end{column}
+\begin{column}{0.48\textwidth}
+  \begin{exampleblock}{ $(12321)_3 = (169)_{10}$}
+    \begin{tabular}{lll}
+      $a_i$ & $v$   & Calcul de $v$     \\ 
+      1     & 1     & $3 \times 0 + 1$  \\
+      2     & $5$   & $3 \times 1 + 2$  \\
+      3     & $18$  & $3 \times 5 + 3$  \\
+      2     & $56$  & $3 \times 18 + 2$ \\
+      1     & $169$ & $3 \times 56 + 1$ \\   
+    \end{tabular}
+\end{exampleblock}
+\end{column}
+\end{columns}
+}
+
+
+\end{frame}
+
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Traduction entre des puissances de 2}
+  \begin{block}{Du binaire vers une base $2^k$}
+    Regrouper les bits par $k$ en partant de la droite et les traduire.
+  \end{block}
+   
+   \begin{block}{D'une base $2^k$ vers le binaire}
+     Traduire chacun des symboles en un nombre binaire.
+   \end{block}
+
+  \begin{exampleblock}{Du binaire vers l'héxadécimal ($2^4$)}
+    Regrouper les bits par 4 en partant de la droite.
+    \begin{tabular}{*{6}{c}}
+      (00)10 & 0101 & 1110 & 0001 & 1101 & 1111 \\
+      2      & 5    & E    & 1    & D    & F
+    \end{tabular}
+  \end{exampleblock}
+
+  \begin{exampleblock}{Du binaire vers l'octal ($2^3$)}
+    Regrouper les bits par 3 en partant de la droite.
+    \begin{tabular}{*{8}{c}}
+     (00)1 & 001 & 011 & 110 & 000 & 111 & 011 & 111 \\
+      1    & 1   & 3   & 6   & 0   & 7   & 3   & 7
+    \end{tabular}
+  \end{exampleblock}
+
+  
+   \begin{block}{D'une base $2^k$ vers une base $2^p$}
+     \begin{enumerate}
+     \item<alert@1> Passer par le binaire : $(x)_{2^k} \rightarrow (x)_2 \rightarrow (x)_{2^p}$.
+     \item Généraliser la méthode précédente si $k$ est un diviseur/multiple de $p$.
+     \item Appliquer un algorithme de traduction vers une base quelquonque.
+     \end{enumerate}
+   \end{block}
+
+ \end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Traduction vers une base quelquonque}
+
+  \begin{block}{Nombre entier}
+    On procède par divisions euclidiennes successives:
+    \begin{itemize}
+    \item On divise le nombre par la base,
+    \item puis le quotient par la base,
+    \item ainsi de suite jusqu’à obtenir un quotient nul.
+    \end{itemize}
+    La suite des restes obtenus correspond aux chiffres de $a_0$ à $a_n$ dans la base visée.
+  \end{block}
+
+  
+      \begin{columns}[t]
+        \begin{column}{0.48\textwidth}
+          \begin{exampleblock}{$(44)_{10} = (101100)_2$}
+        \begin{tabular}{r@{ = }ll}
+         $44$ & $22\times 2 + 0$ & $ a_0 = 0$ \\
+         $22$ & $11\times 2 + 0$ & $a_1 = 0$ \\
+         $11$ & $5\times 2 + 1$ & $a_2 = 1$ \\
+         $5$ & $2\times 2 + 1$ & $a_3 = 1$ \\
+         $2$ & $1\times 2 + 0$ & $a_4 = 0$ \\
+         $1$ & $0\times 2 + 1$ & $a_5 = 1$ \\
+        \end{tabular}
+      \end{exampleblock}
+      \end{column}
+
+
+  \begin{column}{0.48\textwidth}
+    \begin{exampleblock}{$(44)_{10} = (1122)_3$}
+      \begin{tabular}{r@{ = }ll}
+         $44$ & $14 \times 3 + 2$ & $ a_0 = 2$ \\
+         $14$ & $4\times 3 + 2$ & $a_1 = 2$ \\
+         $4$ & $1\times 3 + 1$ & $a_2 = 1$ \\
+         $1$ & $0\times 3 + 1$ & $a_3 = 1$ \\
+      \end{tabular}
+    \end{exampleblock}
+  \end{column}
+  \end{columns}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Traduction depuis une base quelquonque}
+
+  \begin{block}{Il faut diviser dans la base d'origine.}
+    Les calculs sont donc difficiles pour un humain !
+  \end{block}
+
+    \begin{exampleblock}{$(101100)_2 = (1122)_3$}
+      \begin{tabular}{r@{ = }ll}
+         $101100$ & $1110 \times 11 + 10$ & $ a_0 = 2$ \\
+         $1110$ & $100 \times 11 + 10$ & $a_1 = 2$ \\
+         $100$ & $1\times 11 + 1$ & $a_2 = 1$ \\
+         $1$ & $0\times 11 + 1$ & $a_3 = 1$ \\
+      \end{tabular}
+    \end{exampleblock}
+
+    \begin{alertblock}{Passez par le décimal !}
+      $ (x)_b \rightarrow (x)_{10} \rightarrow (x)_{b^{\prime}}$.
+    \end{alertblock}
+
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+  \begin{frame}{Exercices}
+   \begin{itemize}
+   \item Traduire $(10101)_2$ en écriture décimale.
+   \item Traduire $(10101101)_2$ en écriture décimale.
+   \item Traduire $(10101001110101101)_2$ en écriture hexadécimale.
+   \item Traduire $(1AE3F)_{16}$ en écriture binaire.
+   \item Traduire $(1AE3F)_{16}$ en écriture octal.
+   \item Traduire $(927)_{10}$ en écriture binaire.
+   \item Traduire $(1316)_{10}$ en écriture binaire.
+  \end{itemize}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Nombres fractionnaires}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Représentation des nombres fractionnaires}
+  \begin{block}{En base $b$}
+    La formule est la même, mais il existe des exposants négatifs.
+    \[
+      x = a_n a_{n-1} \ldots a_1 a_0,a_{-1}a_{-2}\ldots a_{-k} = \sum_{\alert{i=-k}}^n a_i b^i
+    \]
+  \end{block}
+  
+  \begin{exampleblock}{En base 10}
+    \[
+      19.98 = 1 \times 10^1 + 9 \times 10^0 + 9 \times 10^{-1} + 8 \times 10^{-2} .
+    \]
+  \end{exampleblock}
+  \begin{exampleblock}{En base 2}
+    \begin{align*}
+      (101,01)_2 &= 1 \times 2^2 + 0 \times 2^1 + 1 \times 2^0 +  0 \times 2^{-1} + 1 \times 2^{-2} \\
+      &= 4  + 0 + 1 + 0 + 0.25 = 5,25.
+    \end{align*}
+  \end{exampleblock}
+  
+\end{frame}
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Traduction vers une base quelquonque}
+    \begin{block}{Nombre fractionnaire}
+        \begin{itemize}
+        \item On décompose le nombre en partie entière et fractionnaire si $x > 0$ : 
+          $$x = E[x] + F[x].$$
+        \item On convertit la partie entière par la méthode précédente :
+          $$E[x] =  a_n a_{n-1} \ldots a_1 a_0.$$ 
+        \item On convertit la partie fractionnaire :
+          $$F[x] = 0,a_{-1}a_{-2}\dots a_{-m}.$$
+        \item Finalement, on additionne la partie entière et fractionnaire :
+          $$x =  a_n a_{n-1} \ldots a_1 a_0,a_{-1}a_{-2}\dots a_{-m}\dots.$$
+       \end{itemize}
+  \end{block}
+
+\end{frame}
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Traduction vers une base quelquonque}
+  \begin{block}{Partie fractionnaire}
+    \begin{itemize}
+    \item on multiplie $F[x]$ par $b$. Soit $a_{-1}$ la partie entière de ce produit,
+    \item on recommence avec la partie fractionnaire du produit pour obtenir $a_{-2}$,
+    \item et ainsi de suite \dots
+    \item on stoppe l’algorithme si la partie fractionnaire devient nulle.
+    \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{$(0,734375)_{10} = (0,BC)_{16}$}
+    \begin{tabular}{r@{ = }ll}
+      $0,734375 \times 16$ & $11,75$ & $a_{-1} = B$ \\
+      $0,75 \times 16$     & $12$    & $a_{-2} = C$
+    \end{tabular}
+    % \begin{itemize}
+    % \item $0, 734375\times16 = 11, 75 \Rightarrow a_{-1} = B$
+    % \item $ 0, 75\times16 = 12 \Rightarrow a_{-2} = C$
+    % \item Alors $(0,734375)_{10} = (0,BC)_{16}$
+    % \end{itemize}
+  \end{exampleblock}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Traduction de 0,3 en base 2}
+
+
+  \begin{exampleblock}{$(0,3)_{10} = (0,01001100110011 \ldots)_2$}
+    \begin{tabular}{r@{ = }ll}
+
+      $0,3\times2$         & $0,6$ & $a_{-1} = 0$ \\
+      $0,6\times2$         & $1,2$ & $a_{-2} = 1$ \\
+      \alert{$0,2\times2$} & $0,4$ & $a_{-3} = 0$ \\
+      $0,4\times2$         & $0,8$ & $a_{-4} = 0$ \\
+       $0,8\times2$        & $1,6$ & $a_{-5} = 1$ \\
+       $0,6\times2$        & $1,2$ & $a_{-6} = 1$ \\
+      \alert{$0,2\times2$} & $0,4$ & $a_{-7} = 0$ \\
+      
+      %\dots \\
+    \end{tabular}
+  \end{exampleblock}
+
+  \begin{alertblock}{La conversion d’un nombre fractionnaire ne s’arrête pas toujours.}
+    \begin{itemize}
+    \item En base $b$,  on ne peut représenter exactement que des nombres fractionnaires de la forme $X/b^k$
+    \item  La conversion d’un nombre entier s’arrête toujours.
+    \end{itemize}
+  \end{alertblock}
+  \begin{alertblock}{Il faudra arrondir \dots}
+  \end{alertblock}
+\end{frame}
+
+
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Exercices}
+  \begin{itemize}
+  \item Traduire $(10101101)_2$ en écriture décimale.
+  \item Traduire $(10101001110101101)_2$ en écriture hexadécimale.
+  \item Traduire $(1AE3F)_{16}$ en écriture décimale.
+  \item Traduire $(1AE3F)_{16}$ en écriture binaire.
+  \item Traduire $(13.1)_{10}$ en écriture binaire.
+  \end{itemize}
+\end{frame}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: ../representation-nombres.tex
+%%% End:

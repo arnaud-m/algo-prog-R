@@ -1,6 +1,11 @@
 \documentclass[10pt]{beamer}
+%\documentclass[handout,10pt]{beamer} % printable version
 
 \usepackage{../macros}
+
+\usepackage{dsfont} %% ensembles \R, \F
+\def\R{\ensuremath{\mathds{R}}\xspace}
+\def\F{\ensuremath{\mathds{F}}\xspace}
 
 \title{Représentation des nombres}
 \author{Arnaud Malapert}
@@ -9,6 +14,9 @@
   pdfauthor = {Arnaud Malapert},
   pdftitle =  {Représentation des nombres},
 }
+
+
+\metroset{sectionpage=progressbar,subsectionpage=progressbar}
 
 
 \begin{document}
@@ -22,7 +30,7 @@
     \begin{itemize}
     \item Système positionel : binaire, décimal, octal, et héxadécimal.
     \item Nombre non signé seulement (positif).
-    \item Pas d'étude de la représentation en machine.
+    \item Représentation en machine des entiers naturels seulement !
     \end{itemize}
   \end{block}
 
@@ -44,7 +52,7 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Table of contents}
+\begin{frame}{Table des matières}
   \setbeamertemplate{section in toc}[sections numbered]
   % \tableofcontents[hideallsubsections]
   \tableofcontents
@@ -52,16 +60,28 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{UCAnCODE}
+\section{Système positionnel}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{tex/nombres.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Multiplication et division égyptiennes}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{tex/egypte.tex}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{UCAnCODE II}
+\section{Arithmétique binaire}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{tex/binaire.tex}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{UCAnCODE III}
+\section{Représentation des nombres en machine}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{tex/machine.tex}
+
+
 
 
 \begin{frame}[fragile]
@@ -93,7 +113,8 @@ print(sample(1:3))
  \questionSlide
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\appendix
+ \appendix
+ \backupSlides
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -108,17 +129,7 @@ print(sample(1:3))
 %   slides in the appendix.
 % \end{frame}
 
-% \begin{frame}
-%   \frametitle{test I}
-  
-% \end{frame}
 
-\backupSlides
-
-\begin{frame}
-  \frametitle{test II}
-  
-\end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \begin{frame}[allowframebreaks]{References}
 
