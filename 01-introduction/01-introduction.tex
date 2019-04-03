@@ -7,7 +7,7 @@
 \title{Introduction au langage R}
 
 \hypersetup{
-  pdftitle =  {Introduction au langage R},
+  pdftitle =  {Introduction au langage R}
 }
 
 \metroset{sectionpage=progressbar,subsectionpage=progressbar}
@@ -48,11 +48,11 @@
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Table des matières}
-  \setbeamertemplate{section in toc}[sections numbered]
-  % \tableofcontents[hideallsubsections]
-  \tableofcontents
-\end{frame}
+% \begin{frame}{Table des matières}
+%   \setbeamertemplate{section in toc}[sections numbered]
+%   % \tableofcontents[hideallsubsections]
+%   \tableofcontents
+% \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
   \frametitle{Qu'est-ce que la programmation ?}
@@ -122,7 +122,7 @@
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
+\begin{frame}[fragile]
   \frametitle{Division euclidienne}
   Si \texttt{a} et \texttt{b} sont deux entiers avec \texttt{b$\neq$ 0}, alors :
   \[
@@ -133,6 +133,16 @@
   \item \alert{$\mathtt{a \%\% b}$} fournit le \alert{reste} de la division de l'entier \texttt{a} par \texttt{b}.
 
   \end{itemize}
+
+
+  \begin{lstlisting}
+> 16 %/% 3
+[1] 5
+> 16 %% 3
+[1] 1
+> 3 * (16 %/% 3) + (16 %% 3)
+[1] 16    
+  \end{lstlisting}
 \end{frame}
 
 
@@ -143,7 +153,7 @@
 
   \begin{block}{Gestion des erreurs avec une valeur spéciale}
   \begin{lstlisting}[style=block]
-> 16 \%\% 0
+> 16 %% 0
 [1] NaN
 > 0/0
 [1] NaN
@@ -638,10 +648,8 @@ Erreur : impossible de trouver la fonction "turtle_forward"
 > turtle_forward(dist=15)  
 \end{lstlisting}
 
-\begin{center}
-  \alert{Il faut consulter la documentation.}
-\end{center}
 \end{frame}  
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
@@ -726,12 +734,13 @@ f <- function(x) {
 \end{frame}
 
 \begin{frame}[fragile]
-  \frametitle{Comment (re)définir la valeur absolue ?}
-  
+  \frametitle{Exemples}
+
+  \begin{exampleblock}{Comment (re)définir la valeur absolue ?}
 \begin{columns}[c]
-\begin{column}{0.43\textwidth}
-  \begin{lstlisting}[style=editor]
-valabs <- function(n) {
+\begin{column}{0.38\textwidth}
+  \begin{lstlisting}[style=edblock]
+Abs <- function(n) {
 if(n>0) {
   return(n)
 } else {
@@ -739,13 +748,36 @@ if(n>0) {
 }
 \end{lstlisting}
 \end{column}
-\begin{column}{0.57\textwidth}
+\begin{column}{0.62\textwidth}
   \begin{lstlisting}
-> paste('|-5| vaut', valabs(-5))
+> paste('|-5| vaut', Abs(-5))
 [1] "|-5| vaut 5"    
   \end{lstlisting}
 \end{column}
 \end{columns}
+\end{exampleblock}
+
+  \begin{exampleblock}{Comment (re)définir le maximum ?}
+\begin{columns}[c]
+\begin{column}{0.38\textwidth}
+  \begin{lstlisting}[style=edblock]
+Max <- function(n, m) {
+if(n > m) {
+  return(n)
+} else {
+  return (m)
+}
+\end{lstlisting}
+\end{column}
+\begin{column}{0.62\textwidth}
+  \begin{lstlisting}
+> paste('max(-10, -5) vaut', Max(-10, -5))
+[1] "max(-10, -5) vaut 5"    
+  \end{lstlisting}
+\end{column}
+\end{columns}
+  \end{exampleblock}
+
 
 \end{frame}
 
@@ -825,9 +857,50 @@ Elles se distinguent par leur \alert{efficacité}, mais aussi leur \alert{élég
 \end{frame}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Documenter une fonction}
+  \begin{block}{Pour l'instant}
+    Ajouter simplement des commentaires au début de la fonction.    
+  \end{block}
 
+\begin{lstlisting}
+premiersEntreEux <- function(p,q) {
+  # Détermine si deux entiers p et q sont premiers entre eux par calcul du PGCD.
+  #
+  # Arguments:
+  #  p un entier
+  #  q un entier
+  #
+  # Returns: TRUE si p et q sont premiers entre eux, et FALSE sinon.
+  ...
+}
+\end{lstlisting}
+En effet, il suffit de \alert{taper le nom d’une fonction pour voir son code}.
+\end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Consulter la documentation de R}
 
+  \begin{lstlisting}
+> ?paste # consulter la documentation d'une fonction
+Concatenate Strings
+
+Description:
+
+     Concatenate vectors after converting to character.
+
+Usage:
+
+     paste (..., sep = " ", collapse = NULL)
+     paste0(..., collapse = NULL)
+     
+Arguments:
+ ...    
+> ??paste # rechercher dans la documentation
+  \end{lstlisting}
+\end{frame}  
 
 
 % \begin{frame}[fragile]
