@@ -1,0 +1,386 @@
+\documentclass[10pt]{beamer}
+
+\usepackage{../macros}
+\usetikzlibrary{shapes,arrows, chains}
+\usepackage{ulem}
+\title{Itérations (\texttt{for})}
+
+\hypersetup{
+  pdftitle =  {Itérations (for)}
+}
+
+\begin{document}
+
+\maketitle
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{La boucle \texttt{for}}
+  
+  En théorie, la boucle \texttt{while} permet de réaliser toutes les boucles que l'on veut.
+  Toutefois, les boucles \texttt{for} sont très utilisées.
+
+  
+\begin{columns}[t]
+\begin{column}{0.48\textwidth}
+  \begin{lstlisting}[style=editor]
+S <- function(n) {
+  i <- 0
+  acc <- 0
+  while(i < n) {
+    i <- i + 1
+    acc <- acc + i
+  }
+  return(acc)
+}    
+\end{lstlisting}
+\end{column}
+\begin{column}{0.43\textwidth}
+\begin{lstlisting}[style=editor]
+S <- function(n) {
+  acc <- 0;
+  for(i in 1:n) {
+    acc <- acc +i
+  }
+  return(acc)
+}  
+\end{lstlisting}
+\end{column}
+\end{columns}
+
+\begin{itemize}
+\item Souvent, on utilisera une boucle for pour incrémenter ou décrémenter un compteur.
+\item La boucle \texttt{for} est plus pratique ici, mais pas pour l'epluchage des entiers.
+
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Échappement d'une boucle \texttt{for}}
+  Lorsque l'instruction \texttt{return} ou \texttt{break} est placée à l'intérieur de la boucle \texttt{for}, cela signifie :
+  \begin{center}
+    \alert{Je parcours a priori \emph{tout} une séquence,\\ mais je me réserve la possibilité de \emph{m'échapper} en cours de route !}
+
+  \end{center}
+\begin{exampleblock}{Exemple : comparaison d'une valeur à une séquence}
+  Est-ce que la valeur \texttt{x} est plus grande ou égale aux valeurs d’une séquence ?
+\begin{columns}[t]
+\begin{column}{0.48\textwidth}
+  \begin{lstlisting}[style=editor]
+geq <- function(x, values) {
+  for(v in values) {
+    if(x < v) return(FALSE);
+  }
+  return(TRUE);
+}         
+  \end{lstlisting}
+\end{column}
+\begin{column}{0.48\textwidth}
+  \begin{lstlisting}
+> values <- c(2, 4, 1, 7, 5)
+> geq(0, values)
+[1] FALSE
+> geq(1, values)
+[1] FALSE
+> geq(7, values)
+[1] TRUE
+> geq(8, values)
+[1] TRUE
+\end{lstlisting}
+
+\end{column}
+\end{columns}
+\end{exampleblock}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{Une séquence ?}
+  Nous commençons à pénétrer dans un continent qu'il faudra tôt ou tard aborder : celui des \alert{VECTEURS} et \alert{LISTES}.
+  Nous garderons pour l'instant une idée naïve de ce qu'est un vecteur, une \alert{séquence d’éléments}.
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{  La fonction \texttt{seq} : génèrer une séquence régulière}
+  \begin{center}
+    \alert{\texttt{seq(from, to, by, length.out, ...)}}
+  \end{center}
+
+\begin{lstlisting}
+> seq(5) #ou mieux seq_len(5)
+[1] 1 2 3 4 5
+> seq(0,5)
+[1] 0 1 2 3 4 5
+> seq(from=0,to=5)
+[1] 0 1 2 3 4 5
+> seq(from=0,to=5,by=2)
+[1] 0 2 4
+> seq(from=0,to=5, by=1.25)
+[1] 0.00 1.25 2.50 3.75 5.00
+> seq(from=0,to=5, length.out=5)
+[1] 0.00 1.25 2.50 3.75 5.00
+\end{lstlisting}
+
+En version courte pour générer des entiers consécutifs :   
+\begin{lstlisting}
+> 1:5
+[1] 1 2 3 4 5
+> 1:0 # /!\ ATTENTION ! 
+[1] 1 0
+\end{lstlisting}
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+  \frametitle{La boucle for parcourt un objet itérable}
+
+  Nous avons utilisé jusqu'à présent la boucle \texttt{for} sur une séquence d’entiers.
+  Or \texttt{seq} ne construit pas forcément l'intervalle, mais un itérateur sur un vecteur virtuel.
+  Heureusement d'ailleurs :
+\begin{columns}[t]
+\begin{column}{0.58\textwidth}
+  \begin{lstlisting}[style=editor]
+for(i in seq(1,10**7, by=2)) {
+  print(i)
+  if(i > 10) break;
+}    
+  \end{lstlisting}
+\end{column}
+\begin{column}{0.38\textwidth}
+  \begin{lstlisting}
+[1] 1
+[1] 3
+[1] 5
+[1] 7
+[1] 9
+[1] 11
+  \end{lstlisting}
+\end{column}
+\end{columns}
+
+Les séquences (vector, list) sont des objets itérables .
+\begin{block}{Syntaxe}
+  
+\end{block}{Syntaxe de la boucle \texttt{for}}
+\begin{lstlisting}[style=edblock]
+for (x in sequence) {
+  ...
+}  
+\end{lstlisting}
+  
+\end{frame}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{  La fonction \texttt{sample} : génèrer une séquence aléatoire}
+  On va choisir aléaloirement \texttt{size} éléments du vecteur \texttt{x} avec ou sans remise (\texttt{replace}) et avec ou sans biais (\texttt{prob}).
+  \begin{center}
+    \alert{\texttt{sample(x, size, replace = FALSE, prob = NULL)}}
+  \end{center}
+
+ 
+  \begin{block}{Tirage sans remise (\texttt{replace=FALSE})}
+La variante \texttt{sample.int} est un raccourci pour choisir dans \texttt{1:n}    
+    \begin{lstlisting}
+> sample.int(10) # permutation aléatoire de [1, 10]
+[1]  8  6 10  7  5  4  3  1  2  9
+> sample.int(n = 90,  size = 6) # tirage du loto
+[1]  5 26 11 77 70 32
+> sample.int(n = 10,  size = 11) # Choisir 11 parmi 10
+Error in sample.int(10, 11) : 
+  impossible de prendre un échantillon plus grand que la population lorsque 'replace = FALSE'
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{  La fonction \texttt{sample} \dots}
+  On va choisir aléaloirement \texttt{size} éléments du vecteur \texttt{x} avec ou sans remise (\texttt{replace}) et avec ou sans biais (\texttt{prob}).
+  \begin{center}
+    \alert{\texttt{sample(x, size, replace = FALSE, prob = NULL)}}
+  \end{center}
+
+\begin{block}{Tirage avec remise (\texttt{replace=TRUE})}
+    \begin{lstlisting}[style=block]
+>  sample(c('pile', 'face'),  size = 5, replace = TRUE) 
+[1] "face" "pile" "pile" "pile" "pile"
+\end{lstlisting}
+\end{block}
+
+
+\begin{block}{Tirage biaisé avec remise (\texttt{prob})}
+    \begin{lstlisting}[style=block]
+> sample(c('pile', 'face'),  size = 10, replace = TRUE, prob = c(5, 1)) 
+ [1] "pile" "pile" "pile" "face" "face" "pile" "pile" "pile" "pile" "pile"
+\end{lstlisting}
+\end{block}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{  Génèrer des nombres approchés aléatoires}
+  On va tirer des \texttt{n} nombres approchés aléatoires compris entre \texttt{min} et \texttt{max} avec une probabilité uniforme.
+  \begin{center}
+    \alert{\texttt{ runif(n, min = 0, max = 1)}}
+  \end{center}
+
+    \begin{lstlisting}
+> runif(5)
+[1] 0.36051021 0.96824951 0.08495143 0.87527313 0.16520820
+> runif(n = 5, min = 0, max = 10)
+[1] 7.945856 8.398957 2.757909 6.035876 1.205764
+\end{lstlisting}
+
+
+\begin{block}{Autres distributions}
+  \texttt{rnorm}, \texttt{rpois}, \texttt{rgamma} \dots 
+\end{block}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Mais, il faut éviter les boucles !}
+  \begin{center}
+    \alert{Quand c’est possible, il faut mieux utiliser une fonction prédéfinie.}
+  \end{center}
+
+\begin{columns}[t]
+\begin{column}{0.48\textwidth}
+  \begin{lstlisting}[style=editor]
+SP <- function(n) {
+  if(n <= 0) return(0)
+  return(sum(1:n))
+}    
+\end{lstlisting}  
+\end{column}
+\begin{column}{0.48\textwidth}
+  \begin{lstlisting}[style=editor]
+SR <- function(n) {
+  if(n > 0) {
+    return(n+SR(n-1))
+  }
+  else return(0)
+}    
+  \end{lstlisting}
+\end{column}
+\end{columns}
+
+\begin{columns}[t]
+\begin{column}{0.48\textwidth}
+  \begin{lstlisting}[style=editor]
+SW <- function(n) {
+  i <- 0
+  acc <- 0;
+  while(i < n) {
+    i <- i + 1;
+    acc <- acc +i
+  }
+  return(acc)
+}
+\end{lstlisting}
+\end{column}
+\begin{column}{0.48\textwidth}
+  \begin{lstlisting}[style=editor]
+SF <- function(n) {
+  if(n <= 0) return(0)
+  acc <- 0;
+  for(i in 1:n) {
+    acc <- acc +i
+  }
+  return(acc)
+}
+\end{lstlisting}
+\end{column}
+\end{columns}
+
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{La vectorisation est plus efficace !}
+
+\begin{lstlisting}
+> system.time(replicate(10**4, invisible(SP(10**6))))
+utilisateur     système      écoulé 
+      0.041       0.000       0.042 
+\end{lstlisting}
+
+
+\begin{table}[h]
+  \centering
+  \begin{tabular}{lrr}
+    \toprule
+                & $\mathtt{n}=10^3$ & $\mathtt{n}=10^4$ \\
+                & temps (s)         & temps (s)         \\
+    \midrule
+    \texttt{SR} & 3.200             & overflow          \\
+    \texttt{SW} & 0.547             & 4.664             \\
+    \texttt{SF} & 0.260             & 2.455             \\
+    \texttt{SP} & 0.011             & 0.011             \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{itemize}
+\item<alert@1> La suppression des boucles s’appelle la vectorisation.
+\item Nous découvrirons plus tard autre famille de boucles : \texttt{apply}.
+\end{itemize}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+ \questionSlide
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ \appendix
+ \backupSlides
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{frame}[fragile]{Backup slides}
+%   Sometimes, it is useful to add slides at the end of your presentation to
+%   refer to during audience questions.
+
+%   The best way to do this is to include the \verb|appendixnumberbeamer|
+%   package in your preamble and call \verb|\appendix| before your backup slides.
+
+%   will automatically turn off slide numbering and progress bars for
+%   slides in the appendix.
+% \end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{frame}[allowframebreaks]{References}
+
+%   % \bibliography{../bib_parallelism,../bib_others}
+%   % \bibliographystyle{abbrv}
+
+% \end{frame}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
