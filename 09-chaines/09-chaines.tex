@@ -1,0 +1,463 @@
+\documentclass[10pt]{beamer}
+
+\usepackage{../macros}
+\usetikzlibrary{shapes,arrows, chains}
+\usepackage{ulem}
+\title{Chaînes de caractères}
+
+\hypersetup{
+  pdftitle =  {Chaînes de caractères}
+}
+
+\begin{document}
+
+\maketitle
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Les chaînes de caractères}
+  \begin{block}{Un texte est une suite finie de caractères.}
+    Lettres majuscules ou minuscules, chiffres, ponctuations, symboles mathématiques, etc.
+    En programmation, un texte est une chaîne de caractères (\alert{string}).
+  \end{block}
+
+\begin{block}{Chaîne de caractères délimitée par des apostrophes}
+  \begin{lstlisting}[style=edblock]
+> texte <- '1984 : Orwell !'
+> texte
+[1] "1984 : Orwell !"    
+  \end{lstlisting}
+\end{block}
+
+\begin{exampleblock}{Attention aux types des données}
+  Ne confondez pas 1984 qui est un entier et '1984' qui est une chaîne.
+  \begin{columns}[t]
+    \begin{column}{0.48\textwidth}
+      \begin{lstlisting}
+> typeof(1984)
+[1] "double"
+> typeof('1984')
+[1] "character"            
+      \end{lstlisting}
+\end{column}
+\begin{column}{0.48\textwidth}
+  \begin{lstlisting}
+> as.integer('1984')
+[1] 1984
+> as.character(1984)
+[1] "1984"    
+  \end{lstlisting}
+\end{column}
+\end{columns}
+
+\end{exampleblock}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Apostrophes et guillemets}
+\begin{block}{Chaîne de caractères délimitée par des guillemets}
+  \begin{lstlisting}[style=edblock]
+> texte <- "1984 : Orwell !"
+  \end{lstlisting}
+\end{block}
+
+\begin{exampleblock}{Comment inclure une apostrophe dans une chaîne ?}
+  \begin{lstlisting}[style=block]
+> 'Mais j'ai froid'
+Erreur : unexpected symbol in "'Mais j'ai"    
+\end{lstlisting}
+\begin{columns}[t]
+  \begin{column}{0.48\textwidth}
+    Délimiter avec des guillemets.
+  \begin{lstlisting}
+> "Mais j'ai froid"
+[1] "Mais j'ai froid"    
+\end{lstlisting}
+\end{column}
+\begin{column}{0.48\textwidth}
+  Protéger avec un backslash (\textbackslash).
+  \begin{lstlisting}
+> 'Mais j\'ai froid'
+[1] "Mais j'ai froid"
+\end{lstlisting}
+\end{column}
+\end{columns}
+
+\end{exampleblock}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Une chaîne est une suite de caractères}
+  \begin{block}{Combien y a t-il de caractères dans une chaîne ?}
+    \begin{lstlisting}[style=block]
+> texte <- '1984 : Orwell !'
+> nchar(texte)
+[1] 15      
+    \end{lstlisting}
+  \end{block}
+
+  \begin{block}{Comment accéder au k-ème caractère ?}
+    Pas très pratique, on extrait une sous-chaîne de taille 1 !
+    \begin{lstlisting}[style=block]
+> substr(texte,1,1)
+[1] "1"
+> substr(texte,4,4)
+[1] "4"
+> substr(texte,nchar(texte),nchar(texte))
+[1] "! "
+> substr(texte,nchar(texte)+1,nchar(texte)+1)
+[1] ""
+    \end{lstlisting}
+    En fait, R n’est pas conçu pour ce genre de manipulation.    
+  \end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Création d'une chaîne}
+  La fonction \alert{\texttt{paste}} combine de multiples chaînes en une seule.
+  \begin{lstlisting}
+  > paste("Sa", "lut")
+[1] "Sa lut"
+> paste("Sa", "lut",sep="") # ou paste0("Sa", "lut")
+[1] "Salut"
+\end{lstlisting}
+En fait, la fonction paste fonctionne aussi sur les vecteurs/listes comme presque toutes les fonctions en R.
+\begin{lstlisting}
+> mots <- c("pomme", "banane", "raisin")
+> paste(mots, mots)
+[1] "pomme pomme" "banane banane" "raisin raisin"
+> paste(mots, mots, collapse="|")
+[1] "pomme pomme|banane banane|raisin raisin"
+> paste(mots, mots, sep="-",collapse="|")
+[1] "pomme-pomme|banane-banane|raisin-raisin"  
+\end{lstlisting}
+La fonction \alert{\texttt{sprintf}} formatte une chaîne à la C.
+\begin{lstlisting}
+> sprintf("%s%s", "Sa", "lut")
+[1] "Salut"
+\end{lstlisting}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Extraction d'une tranche de sous-chaîne}
+  R propose une fonction (\alert{\texttt{substr}} ou \alert{\texttt{substring}}) pour extraire une tranche (slice) d'une chaîne repérée par ses positions extrêmes :
+  \begin{lstlisting}
+> texte <- "salut tout le monde"
+> substring(texte,first=12)
+[1] "le monde"
+> substring(texte,first=1,last=11)
+[1] "salut tout "    
+\end{lstlisting}
+
+\begin{alertblock}{Puis-je modifier le k-ème caractère d'une chaîne ?}
+  \alert{NON} : une chaîne est un objet non mutable. 
+\end{alertblock}
+
+\begin{exampleblock}{Mais, on peut quand même \dots}
+  On peut modifier la valeur de la variable avec une affectation, mais cela reste compliquée.
+  \begin{lstlisting}
+> substr(texte,1,5) <- 'Hello'
+> texte
+[1] "Hello tout le monde"    
+  \end{lstlisting}
+\end{exampleblock}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Éclatement d’une chaîne}
+La fonction \alert{\texttt{strsplit}} sépare une chaîne de caractères en une liste de sous-chaînes en utilisant un séparateur.  
+\begin{lstlisting}
+> word <- "apple|banana|grape"
+> v <- strsplit(word,split="|",fixed=TRUE)
+> v
+[[1]]
+[1] "apple" "banana" "grape"
+> v[[1]][1]
+[1] "apple"  
+\end{lstlisting}
+
+\begin{itemize}
+\item Le paramètre \texttt{fixed} indique que le séparateur doit être interprété comme une chaîne et non pas comme une expression régulière.
+\item Le résultat est renvoyé sous la forme d’une liste, une structure de données essentielle que nous découvrirons plus tard.
+\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Expressions régulières}
+  \begin{alertblock}{Expression régulière}
+    une expression régulière (regular expression ou regexp) est un motif qui décrit un ensemble de chaînes de caractères. \\
+\end{alertblock}
+\begin{itemize}
+\item Une regexp est donc une "instruction" donnée à une fonction définissant la recherche (match) et les remplacements (replace) dans une chaîne de caractères.
+\item R propose une famille de fonctions similaires aux commandes shell \texttt{grep} pour la recherche et \texttt{sed} pour le remplacement.  
+\end{itemize}
+\begin{lstlisting}
+> l <- c("apple","banana","grape","10","green.pepper")
+> grep("a",l)
+[1] 1 2 3
+> sub("a","$",l)
+[1] "$pple" "b$nana" "gr$pe" "10" "green.pepper"
+> gsub("a","$",l)
+[1] "$pple" "b$n$n$" "gr$pe" "10" "green.pepper"  
+\end{lstlisting}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+  \frametitle{Beaucoup de primitives sur les chaînes \dots}
+  Un langage de programmation vaut aussi par l'étendue de ses fonctionnalités.
+  Avant de programmer, cherchez dans la doc si la fonction convoitée n'est pas une primitive !
+
+  \begin{block}{\dots mais certaines ont une drôle de tête !}
+    Quasiment toutes les fonctions sur les chaînes prennent en argument et renvoient des VECTEURS ou LISTES.
+    Pour l'instant, nous garderons une idée naïve de ce qu'est un vecteur ou une liste, une séquence d’éléments.    
+  \end{block}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Autres méthodes sur des chaînes}
+  \begin{lstlisting}
+> l <- c('', 'pommes', '12', 'CERISES')
+> grepl("^[[:digit:]]+$", l) # que des chiffres ?
+[1] FALSE FALSE TRUE FALSE
+> grepl("^[[:lower:]]+$", l) # que des minuscules ?
+[1] FALSE TRUE FALSE FALSE
+> grepl("^[[:alpha:]]+$", l) # que des lettres?
+[1] FALSE TRUE FALSE TRUE
+> grepl("^[[:alnum:]]+$", l) # que des chiffres ou des lettres?
+[1] FALSE TRUE TRUE TRUE 
+> tolower(l) # mettre en minuscules
+[1] "" "pommes" "12" "cerises"
+> toupper(l) # mettre en majuscules
+[1] "" "POMMES" "12" "CERISES"
+> chartr("oei", "OEI", l) #remplacement (c.f. tr en shell) 
+[1] "" "pOmmEs" "12" "CERISES"
+  \end{lstlisting}
+\end{frame}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Le code ASCII}
+  Les \alert{caractères américains (dits internationaux)} sont numérotés de 0 à 127, c'est le code ASCII (American Standard Code for Information Interchange).
+  Par exemple le code ASCII de 'A' est égal à 65 mais on n'a pas besoin de le mémoriser :
+  
+\begin{columns}[t]
+\begin{column}{0.33\textwidth}
+  \begin{lstlisting}
+> utf8ToInt('A')
+[1] 65    
+> utf8ToInt('a')
+[1] 97
+  \end{lstlisting}
+\end{column}
+\begin{column}{0.33\textwidth}
+  \begin{lstlisting}
+> utf8ToInt('?')
+[1] 63
+> utf8ToInt('!')
+[1] 33    
+  \end{lstlisting}
+\end{column}
+\begin{column}{0.33\textwidth}
+  \begin{lstlisting}
+> intToUtf8(65)
+[1] "A"
+> intToUtf8(63)
+[1] "?"    
+  \end{lstlisting}
+\end{column}
+\end{columns}
+
+Les caractères dont le code ASCII tombe entre 0 et 31, ainsi que le caractère numéro 127 ne sont pas affichables .
+Ce sont les \alert{caractères de contrôle} nommés symboliquement NUL , LF , BEL , CR , ESC , DEL \dots
+\begin{columns}[t]
+\begin{column}{0.48\textwidth}
+  \begin{lstlisting}
+> intToUtf8(27) # ESC
+[1] "\033"
+  \end{lstlisting}
+\end{column}
+\begin{column}{0.48\textwidth}
+  \begin{lstlisting}
+> intToUtf8(10) # LF
+[1] "\n"
+  \end{lstlisting}
+
+\end{column}
+\end{columns}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile,fragile]
+  \frametitle{Table ASCII}
+  {
+    \footnotesize
+\begin{verbatim}
+> Ascii()
+ [1]  32:    33:!   34:"   35:#   36:$   37:%   38:&   39:'   40:(   41:) 
+[11]  42:*   43:+   44:,   45:-   46:.   47:/   48:0   49:1   50:2   51:3 
+[21]  52:4   53:5   54:6   55:7   56:8   57:9   58::   59:;   60:<   61:= 
+[31]  62:>   63:?   64:@   65:A   66:B   67:C   68:D   69:E   70:F   71:G 
+[41]  72:H   73:I   74:J   75:K   76:L   77:M   78:N   79:O   80:P   81:Q 
+[51]  82:R   83:S   84:T   85:U   86:V   87:W   88:X   89:Y   90:Z   91:[ 
+[61]  92:\\  93:]   94:^   95:_   96:`   97:a   98:b   99:c  100:d  101:e 
+[71] 102:f  103:g  104:h  105:i  106:j  107:k  108:l  109:m  110:n  111:o 
+[81] 112:p  113:q  114:r  115:s  116:t  117:u  118:v  119:w  120:x  121:y 
+[91] 122:z  123:{  124:|  125:}  126:~
+\end{verbatim}
+  }
+
+  \begin{block}{À faire en TP}
+    \begin{lstlisting}[style=edblock]
+Ascii <- function() {
+  # ...
+}
+\end{lstlisting}
+  \end{block}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Le code ASCII étendu}
+  Le code du caractère accentué 'é' est 233, il tombe entre 128 et 255.
+  Il s'agit du code ASCII étendu, qui contient des caractères propres à chaque pays.
+  Nous utilisons le codage Iso-Latin-1 , qui couvre les langues de l'Europe de l'Ouest, avec le \'e, \`a, \~n, \"o, etc.
+  Les russes utilisent KOI8-R, les chinois sont bien ennuyés, etc.
+
+  \begin{block}{Pourquoi ce nombre magique 255 ?}
+  Parce que l'unité d'information sur un ordinateur est l'octet : un bloc de 8 bits (un bit = 0 ou 1).
+Sur les 8 bits, un bit était utilisé pour la vérification de la bonne transmission (le bit de parité), d'où un
+codage sur 7 bits, c'est l'ASCII.
+Avec la fiabilité des transmissions, le 8ème bit fut finalement utilisé pour l'ASCII étendu \dots
+
+\begin{tabular}{|*{8}{c|}r}
+  \cline{1-8}
+  1 & 1 & 1& 0 & 1 & 0 & 0 & 1 & é\\ 
+  \cline{1-8}
+\end{tabular}
+\end{block}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{Le code UNICODE}
+Et les chinois furent contents ! En effet, le consortium \alert{Unicode} (env 1990, initié par Xerox et Apple) proposait d'abandonner la limitation des 255 caractères en traitant d'un seul coup toutes les
+langues du monde (plus de 65000 caractères !) \dots
+    \begin{itemize}
+    \item \alert{Unicode} donne à tout caractère de n’importe quel système d'écriture un nom et un identifiant numérique, et ce de manière unifiée, quelle que soit la plate-forme informatique ou le logiciel.
+    \item Le jeu de caractères est la liste des caractères, leur nom et leur index, le point de code.
+    \item<alert@1> Unicode sépare la définition du jeu de caractères de celle du codage.   
+    \end{itemize}
+
+  \begin{block}{UTF-8}
+    \begin{itemize}
+    \item \alert{UTF-8 est un format de transformation}, il définit un codage pour tout caractère Unicode.
+    \item<alert@1> UTF-8 est compatible avec la norme ASCII.
+    \end{itemize}
+  \end{block}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]
+  \frametitle{Usage du code UNICODE}
+  Les caractères Unicode sont numérotés en hexadécimal (base 16).
+  Par exemple, le symbole euro a pour numéro '20AC' en hexa :
+  \begin{lstlisting}
+> '\u20ac' # symbole euro 
+> '\u6211\u662F\u6cd5\u56fd\u4eba' # je suis français
+> for(i in 1633:1642) print(intToUtf8(i)) # ?
+\end{lstlisting}
+
+\begin{exampleblock}{Conversion en héxadécimale}
+\begin{lstlisting}[style=block]
+> x <- as.hexmode(8364)
+> x
+[1] "20ac"
+> x <- as.integer(x)
+> x
+[1] 8364  
+\end{lstlisting}
+\end{exampleblock}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+  \frametitle{Jules César et les messages secrets}
+  La cryptographie est la science des codes secrets.
+  Une des premières formes de codage d'un message provient de Jules César durant la Guerre des Gaules.
+  Ici, on ne code que les MAJUSCULES...
+
+  \begin{block}{Pour coder un message}
+    \begin{itemize}
+    \item Choisir une clé de codage \texttt{k} dans [1,25]. 
+    \item Initialiser la chaîne résultat à la chaîne vide.
+    \item Pour chaque caractère \texttt{c} du message à coder :
+      \begin{itemize}
+      \item Si le caractère c est une lettre majuscule : coder le caractère c en le décalant de k positions à droite insérer le nouveau caractère dans la chaîne résultat.
+      \item sinon : insérer c dans la chaîne résultat
+      \end{itemize}
+    \item Rendre en résultat la chaîne résultat    
+
+    \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{Code César avec une clé \texttt{k}=3}
+    'TOUS au ZOO !'  $\Longrightarrow$ 'WRXV au CRR !'
+  \end{exampleblock}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\questionSlide
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+ \appendix
+ \backupSlides
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{frame}[fragile]{Backup slides}
+%   Sometimes, it is useful to add slides at the end of your presentation to
+%   refer to during audience questions.
+
+%   The best way to do this is to include the \verb|appendixnumberbeamer|
+%   package in your preamble and call \verb|\appendix| before your backup slides.
+
+%   will automatically turn off slide numbering and progress bars for
+%   slides in the appendix.
+% \end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{frame}[allowframebreaks]{References}
+
+%   % \bibliography{../bib_parallelism,../bib_others}
+%   % \bibliographystyle{abbrv}
+
+% \end{frame}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
