@@ -1,0 +1,679 @@
+\documentclass[10pt]{beamer}
+
+\usepackage{../macros}
+\usetikzlibrary{shapes,arrows, chains}
+\usepackage{ulem}
+\title{Les séquences : vecteur}
+
+\hypersetup{
+  pdftitle =  {Les séquences : vecteur}
+}
+
+\begin{document}
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Qu'est-ce qu'une séquence ?}
+
+  \begin{alertblock}{Séquence}
+    Une séquence est une suite finie de valeurs numérotées, distinctes ou pas, de n'importe quel type.   
+  \end{alertblock}
+
+ 
+\begin{columns}[t]
+\begin{column}{0.48\textwidth}
+ \begin{block}{Vecteur}
+    Un vecteur est une séquence d'éléments \alert{du même type}.
+    \begin{lstlisting}
+ > 1:6
+[1] 1 2 3 4 5 6
+> c('foo', 'bar')
+[1] "foo" "bar"     
+    \end{lstlisting}
+  \end{block}
+\end{column}
+\begin{column}{0.48\textwidth}
+   \begin{block}{Liste}
+     Une liste est une séquence d'éléments \alert{de type quelquonque}.
+     \begin{lstlisting}
+> list(1:6, c('foo', 'bar'))
+[[1]]
+[1] 1 2 3 4 5 6
+
+[[2]]
+[1] "foo" "bar"       
+     \end{lstlisting}
+  \end{block}
+\end{column}
+\end{columns}
+
+  \begin{block}{Mutabilité}
+    Les listes et vecteurs sont mutables, i.e. on peut les modifier.    
+  \end{block}
+
+  \begin{center}
+      Occupons nous d’abord des vecteurs.
+  \end{center}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{De l’utilité des vecteurs \dots}
+  Programmons la fonction \texttt{Diviseurs} qui retourne la liste des diviseurs non triviaux (distincts de 1 et n) d'un entier $\mathtt{n} \geq 2$. \\
+  Ne connaissant pas à l'avance le nombre d'éléments du résultat, on utilise un vecteur, initialement vide, qu'on aggrandit au fur et à mesure.
+  \begin{lstlisting}[style=editor]
+Diviseurs <- function(n) {
+  res <- numeric(0);
+  for(d in 2:(n-1)) {
+    if( n %% d == 0) res <- append(res, d);
+  }
+  return(res)
+}    
+\end{lstlisting}
+
+\begin{description}[\texttt{numeric}]
+\item[\texttt{numeric}] crée un vecteur numérique. 
+\item[\texttt{append}] ajoute un élément en queue d'un vecteur.
+\end{description}
+\begin{lstlisting}
+> Diviseurs(1000)
+ [1]   2   4   5   8  10  20  25  40  50 100 125 200 250 500  
+\end{lstlisting}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Accès par rang aux éléments d'une séquence}
+  L'accès par rang est commun aux vecteurs, listes, matrices, data frames.\\
+  \begin{itemize}
+  \item \alert{La notation indexée par crochets. Les indices commencent à 1.}
+  \item R supprime les éléments quand leurs indices sont négatifs.
+  \item R vérifie la validité des arguments
+  \end{itemize}
+
+  
+  \begin{lstlisting}
+> vec <- 1:5
+> vec[1] # Les indices commencent à 1.
+[1] 1
+> vec[2]
+[1] 2
+> vec[c(1,5)] #  accéder simultanément à plusieurs éléments.
+[1] 1 5
+> vec[-3] # suppression d'éléments avec un index négatif
+[1] 1 2 4 5
+> vec[0] # Les indices commencent à 1 !
+integer(0)
+> vec[6] # valeur spéciale pour les éléments manquants.
+[1] NA   
+\end{lstlisting}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Accès par contenu}
+  Dans de nombreux langages, la fonction \alert{\texttt{index}} permet de connaître le rang d'un élément dans une séquence donnée. \\
+  Elle n'existe pas en R et nous allons donc la programmer !
+  
+\begin{columns}[t]
+\begin{column}{0.50\textwidth}
+\begin{lstlisting}[style=editor]
+index <- function(x, vec) {
+  for(i in seq_along(vec)) {
+    if( vec[i] == x) return(i)
+  }
+  return(NA)
+}
+\end{lstlisting}
+\end{column}
+\begin{column}{0.5\textwidth}
+\begin{lstlisting}
+> index(2, 1:5)
+[1] 2
+> index(6, 1:5)
+[1] NA
+>index("foo",c("foo","bar")))
+[1] 1
+\end{lstlisting}
+\end{column}
+\end{columns}
+
+La fonction \texttt{seq\_along} renvoie le vecteur des indices du vecteur \texttt{vec} !
+
+\begin{block}{Défi}
+  Programmer une fonction \texttt{positions(x,vec)} retournant le vecteur des indices \texttt{i} tels que \texttt{vec[i] == x}.
+\end{block}
+
+\begin{alertblock}{Autres fonctions d'accès par contenu}
+  R ne dispose pas d’une fonction index , mais des fonctions plus puissantes et complexes : \alert{\texttt{match}} et \alert{\texttt{which}}.
+\end{alertblock}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Arithmétique des vecteurs}
+  \begin{block}{Opérations membre à membre}
+    L'opération est appliquée sur les paires d'éléments à la même position.
+
+\begin{columns}[t]
+\begin{column}{0.48\textwidth}
+    \begin{lstlisting}
+> 1:3 + 3:1
+[1] 4 4 4
+> 1:3 * 3:1
+[1] 3 4 3
+    \end{lstlisting}
+\end{column}
+\begin{column}{0.48\textwidth}
+    \begin{lstlisting}
+> 1:3 / 1:3
+[1] 1 1 1
+> (1:3) ** (3:1)
+[1] 1 4 3
+    \end{lstlisting}
+\end{column}
+\end{columns}
+  \end{block}
+
+  \begin{block}{Recyclage des éléments}
+    Si deux vecteurs ont des longueurs différentes, les éléments du plus court sont recyclés.
+    \begin{lstlisting}
+> 1:4 + 1:2
+[1] 2 4 4 6
+> 1:5 + 1:2
+[1] 2 4 4 6 6
+Warning message:
+In 1:5 + 1:2 :
+  la taille d'un objet plus long n'est pas multiple de la taille d'un objet plus court
+\end{lstlisting}
+  \end{block}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Construction d'une \emph{nouvelle} séquence}
+  \begin{alertblock}{Construction en extension}
+    On utilise surtout la fonction \alert{\texttt{c}}.
+    \begin{lstlisting}
+> c(2, 3, 5)
+[1] 2 3 5
+> c(TRUE, FALSE, TRUE, FALSE, FALSE)
+[1]  TRUE FALSE  TRUE FALSE FALSE
+\end{lstlisting}
+  \end{alertblock}
+
+  \begin{block}{Longueur d'un vecteur}
+    La longueur d’un vecteur est retournée par la fonction \texttt{length}.
+    \begin{lstlisting}
+> length(c("aa", "bb", "cc", "dd", "ee"))
+[1] 5      
+    \end{lstlisting}
+  \end{block}
+
+  \begin{block}{Concaténation de deux séquences}
+    On peut coller côte à côte (concaténer) deux séquences pour construire une nouvelle séquence.
+    Le vecteur numérique a été transformé (\alert{coerced}) en chaînes de caractères pour la cohésion de type.
+    \begin{lstlisting}
+> c(1:3, c("foo", "bar"))
+[1] "1"   "2"   "3"   "foo" "bar"      
+\end{lstlisting}
+  \end{block}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Extraction d'une tranche de séquence}
+La notation des tranches (\alert{slices}) est valide pour toute séquence. \\
+Elle permet d’extraire une sous-séquence à partir d’un \alert{vecteur numérique d’indices}.
+\begin{itemize}
+\item Les indices peuvent être dupliqués.
+\item Les indices peuvent être dans n'importe quel ordre.  
+\end{itemize}
+\begin{lstlisting}
+> vec <- 1:5
+> vec[c(1,3,5)]
+[1] 1 3 5
+> vec[c(5,1,5)]
+[1] 5 1 5  
+\end{lstlisting}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Extraction d'une tranche de séquence \dots}
+  La notation des tranches permet d’extraire une sous-séquence à partir d’un \alert{vecteur logique d’indices}.
+  Le booléen au rang \texttt{k} indique si le \texttt{k}-ème élément appartient à la sous-séquence.
+  \begin{itemize}
+  \item Les indices ne peuvent pas être dupliqués.
+  \item Les indices ne peuvent pas être dans n'importe quel ordre.  
+  \end{itemize}
+  \begin{lstlisting}
+> vec <- c("a", "b", "c", "d", "e")
+> ind <- c(TRUE, TRUE, FALSE, FALSE, FALSE)
+> vec[ind]
+[1] "a" "b"
+\end{lstlisting}
+
+\begin{block}{Recyclage du vecteur logique}
+  \begin{lstlisting}[style=block]
+> vec[c(TRUE,FALSE)]
+[1] "a" "c" "e"    
+  \end{lstlisting}
+\end{block}
+\begin{block}{Extraction d'entêtes et de queues : \texttt{head} et \texttt{tail}}
+
+  
+\begin{columns}[t]
+\begin{column}{0.33\textwidth}
+  \begin{lstlisting}
+> head(vec,3)
+[1] "a" "b" "c"
+\end{lstlisting}
+\end{column}
+\begin{column}{0.33\textwidth}
+  \begin{lstlisting}
+> tail(vec,3)
+[1] "c" "d" "e"
+\end{lstlisting}
+\end{column}
+\begin{column}{0.33\textwidth}
+  \begin{lstlisting}
+> tail(vec, -3)
+[1] "d" "e"
+\end{lstlisting}
+\end{column}
+\end{columns}
+\end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Pré-allocation de mémoire}
+    Prévoir l’espace mémoire nécessaire avant l’exécution du programme, en spécifiant la quantité nécessaire dans le code source.
+  Au chargement du programme en mémoire, juste avant l’exécution, l’espace réservé devient alors accessible.
+
+
+  \begin{exampleblock}{Réécrivons \texttt{1:n} avec ou sans préallocation de mémoire}
+\begin{columns}[t]
+\begin{column}{0.48\textwidth}
+  \begin{lstlisting}[style=editor]
+Seq1 <- function(n) {
+  vec <- c() # sans
+  for(i in seq(n)) {
+    vec <- append(vec, i)
+  }
+  return(vec)
+}
+\end{lstlisting}
+\end{column}
+\begin{column}{0.48\textwidth}
+  \begin{lstlisting}[style=editor]
+Seq2 <- function(n) {
+  vec <- numeric(n) # avec
+  for(i in seq(n)) {
+    vec[i] <- i
+  }
+  return(vec)
+}
+\end{lstlisting}
+\end{column}
+\end{columns}
+\smallskip
+\begin{lstlisting}
+> system.time(replicate(5, Seq1(20000)))
+utilisateur     système      écoulé 
+      1.373       0.017       1.393   
+  > system.time(replicate(5, Seq2(20000)))
+utilisateur     système      écoulé 
+      0.013       0.000       0.012   
+\end{lstlisting}
+\end{exampleblock}
+  
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Modification d'un vecteur}
+  Les vecteurs et les listes sont mutables, avec l'opérateur crochet, la méthode \texttt{append} (en queue ou à un rang donné) ou les indices négatifs (supprime un ou plusieurs éléments).
+  \begin{exampleblock}{Ajout d'éléments}
+\begin{columns}[t]
+\begin{column}{0.33\textwidth}
+  \begin{lstlisting}
+> v <- 1:5
+> v[1] <- 5
+> v
+[1] 5 2 3 4 5      
+\end{lstlisting}
+\end{column}
+\begin{column}{0.33\textwidth}
+  \begin{lstlisting}
+> append(v,6)
+[1] 5 2 3 4 5 6
+> append(v,c(6,7))
+[1] 5 2 3 4 5 6 7    
+  \end{lstlisting}
+\end{column}
+\begin{column}{0.34\textwidth}
+  \begin{lstlisting}
+> append(v,6,2) 
+[1] 5 2 6 3 4 5
+> append(v,c(6,7),2)
+[1] 5 2 6 7 3 4 5  
+\end{lstlisting}
+\end{column}
+
+\end{columns}
+\end{exampleblock}
+
+
+\begin{columns}[t]
+\begin{column}{0.43\textwidth}
+\begin{exampleblock}{Suppression d'éléments}
+  \begin{lstlisting}[style=block]
+> v[-3]
+[1] 1 2 4 5
+> v[c(-2, -3)]
+[1] 1 4 5
+\end{lstlisting}  
+\end{exampleblock}
+\end{column}
+\begin{column}{0.53\textwidth}
+  \begin{block}{Rappel sur les chaînes}
+    \begin{itemize}
+    \item Les chaînes sont immutables.
+    \item Ce ne sont pas des séquences.
+    \item Ce sont des OBJETS !
+    \end{itemize}
+
+  \begin{lstlisting}
+> str <- "foo"
+> str[1]
+[1] "foo"
+\end{lstlisting}
+\end{block}
+\end{column}
+\end{columns}
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Conditions et tests vectorisés !}
+  \begin{block}{Opérations de comparaison vectorisées}
+    Tous les opérateurs de comparaison sont vectorisés.  
+  \begin{lstlisting}
+> vec <- 1:5
+> vec == 2
+[1] FALSE TRUE FALSE FALSE FALSE
+> vec > 3
+[1] FALSE FALSE FALSE  TRUE  TRUE
+\end{lstlisting}
+\end{block}
+
+\begin{alertblock}{Attention aux Opérations logiques vectorisées}
+  Attention, les opérateurs \texttt{\&} et \texttt{\&\&} sont très différents pour un vecteur !
+ \begin{lstlisting}
+> vec %% 2 == 0 & vec > 2
+[1] FALSE FALSE FALSE  TRUE FALSE
+> vec %% 2 == 0 && vec > 2
+[1] FALSE    
+\end{lstlisting}
+
+les opérateurs \texttt{|} et \texttt{||} sont tout aussi différents
+\end{alertblock}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Recherche des bornes d'un vecteur}
+  \begin{block}{Recherche du rang du plus petit/grand élément}
+    \begin{columns}[t]
+      \begin{column}{0.49\textwidth}
+  \begin{lstlisting}
+> which.min(c(2, 3, 1, 5, 4))
+[1] 3
+  \end{lstlisting}
+\end{column}
+\begin{column}{0.49\textwidth}
+  \begin{lstlisting}
+> which.max(c(2, 3, 1, 5, 4))
+[1] 4    
+\end{lstlisting}
+\end{column}
+\end{columns}
+\end{block}
+
+\begin{block}{Recherche du plus petit/grand élément}
+  \begin{columns}[t]
+      \begin{column}{0.49\textwidth}
+  \begin{lstlisting}
+> min(c(2, 3, 1, 5, 4))
+[1] 1
+  \end{lstlisting}
+\end{column}
+\begin{column}{0.49\textwidth}
+  \begin{lstlisting}
+> max(c(2, 3, 1, 5, 4))
+[1] 5    
+\end{lstlisting}
+\end{column}
+\end{columns}    
+  \end{block}
+
+  \begin{block}{Recherche du plus petit et du plus grand élément}
+   \begin{lstlisting}[style=block]
+> range(c(2, 3, 1, 5, 4))
+[1] 1 5    
+  \end{lstlisting}
+\end{block} 
+\begin{block}{Le cas du \texttt{NA} : cela ne marche plus, supprimons-les}
+  \begin{lstlisting}[style=block]
+> range(c(2, 3, 1, 5, 4, NA))
+[1] NA NA
+> range(c(2, 3, 1, 5, 4, NA), na.rm = TRUE)
+[1] 1 5
+  \end{lstlisting}
+\end{block}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Recherche dans un vecteur : \texttt{which}}
+  La fonction \texttt{which} renvoie un vecteur numérique d'indices dont les éléments respectent la condition.
+  \begin{lstlisting}
+> vec <- 1:5
+> vec == 2
+[1] FALSE TRUE FALSE FALSE FALSE
+> vec %% 2 == 0 & vec > 2
+[1] FALSE FALSE FALSE  TRUE FALSE
+> which(vec == 2)
+[1] 2
+> which(vec %% 2 == 0)
+[1] 2 4
+> which(vec %% 2 == 0 & vec > 2)
+[1] 4
+> which(vec %% 2 == 0 && vec > 2)
+integer(0)    
+\end{lstlisting}
+\end{frame}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Recherche dans un vecteur : \texttt{match}}
+  La fonction \texttt{match} renvoie un vecteur numérique d'indices du premier élément de son premier argument contenu dans le second.
+  \begin{lstlisting}
+> match(1:5, 2)
+[1] NA 1 NA NA NA
+> 1:5 %in% 2
+[1] FALSE TRUE FALSE FALSE FALSE
+> which(1:5 %in% 2)
+[1] 2
+> match( 1:5, c(2,6,3))
+[1] NA 1 3 NA NA
+> match( 1:5, c(2,6,3), nomatch=0)
+[1] 0 1 3 0 0
+  \end{lstlisting}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Fonctions \texttt{all} et \texttt{any} sur un vecteur logique}
+  % \begin{itemize}
+  % \item \texttt{all} renvoie \texttt{TRUE} si tous les éléments d’un vecteur logique sont \texttt{TRUE}.
+  % \item \texttt{any} renvoie \texttt{TRUE} si au moins un élément est \texttt{TRUE}.
+  % \end{itemize}
+
+  \begin{block}{\texttt{all} renvoie \texttt{TRUE} si tous les éléments sont \texttt{TRUE}.}
+  \begin{lstlisting}[style=block]
+> all(c(TRUE,TRUE))
+[1] TRUE
+> all(c(FALSE,TRUE))
+[1] FALSE
+> all(c(TRUE,TRUE, NA))
+[1] NA
+> all(c(TRUE,TRUE, NA), na.rm=TRUE)
+[1] TRUE
+> all(1:10 > 1)
+[1] FALSE
+\end{lstlisting}
+  \end{block}
+
+  \begin{block}{\texttt{any} renvoie \texttt{TRUE} si au moins un élément est \texttt{TRUE}.}
+  \begin{lstlisting}[style=block]
+> any(c(FALSE,FALSE))
+[1] FALSE
+> any(c(FALSE,TRUE))
+[1] TRUE
+> any(1:10 < 2)
+[1] TRUE
+\end{lstlisting}
+  \end{block}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]
+  \frametitle{Tri d'un vecteur : \texttt{sort}}
+  \begin{block}{Dans un ordre donné}
+\begin{lstlisting}[style=block]
+> x <- sample(10)
+> sort(x)
+ [1]  1  2  3  4  5  6  7  8  9 10
+> sort(x, decreasing=TRUE)
+ [1] 10  9  8  7  6  5  4  3  2  1
+\end{lstlisting}    
+\end{block}
+
+\begin{block}{En retournant éventuellement les indices}
+\begin{lstlisting}[style=block]
+> x
+ [1]  9  3 10  1  4  8  5  7  6  2  
+> sort(x, index.return = TRUE)
+$x
+ [1]  1  2  3  4  5  6  7  8  9 10
+$ix
+ [1]  4 10  2  5  7  9  8  6  1  3
+\end{lstlisting}    
+\end{block}
+
+\begin{block}{De n'importe quel type}
+\begin{lstlisting}[style=block]
+> sort(head(letters, 10), decreasing=TRUE)
+ [1] "j" "i" "h" "g" "f" "e" "d" "c" "b" "a"  
+\end{lstlisting}    
+\end{block}
+
+
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]
+  \frametitle{Méthodes usuelles sur les vecteurs}
+  \begin{center}
+    Consultez notre superbe \alert{reference card} !
+  \end{center}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Extraction des nombres pairs d'un vecteur}
+  \begin{block}{Méthode classique}
+    Facilement transportable dans d'autres langages de programmation.
+    \begin{lstlisting}[style=editor]
+ExtractionNombresPairs <- function(x) {
+  res <- numeric(0);
+  for(v in x) {
+    if( v %% 2 == 0) res <- append(res, v);
+  }
+  return(res)
+}      
+\end{lstlisting}
+\begin{lstlisting}
+> x <- 1:10
+> ExtractionNombresPairs(x)
+[1]  2  4  6  8 10
+\end{lstlisting}
+  \end{block}
+
+  \begin{block}{Méthodes plus courtes, mais spécifiques à R}
+\begin{lstlisting}[style=block]
+> x[ x %% 2 == 0]
+> x[ which(x %% 2 == 0)]
+> Filter(function(n) n %% 2 == 0, x)
+\end{lstlisting}
+    
+  \end{block}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\questionSlide
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ \appendix
+ \backupSlides
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{frame}[fragile]{Backup slides}
+%   Sometimes, it is useful to add slides at the end of your presentation to
+%   refer to during audience questions.
+
+%   The best way to do this is to include the \verb|appendixnumberbeamer|
+%   package in your preamble and call \verb|\appendix| before your backup slides.
+
+%   will automatically turn off slide numbering and progress bars for
+%   slides in the appendix.
+% \end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{frame}[allowframebreaks]{References}
+
+%   % \bibliography{../bib_parallelism,../bib_others}
+%   % \bibliographystyle{abbrv}
+
+% \end{frame}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

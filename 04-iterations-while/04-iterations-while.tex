@@ -356,7 +356,7 @@ Par exemple 12 est divisible par 1 et 12 (et par d'autres) \dots
 Un entier $n$ est premier s'il est $\geq 2$ et si ses seuls diviseurs sont les diviseurs triviaux.
 Par exemple 13 est premier, mais pas 12.
 
-\begin{block}{Test de primalité (algotihme naïf)}
+\begin{block}{Test de primalité (algorithme naïf)}
   Pour savoir si un nombre $n \geq 2$ est premier, il suffit donc d'examiner les nombres entiers $d$ de $[2,n-1]$ à la recherche d'un diviseur de $n$.
   \begin{itemize}
   \item Si l'on en trouve un, on s'arrête au premier avec le résultat \texttt{FALSE}.
@@ -372,7 +372,7 @@ Par exemple 13 est premier, mais pas 12.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]{Implémentation du test de primalité}
   \begin{lstlisting}[style=editor]
-estPremier <- function(n) {
+EstPremier <- function(n) {
   if(n < 2) return(FALSE) # 0 et 1 ne sont pas premiers
   d <- 2 #le premier diviseur non trivial
   while( d < n) {
@@ -384,15 +384,15 @@ estPremier <- function(n) {
 \end{lstlisting}
 
 \begin{lstlisting}
-> paste('2001 est premier:', estPremier(2001))
+> paste('2001 est premier:', EstPremier(2001))
 [1] "2001 est premier: FALSE"  
-> paste('2003 est premier:', estPremier(2003))
+> paste('2003 est premier:', EstPremier(2003))
 [1] "2003 est premier: TRUE"
 \end{lstlisting}
 
 \begin{alertblock}{Quel est le nombre d'opérations de notre test de primalité ?}
   \begin{lstlisting}[style=edblock]
-> estPremier(.Machine$integer.max)   
+> EstPremier(2**31 -1)   
 \end{lstlisting}
 % $ % for auctex
 Ctrl-D ou Ctrl-C (Keyboard interrupt)

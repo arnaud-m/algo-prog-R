@@ -1,0 +1,257 @@
+\documentclass[10pt]{beamer}
+
+\usepackage{../macros}
+\usetikzlibrary{shapes,arrows, chains}
+\usepackage{ulem}
+\title{Nombres premiers}
+
+\hypersetup{
+  pdftitle =  {Nombres premiers}
+}
+
+\begin{document}
+
+\maketitle
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Qu'est-ce qu'un nombre premier ?}
+  \begin{alertblock}{Nombre premier}
+    \alert{Un nombre premier est un entier naturel qui admet exactement deux diviseurs distincts entiers et positifs.}\\
+    \begin{itemize}
+    \item Ces deux diviseurs sont 1 et le nombre considéré, puisque tout nombre a pour diviseurs 1 et lui-même (comme le montre l’égalité $ n=1\times n$). 
+    \item Les nombres premiers étant ceux qui n’en possèdent aucun autre.
+    \item Selon cette définition, les nombres 0 et 1 ne sont pas premiers.
+    \end{itemize}
+    \begin{flushright}
+      Wikipedia.
+    \end{flushright}
+  \end{alertblock}
+
+  \begin{center}
+    \textbf{\alert{Calculons le vecteur des nombres premiers inférieurs à $n$!}}
+  \end{center}
+
+
+\end{frame}
+
+
+
+\begin{frame}{Détermination des nombres premiers inférieurs à $n$}
+  Comme d'habitude, on va construire une itération.
+  \begin{block}{Passer à l'étape suivante (\alert{ITÉRATION})}
+    Étant en possession de $\mathtt{prems}$, un vecteur contenant les nombres premiers de $[0, \mathtt{d}]$.
+    \begin{itemize}
+    \item Il suffira donc d'ajouter 1 à $\mathtt{d}$, 
+    \item puis d'ajouter $\mathtt{d}$ à \texttt{prems} si \texttt{d} est premier (\alert{test de primalité}).
+    \end{itemize}
+
+  \end{block}
+  \begin{block}{Détecter si le calcul est terminé (\alert{TERMINAISON})}
+    On aura terminé lorsque $\mathtt{d}$ sera égal à $n$ puisqu'alors $\mathtt{prems}$ contiendra tous les nombres premiers inférieurs à $n$.
+  \end{block}
+
+  \begin{block}{Trouver les valeurs initiales des variables (\alert{INITIALISATION})}
+    Au début du calcul, je peux prendre $\mathtt{prems}$ vide et $\mathtt{d} =0$. \\
+  \end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Test de primalité I}
+  Pour savoir si un nombre $n \geq 2$ est premier, il suffit donc d'examiner les nombres entiers $d$ de $[2,n-1]$ à la recherche d'un diviseur de $n$.
+  \begin{itemize}
+  \item Si l'on en trouve un, on s'arrête au premier avec le résultat \texttt{FALSE}.
+  \item Sinon, le résultat sera \texttt{TRUE}.  
+  \end{itemize}
+  \begin{lstlisting}[style=editor]
+EstPremier <- function(n) { # version I
+  if(n < 2) return(FALSE) # 0 et 1 ne sont pas premiers
+  d <- 2 #le premier diviseur non trivial
+  while( d < n) {
+    if( n %% d == 0) return(FALSE) # Échappement
+    d <- d + 1
+  }
+  return(TRUE)
+}    
+\end{lstlisting}
+
+
+\begin{columns}[t]
+\begin{column}{0.4\textwidth}
+  \begin{lstlisting}
+> estPremier(1003)
+[1] FALSE
+> estPremier(2003)
+[1] TRUE    
+  \end{lstlisting}
+\end{column}
+\begin{column}{0.6\textwidth}
+
+\begin{block}{Comment améliorer ce test ?}
+  Il est appelé $n-1$ fois pour déterminer les nombres premiers inférieurs à $n$
+\end{block}
+\end{column}
+\end{columns}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Test de primalité II}
+  En fait, il suffit \alert{de tester la parité et d'examiner les nombres entiers impairs dans $\left[3,\sqrt{n}\right]$} à la recherche d'un diviseur de $n$.
+  
+  \begin{lstlisting}[style=editor]
+EstPremier <- function(n) { # version II
+  if(n < 2) return(FALSE) # 0 et 1 ne sont pas premiers
+  if( n %% 2 == 0) return(FALSE) # test de parité 
+  d <- 3 # le deuxième diviseur non trivial
+  m <- floor(sqrt(n)) # on calcule la racine une seule fois
+  while( d <= m) { # on compare avec la racine
+    if( n %% d == 0) return(FALSE) # Échappement
+    d <- d + 2 # on itére sur les nombres impairs 
+  }
+  return(TRUE)
+}    
+\end{lstlisting}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Performance des tests de primalité }
+
+  Comparons les performances des deux versions du test de primalité  sur des nombres de Mersenne premiers. \\
+  Les nombres de Mersenne sont de la forme : une puissance de 2 moins 1.
+
+  \begin{lstlisting}
+> system.time(replicate(50, EstPremier(2**19 - 1)))
+utilisateur     système      écoulé 
+      0.018       0.000       0.019     
+  \end{lstlisting}
+
+  \begin{table}[ht]
+    \centering
+    \begin{tabular}{l|rr}
+      \toprule
+      \texttt{n} & version I & version II \\
+      \midrule
+      $2^{13}-1$ & 152       & 2          \\
+      $2^{17}-1$ & 1145      & 13         \\
+      $2^{19}-1$ & 4260      & 19         \\
+      \bottomrule
+    \end{tabular}
+    \caption{Durée du test de primalité en millisecondes.}
+  \end{table}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Construction du vecteur des premiers inférieurs à $n$ }
+
+  \textbf{Seuls les nombres impairs peuvent être premiers.}
+
+\begin{lstlisting}[style=editor]
+Premiers <- function(n) { # Version I
+  if(n < 2) return(numeric(0));
+  prems <- c(2)
+  for(i in seq(3, n, 2)) {
+    if(EstPremier(i)) prems <- append(prems, i)
+  }
+  return(prems)
+}    
+\end{lstlisting}
+
+
+\begin{lstlisting}[style=editor]
+Premiers <- function(n) { # Version II
+  if(n < 2) return(numeric(0))
+  else return(c(2, Filter(EstPremier, seq(3, n, 2))))
+}    
+\end{lstlisting}
+
+
+\begin{lstlisting}[style=editor]
+Premiers <- function(n) { # Version III
+  require(parallel) # chargement d'un package
+  prems <- seq(3, n, 2)
+  ind <- mcmapply(prems, FUN = EstPremier, mc.cores = 8)
+  return(c(2, prems[ind]))
+}  
+\end{lstlisting}
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{Performance du calcul des premiers inférieurs à $n$ }
+
+  Comparons les performances des trois versions de la construction du vecteur des nombres premiers inférieurs à $n$ pour quelques valeurs de $n$.
+
+  \begin{lstlisting}
+> system.time(replicate(5, Premiers(10**5)))
+utilisateur     système      écoulé 
+      0.018       0.000       0.019     
+  \end{lstlisting}
+
+  \begin{table}[ht]
+    \centering
+    \begin{tabular}{l|rrr}
+      \toprule
+      \texttt{n} & version I & version II & version III \\
+      \midrule
+      $10^4$     & 0.08      & 0.07       & 0.13        \\
+      $10^5$     & 1.85      & 1.44       & 0.82        \\
+      $10^6$     & 57.25     & 32.20      & 10.95       \\
+      \bottomrule
+    \end{tabular}
+    \caption{Durée du calcul des premiers en secondes.}
+  \end{table}
+
+  \begin{exampleblock}{Crible d'Ératosthène (à faire en TP)}
+    Il suffit d'examiner les diviseurs premiers d'un nombre.
+  \end{exampleblock}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\questionSlide
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ \appendix
+ \backupSlides
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{frame}[fragile]{Backup slides}
+%   Sometimes, it is useful to add slides at the end of your presentation to
+%   refer to during audience questions.
+
+%   The best way to do this is to include the \verb|appendixnumberbeamer|
+%   package in your preamble and call \verb|\appendix| before your backup slides.
+
+%   will automatically turn off slide numbering and progress bars for
+%   slides in the appendix.
+% \end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{frame}[allowframebreaks]{References}
+
+%   % \bibliography{../bib_parallelism,../bib_others}
+%   % \bibliographystyle{abbrv}
+
+% \end{frame}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
