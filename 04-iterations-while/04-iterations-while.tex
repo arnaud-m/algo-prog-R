@@ -93,7 +93,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{Les calculs répétitifs : RECURRENCE}
+  \frametitle{Les calculs répétitifs : RÉCURRENCE}
   \only<1>{
     Appréciée des matheux, elle permet souvent d'attaquer des problèmes difficiles en \dots supposant le problème résolu !
 
@@ -108,14 +108,18 @@
     S(2) = S(1) + 2 = 3 \qquad     S(3) = S(2) + 3 = 6 \qquad S(4) = S(3) + 4 = 10      
   \]
   }
-  
-\begin{lstlisting}[style=edblock]
+
+  \begin{block}{Récurrence (math) $\rightarrow$ récursivité (info)}
+    Une fonction récursive s‘appelle elle-même.
+\begin{lstlisting}[style=editor]
 S <- function(n) {
   if( n <= 0) return(0)
   else return( S(n-1) + n )
 }
 \end{lstlisting}    
-
+   
+  \end{block}
+ 
 \only<2>{
 \begin{itemize}
 \item La taille du programme ne dépend toujours pas de \texttt{n}, qui ne sera fourni qu'à l'exécution.
@@ -529,18 +533,108 @@ Cette boucle est donc la plus générale mais elle suppose que l'on garantisse b
  \backupSlides
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+ 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \begin{frame}[fragile]{Backup slides}
-%   Sometimes, it is useful to add slides at the end of your presentation to
-%   refer to during audience questions.
+\begin{frame}[fragile]{Calcul de la somme harmonique}
 
-%   The best way to do this is to include the \verb|appendixnumberbeamer|
-%   package in your preamble and call \verb|\appendix| before your backup slides.
+  \begin{block}{Somme harmonique}
+    $$
+    S(n) = 1 + \frac{1}{2} + \frac{1}{3} + \ldots + \frac{1}{n-1} + \frac{1}{n}
+    = \sum_{k=1}^n \frac{1}{k}
+    $$
+    Oresme (1360) savait déjà que $S(n)$ tend vers $+\infty$ lorsque $n \rightarrow +\infty$, les matheux disent que la série harmonique diverge.
+  \end{block}
 
-%   will automatically turn off slide numbering and progress bars for
-%   slides in the appendix.
-% \end{frame}
+  
+\begin{columns}[t]
+\begin{column}{0.48\textwidth}
+  \begin{block}{Récurrence}
+    \begin{lstlisting}[style=edblock]
+S <- function(n) {      
+  if(n <=0) return(0)
+  else return(1/n + S(n-1))
+}  
+\end{lstlisting}
+\end{block}
+\begin{block}{Vectorisation (plus tard)}
+    \begin{lstlisting}[style=edblock]
+S <- function(n) {
+  if(n <=0) return(0)
+  else return(sum(1 / (1:n))
+}  
+\end{lstlisting}
+  \end{block}
 
+\end{column}
+\begin{column}{0.48\textwidth}
+  \begin{block}{Itération}
+    \begin{lstlisting}[style=edblock]
+S <- function(n) {      
+  if(n <=0) return(0)
+  acc <- 1
+  i <- 1
+  while(i < n) {
+    i <- i + 1
+    acc <- acc + 1/i
+  }
+  return(acc)
+}  
+\end{lstlisting}
+  \end{block}
+\end{column}
+\end{columns}
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]
+  \frametitle{la série harmonique diverge lentement \dots}
+
+  \begin{block}{Combien faut-il de termes dans la somme pour que $S(n) > 8$ ?}
+  
+\begin{columns}[t]
+\begin{column}{0.48\textwidth}
+  \begin{block}{Avec la fonction \texttt{S}}
+    \begin{lstlisting}[style=block]
+> n <- 1
+> while(S(n) < 8) {n <- n + 1}
+> n
+[1] 1674      
+\end{lstlisting}
+  \end{block}
+\end{column}
+\begin{column}{0.48\textwidth}
+  \begin{block}{Avec un code dédié}
+    \begin{lstlisting}[style=block]
+> acc <- 1;
+> n <- 1;
+> while(acc < 8) {
++ n <- n + 1
++ acc <- acc +1/n
++ }
+> n
+[1] 1674          
+\end{lstlisting}
+\end{block}
+\end{column}
+\end{columns}
+Quelle est l'approche la plus sûre ? La plus efficace ?
+\end{block}
+
+\begin{block}{Et pour que $S(n) > 16$ ?}
+
+\begin{lstlisting}[style=block]
+> while(acc < 16) {
++ n <- n + 1
++ acc <- acc +1/n
++ }  
+> n
+[1] 4989191  
+\end{lstlisting}
+\end{block}
+\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \begin{frame}[allowframebreaks]{References}
