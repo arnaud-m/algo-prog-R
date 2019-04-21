@@ -69,8 +69,8 @@ Mais, $\pi = 3.141592653589793\mathbf{23}\ldots$
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}[fragile]
-  \frametitle{Nombres rationels}
-  Les nombres rationels peuvent être représenté sous la forme d'une fraction, par exemple $\frac{1}{10}$.
+  \frametitle{Nombres rationnels}
+  Les nombres rationnels peuvent être représenté sous la forme d'une fraction, par exemple $\frac{1}{10}$.
   \begin{itemize}
   \item Le nombre $\frac{1}{10} = (0.1)_{10}$, par exemple, est simple dans le système décimal.
   \item Mais, il possède une infinité de chiffres après la virgule dans le système binaire !
@@ -133,7 +133,7 @@ En math, il existe un unique nombre $y$ tel que $x + y = x$, le zéro !
 [1] FALSE    
 \end{lstlisting}
 
-Le domaine du calcul approché est TRES difficile, et prévoir à l'avance le nombre exact de décimales correctes lors d'un résultat de calcul reste réservé aux spécialistes d'Analyse Numérique (brrr) \dots
+Le domaine du calcul approché est TRÈS difficile, et prévoir à l'avance le nombre exact de décimales correctes lors d'un résultat de calcul reste réservé aux spécialistes d'analyse Numérique (brrr) \dots
 
 \begin{block}{Alors que faire ? Remplacer l'égalité par une précision h}
 \begin{columns}[t]
@@ -262,9 +262,31 @@ Racine <- function(r, h = 2**(-10)) {
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-  \frametitle{Mais d'où vient la formule de Newton ?}
+  \frametitle{Mais d'où vient la formule de Newton  $b = \frac{1}{2}(a + \frac{r}{a})$ ?}
+
   D'un simple calcul de tangentes (cf TD) \dots
-  TODO Ajouter figure 
+  
+  \begin{center}
+    \begin{tikzpicture}[scale=2]
+      \clip (0.5, -1.1) rectangle (3.1, 2.1);
+      \draw[red,thick] (0,-2)  parabola (2,2);
+      \draw[loosely dotted] (1, -1) grid (2,2);
+      
+      \node[red, thick, above right] at (1, -1) {$y=x^2 - 2$};
+      
+      \draw[->] (1,0) -- (2.1, 0); 
+      \foreach \x in {1, 2}
+      \draw (\x,1pt) -- (\x,-3pt)  node[anchor=north] {$\x$};
+      
+      \draw[->] (1,-2) -- (1,2.1); 
+      \foreach \y/\ytext in {-2, -1, 0, 1, 2}
+      \draw (1,\y) -- (0.95,\y) node[anchor=east] {$\ytext$};
+      
+      \draw[thick] (2,2) -- (1.5, 0) node[above right] {$y=4x - 6$};;
+      \fill (2,2) circle[radius=1.5pt];
+      \fill (1.5,0) circle[radius=1.5pt];
+    \end{tikzpicture}
+  \end{center}
 \end{frame}
 
 
