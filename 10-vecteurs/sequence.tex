@@ -1,0 +1,40 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Qu'est-ce qu'une séquence ?}
+
+  \begin{alertblock}{Séquence}
+    Une séquence est une suite finie de valeurs numérotées, distinctes ou pas, de n'importe quel type.   
+  \end{alertblock}
+
+ 
+\begin{columns}[t]
+\begin{column}{0.48\textwidth}
+ \begin{block}{Vecteur}
+    Un vecteur est une séquence d'éléments \alert{du même type}.
+    \begin{lstlisting}
+ > 1:6
+[1] 1 2 3 4 5 6
+> c('foo', 'bar')
+[1] "foo" "bar"     
+    \end{lstlisting}
+  \end{block}
+\end{column}
+\begin{column}{0.48\textwidth}
+   \begin{block}{Liste}
+     Une liste est une séquence d'éléments \alert{de type quelconque}.
+     \begin{lstlisting}
+> list(1:6, c('foo', 'bar'))
+[[1]]
+[1] 1 2 3 4 5 6
+
+[[2]]
+[1] "foo" "bar"       
+     \end{lstlisting}
+  \end{block}
+\end{column}
+\end{columns}
+
+  \begin{block}{Mutabilité}
+    Les listes et vecteurs sont mutables, i.e. on peut les modifier.    
+  \end{block}
+\end{frame}

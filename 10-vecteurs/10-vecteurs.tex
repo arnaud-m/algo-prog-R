@@ -1,10 +1,10 @@
 \documentclass[10pt]{beamer}
 
 \usepackage{../macros}
-\title{Les séquences : vecteur}
+\title{Les séquences : vecteurs}
 
 \hypersetup{
-  pdftitle =  {Les séquences : vecteur}
+  pdftitle =  {Les séquences : vecteurs}
 }
 
 \begin{document}
@@ -12,50 +12,7 @@
 \maketitle
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
-  \frametitle{Qu'est-ce qu'une séquence ?}
-
-  \begin{alertblock}{Séquence}
-    Une séquence est une suite finie de valeurs numérotées, distinctes ou pas, de n'importe quel type.   
-  \end{alertblock}
-
- 
-\begin{columns}[t]
-\begin{column}{0.48\textwidth}
- \begin{block}{Vecteur}
-    Un vecteur est une séquence d'éléments \alert{du même type}.
-    \begin{lstlisting}
- > 1:6
-[1] 1 2 3 4 5 6
-> c('foo', 'bar')
-[1] "foo" "bar"     
-    \end{lstlisting}
-  \end{block}
-\end{column}
-\begin{column}{0.48\textwidth}
-   \begin{block}{Liste}
-     Une liste est une séquence d'éléments \alert{de type quelconque}.
-     \begin{lstlisting}
-> list(1:6, c('foo', 'bar'))
-[[1]]
-[1] 1 2 3 4 5 6
-
-[[2]]
-[1] "foo" "bar"       
-     \end{lstlisting}
-  \end{block}
-\end{column}
-\end{columns}
-
-  \begin{block}{Mutabilité}
-    Les listes et vecteurs sont mutables, i.e. on peut les modifier.    
-  \end{block}
-
-  \begin{center}
-      Occupons nous d’abord des vecteurs.
-  \end{center}
-
-\end{frame}
+\input{sequence.tex}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -193,7 +150,7 @@ In 1:5 + 1:2 :
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{Construction d'une \emph{nouvelle} séquence}
+  \frametitle{Construction d'une nouvelle séquence}
   \begin{alertblock}{Construction en extension}
     On utilise surtout la fonction \alert{\texttt{c}}.
     \begin{lstlisting}
@@ -383,7 +340,6 @@ utilisateur     système      écoulé
     \begin{itemize}
     \item Les chaînes sont immutables.
     \item Ce ne sont pas des séquences.
-    \item Ce sont des OBJETS !
     \end{itemize}
 
   \begin{lstlisting}
