@@ -445,6 +445,184 @@ langues du monde (plus de 65000 caractères !) \dots
 % \end{frame}
 
 
+\begin{frame}[fragile]{Backup slides}
+  Les diapositives suivantes, issues du cours 7, doivent probablement être déplacées dans un autre cours. \\
+  En effet, on utilise les vecteurs à bloc ! 
+\end{frame}
+ 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Codage d'un entier en binaire I}
+  Coder en binaire un entier consiste à remarquer que ses chiffres (lus de droite à gauche) ne sont autres que les restes des divisions par 2.
+  \begin{exampleblock}{$(13)_{10}$ s'écrit $(1101)_2$ en binaire : $13 = 6 \times 2 + 1$}
+    \begin{itemize}
+    \item Le prefixe 110 correspond au codage du quotient (6).
+    \item Le suffixe 1 correspond au reste (1).
+    \end{itemize}
+  \end{exampleblock}
+
+  \begin{block}{Par récurrence}
+    \begin{lstlisting}[style=edblock]
+codebin <- function(n) {
+  if(n < 2) {
+    return(as.character(n))
+  } else {
+    return(paste(codebin(n%/%2),n %% 2,sep=''))
+  }}      
+    \end{lstlisting}
+  \end{block}
+
+  \begin{lstlisting}
+> codebin(13)
+[1] '1101'
+> codebin(0)
+[1] '0'
+\end{lstlisting}
+
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Codage d'un entier en binaire II}
+  \begin{block}{Par itération}
+    \begin{lstlisting}[style=edblock]
+codebin <- function(n) {
+  res <- c()
+  while( n > 0) {
+    res <- append(n %% 2, res)
+    n <- n %/%2
+  }
+  return(paste(res,collapse=''))
+}      
+    \end{lstlisting}
+  \end{block}
+
+  \begin{exampleblock}{Questions}
+    \begin{itemize}
+    \item Que renvoie l'appel \texttt{codebin(13)} ?
+    \item Que renvoie l'appel \texttt{codebin(0)} ?
+    \item Comment peut-on corriger la fonction \texttt{codebin} ?
+    \end{itemize}
+  \end{exampleblock}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Décodage du binaire vers le décimal : méthode naïve}
+
+  Le \alert{mauvais algorithme} consiste à calculer des puissances de 2.
+  $$(1101)_2 = 1*2^3 + 1*2^2 + 0*2^1 + 1*2^0$$
+  \begin{lstlisting}[style=editor]
+decodebin <- function(n) {
+  digits <- utf8ToInt(n)- utf8ToInt('0')
+  res <- 0
+  for(i in seq_along(digits)) {
+    res <- res + digits[i]* 2**(length(digits)-i)
+  }
+  return(res)
+}    
+\end{lstlisting}
+
+\begin{lstlisting}
+> decodebin('1101')
+[1] 13  
+\end{lstlisting}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Décodage du binaire vers le décimal : schéma de Horner}
+
+  Le \alert{bon algorithme} consiste à implémente un schéma de Hörner : calcul optimal de
+  la valeur d’un polynôme en un point sans calculs de puissances.
+  $$(1101)_2 = (1 \times 2 + 1) \times 2 + 0) \times 2 + 1$$
+  \begin{lstlisting}[style=editor]
+decodebin <- function(n) {
+  horner <- function(digits) {
+    res <- 0
+    if(length(digits) > 0) {
+      res <- 2* horner(head(digits,-1)) + tail(digits,1)
+    }
+    return(res)
+  }
+  digits <- utf8ToInt(n)- utf8ToInt('0')
+  return(horner(digits))
+}
+\end{lstlisting}
+
+\begin{lstlisting}
+> decodebin('1101')
+[1] 13  
+\end{lstlisting}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Traitement des vecteurs}
+  Une chaîne de caractères n’est pas mutable, mais on peut la transformer en un vecteur de code de caractères, et un vecteur est mutable \dots
+  \begin{exampleblock}{Transformation des chiffres en '?'}
+    
+\begin{columns}[c]
+\begin{column}{0.66\textwidth}
+    \begin{lstlisting}[style=edblock]
+cacher <- function(str) {
+  chars <- utf8ToInt(str)
+  c0 <- utf8ToInt('0')
+  c9 <- utf8ToInt('9')
+  res <- c()
+  for(i in seq_along(chars)) {
+    if(chars[i]>=c0 && chars[i]<=c9) {
+      res <- append(res,utf8ToInt('?'))
+    } else {
+      res <- append(res, chars[i])
+    }
+  }
+  return(intToUtf8(res))
+}      
+\end{lstlisting}
+
+\end{column}
+\begin{column}{0.34\textwidth}
+  \begin{lstlisting}
+> cacher('324DAC75')
+[1] '???DAC??'    
+\end{lstlisting}
+
+
+\end{column}
+\end{columns}
+\alert{Inconvénient : construction incrémentale de \texttt{res} par \texttt{append} est coûteuse.}
+  \end{exampleblock}
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+  \frametitle{Traitement vectorisé des vecteurs }
+  La solution consiste à basculer la chaîne dans un vecteur en un vecteur de code de caractères, puis à effectuer un \alert{traitement de vecteur mutable}, puis à rebasculer le vecteur liste en une chaîne. Intellectuel non ?
+
+  \begin{lstlisting}[style=editor]
+cacher <- function(str) {
+  chars <- utf8ToInt(str)
+  c0 <- utf8ToInt('0')
+  c9 <- utf8ToInt('9')
+  numbers <- which( chars >= c0 & chars <= c9)
+  chars[numbers] <- utf8ToInt('?')
+  return(intToUtf8(chars))
+}    
+\end{lstlisting}
+
+\begin{exampleblock}{concaténer un vecteur de chaînes : une opération fréquente}
+\begin{lstlisting}[style=block]
+> paste(c('a','bb','c'),collapse='')
+[1] "abbc"  
+\end{lstlisting}
+  
+\end{exampleblock}
+\end{frame}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \begin{frame}[allowframebreaks]{References}
 
