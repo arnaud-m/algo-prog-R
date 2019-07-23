@@ -1,0 +1,6 @@
+#+STARTUP: overview hidestars logdone
+#+OPTIONS: tags:t todo:t timestamp:t p:t
+#+OPTIONS: skip:t @:t ::t |:t ^:nil f:t TeX:t LaTeX:t          
+#+LANGUAGE: fr
+#+DESCRIPTION: Cours d'algorithmique & programmation avec R
+#+KEYWORDS:    computer science, teaching, programming, GNU R.

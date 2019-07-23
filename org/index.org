@@ -1,0 +1,377 @@
+#+SETUPFILE:   base-template.org
+#+TITLE:       Algo & Prog avec R
+#+SUBTITLE:     Université Nice Sophia Antipolis
+#+AUTHOR:       A. Malapert et M. Pelleau
+#+OPTIONS: H:3 num:nil toc:1
+#+HTML_LINK_UP: 
+#+HTML_LINK_HOME: 
+* Tasks                                                   :noexport:TEACHING:
+** TODO https://mgimond.github.io/ES218/index.html
+ Added: [2018-06-14 jeu. 17:26]
+** TODO simulation [[https://blogdemaths.wordpress.com/2015/02/23/arnaquez-vos-amis-a-pile-ou-face/][pile ou face]]
+   https://en.wikipedia.org/wiki/Penney%27s_game
+** STARTED Générer le n-ième mot d'un language
+
+ #+BEGIN_SRC R
+   GetWords <- function(n, k, alphabet = c('a', 'b')) {
+     ## Get the n-nth words with k letters using a given alphabet.
+     stopifnot( n >= 0, length(k) == 1, k > 0, length(alphabet) > 0)
+     m <- length(alphabet);
+     ## Get a single word
+     GetWord <- function(x) {
+       ## Create an empty word filled with '0'
+       word <- rep(alphabet[1], k)
+       i <- k
+       ## Convert the number 'x' to base 'm'
+       while(x > 0) {
+         word[i] <- alphabet[(x %% m)+1]
+         i <- i - 1;
+         x <- x %/% m
+       }
+       return(paste(word, collapse =''))
+     } 
+     ## Get all words (vectorized loop)
+     sapply(n, GetWord)
+   }
+
+   ## Convert to binary
+   GetWords(1:10, k=4)
+   ## Convert to decimal
+   GetWords(1:10, k=4, alphabet=0:9)
+ #+END_SRC
+** TODO Améliorer la recherche dicho du TP6
+ Added: [2017-05-03 mer. 17:54]
+** TODO [[http://pbil.univ-lyon1.fr/R/pdf/exp3.pdf][nombres de Kaprekar]] 
+** TODO http://www.economie.gouv.fr/recrutement/aide-a-preparation-lexamen-professionnel-programmeur
+ Added: [2016-12-19 lun. 13:40]
+** STARTED Occurences
+   #+BEGIN_SRC R :results output
+     x <- c(1,2,2,3,3,3,4,4,4,4)
+     CheckOcc <- function(x, v, k) {
+       if(k <= 0) {return(TRUE)}
+       for(i in x) {
+         if(i == v) {
+           k <- k - 1
+           if(k <= 0) {return(TRUE)}
+         }
+       }
+       return(k <= 0)
+     }
+
+
+     CheckOcc <- function(x, v, k) {
+       i <- 1 
+       n <- length(x)
+       while(k > 0 && i <= n) {
+         if(x[i] == v) {
+           k <- k - 1
+         }
+         i <- i + 1
+       }
+       return(k <= 0)
+     }
+
+     CheckOcc <- function(x, v, k) {
+       length(which( x == v)) >= k
+     }
+
+
+     CheckOcc(x, 1, 1)
+     CheckOcc(x, 1, 2)
+     CheckOcc(x, 2, 2)
+     CheckOcc(x, 5, 1)
+     CheckOcc(x, 5, 0)
+
+
+   #+END_SRC
+
+   #+RESULTS:
+   : [1] TRUE
+   : [1] FALSE
+   : [1] TRUE
+   : [1] FALSE
+   : [1] TRUE
+
+** STARTED Le zanzibar
+   http://www.momes.net/Jeux/Jeux-et-animations/Regles-des-jeux-de-societe/Regle-de-12-jeux-de-des
+   
+   de 2 joueurs à plus - 3 dés
+
+   Le premier joueur (que l'on déterminera comme on veut mais sans dispute!) lance les dés.
+   S'il fait un as (ou 1) il marque 100 points, s'il fait un 6 il marque 60 points, les autres faces du dé indiquant le nombre de points correspondant (2= 2 points, 3= 3 points, 4= 4 points, 5= 5 points)
+
+   On joue en un lancer de dés et on fait 3 tours. Le gagnant est celui qui a le plus de points.
+
+
+
+ #+BEGIN_SRC R :session zanzibar
+   ZanzibarThrow <- function() {
+     sample(c(100,2,3,4,5,60), 3, replace = TRUE)
+   }
+
+   ZanzibarTurn <- function(n) {
+     replicate(n, ZanzibarThrow())
+   }
+
+   ZanzibarWinners <- function(x) {
+     which(x == max(x, na.rm = TRUE))
+   }
+
+   ZanzibarGame <- function(n, m = 3, verbose = FALSE) {
+     scores <- replicate(m, ZanzibarTurn(n))
+     #print(scores)
+     scores <- rowSums(scores)
+     #print(scores)
+     return(ZanzibarWinners(scores))
+    }
+ #+END_SRC
+
+ #+RESULTS:
+
+** TODO https://fr.wikipedia.org/wiki/Black_Box_%28jeu%29
+ Added: [2016-04-01 ven. 23:40]
+** TODO Turtle : étoile 
+Added: [2016-03-21 lun. 09:07]
+http://villemin.gerard.free.fr/Wwwgvmm/Geometri/NbOrEtoi.htm
+** TODO http://web.archive.org/web/20090227091533/http://www.math.okstate.edu/mathdept/dynamics/lecnotes/lecnotes.html
+Added: [2016-02-29 lun. 11:26]
+** TODO http://www.cyclismo.org/tutorial/R/time.html
+Added: [2016-01-15 ven. 21:37]
+** TODO courbe de blancmanger
+Added: [2016-01-14 jeu. 13:45]
+https://fr.wikipedia.org/wiki/Courbe_du_blancmanger
+** STARTED Le compte est bon !
+http://www.apmep.fr/Le-compte-est-souvent-bon
+http://www.dcode.fr/compte-est-bon
+
+#+BEGIN_SRC R :results output :session cpt
+    
+  GenGame <- function(n=6) sample(append(rep(1:10, 2), 25*(1:4)), n, replace=FALSE) 
+  jeu <- GenGame()
+  GenGoal <- function() sample(100:999, 1)
+  goal <- GenGoal()
+  Combine <- function(x, y) {
+    r <- c(x+y, x*y)
+    if(x != y) {
+      r <- append(r, abs(x-y))
+    }
+    if(x %% y == 0) {
+      r <- append(r, x %/% y)
+    } else if(y %% x == 0) {
+      r <- append(r, y %/% x)
+    }
+    return(r)
+  }
+
+  ItAllAddsUp <- function(x, y) {
+    stopifnot(is.numeric(x))
+    n <- length(x)
+    if(n > 1) {
+      for(i in seq(n-1)) {
+        for(j in seq(i+1, n)) {
+          z <- Combine(x[i], x[j])
+          if( any(z == y) ) {
+            return(TRUE)
+          }
+          for( zi in z) {
+            x1 <- append(x[-c(i, j)], zi)
+            if( ItAllAddsUp(x1, y)) {
+              return(TRUE)
+            }
+          }
+        }
+      }
+    }
+    return(FALSE)
+  }
+
+  print(goal)
+  print(jeu)
+  ##ItAllAddsUp(jeu, goal)
+#+END_SRC
+
+#+RESULTS:
+: [1] 801
+: [1]  9  1 25  3  2  4
+
+** IDEA https://fr.wikipedia.org/wiki/Suite_de_Conway
+** IDEA http://www.dptinfo.ens-cachan.fr/concours-ens/annales-info-ecrit.html
+** IDEA http://www.bankexam.fr/etablissement/528-Concours-Passerelle-ESC/47070-Informatique
+** IDEA http://www.pge-pgo.fr/annales-entrainez-vous/annales-concours-edhec-ast1.html
+** IDEA http://bcb.dfci.harvard.edu/~aedin/courses/Bioconductor/
+** IDEA Nlle question pour la courbe du dragon :
+   rotation 180 deg. puis dessiner une 2e courbe pour la refermer ! 
+** STARTED Sélectionner exos de http://alain.troesch.free.fr/
+** IDEA More Turtle drawings 
+   - http://artscript.co.uk/Draw
+   - http://www.java-online.ch/lego/legoEnglish/index.php?inhalt_links=turtle/nav_turtle.inc.php&inhalt_mitte=turtle/aufgaben/aufgaben.inc.php
+** TODO http://socserv.socsci.mcmaster.ca/jfox/Courses/R-programming/
+* Intervenants
+ - Arnaud Malapert (responsable), Marie Pelleau , Marc Bailly-Bechet, Sara Riva.
+
+* Introduction
+
+#+BEGIN_QUOTE
+*/L’intelligence ce n'est pas ce que l’on sait, mais ce que l’on fait quand on ne sait pas./*
+#+END_QUOTE
+Citation de [[https://fr.wikipedia.org/wiki/Jean_Piaget][Jean Piaget]] , Six études de psychologie.
+
+
+*COURS EN CONSTRUCTION !* 
+
+Ce cours est une initiation à l'algorithmique et à la programmation dans le langage R.
+R est un logiciel libre[fn:1] (Projet GNU) pour la manipulation de données, le calcul numérique, les statistiques, le graphisme \dots
+R propose aussi une large palette de techniques avancés : modèles linéaires et non-linéaires ; tests statistiques ; analyse de séries temporelles ; classification ; partitionnement.
+R peut être étendu par les utilisateurs et de nombreuses extensions sont disponibles sur [[http://cran.r-project.org/][cran]].
+
+En tant que scientifique, vous appliquerez certaines de ces techniques dans votre cursus, puis dans votre métier. 
+Cela vous sera difficile, voire impossible, si vous ne maîtrisez pas les concepts fondamentaux d'algorithmique et de programmation. 
+
+En tant qu'être humain, vous utilisez déjà quotidiennement des systèmes informatiques sans nécessairement les comprendre. 
+Ce cours vous aidera à mieux appréhender la logique et les limites sous-jacentes de ces systèmes.
+
+[[file:index/computers-everywhere.jpeg]]
+
+Ce cours est inspiré du cours de Python de Jean-Paul Roy et Bruno Martin que je remercie pour le partage.
+
+[fn:1] Un logiciel libre est un logiciel dont l'utilisation, l'étude, la modification et la duplication par autrui en vue de sa diffusion sont permises, techniquement et légalement, ceci afin de garantir certaines libertés induites, dont le contrôle du programme par l'utilisateur et la possibilité de partage entre individus.
+
+* Calendrier  
+
+#+BEGIN_EXPORT html
+<iframe src="https://calendar.google.com/calendar/embed?showCalendars=0&amp;mode=AGENDA&amp;height=600&amp;wkst=2&amp;bgcolor=%23FFFFFF&amp;src=g27lg2fr2i3kbmu91cn43jtdn4%40group.calendar.google.com&amp;color=%235229A3&amp;ctz=Europe%2FBrussels" style="border-width:0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+#+END_EXPORT
+
+* Contenu
+
+** Autoformation
+
+   La partie sur la représentation des nombres et les conversions de base est en autoformation.
+   Les seuls pré-requis sont de savoir additionner, multiplier par 2, et diviser par 2.
+   
+   - [[file:cours/F1-nombres.pdf][Cours sur la représentation des nombres]] 
+   
+   L'autoformation est au programme du contrôle continu et de l'examen.
+   Pour le contrôle continu, elle est évaluée individuellement par des questionnaires sur [[https://lms.unice.fr/course/view.php?id=8151][Moodle]].
+
+
+** Carte de référence
+   
+   Nous vous avons préparé une superbe carte de référence en couleurs.
+   Ce sera le seul document autorisé à l'examen. Apprenez à vous en servir !
+   
+** Cours 
+   Tous les corrigés seront publiés au fur et à mesure.
+
+| #. | Cours (Partie I)         | Cours (Partie II)                       | Travaux pratiques |
+|----+--------------------------+-----------------------------------------+-------------------|
+| 1. | Description du syllabus  | [[file:pdf/01-variables.pdf][Expressions, instructions, et variables]] | [[file:TP01.org][TP #1]]             |
+| 2. | [[file:pdf/02-fonctions.pdf][Conditions et fonctions]]  | [[file:pdf/03-jeu-roulette.pdf][Jeu de roulette]]                         | [[file:TP02.org][TP #2]]             |
+| 3. | [[file:pdf/04-iterations-while.pdf][Itérations (while)]]       | [[file:pdf/05-conversions.pdf][Conversions]]                             |                   |
+| 4. | [[file:pdf/06-nombres-approches.pdf][Nombres réels approchés]]  | [[file:pdf/07-calcul-pi.pdf][Approximation du nombre]]                 |                   |
+| 5. | [[file:pdf/08-iterations-for.pdf][Itérations (for)]]         | [[file:pdf/09-chaines.pdf][Chaînes de caractères]]                   |                   |
+| 6. | [[file:pdf/10-vecteurs.pdf][Les séquences : vecteurs]] | [[file:pdf/11-premiers.pdf][Nombres premiers]]                        |                   |
+| 7. | [[file:pdf/12-listes.pdf][Les séquences : listes]]   | [[file:pdf/13-dictionnaires.pdf][Ensembles et dictionnaires]]              |                   |
+| 8. | [[file:pdf/14-fibonacci.pdf][Suite de Fibonacci]]       |                                         |                   |
+
+   Des questionnaires de lecture de code au programme de l'examen sont accessibles sur [[https://lms.unice.fr/course/view.php?id=8151][moodle]].
+
+** Activités 
+
+   Choisissez votre binôme sur moodle pour toutes vos activités ! 
+   Les activités sont évaluées pour le contrôle continu, mais ne sont pas au programme de l'examen.
+   
+   Les activités ont différents niveaux de difficultés.
+   Nous ne pouvons pas vraiment prédire combien de temps il vous faudra pour terminer une activité. 
+   Choisissez judicieusement et n'hésitez pas à demander des conseils.
+   
+   Quelques séances sont prévues pour les activités, mais l'essentiel du travail aura lieu en distanciel.
+   Vous pouvez cependant demander de l'aide pendant les travaux pratiques.
+
+*** Exercices UCAnCODE
+
+    Les exercices UCAnCODE sont sur [[https://lms.unice.fr/course/view.php?id=8151][moodle]]. Les notes sont attribuées par le juge automatique. 
+    
+    - [[file:pdf/A0-ucancode.pdf][Cours d'introduction à la programmation compétitive]]
+ 
+*** Mini-projets
+    Les mini-projets complètent et étendent des notions abordées en cours et vous font découvrir différentes applications. \\
+    Pour obtenir une note, vous devez déposer le code source du mini-projet sur moodle, puis en faire une démonstration au responsable du cours.
+*** Bug bounty
+    Toutes les contributions significatives au cours sont valables.
+    Nous pouvons citer à titre d'exemple : 
+    - Correction de fautes d'orthographe
+    - Correction ou amélioration des codes du cours ou des corrigés.
+    - proposition d'exercices venant d'autres disciplines (biologie, économie, gestion \dots)
+
+** Licence
+ #+BEGIN_EXPORT html 
+ <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Licence Creative Commons" style="border-width:0;margin-left:5%" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br/>Ce cours  est mis à disposition selon les termes de la <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Licence Creative Commons Attribution - Pas d’Utilisation Commerciale 4.0 International</a>.
+ #+END_EXPORT 
+  - [[https://github.com/arnaud-m/cours-R][Code source des diapositives du cours]].
+  - Code source du site web.
+  - Code source de la carte de référence.
+  
+* Contrôle des connaissances
+
+** Contrôle continu (60%)
+   La note de contrôle continu est la moyenne des 3 meilleures notes obtenues à des activités ou en autoformation.
+      
+** Examen terminal (40%)
+   L'examen terminal est une épreuve écrite de 2h.
+   Le seul document autorisé est la carte de référence.
+
+   L'autoformation et le cours sont au programme de l'examen, mais pas les activités.
+   Il n'y a pas de question de cours.
+
+   Le barême de l'examen est sur 23, mais nous conservons votre note sur 20.
+    - 2 points sur les conversions de base (c.f. quizz) ;
+    - 3 points sur la lecture de code (c.f. quizz) ;
+    - 18 points sur des exercices de programmation dérivés des travaux pratiques (cours) ;
+
+** Seconde Session
+   
+   Les modalités sont les mêmes que celles de l'examen terminal.
+   
+* Ressources électroniques
+** Ressources BU
+  - [[http://catalogue.unice.fr/primo_library/libweb/action/dlDisplay.do?&docId%3Dsc_aleph_uns01000332479&vid%3DUNS][Le livre de R : apprentissage et référence]], Bernard Desgraupes. 
+** Manuels, Livres, \dots
+
+ - [[https://cran.r-project.org/doc/contrib/Goulet_introduction_programmation_R.pdf][Introduction à la programmation de R]] (V. Goulet)
+ - [[http://cran.r-project.org/doc/contrib/Paradis-rdebuts_fr.pdf][R pour les débutants]] (E. Paradis)
+ - [[http://cran.r-project.org/doc/contrib/Barnier-intro_R.pdf][Introduction à R]] (J. Barnier)
+ - [[http://link.springer.com/book/10.1007/978-3-642-17980-8][A Tiny Handbook of R]]
+ - [[http://cran.r-project.org/manuals.html][Manuels de référence]]
+ - [[http://cran.r-project.org/other-docs.html][Autre Documentation sur R]] (plusieurs langues)
+
+** Reference Cards                                                 :noexport:
+
+- [[http://github.com/rstudio/cheatsheets/raw/master/base-r.pdf][Base R Cheat Sheet]]
+- [[http://cran.r-project.org/doc/contrib/Baggott-refcard-v2.pdf][R Ref. Card]]
+- [[http://www.duclert.org/Aide-memoire-R/Le-langage/Introduction.php][Aide-mémoire R]]
+- [[https://github.com/rstudio/cheatsheets/raw/master/package-development.pdf][Package Development Cheat Sheet]]
+- Encore plus de cheat sheets sur https://www.rstudio.com/resources/cheatsheets/
+
+** Others                                                          :noexport:
+
+ - [[http://exercism.io/languages/r/about][exercism.io]] (télécharger et résoudre des exercices)
+ - [[http://larmarange.github.io/analyse-R/][Analyse R]]
+ - [[http://www.dummies.com/how-to/computers-software/programming/R.html][R pour les nuls]]
+ - [[http://link.springer.com/book/10.1007/978-1-4614-9020-3][The R Software]]
+ - [[http://adv-r.had.co.nz/][Advanced R]]
+ - [[http://cran.r-project.org/doc/contrib/Torfs%2BBrauer-Short-R-Intro.pdf][A (very) short introduction to R]] (P. Torfs and C. Brauer)
+
+
+** E-learning 
+ - [[http://swirlstats.com/][Swirl]] : (tutoriel interactif dans la console R)
+ - [[https://www.youtube.com/playlist?list=PLqzoL9-eJTNARFXxgwbqGo56NtbJnB37A][Cours en vidéo]] (youtube)
+ - Coursera [[https://www.coursera.org/course/datascitoolbox][1]] et [[https://www.coursera.org/course/rprog][2]]
+
+
+
+
+http://www.phdcomics.com/comics/archive/phd031714s.gif
+
+
+

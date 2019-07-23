@@ -1,0 +1,167 @@
+﻿# #+SETUPFILE: base-template.org
+#+TITLE:     Travaux Pratiques #1
+#+SUBTITLE:     Algo & Prog avec R
+#+OPTIONS: num:t toc:2 H:2
+#+PROPERTY: header-args :results output :exports none
+#+BEGIN_abstract
+Cette séance de travaux pratiques doit être réalisée en distanciel.
+#+END_abstract
+* Installation de R et RStudio                                :HOME:KEY:
+  Nous allons vous expliquer comment installer R et RStudio sur votre machine personnelle.
+
+
+  #+BEGIN_SRC emacs-lisp
+(require 'ox-bibtex)
+  #+END_SRC
+
+** Installer l'interpréteur R 
+ 1. Allez sur le site du projet R : http://www.r-project.org/
+ 2. Télécharger la version de R correspondant à votre système d'exploitation (Linux, Windows, Mac OS)
+ 3. Double cliquer sur le fichier téléchargé pour installer R.
+
+Sous Linux, il est recommandé de passer directement par le gestionnaire de paquet :
+ - ~sudo dnf install R~ (Fedora)
+ - ~sudo apt-get install r-base~ (Debian/Ubuntu)
+** Installer l'environnement de développement RStudio
+
+  1. Allez sur la [[https://www.rstudio.com/products/rstudio/download/#download][page de téléchargement]] de [[https://www.rstudio.com/][RStudio]].
+  2. Télécharger la version de RStudio correspondant à votre système d'exploitation (Linux, Windows, Mac OS)
+  3. Double cliquer sur le fichier téléchargé pour installer RStudio
+ 
+Quand R et Rstudio sont installés, ouvrez RStudio en vérifiant l'absence de message d'erreur.
+* Découverte de la console R                                      :HOME:
+  
+  Vous avez trois possibilités pour coder :
+  - sur votre machine personnelle ;
+  - sur les machines du CRIPS, Windows (2ème étage) ou Linux (3ème étage) ;
+  - avec l'[[https://compilers.widgets.sphere-engine.com/lp?hash=8f25a0bfb525f7a815934e5b78927289][éditeur en ligne]] (à titre exceptionnel). 
+
+  La fenêtre en bas à gauche de rstudio est la console.
+  Elle contient un programme  read-eval-print loop (REPL), aussi appelé interactive toplevel or language shell.
+  C'est un environnement typique des langages interprétés (ne nécessitant pas de compilation)  :
+   1. takes single user inputs (i.e. single expressions),
+   2. evaluates them,
+   3. and returns the result to the user;
+      
+
+** Expressions arithmétiques
+  Quelle est la valeur de chacune des expressions suivantes :
+#+BEGIN_SRC R :exports code
+  4 %/% 5 * 3 + 5 %/% 3 
+  4 %/% 5 * (3 + 5) %/% 3
+#+END_SRC
+
+#+RESULTS:
+: [1] 1
+: [1] 0
+
+   N.B. Il est de bonne pratique de laisser un espace de part et d'autre d'un opérateur : il est plus facile de lire ~2 – x // y~ que ~2-x//y~ \dots
+   
+   1. Si ~n~ est un entier écrit en décimal, que représentent au niveau des chiffres les opérations ~n %/% 10~ et ~n %% 10~ ?
+   2. Quelle opération permet de savoir si un entier ~n~ est un multiple d'un entier ~d~ ?
+   3. Quelle opération arithmétique permet de savoir si un entier ~n~ est pair ? 
+   4. Demandez en une ligne si 5^4 est plus grand que 4^5.
+   5. Calculez la moyenne des entiers de 1 à 10. Le résultat est un nombre flottant (à virgule).
+   6. Calculez la moyenne des entiers de 1 à 11. Ne retapez pas la formule complète, mais modifiez la précédente en tapant la flèche haut qui va chercher les lignes précédemment entrées (ce que les programmeurs nomment l'historique). On utilise la flèche bas en sens inverse.
+   7. Vérifiez que les règles de calcul sur l'infini sont à peu près respectées.
+
+
+#+BEGIN_SRC R 
+  n <- 1234
+  paste("n =",n)
+  paste(n %% 10, "represente le chiffre des unites de", n,"en base 10 (decimal)")
+  paste(n %% 2, "represente le chiffre des unites de", n,"en base 2 (binaire)")
+  paste(n %/% 10, "represente le nombre obtenu en gommant le chiffre des unites en base 10 (decalage a droite)")
+  paste(n %/% 2, "represente le nombre obtenu en gommant le chiffre des unites en base 2 (decalage a droite)")
+  paste(n,'est multiple de 3 :',n%%3==0)
+  paste(n,'est multiple de 2 :',n%%2==0)
+  paste('5 ** 4 > 4 ** 5 :',5 ** 4 > 4 ** 5)
+  paste('Moyenne des entiers de [1,10] :',(1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10) / 10)
+#+END_SRC
+
+#+RESULTS:
+: [1] "n = 1234"
+: [1] "4 represente le chiffre des unites de 1234 en base 10 (decimal)"
+: [1] "0 represente le chiffre des unites de 1234 en base 2 (binaire)"
+: [1] "123 represente le nombre obtenu en gommant le chiffre des unites en base 10 (decalage a droite)"
+: [1] "617 represente le nombre obtenu en gommant le chiffre des unites en base 2 (decalage a droite)"
+: [1] "1234 est multiple de 3 : FALSE"
+: [1] "1234 est multiple de 2 : TRUE"
+: [1] "5 ** 4 > 4 ** 5 : FALSE"
+: [1] "Moyenne des entiers de [1,10] : 5.5"
+
+
+
+#+BEGIN_SRC R :exports code
+  paste('3 * Inf =',3 * Inf)
+  paste('-2 * Inf =',-2 * Inf)
+  paste('1 / 0 =',1/0)
+  ## NaN signifie "Not A Number", forme indeterminee.
+  paste('Inf / Inf =',Inf/ Inf)      
+  paste('Inf / Inf =',Inf/ Inf)      
+  paste('0 / 0 =',0 / 0)    
+#+END_SRC
+
+#+RESULTS:
+: [1] "3 * Inf = Inf"
+: [1] "-2 * Inf = -Inf"
+: [1] "1 / 0 = Inf"
+: [1] "Inf / Inf = NaN"
+: [1] "Inf / Inf = NaN"
+: [1] "0 / 0 = NaN"
+** Affectations, affichage et échanges de valeurs
+ 1. Définissez deux variables: p ayant pour valeur 5 et q ayant pour valeur 3p.
+ 2. Avec une seule instruction ~paste(...)~, faites afficher la phrase suivante :\\
+    p vaut 5 et q vaut 15 a , leur somme fait 20\\
+  N.B. La solution suivante n'est PAS celle que l'on attend :
+  ~paste('p vaut 5 et q vaut 15, leur somme fait 20')~.
+ 3. Demandez en R "q est-il un multiple de p?".
+ 4. Au toplevel, traduisez en R la phrase suivante : si q est un multiple de p, afficher OUI sinon afficher NON
+ 5. Sans consulter vos notes de cours, écrivez au toplevel les lignes de code permettant d'échanger les valeurs de ~p~ et ~q~, en utilisant une variable temporaire ~tmp~. Vérifiez ensuite que les valeurs de p et q ont bien été permutées.
+ 6. Echangez à nouveau les valeurs de p et q, mais SANS utiliser de variable temporaire! Soyez astucieux, jouez avec des opérations arithmétiques \dots
+
+
+
+#+BEGIN_SRC R 
+  p <- 5
+  q <- 3*p
+  print(paste('p vaut',p,'et q vaut',q,', leur somme fait',p + q))
+  
+  if (q %% p == 0) {
+    paste(q,'est bien un multiple de',p)
+  }
+  ## echange de deux variables p et q, avec une variable temporaire
+  tmp = p
+  p = q
+  q = tmp
+  paste('Apres echange, p =',p,'et q =',q)
+        
+          
+  ## Si p et q sont deux nombres, on peut realiser astucieusement l'echange sans
+  ## variable temporaire, mais en jouant sur les operations arithmetiques.
+  ## Il s'agit d'un exo theorique, personne ne fait vraiment cela !
+  p <- p + q
+  q <- p - q
+  p <- p - q
+  paste('Apres echange, p =',p,'et q =',q)
+#+END_SRC
+
+** Obtenir de l'aide
+   Comme tout langage de programmation, R est constitué d'un noyau relativement réduit et d'un nombre important de modules. 
+   Un module fournit un ensemble de fonctions spécialisées dans une tâche donnée (maths, Internet, images, musique, etc). 
+
+   Il est essentiel de savoir obtenir de l'aide pour trouver ou utiliser les fonctions adéquates. 
+   
+#+BEGIN_SRC R :exports code :results none
+help.start()        # sommaire general de l'aide                                               
+help(foo)           # aide sur la fonction foo                                            
+?foo                # la même chose                                                       
+apropos("foo")      # liste toutes les fonctions contenant la chaîne foo                  
+example(foo)        # exécute les exemples de la fonction foo                             
+RSiteSearch("foo")  # recherche la chaîne foo dans les manuels et les listes de diffusion 
+#+END_SRC
+
+ 1. À quoi sert la fonction ~print~ ? ~cat~ ? ~paste~ ?
+ 2. Est-ce que la fonction printf existe ? Existe-t'il d'autres fonctions de la famille printf ? Lesquelles ?
+
+

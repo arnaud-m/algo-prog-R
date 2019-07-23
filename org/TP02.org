@@ -1,0 +1,464 @@
+﻿# #+SETUPFILE: base-template.org
+#+TITLE:     Travaux Pratiques #2
+#+SUBTITLE:     Algo & Prog avec R
+#+OPTIONS: num:t toc:2 H:2
+#+PROPERTY: header-args :results output replace :exports none
+* Travail sous Windows (2ème étage) ou Linux (3ème étage) (CRIPS)
+   Vous allez travailler sur des ordinateurs sous le système d'exploitation Windows ou Linux.
+   Peut-être utilisez-vous un ordinateur MacOS-X (basé sur UNIX comme Linux) ?
+   Aucune importance puisque les logiciels qui nous serviront à programmer en R fonctionnent sur tous ces systèmes quasiment à l'identique. 
+   Nous supposons que vous savez utiliser votre ordinateur pour copier/déplacer des fichiers et lancer un logiciel ou un navigateur Web (Firefox, Chrome, etc).
+
+   Vous êtes donc devant votre machine. Vos notes de cours sont à portée de main et vos neurones commencent leurs échanges électro-chimiques, bravo !
+
+   En principe la machine est allumée, et en veille. 
+   En pressant une touche, elle devrait se réveiller et l'écran s'allumer. 
+   Appelez votre enseignant si ce n'est pas le cas, ou regardez comment font vos voisins \dots
+   Vous arrivez sur une petite "fenêtre de dialogue" qui vous demande un nom d'utilisateur et un mot de passe (le vôtre). 
+   
+   Le bureau de Windows sert à abriter (le temps d'une séance de TP seulement) les fichiers des étudiants. 
+   Le bureau de Linux est sauvegardé d'une session à l'autre.
+
+   Nous vous demandons d'acheter une "clé USB" ou d'apprendre à utiliser un espace de stockage dans les nuages.
+    - Votre clef USB est un disque amovible : travaillez directement sur votre clé USB qui sera votre disque dur et espace de travail durant tous les TP.
+    - Votre espace de stockage est accessible grâce à votre navigateur : télécharger votre code source /depuis/ cet espace au début de chaque séance et n'oubliez pas de le télécharger /dans/ cet espace à la fin.
+
+** Passons dans l'éditeur
+   À partir de maintenant, le travail se fait dans l'éditeur, et non plus dans le top level. 
+
+   Lorsque l'on vous demandera de sauver le contenu de votre éditeur, vous opterez pour un fichier avec un nom explicite, par exemple tp01.R.
+
+   N.B. Vous prendrez l'habitude de n'utiliser des caractères accentués français ou d'espacement qu'à l'intérieur des chaînes de caractères, et jamais dans les noms de fonctions ou de variables ou de fichiers.
+   Vous risquez sinon, d'avoir de désagréables surprises \dots
+
+* Génération aléatoire d'un nombre                                      :KEY:
+
+  Nous allons utiliser une fonction ~sample~ tirant au hasard des éléments dans une collection, on dit aussi aléatoires.
+  Pour afficher un entier aléatoire entre [1,100], tapez ~sample(1:100,size=1)~.
+  Lisez la documentation ~help(sample)~ et exécutez les examples ~example(sample)~ avant d'essayer de répondre aux questions.
+
+
+   1. Faites afficher trois entiers aléatoires de [100,200] avec un simple appel à ~sample~.
+   2. Définissez une fonction ~RandPair(n)~ prenant un entier n \geq 0 et retournant un entier pair aléatoire de [0,n]. 
+      - Est-ce que la définition ~RandPair <- function(n) 2*sample(n%/%2,1)~ respecte les spécifications ? Dans le cas contraire, corrigez la fonction.
+      - Faites suivre la définition de votre fonction d'une instruction pour la tester.
+      - Que se passe-t'il quand l'argument ~n~ est négatif ?
+   3. Définissez une fonction ~MonteCarlo()~ sans argument retournant au hasard 2, 3 ou 5. Testez-la plusieurs fois.
+   4. Définissez une fonction ~LasVegas()~ retournant 2, 3 ou 5 mais de manière truquée : 2 avec 1 chance sur 6, ou bien 3 avec 1 chance sur 3, ou bien 5 avec 1 chance sur 2. 
+      - Testez-la une dizaine de fois\dots les résultats sont-ils conformes à ce que l'on attend ?
+      - Testez la commande ~replicate(10, LasVegas())~ ? À quoi sert-elle ?
+   5. Définissez une fonction ~RandChiffres(n)~ prenant un entier n \geq 1 et retournant un entier aléatoire non nul contenant exactement ~n~ chiffres. Testez-la plusieurs fois \dots
+#+BEGIN_SRC R 
+  sample(100:200, 3, replace=TRUE)
+
+  RandPair <- function(n) 2*sample(0:(n%/%2),1) ## Attention, les parenthèses sont importantes!
+  paste('Comportement non spécifié pour n < 0 : ',RandPair(-2))
+  paste('Comportement défini pour n = 0 : ',RandPair(0))
+  paste('Voici un entier pair aleatoire de [0,2] :',RandPair(2))
+  paste('Voici un entier pair aleatoire de [0,20] :',RandPair(20))
+
+  MonteCarlo <- function() sample(c(2,3,5),1)
+  paste('monte_carlo() --> ',MonteCarlo())
+
+  LasVegas <- function() sample(c(2,3,3,5,5,5),1)
+  for(i in 1:5) print(paste('LasVegas() --> ',LasVegas()))
+  print('LasVegas() --> ')
+  print(replicate(10, LasVegas()))
+
+  ## les entiers non nuls ayant n chiffres sont les elements de [10**(n-1),10**n-1]
+  RandChiffres <- function(n) sample(10**(n-1):10**n-1, 1)
+  print(replicate(5, paste('Voici un entier aleatoire de 4 chiffres :',RandChiffres(4))))
+
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+[1] 108 179 113
+[1] 151 150 181
+[1] "Comportement indéfini pour n < 0 :  0"
+[1] "Comportement défini pour n = 0 :  0"
+[1] "Voici un entier pair aleatoire de [0,2] : 2"
+[1] "Voici un entier pair aleatoire de [0,20] : 8"
+[1] "monte_carlo() -->  5"
+[1] "LasVegas() -->  5"
+[1] "LasVegas() -->  2"
+[1] "LasVegas() -->  5"
+[1] "LasVegas() -->  3"
+[1] "LasVegas() -->  5"
+[1] "LasVegas() --> "
+[1] 5 5 5 5 3 5 5 3 5 5
+[1] "Voici un entier aleatoire de 8 chiffres : 66495533"
+[2] "Voici un entier aleatoire de 8 chiffres : 79597943"
+[3] "Voici un entier aleatoire de 8 chiffres : 74014571"
+[4] "Voici un entier aleatoire de 8 chiffres : 79526092"
+[5] "Voici un entier aleatoire de 8 chiffres : 75925821"
+#+end_example
+
+* Maximum d'une somme
+ 1. Définissez la fonction ~Somme2Max(x,y,z)~ prenant trois entiers x, y, z et retournant la somme des deux plus grands. Deux solutions : ou bien vous emboîtez des ~if~, ou bien vous utilisez ~max~ ou ~min~.
+ 2. Définissez la fonction ~PrintSommeMax(x,y,z)~ faisant afficher la somme des deux plus grands des entiers ~x~, ~y~, ~z~. Cette fonction n'aura aucun résultat (ne confondez pas l'effet et le résultat d'une fonction !).
+
+
+#+BEGIN_SRC R 
+  Somme2Max <- function(x,y,z) {x+y+z-min(x,y,z)}
+    
+  PrintSomme2Max <- function(x,y,z) {
+    print(paste('Somme2Max(',x,',',y,',',z,') --> ',Somme2Max(x,y,z)))
+  }
+  PrintSomme2Max(3,5,7)
+
+  Somme2Max <- function(x,y,z) {max(x+y,y+z,x+z)}
+  PrintSomme2Max(3,5,7)
+
+  Somme2Max <- function(x,y,z) {
+    if(x > y) {
+      if(y > z) {return(x+y)}
+      else {return(x+z)}
+    } else {
+      if(x > z) {return(y+x)}
+      else {return(y+z)}
+    }
+  }
+  PrintSomme2Max(3,5,7)
+
+  ## à méditer ...
+   PrintSomme2Max <- function(x,y,z) {
+     sm <- quote(Somme2Max(x,y,z))
+     print(sm)
+     print(eval(sm))
+   }
+   PrintSomme2Max(3,5,7)
+#+END_SRC
+
+#+RESULTS:
+: [1] "Somme2Max( 3 , 5 , 7 ) -->  12"
+: [1] "Somme2Max( 3 , 5 , 7 ) -->  12"
+: [1] "Somme2Max( 3 , 5 , 7 ) -->  12"
+: Somme2Max(x, y, z)
+: [1] 12
+
+* Circuit électrique
+Dans le cours d'électricité du lycée, vous avez sans doute vu que :
+  - la résistance équivalente de deux résistors R_1 et R_2 en série vaut R = R_1 + R_2,
+  - tandis que si les résistors sont placés en parallèle, leur résistance globale vérifie 1/R=1/R_1+1/R_2.
+ 
+Un électronicien travaille avec la portion de circuit suivante contenant trois résistors. 
+Programmez la fonction ~Circuit1(r1,r2,r3)~ retournant la résistance équivalente de ce circuit. \\
+A.N. Pour r1=5 Ω, r2=100 Ω et r3=25 Ω, le résultat est 25 Ω.
+
+#+BEGIN_EXAMPLE
+       +----------+               +----------+           
++------+    R1    +-------+-------+    R2    +------+---+
+       +----------+       |       +----------+      |    
+                          |                         |    
+                          |       +----------+      |    
+                          +-------+    R3    +------+    
+                                  +----------+           
+#+END_EXAMPLE
+
+
+Maintenant, programmez la fonction ~Circuit2(R1,R2,R3)~ retournant la résistance équivalente de ce circuit. 
+#+BEGIN_EXAMPLE
+         +----------+                    +----------+           
+-+-------+    R1    +------+---+-+-------+    R2    +------+---+
+ |       +----------+      |     |       +----------+      |    
+ |                         |     |                         |    
+ |       +----------+      |     |       +----------+      |    
+ +-------+    R2    +------+     +-------+    R3    +------+    
+ |       +----------+      |             +----------+          
+ |                         |  
+ |       +----------+      |  
+ +-------+    R3    +------+  
+         +----------+         
+#+END_EXAMPLE
+
+/Indice/ : définir une fonction auxiliaire ~Serie(r1, r2)~ (respectivement ~Parallele(r1, r2)~) qui calcule la résistance globale de deux résistors en série (respectivement en parallèle).
+
+#+BEGIN_SRC R 
+  Serie <- function(r1,r2) {r1+r2}
+  Parallele <- function(r1,r2) {return(r1 * r2 / (r1 + r2))}
+  # Le circuit est vue comme une composition de sous-circuits
+  circuit1 <- function(r1,r2,r3) { 
+    return(Serie(r1,Parallele(r2,r3)))
+  }
+  ## \u03a9 : Unicode !
+  cat(paste('La resistance totale du circuit 1 est',circuit1(5,100,25),'\u03a9.\n'))
+
+  circuit2 <- function(r1,r2,r3) {
+    return(Serie(Parallele(r1,Parallele(r2,r3)), Parallele(r2,r3)))
+  }
+  cat(paste('La resistance totale du circuit 2 est',circuit2(5,100,25),'\u03a9.\n'))
+#+END_SRC
+
+#+RESULTS:
+: La resistance totale du circuit 1 est 25 Ω.
+: La resistance totale du circuit 2 est 24 Ω.
+
+* Conversion du temps   
+   Programmez une fonction hconv(n) prenant un entier n > 0 représentant un nombre de secondes. 
+   L'effet de cette fonction est l'affichage d'une ligne exprimant la conversion de n secondes en heures-minutes-secondes. 
+
+#+BEGIN_SRC R :session hconv 
+  hconv <- function(n) {
+    s <- n %% 60;
+    h <- n %/% 60;
+    m <- h %% 60;
+    h <- h %/% 60;
+    print(sprintf("%d -> %02d:%02d:%02d",n,h,m,s))
+  }
+#+END_SRC
+
+#+BEGIN_SRC R :exports both :session hconv 
+  hconv(4567)
+  hconv(3601)
+  hconv(123456789)
+#+END_SRC
+
+#+RESULTS:
+: [1] "4567 -> 01:16:07"
+: [1] "3601 -> 01:00:01"
+: [1] "123456789 -> 34293:33:09"
+
+* Impôt sur le revenu
+  Supposons que l'impôt sur le revenu annuel soit calculé par tranches de la manière suivante. 
+  - Un salarié ne paye rien pour les 8000 premiers euros qu'il gagne.
+  - Il paye 10% sur chaque euro gagné entre 8000 € et 25000 €,
+  - et enfin 20% sur chaque euro gagné au-dessus de 25000 €.
+
+  1. Définissez la fonction ~Tranche(s,b,h,p)~ retournant l'impôt dû pour un salaire annuel s dans la tranche [b,h] dont le pourcentage est p%.
+  2. Définissez la fonction ~Impot(s)~ retournant l'impôt total dû pour un salaire annuel s.
+
+#+BEGIN_SRC R :session impot 
+  Tranche <- function(s,b,h,p) {
+    if(s < b) return(0)   # rien                    
+    else if (s <= h) return( (s - b) * p / 100) # une portion de la tranche
+    else return((h - b) * p / 100)     # toute la tranche
+  }
+  Impot <- function(s) Tranche(s,8000,25000,10)+Tranche(s,25000,s, 20)
+
+  Tranche(1500,2000,3000,10)    
+  Tranche(2500,2000,3000,10)    
+  Tranche(4000,2000,3000,10)                             
+  Impot(40000)
+  Tranche <- function(s,b,h,p) min(h-b, max(s-b, 0))*p/100 
+#+END_SRC
+
+#+RESULTS:
+: [1] 0
+: [1] 50
+: [1] 100
+: [1] 4700
+
+#+BEGIN_SRC R :exports both :session impot 
+  Tranche(1500,2000,3000,10)    
+  Tranche(2500,2000,3000,10)    
+  Tranche(4000,2000,3000,10)                             
+  Impot(40000)
+#+END_SRC
+
+
+#+RESULTS:
+: [1] 0
+: [1] 50
+: [1] 100
+: [1] 4700
+
+* Représentation des nombres
+** Représentation d'un entier
+   La fonction ~typeof~ renvoie le type d'un objet.
+   #+BEGIN_SRC R :exports both
+     typeof(2105)
+   #+END_SRC
+   
+   #+RESULTS:
+   : [1] "double"
+
+   la reponse du "top level" est interessante.
+  
+*** Qu'est ce qu'un double en R ?
+    
+    double fait partie des  6 [[https://cran.r-project.org/doc/manuals/r-release/R-lang.html#Basic-types][basic atomic vector types]] de R.
+    donc 2015 est un vector (des cellules contigues) d'une seule cellule.
+
+*** Pourquoi ca rend double ? 
+    Voir la réponse [[https://cran.r-project.org/doc/manuals/r-release/R-lang.html#Constants][ici.]]
+*** Comment travailler avec un entier ? 
+
+#+BEGIN_SRC R :exports both
+  typeof(2015L)
+   v <- 2015
+   typeof(as.integer(v))
+#+END_SRC
+
+#+RESULTS:
+: [1] "integer"
+: [1] "integer"
+
+
+*** Comment sont représentés les entiers en machine ?
+    #+BEGIN_SRC R :exports both
+      intToBits(2015)
+    #+END_SRC
+
+    #+RESULTS:
+    :  [1] 01 01 01 01 01 00 01 01 01 01 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    : [26] 00 00 00 00 00 00 00
+
+    
+    Les entiers sont représentés dans un [[https://fr.wikipedia.org/wiki/Syst%25C3%25A8me_binaire][système binaire]] (base 2).
+    Le système binaire le plus courant est l'équivalent en base deux de la [[https://fr.wikipedia.org/wiki/Notation_positionnelle][numération de position]] que nous utilisons en base dix dans la vie courante.
+*** les objets de base de R sont les vecteurs.
+    
+    Même un entier "tout seul" est représenté par un vecteur \dots de une seule cellule.
+    C'est comme ça : [[https://cran.r-project.org/doc/manuals/r-release/R-lang.html#Basic-types][basic types]] ; [[http://adv-r.had.co.nz/Expressions.html][expressions]].
+** Conversion binaire-décimal                                           :KEY:
+*** Comment l'entier 2015 s'écrit-il en binaire (base 2) ?
+
+    Il est obligatoire de comprendre ce tutoriel sur les [[http://lehollandaisvolant.net/tuto/bin.php][systèmes binaire et l'hexadécimal]].
+    On procede par une suite de divisions par 2 jusqu'a tomber sur un quotient nul.
+    On "remonte" alors tous les restes des divisions. 
+    Soit a convertir 123 en binaire.
+#+BEGIN_EXAMPLE
+123 | 2
+  1   61 | 2
+       1   30 | 2
+            0   15 | 2
+                 1   7 | 2
+                     1   3 | 2
+                         1   1 | 2
+                             1   0=STOP
+#+END_EXAMPLE
+Donc en binaire 123 s'ecrit '1111011'.
+
+#+BEGIN_SRC R
+  rev(intToBits(2015))
+#+END_SRC
+
+#+RESULTS:
+:  [1] 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 01 01 01
+: [26] 01 00 01 01 01 01 01
+
+*** Quel est l'entier dont l'écriture binaire est 1101110 ? On verifie ?
+    On n'utilise pas obligatoirement les puissances de 2, mais le "schema de Horner" qui consiste
+    à eplucher l'ecriture binaire de gauche a droite en appliquant la question d. 
+    On part d'un accumulateur acc=0. 
+    Chaque fois que l'on rencontre un 0 on fait acc = 2*acc et si l'on rencontre un 1 on fait acc=2*acc+1. 
+    Exemple sur 1001101 : 0, 1, 2, 4, 9, 19, 38, 77. Facile ? 
+
+#+BEGIN_SRC R
+  bits <- strsplit('1001101','')[[1]]=="1"
+  pows <- 2**((length(bits)-1):0)
+  sum(pows*bits)
+#+END_SRC
+
+#+RESULTS:
+: [1] 77
+
+**** CODAGE BINAIRE-->DECIMAL                                      :noexport:
+
+* Fraction irréductible                                               :HARD:
+  Comment feriez-vous pour savoir si la fraction 51/85 est irréductible ? 
+  En d'autres termes, peut-on la simplifier ? Par combien ?
+  
+  /Indice/ : calcul du [[https://fr.wikipedia.org/wiki/Plus_grand_commun_diviseur][pgcd]] par la [[https://fr.wikipedia.org/wiki/Plus_grand_commun_diviseur#M.C3.A9thode_soustractive][méthode soustractive]] ou encore mieux l'[[https://fr.wikipedia.org/wiki/PGCD_de_nombres_entiers#Algorithme_d.27Euclide][algorithme d'euclide]].
+#+BEGIN_SRC R 
+      
+  gcd <- function(a,b) ifelse (b==0, a, gcd(b, a %% b))
+  g = gcd(58,87)
+  if (g == 1) {
+    print('La fraction 58/87 est irreductible !')
+  } else {
+    paste("La fraction 58/87 n'est pas irreductible, on peut la simplifier par",g)
+  }
+    
+#+END_SRC
+
+* Évaluation des arguments d'une fonction                              :HOME:
+** Il y a deux sortes de fonctions en R.
+*** Les fonctions prédéfinies
+#+BEGIN_SRC R :exports both
+  abs
+  typeof(abs)
+#+END_SRC
+
+#+RESULTS:
+: function (x)  .Primitive("abs")
+: [1] "builtin"
+*** Les fonctions que vous programmez vous-même
+#+BEGIN_SRC R :exports both
+  foo <- function(x) {x+1}
+  typeof(foo)
+#+END_SRC
+
+#+RESULTS:
+: [1] "closure"
+
+** Les opérateurs sont des fonctions.
+    En R, même les opérateurs sont des fonction !
+    Par exemple, + est un operateur, mais c'est ausssi une fonction. 
+
+
+ #+BEGIN_SRC R :exports code
+ 2 + 2
+ '+'(2,2)
+ 2 == 3
+ '=='(2,3)
+ 0 || 1 
+ '||'(0,1)
+ #+END_SRC
+
+
+** Évaluation paresseuse des arguments d'une fonction
+   
+   Par exemple, si ~f~ est une fonction, au moment du calcul de ~f(a,b)~, l'évaluation des paramètre ~a~ et ~b~ de la fonction ne se fait pas avant que les résultats de cette évaluation ne soient réellement nécessaires. 
+   Ce mécanisme s'appelle l'évaluation paresseuse.
+
+
+*** Exemple simple
+    
+    Si je définis f sous la forme :
+#+BEGIN_SRC R :exports code
+  foo <- function(x,y) {x}
+#+END_SRC
+    
+    quelle sera le résultat de ~foo(0,factorial(10000))~ ? 
+    Comment R va-t-il obtenir ce résultat, vite ou lentement ?
+    
+    Une fonction n'évalue ses arguments qu'en cas de besoin quand elle exécute son corps.
+    ~foo(0,factorial(1000)))~ ne calcule pas inutilement 1000! en R.
+    Par contre, cela serait le cas en Python.
+ 
+*** Utilisation d'arguments par défaut
+
+
+ Un autre avantage de l'évaluation paresseuse est que vous pouvez définir des arguments par défaut mutuellement récursif.
+Another benefit of R’s lazy argument evaluation is that you can provide mutually recursive defaults, which is a great way to implement adaptive interfaces. 
+Par exemple, voici une fonction (voir [[http://blog.moertel.com/posts/2006-01-20-wondrous-oddities-rs-function-call-semantics.html][ici]]) qui calcule la représentation d'un point en coordonnées poaires et cartesiennes.
+Vous pouvez spécifier le point dans l'un ou l'autre des systèmes de coordonnées.
+
+#+BEGIN_SRC R :exports both :output results
+  polar <- function(x = r * cos(theta), y = r * sin(theta),
+                    r = sqrt(x*x + y*y), theta = atan2(y, x)) c(x, y, r, theta)
+  ## provide (x,y) pair
+  polar(1,1)
+  ## provide (r, theta) pair
+  polar(r=sqrt(2), theta=pi/4)  
+#+END_SRC
+
+#+RESULTS:
+: [1] 1.0000000 1.0000000 1.4142136 0.7853982
+: [1] 1.0000000 1.0000000 1.4142136 0.7853982
+
+
+
+#+BEGIN_EXAMPLE
+> polar(r=1)
+  Error in atan2(y, x) : 
+    la promesse est déjà en cours d'évaluation : référence récursive d'argument par défaut ou problème antérieur ?
+
+#+END_EXAMPLE
+
+
+
+    
+
