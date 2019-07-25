@@ -1,0 +1,417 @@
+﻿#+SETUPFILE: ~/.emacs.d/org-templates/base.org
+#+TITLE:       Séance 10 : Algo & Prog avec R
+#+DESCRIPTION: Introduction à la programmation R.
+#+KEYWORDS:    computer science, teaching, programming, GNU R.
+#+HTML_HEAD_EXTRA:    <link rel="stylesheet" type="text/css" href="http://www.i3s.unice.fr/~malapert/css/logo_uns.min.css"/>
+#+HTML_LINK_HOME: ../introR.html
+#+OPTIONS: num:t toc:2 H:2
+#+LANGUAGE: fr
+#+PROPERTY: header-args :results output :exports none
+* Création de matrices
+
+*** Supposer que ~A <- matrix(c( 1, 5, -2, 1, 2, -1, 3, 6, -3), nrow = 3)~.
+
+  1. Vérifier que A^3 = 0 où 0 est une matrice $3 \times 3$ où chaque élément est 0.
+  2. Remplacer la 3ème colonne de A par la somme de la première et de la seconde colonne.
+
+#+BEGIN_SRC R
+  A <- matrix(c( 1, 5, -2, 1, 2, -1, 3, 6, -3), nrow = 3)
+  print(A)
+  print( A %*% A %*% A )
+  A[, 3] <- A[, 1] + A[, 2]
+  print(A)
+#+END_SRC
+
+*** Créer une matrice où la ligne (1, -1, 1) est repétée 15 fois.
+  #+BEGIN_SRC R
+    matrix( c(1, -1, 1), nrow = 15, ncol = 3, byrow = TRUE)
+  #+END_SRC
+
+*** Utiliser la fonction ~outer~ pour créer une table de puissance $i^j$ pour i et j variant de 1 à 5.
+#+BEGIN_SRC R
+  outer(1:5, 1:5, '^')
+#+END_SRC
+
+#+RESULTS:
+:      [,1] [,2] [,3] [,4] [,5]
+: [1,]    1    1    1    1    1
+: [2,]    2    4    8   16   32
+: [3,]    3    9   27   81  243
+: [4,]    4   16   64  256 1024
+: [5,]    5   25  125  625 3125
+
+* Recherche dans une matrice
+  
+*** Créer une matrice $6 \times 10$ d'entiers aléatoires choisis uniformément entre 1 et 10.
+#+BEGIN_SRC R :exports code :results none :session matA
+  A <- matrix(sample.int(10, 60, replace=TRUE), nrow = 6)
+#+END_SRC
+
+*** Trouver le nombre d'éléments supérieurs à 4 pour chaque ligne.
+#+BEGIN_SRC R :session matA
+  print(A)
+  apply(A, 1, function(x) length(which(x > 4)))
+  apply(A, 1, function(x) sum(x > 4))
+  rowSums( A > 4)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+     [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
+[1,]    9    8    2    7    3    4    9    4    4     6
+[2,]    7    1    2    3    5    2    5    7    2     6
+[3,]    7    4    4    4    6    5    6    6    7     3
+[4,]    4   10    1    4    2    4    7    3    4     2
+[5,]    7    8   10   10    6    2    2    5    3     3
+[6,]    6    5   10    5    2    6    5    1    1     3
+[1] 5 5 6 2 6 6
+[1] 5 5 6 2 6 6
+[1] 5 5 6 2 6 6
+#+end_example
+
+*** Quel ligne contient exactement deux occurences du nombre 7 ?
+#+BEGIN_SRC R :session matA
+  which( rowSums( A == 7) == 2 )
+#+END_SRC
+
+#+RESULTS:
+: [1] 2 3
+
+*** Trouver les paires de colonnes telles que la somme totale (des deux colonnes) est supérieur à 75. La réponse est une matrice avec deux colonnes dont chaque ligne indique une paire vérifiant la propriété précédente.
+#+BEGIN_SRC R :session matA
+  A.sum <- colSums(A)
+  B <- which( outer(A.sum, A.sum,"+")>75, arr.ind=T )
+  print(B)
+#+END_SRC
+
+#+RESULTS:
+:      row col
+: [1,]   1   1
+: [2,]   2   1
+: [3,]   1   2
+
+*** Interdire les répétitions dans la matrice obtenue à la question précédente. Par exemple, la matrice finale ne peut contenir simultanément (1, 2) et (2, 1).
+#+BEGIN_SRC R :session matA
+  B [ B[,1] <= B[,2], ]
+#+END_SRC
+
+#+RESULTS:
+:      row col
+: [1,]   1   1
+: [2,]   1   2
+
+* Doubler les impairs
+Écrire une function ~DoubleOdd(A)~ renvoyant une matrice identique à l'argument ~M~ sauf que tous les nombres impairs sont doublés.
+
+#+BEGIN_SRC R :results none :session odd
+    DoubleOdd <- function(A) {
+      odd <- A %% 2 == 1
+      A[odd] <- 2*A[odd]
+      return(A)
+    }
+#+END_SRC
+
+
+
+#+BEGIN_SRC R :exports both :session odd
+  A <- matrix(sample.int(10, 12, replace=TRUE), nrow = 3)
+  print(A)
+  print(DoubleOdd(A))
+#+END_SRC
+
+#+RESULTS:
+:      [,1] [,2] [,3] [,4]
+: [1,]   10    1    8    7
+: [2,]    9    7   10    7
+: [3,]    8    2    8   10
+:      [,1] [,2] [,3] [,4]
+: [1,]   10    2    8   14
+: [2,]   18   14   10   14
+: [3,]    8    2    8   10
+
+* Suppression de ~NA~
+
+ 1. Créer une matrice aléatoire ~matA~ contenant des ~NA~.
+ 2. Extraire une sous-matrice contenant uniquement les colonnes sans ~NA~.
+ 3. Extraire une sous-matrice contenant uniquement les lignes et colonnes sans ~NA~.
+
+
+#+BEGIN_SRC R
+  n <- 6*10
+  matA <- matrix(1:n, nrow = 10)
+  matA [ runif(n) <= 0.05 ] <- NA
+  print( matA )
+  cols <- apply(!is.na(matA), 2, all)
+  print( matA[ , cols] )
+  rows <- apply(!is.na(matA), 1, all)
+  print( matA[ rows, cols] )
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+      [,1] [,2] [,3] [,4] [,5] [,6]
+ [1,]    1   11   21   31   41   51
+ [2,]    2   12   22   32   42   52
+ [3,]    3   13   23   33   43   53
+ [4,]    4   14   24   34   44   54
+ [5,]    5   15   25   35   45   NA
+ [6,]    6   16   26   36   46   56
+ [7,]    7   17   27   NA   47   57
+ [8,]    8   18   28   38   48   58
+ [9,]    9   19   29   39   49   59
+[10,]   10   20   30   40   50   60
+      [,1] [,2] [,3] [,4]
+ [1,]    1   11   21   41
+ [2,]    2   12   22   42
+ [3,]    3   13   23   43
+ [4,]    4   14   24   44
+ [5,]    5   15   25   45
+ [6,]    6   16   26   46
+ [7,]    7   17   27   47
+ [8,]    8   18   28   48
+ [9,]    9   19   29   49
+[10,]   10   20   30   50
+     [,1] [,2] [,3] [,4]
+[1,]    1   11   21   41
+[2,]    2   12   22   42
+[3,]    3   13   23   43
+[4,]    4   14   24   44
+[5,]    6   16   26   46
+[6,]    8   18   28   48
+[7,]    9   19   29   49
+[8,]   10   20   30   50
+#+end_example
+
+* Calcul de sommes
+Utiliser la fonction ~outer~ pour effectuer les calculs suivants.
+*** $\sum_{i=1}^{20} \sum_{j=1}^5 \frac{i^4}{3+j}$ 
+    #+BEGIN_SRC R
+      sum( outer(
+        (1:20)**4, 
+        (1:5) + 3, 
+        '/'
+        ))
+    #+END_SRC
+
+    #+RESULTS:
+    : [1] 639215.3
+
+*** $\sum_{i=1}^{20} \sum_{j=1}^5 \frac{i^4}{3+ij}$                      :HARD:
+    #+BEGIN_SRC R
+      sum( (1:20)**4 / (3 + 1:20 %o% 1:5))
+    #+END_SRC
+
+    #+RESULTS:
+    : [1] 89912.02
+
+*** $\sum_{i=1}^{10} \sum_{j=1}^i \frac{i^4}{3+ij}$                    :HARD:
+    #+BEGIN_SRC R
+      sum( outer(1:10, 1:10, function(i, j) ifelse(j <= i, i**4/(3+i*j), 0) ))
+    #+END_SRC
+
+    #+RESULTS:
+    : [1] 6944.743
+
+* Variations autour d'une somme 
+
+ On compare différentes manières de définir une fonction effectuant la double somme suivante  pour un entier $n$ :
+
+\[
+f(n)  = \sum_{r=1}^{n} \sum_{s=1}^r \frac{s^2}{10 + 4r^3}
+\]
+
+Pour chaque fonction, évaluer rapidement ses performances grâce à la function ~system.time~.
+#+BEGIN_SRC R :exports code :results none
+      system.time( sapply(1:200, f) )
+#+END_SRC
+
+*** Utiliser deux boucles imbriquées
+
+    #+BEGIN_SRC R
+      f <- function(n) {
+        acc <- 0
+        for(r in 1:n) {
+          for(s in 1:r) {
+            acc <- acc + s**2 / (10 + 4*r**3)
+          }
+        }
+        return(acc)
+      }
+      system.time( sapply(1:200, f) )
+    #+END_SRC
+
+    #+RESULTS:
+    : utilisateur     système      écoulé 
+    :       1.400       0.000       1.399 
+
+*** Utiliser les fonctions ~row~ et ~col~ pour construire une matrice telle que la somme de ces éléments donne la réponse attendue.
+
+
+    #+BEGIN_SRC R
+      f <- function(n) {
+        A <- matrix(0 , nrow = n, ncol = n)
+        num <- ( col(A)**2 ) * ( col(A) <= row(A) )
+        den <- 10 + 4*row(A)**3
+        return(sum(num/den))
+      }
+      system.time( sapply(1:200, f) )
+    #+END_SRC
+
+    #+RESULTS:
+    : utilisateur     système      écoulé 
+    :       0.311       0.002       0.312 
+
+
+*** Utiliser la fonction ~outer~ pour construire une matrice telle que la somme de ces éléments donne la réponse attendue.
+
+    #+BEGIN_SRC R
+      f <- function(n) {
+
+        A <- outer(1:n, 1:n, function(r, s) ifelse(s <= r, s**2/(10 + 4*r**3), 0))
+        return(sum(A))
+      }
+      system.time( sapply(1:200, f) )
+    #+END_SRC
+
+    #+RESULTS:
+    : utilisateur     système      écoulé 
+    :       0.801       0.001       0.800 
+
+*** Créer une fonction auxiliaire prenant un seul argument ~r~ qui calcule $\sum_{s=1}^r \frac{s^2}{10 + 4r^3}$.
+
+**** Créer ensuite une fonction utilisant ~sapply~ pour calculer la double somme.
+    #+BEGIN_SRC R
+      f <- function(n) {
+        fr <- function(r) sum( (1:r)**2 / (10+4*r**3))
+        sum(sapply(1:n, fr))
+      }
+      system.time( sapply(1:200, f) )
+    #+END_SRC
+
+    #+RESULTS:
+    : utilisateur     système      écoulé 
+    :       0.056       0.000       0.056 
+
+**** Créer une fonction en remarquant que ~sapply~ combine ~unlist~ et ~lapply~. Est-ce que les performances sont améliorées ?
+    #+BEGIN_SRC R
+      f <- function(n) {
+        fr <- function(r) sum( (1:r)**2 / (10+4*r**3))
+        sum(unlist(lapply(1:n, fr)))
+      }
+      system.time( sapply(1:200, f) )
+    #+END_SRC
+
+    #+RESULTS:
+    : utilisateur     système      écoulé 
+    :       0.055       0.002       0.056 
+
+
+*** Écrire une fonction auxillaire prenant deux arguments ~s~ et ~r~ qui calcule $\delta( i \leq r) \times \frac{s^2}{10 + 4 r^3}$ où $\delta$ est la fonction indicatrice. Calculer ensuite la double somme en générant tous les termes avec ~mapply~.
+
+    #+BEGIN_SRC R
+      f <- function(n) {
+        fsr <- function(s, r) ifelse(s <= r, s**2/(10 + 4*r**3), 0)
+        sum( mapply( fsr, rep(1:n, each = n), 1:n) )
+      }
+      system.time( sapply(1:200, f) )
+    #+END_SRC
+
+    #+RESULTS:
+    : utilisateur     système      écoulé 
+    :      10.476       0.002      10.468 
+
+
+*** Quelle est la fonction la plus rapide ?
+* De l'engrais au fourrage
+
+  1. Pour produire 1 Kg de patate on a besoin de 0.01 Kg d'engrais phosphatés et de 0.02 Kg d'engrais nitreux.
+  2. Pour produire 1 Kg de patate douce on necessite 0.03 Kg d'engrais phosphatés et 0.04 Kg d'engrais nitreux.
+  3. D'autre part, pour la production du fourrage pour le cochon on utilise 0.5 Kg de patate et de 0.3 Kg de patate douce.
+  4. Cependant pour l'elaboration du fourrage pour l'âne on necessite 0.2 Kg de patate et de 0.6 Kg de patate douce.
+
+Montrer sous forme matricielle la relation - utilisation des ressources dans les deux processus et trouver la matrice qui relie le fourrage et l'engrais.
+
+
+#+BEGIN_SRC R
+  A <- cbind( EP = c(0.01, 0.03), EN = c(0.02, 0.04))
+  rownames(A) <- c("P", "PD")
+  B <- cbind( P = c(0.5, 0.2), PD = c(0.3, 0.6))
+  rownames(B) <- c("FC", "FA")
+
+  print(A)
+  print(B)
+  print(  B %*% A )
+#+END_SRC
+
+#+RESULTS:
+:      EP   EN
+: P  0.01 0.02
+: PD 0.03 0.04
+:      P  PD
+: FC 0.5 0.3
+: FA 0.2 0.6
+:       EP    EN
+: FC 0.014 0.022
+: FA 0.020 0.028
+
+* Construction de bâtiments
+
+  - Pour la construction d'une usine, on a besoin d'une unité de fer, mais aucune unité de bois.
+  - Pour la construction d'un appartement, on a besoin une unité de chaque materiel.
+  - Pour la construction d'une tour, on a besoin de quatre unité de fer et une unité de bois. 
+
+Si on a en reserve 14 unités de fer et 4 unités de bois, on demande :
+ 1. Combien d'usines, appartements, et tours, pouvons nous construire pour utiliser toute la reserve ?
+ 2. Sachant que le prix de l'usine est de 6 u.m., et de l'appartement est de 2 u.m., et de la tour est de 4 u.m., quelle est la combinaison dont le prix est 36 u.m.
+
+#+BEGIN_SRC R
+  A <- matrix( c(1, 0, 6, 1, 1, 2, 4, 1, 4), dimnames = list(c("F", "B", "P"), c("U", "A", "T")), nrow =3, ncol = 3) 
+  b <- c(14, 4, 36)
+  solve(A, b)
+#+END_SRC
+
+#+RESULTS:
+: U A T 
+: 4 2 2 
+
+ 
+* Variation des prix
+On considère une économie devisé en trois secteurs: agricole, industriel et de services. 
+Soient $p_a$, $p_i$, $p_s$ les pourcentages de variation des prix d'une année a une autre dans les secteurs respectives, que nous représentons par un vecteur $p = (p_a , p_i , p_s)$. 
+Soient $w$ le taux de variation des salaires d'une année a une autre, $i$ le taux de variation des prix d'importation dans la même période et $t$ le taux de variation des impôts, que nous agroupons dans le vecteur $x = (w, i, t)$. \\
+Nous savons que les composantes du vecteur $p$ dépendent linéairement des composantes du vecteur $x$, mais nous ignorons la relation concrète qui les relie. \\
+Nous savons uniquement : 
+- qu'une augmentation de 1/100 sur le taux de variation des salaires, en maintenant constants les prix d'importation et des impôts, provoque que les prix agricoles augmentent de 2/100 , industriels de 1.5/100 et celui du secteur de services de 2/100 , c'est-à-dire, f (1, 0, 0) = (2, 3/2, 2) ; 
+- si l'augmentation concerne les prix d'importation : f (0, 1, 0) = (3/2, 3/2, 1) ;
+- et si l'augmentation concerne les prix des impots: f (0, 0, 1) = (1, 1, 3/2).
+
+
+On demande
+
+ 1. La matrice de l’application linéaire qui relie les vecteurs x et p. Donner l’expression explicite de l’application f.
+ 2. On attend que la prochaine année les salaires augmentent de 8/100, les prix d’importation de 2/100 et la pression fiscale de 10/100. Dans quel secteur augmentent plus les prix?.
+ 3. Peut-on maintenir les prix des trois secteurs d’une année à une autre, sans qu’ils se maintiennent a la fois, les salaires, les prix d’importation et la pression fiscale ?
+
+#+BEGIN_SRC R
+    A <- matrix( c(2, 1.5, 2, 1.5, 1.5, 1, 1, 1, 1.5), nrow = 3, dimnames = list (c("A", "I", "S"), c("Sal", "Imp", "Tax")))
+  A
+  A %*% c(0.8, 0.2, 0.1)
+  solve(A, c(0, 0, 0))   
+  det(A) 
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+  Sal Imp Tax
+A 2.0 1.5 1.0
+I 1.5 1.5 1.0
+S 2.0 1.0 1.5
+  [,1]
+A 2.00
+I 1.60
+S 1.95
+Sal Imp Tax 
+  0   0   0 
+[1] 0.625
+#+end_example
+

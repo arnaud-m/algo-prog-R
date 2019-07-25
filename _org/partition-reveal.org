@@ -1,0 +1,186 @@
+#+SETUPFILE: ~/.emacs.d/org-templates/base-reveal.org
+#+TITLE: Partition d'entiers
+#+AUTHOR: 
+#+DESCRIPTION: Projet de programmation R.
+#+KEYWORDS:    computer science, teaching, programming, GNU R.
+#+REVEAL_HEAD_PREAMBLE: <meta name="description" content="Partition Student Project.">
+#+HTML_LINK_HOME: ../introR.html
+#+LANGUAGE: fr
+#+OPTIONS: toc:1 num:0 H:3
+#+REVEAL_HLEVEL: 2
+#+REVEAL_THEME: league
+* Description du problème
+** Partition d'un ensemble
+   Soit un ensemble $S$ de $n$ entiers naturels. 
+   \[
+   S = \{s_i\ |\ s_i > 0\}_{1\leq i \leq n}.
+   \]
+
+   Une /(bi)partition/ de $S$ est constituée de deux sous-ensembles $S_1$ et $S_2$ tels que :
+    - $S_1$ et $S_2$ sont non vides:  $S_1 \neq \emptyset$ et $S_2 \neq \emptyset$ ;
+    - $S_1$ et $S_2$ sont disjoints:  $S_1 \cap S_2 = \emptyset$ ;
+    - $S_1$ et $S_2$ recouvrent $S$:  $S_1 \cup S_2 = S$ ;
+ 
+      
+*** Quelques exemples 
+    Soit un ensemble $S = \{1,2,3,4,5\}$. 
+    - Les ensembles $S_1$ et $S_2$ forment une partition de $S$.
+      - $S_1 = \{1\}$ et $S_2 =  \{2,3,4,5\}$.
+      - $S_1 = \{2, 4\}$ et $S_2 =  \{1,3,5\}$.
+    - Les ensembles $S_1$ et $S_2$ ne forment pas une partition de $S$.
+      - $S_1 = \{1,2,3,4,5\}$ et $S_2 = \emptyset$, car $S_2$ est vide.
+      - $S_1 = \{1,2,3\}$ et $S_2 = \{3,4,5\}$, car leur intersection est non vide.
+      - $S_2 = \{1,2\}$ et $S_2 = \{4, 5\}$, car 3 est dans 4, mais n'appartient ni à $S_1$ ni à $S_2$. 
+
+** Partition parfaite d'un ensemble pair
+   
+   - Un ensemble d'entiers $S$ est dit *pair* si la somme des entiers de $S$ est pair.
+   - Une *partition parfaite* d'un ensemble pair est une partition telle que la valeur absolue de la différence entre la somme des entiers de $S_1$ et la somme des entiers de $S_2$ est 0. 
+
+   $S = \{1,2,3,4\}$ est un ensemble pair.
+      - $S_1 = \{1, 3\}$ et $S_2 = \{1,4\}$ ne forment pas une partition parfaite.
+      - $S_1 = \{1, 4\}$ et $S_2 = \{2,3\}$ forment une partition parfaite.
+    
+** Partition parfaite d'un ensemble impair
+   - Un ensemble d'entiers $S$ est dit *impair* si la somme des entiers de $S$ est impair.
+   - Une *partition parfaite* d'un ensemble impair est une partition telle que la valeur absolue de la différence entre la somme des entiers de $S_1$ et la somme des entiers de $S_2$ est 1.
+ 
+
+   $S = \{1,2,3,4,5\}$ est un ensemble impair.
+     - $S_1 = \{2, 4\}$ et $S_2 = \{1,3,5\}$ ne forment pas une partition parfaite.
+     - $S_1 = \{1, 2, 5\}$ et $S_2 = \{3,4\}$ forment une partition parfaite.
+        
+** Problème de partition (décision et existence)
+   - En informatique, le problème de partitionnement consiste à déterminer si une partition parfaite d'un ensembles d'entiers existe.
+   - Le problème de partitionnement est /NP-complet/.
+   - Cependant, il existe plusieurs algorithmes qui résolvent efficacement le problème que ce soit de manière approchée ou optimale.
+   - Pour ces raisons, il est réputé "le plus facile des problèmes difficiles".
+
+** Problème de partition (optimisation)
+   - Le problème de partitionnement se décline aussi en problème d'optimisation dans lequel on recherche une partition minimisant la valeur absolue de la différence entre la somme des entiers des deux sous-ensembles de la partition.
+   - Ce problème d'optimisation est /NP-difficile/.
+ 
+** Partition parfaite des entiers de $[1,n]$ 
+
+   - Trouver une partition parfaite de $[1,8]$ et $[1,9]$.
+   - Généraliser pour $n=2p$ et $n=2p+1$ ($p \geq 0$).
+
+*** Algorithme glouton 
+
+**** $n = 2p$
+
+
+     |  1 |    2 | \dots | p-1 | p   |
+     | 2p | 2p-1 | \dots | p+2 | p+1 |
+
+
+**** $n = 2p + 1$ 
+
+     |---+------+----+-------+-----+-----|
+     | 1 |    2 |  3 | \dots | p   | p+1 |
+     |   | 2p+1 | 2p | \dots | p+3 | p+2 |
+
+
+
+
+** Symétries du problème
+   
+   1. Le problème admet une symétrie évidente puisque on peut inverser la partition, c'est-à-dire échanger les ensembles $S_1$ et $S_2$.
+   2. De manière générale, on peut toujours échanger deux nombres égaux entre $S_1$ et $S_2$ sans changer leurs sommes.
+
+** Problèmes connexes
+   [[file:partition-reveal/partition.svg]]
+* Formulations mathématiques  
+** Programme linéaire en nombres entiers  
+   Nous allons exprimer le problème de partitionnement sous la forme d'un [[https://fr.wikipedia.org/wiki/Optimisation_lin%25C3%25A9aire_en_nombres_entiers][programme linéaire en nombres entiers]].
+** Définition des variables
+   Soit un ensemble $S$ de $n$ entiers naturels : 
+   \[
+   S = \{s_i\ |\ s_i > 0\}_{1\leq i \leq n}.
+   \]
+   La variable booléenne 
+   \[
+   x_i \in \{0,1\} \quad 1 \leq i \leq n
+   \]
+   vaut 1 si $s_i$ appartient à $S_1$ et 0 si $s_i$ appartient à $S_2$.
+
+   - Ces variables représentent la [[https://fr.wikipedia.org/wiki/Fonction_caract%25C3%25A9ristique_%2528th%25C3%25A9orie_des_ensembles%2529][fonction indicatrice]] de $S_1$ dans $S$.
+   - En inversant les valeurs booléennes des variables, on obtient la fonction indicatrice de $S_2$.
+   - Donc, une affectation des variables $x_i$ représente une partition de l'ensemble $S$. 
+** Un modèle presque linéaire
+   Une partition optimale est une affectation des variables $x_i$ minimisant :
+   \[
+   \left| \sum_{i=1}^n s_i x_i  - \sum_{i=1}^n s_i(1-x_i) \right| 
+   = 
+   \left| \sum_{i=1}^n s_i (2x_i-1) \right|.
+   \]
+   Cette fonction objectif n'est pas linéaire à strictement parler, car la valeur absolue n'est pas une fonction linéaire,mais elle peut se linéariser.
+** Un modèle de sac-à-dos
+   Par exemple, on reformule le problème comme un [[https://en.wikipedia.org/wiki/Subset_sum_problem][Subset Sum Problem]].
+   \begin{eqnarray*}
+   \max & \sum_{i=1}^n s_i x_i \\
+   &\sum_{i=1}^n s_i x_i  \leq \left\lfloor \frac{\sum_{i=1}^n s_i}{2} \right\rfloor 
+   \end{eqnarray*}
+   - Il existe une partition parfaite si la contrainte est saturée.
+   - L'inversion de S1 et S2 n'est éliminée que pour les ensembles impairs : la somme des entiers de $S_1$ est inférieure ou égale à celle de $S_2$.
+* Algorithmes gloutons
+** Définitions
+  Un /algorithme/ répond à un problème. Il est composé d’un ensemble d’étapes simples nécessaires à la résolution, dont le nombre varie en fonction de la taille des données.
+
+  - Plusieurs algorithmes peuvent répondre à un même problème.
+  - Un algorithme peut répondre à plusieurs problèmes.
+
+ Un /algorithme glouton/ (greedy algorithm en anglais) est un algorithme qui suit le principe de faire, étape par étape, un choix optimum local. Dans certains cas cette approche permet d'arriver à un optimum global, mais dans le cas général c'est une heuristique.
+** À vous de jouer !
+   
+   Partitionnez l'ensemble $S=\{13, 11, 8, 20, 20, 11, 16, 17, 4, 13\}$.
+
+*** Une partition parfaite
+    
+    - $S_1$: $66 = 20 + 16 + 17 + 13$
+    - $S_2$: $67 = 13 + 11 + 8 + 20 + 11 + 4$
+      
+** Algorithme glouton GS
+   Soit $C$ la capacité du sac-à dos :  
+   \[
+   C = \left\lfloor \frac{\sum_{i=1}^n s_i}{2} \right\rfloor 
+   \]   
+   GS itère sur les entiers de $S$ triés par ordre décroissant en les ajoutant à S_1 si la capacité $C$ n'est pas dépassée.
+
+   
+*** Exercices : GS
+
+        1. Partitionner l'ensemble $S=\{13, 11, 8, 20, 20, 11, 16, 17, 4, 13\}$.
+        2. Partitionner l'ensemble $S$ après l'avoir trié par ordre non croissant.
+
+*** Solutions : GS
+    
+     - Partition 1
+       - $S_1$ : $63 = 13 + 11 + 8 + 20 + 11$
+       - $S_2$ : $70 = 20 + 16 + 17 + 4 + 13$
+     - Partition 2
+       - $S_1$ : $65 = 8 + 20 + 20 + 17$
+       - $S_2$ : $68 = 13 + 11 + 11 + 16 + 4 + 13$
+
+** Algorithme glouton LPT
+   LPT itère sur les entiers de $S$ triés par ordre décroissant en les ajoutant à l'ensemble S_1 si la somme des entiers de S_1 est inférieure à celle de S_2, et S_2 sinon.
+
+*** Exercice : LPT
+    Partitionner l'ensemble $S=\{13, 11, 8, 20, 20, 11, 16, 17, 4, 13\}$.
+*** Solution : LPT
+    - $S_1$ : $68 = 13 + 11 + 8 + 20 + 16$
+    - $S_2$ : $65 = 20 + 11 + 17 + 4 + 13$
+** Algorithme glouton MTGS
+   MTGS applique GS aux $k$ plus petits entiers de $S$ pour $k$ variant de $n$ à $1$.
+*** Exercice : MTGS
+    Est-ce que MTGS trouve une partition parfaite de l'ensemble $S=\{13, 11, 8, 20, 20, 11, 16, 17, 4, 13\}$ ?
+* Références
+ 1. [[https://en.wikipedia.org/wiki/Partition_problem][Partition Problem]], Wikipedia. Introduction du problème, un algorithme de programmation dynamique, et deux algorithmes gloutons.
+ 2. [[https://en.wikipedia.org/wiki/Multiprocessor_scheduling][Multiprocessor Scheduling]], Wikipedia. Un des algorithmes gloutons s'applique aussi pour un problème d'ordonnancement.
+ 3. [[https://pdfs.semanticscholar.org/2f71/22feab802814ec7688e29b61016c14ecddb7.pdf][Optimally Scheduling Small Numbers of Identical Parallel Machine]], Richard E. Korf and Ethan L. Schreib. La section "Two-Way Partitioning" est très instructive, car elle compare plusieurs méthodes exactes.
+ 4. [[http://www.or.deis.unibo.it/knapsack.html][Knapsack Problems]], Sylvano Martello and Paolo Toth. Le chapitre 4 présente un état de l'art sur les algorithmes exacts ou approchés pour le Subset Sum Problem, notamment GS et MTGS en section 3 (p. 118-119).
+ 5. [[https://en.wikipedia.org/wiki/Subset_sum_problem][Subset Sum Problem]], un cas particulier du [[http://en.wikipedia.org/wiki/Knapsack_problem][Knapsack Problem]], Wikipedia. Plus accessible, mais moins complet.
+ 6. [[https://arxiv.org/abs/cond-mat/0310317][The Easiest Hard Problem: Number Partitioning]], Stephan Mertens.
+ 
+        
+

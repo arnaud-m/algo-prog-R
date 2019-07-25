@@ -1,0 +1,325 @@
+﻿#+SETUPFILE: ~/.emacs.d/org-templates/base.org
+#+TITLE:       Séance 12 : Algo & Prog avec R
+#+DESCRIPTION: Introduction à la programmation R.
+#+KEYWORDS:    computer science, teaching, programming, GNU R.
+#+HTML_HEAD_EXTRA:    <link rel="stylesheet" type="text/css" href="http://www.i3s.unice.fr/~malapert/css/logo_uns.min.css"/>
+#+HTML_LINK_HOME: ../introR.html
+#+OPTIONS: num:t toc:2 H:2
+#+LANGUAGE: fr
+#+PROPERTY: header-args :results output :exports none
+* Marche aléatoire en une dimension
+** Simulation de marches aléatoires
+   Écrivez une fonction ~Walk1D(nsteps, nwalks, prob)~ renvoyant une matrice entière de taille ~(nsteps+1)~ x ~nwalks~.
+   Chaque colonne donne les positions du marcheur pendant une marche aléatoire en une dimension de ~nsteps~ pas partant de 0.
+   La fonction doit déclencher une erreur si ses arguments sont invalides (~stopifnot~).
+      
+   #+BEGIN_SRC R :session rwalk
+     Walk1D <- function (nsteps, nwalks=1, prob=0.5) { 
+       ## Generate random 1D walks  
+       ## nwalks : number of random walks
+       ## nsteps : number of steps
+       ## prob : probability of success (+1)
+       stopifnot(nsteps >= 1, length(nsteps) == 1, prob >= 0, prob < 1, nwalks >= 1, length(nwalks) == 1)
+       ## Execute random walk(s)
+       walk <- function(nsteps, prob) append(0, cumsum(ifelse(runif(nsteps) <= prob, 1,-1)))
+       if(nwalks == 1) {
+          return(walk(nsteps,prob))
+       } else {
+         return(replicate(nwalks, walk(nsteps,prob)))
+       } 
+     }
+   #+END_SRC
+
+   #+RESULTS:
+
+
+#+BEGIN_SRC R :export both  :session rwalk
+  nsteps <- 4
+  set.seed(0)
+  walks <- Walk1D(nsteps, nwalks=3)
+  print(walks)
+  set.seed(0)
+  all(walks[,1] == Walk1D(nsteps))
+#+END_SRC 
+
+#+RESULTS:
+:      [,1] [,2] [,3]
+: [1,]    0    0    0
+: [2,]   -1   -1   -1
+: [3,]    0    0   -2
+: [4,]    1   -1   -1
+: [5,]    0   -2    0
+: [1] TRUE
+
+** Visualisation de marches aléatoires
+   Écrire une fonction ~PlotWalk1D(walks)~ affichant une (~plot~) ou plusieurs (~matplot~) marches aléatoires.
+ 
+  #+BEGIN_SRC R :session rwalk
+    PlotWalk1D <- function(walks) {
+      stopifnot(is.numeric(walks), is.vector(walks) || is.matrix(walks))
+      if(is.vector(walks)) {
+        plot(walks, type="l", lwd=2, xlab = "step", ylab= "pos", main = "Random walk") 
+      } else if(is.matrix(walks)) {
+        matplot(walks, type="l", lw=2, lt=1, col = rainbow(ncol(walks)),
+                xlab = "step", ylab= "pos",
+                main = "Random walks")
+      }
+    }  
+   #+END_SRC
+
+   #+RESULTS:
+
+
+   #+BEGIN_SRC R :exports both :results output graphics :file TP12-TD12/rand_walks.jpg :width 900 :height 600 :session rwalk
+     par(mfrow=c(2,1))
+     walks <- Walk1D(500, nwalks=8)
+     PlotWalk1D(walks[,1])
+     PlotWalk1D(walks)
+   #+END_SRC
+
+   #+RESULTS:
+   [[file:TP12-TD12/rand_walks.jpg]]
+
+** Fréquence des positions
+  
+*** Écrire une fonction ~HistWalk1D(walks)~ affichant un histogtamme (~hist~) des densités de probabilité pour les positions des marcheurs.
+  
+    #+BEGIN_SRC R :results none :session rwalk
+      HistWalk1D <- function(walks) {
+        hist(as.vector(walks), breaks=seq(min(walks), max(walks)+1),
+             freq=FALSE, right=FALSE, xlab="pos", ylab="freq",
+             main=paste("Frequency of positions for", ncol(walks), "random walks of", nrow(walks)-1, "steps")
+             )
+      }
+    #+END_SRC
+
+    
+    #+BEGIN_SRC R :exports both :results output graphics :file TP12-TD12/freq_pos.jpg :width 500 :height 400 :session rwalk
+      walks <- Walk1D(500, nwalks=1000)
+      HistWalk1D(walks)
+    #+END_SRC
+
+    #+RESULTS:
+    [[file:TP12-TD12/freq_pos.jpg]]
+
+   
+*** Écrire une fonction ~HeatWalk1D(walks)~ affichant une heatmap des positions des marcheurs à chaque pas.
+
+    #+BEGIN_SRC R :results none  :session rwalk
+      HeatWalk1D <- function(walks) {
+        walks <- walks - min(walks)+1
+        freq <- apply(walks, 1, tabulate, nbins = max(walks))
+        print(freq)
+        max.f <- max(freq)+1
+        palette <- c(gray(rev(seq.int(max.f))/max.f))
+        heatmap(freq, Rowv=NA, Colv=NA, labRow = NA, labCol = NA, 
+                xlab='step', ylab='pos', col = palette, scale="none", margins=c(2,2))
+      }
+    #+END_SRC
+
+    
+    #+BEGIN_SRC R :exports both :results output graphics :file TP12-TD12/heatmap_pos.jpg :width 500 :height 400 :session rwalk
+       HeatWalk1D(head(walks, 25))
+    #+END_SRC
+
+     #+RESULTS:
+     [[file:TP12-TD12/heatmap_pos.jpg]]
+
+
+   
+** Étude de la réccurence
+   Écrire une fonction ~HistRecWalk1D(walks)~ renvoyant un histogramme avec les densités de probabilités de l'intervalle de temps entre deux passages à l'origine.
+
+
+   #+BEGIN_SRC R :results none  :session rwalk
+     HistRecWalk1D <- function(walks) {
+       returns <- unlist(apply(walks, 2, function(x) {diff(which(x == 0))}))/2
+       hist(returns, breaks=seq(min(returns), max(returns)+1),
+            freq=FALSE, right=FALSE, xlab="pos", ylab="freq",
+            main=paste("Returns to the origin for", ncol(walks), "random walks of", nrow(walks)-1, "steps")
+            )
+     } 
+   #+END_SRC
+
+   #+BEGIN_SRC R :exports both :results output graphics :file TP12-TD12/hist_rec.jpg :width 900 :height 600 :session rwalk
+     HistRecWalk1D(head(walks, 101))
+   #+END_SRC
+
+   #+RESULTS:
+   [[file:TP12-TD12/hist_rec.jpg]]
+
+* Marche aléatoire en deux dimensions
+
+  Programmez un script de marche aléatoire d'une tortue.
+  À chaque pas, la tortue tourne d'un angle aléatoire en degrés (~runif~) et avance aléatoirement entre 1 et 5 unités (~sample~). 
+  Utilisez la fonction ~rainbow~ pour faire varier la couleur du pinceau en fonction du pas.
+
+  #+BEGIN_SRC R :exports code :results none
+    library(TurtleGraphics)
+    turtle_init(200,200,mode="cycle")
+  #+END_SRC
+
+
+  #+BEGIN_SRC R :results output graphics :file TP12-TD12/turtle_walk.jpg :width 400 :height 400
+        
+    library(TurtleGraphics)
+    turtle_init(200,200,mode="cycle")
+
+    nsteps <- 5000 ## number of steps
+    ncols <- 200 ## number of colors     
+    colors <- rainbow(ncols)
+
+    turtle_do(
+      for(i in 1:nsteps) {
+        turtle_col(colors[ceiling(i*ncols/nsteps)]) #determine color from step
+        turtle_left(360*runif(1, max=360)) # random left turn
+        turtle_forward(sample.int(5,1)) #random forward move
+      }
+      )
+  #+END_SRC
+
+  #+RESULTS:
+  [[file:TP12-TD12/turtle_walk.jpg]]
+
+* Vidage d'une urne (inspiré d'ESC 1999)
+  Soit un entier strictement positif $n$.
+  Une urne $U_n$ contient $n$ boules numérotées de 1 à $n$. 
+  On y effectue une succession de tirages d'une boule, en appliquant la règle suivante : 
+  si la boule tirée porte le numéro $k$, avant de procéder au tirage suivant, on enlève toutes les boules dont le numéro est supérieur ou égal à k. 
+  On note $X_n$ la variable aléatoire égale au nombre de tirages nécessaires pour vider l'urne $U_n$ de toutes ses boules. 
+
+** Simulation 
+
+  1. Écrire une fonction ~SimUrne(n)~ simulant les tirages jusqu'à vider l'urne $U_n$. La fonction renvoie les urnes successives $U_j$ lors des $X_n$ tirages.
+  2. Écrire une fonction ~SimXn(n, m)~ simulant le nombre de tirages nécessaires pour vider l'urne $U_n$
+
+#+BEGIN_SRC R :session urne
+  SimUrne <- function(n) {
+    r <- c(n)
+    while( n > 0) {
+      n <- sample.int(n,1) - 1
+      r <- append(r, n)
+    }
+    return(r)
+  }
+
+  SimXn <- function(n, m) replicate(m, length(SimUrne(n))-1)
+#+END_SRC
+
+#+RESULTS:
+
+#+BEGIN_SRC R :exports both :session urne
+  replicate(3, SimUrne(50))
+  SimXn(100, 15)
+#+END_SRC
+
+#+RESULTS:
+: [[1]]
+: [1] 50 12  3  0
+: 
+: [[2]]
+: [1] 50 32 24 15  8  5  2  1  0
+: 
+: [[3]]
+: [1] 50 19 18  7  6  3  0
+:  [1] 3 5 4 3 8 6 8 3 5 5 4 9 6 6 7
+
+
+** Histogramme de la fonction de masse
+
+  1. Afficher un histogramme (~hist~) avec les densités de probabilité de vider une urne $U_n$ en un nombre de tirages donné avec ~m~ simulations.
+  2. Ajouter la courbe (~lines~) de la loi normale (~dnorm~) paramétrée par la moyenne et l'écart type de l'échantillon.  
+
+
+#+BEGIN_SRC R :results output graphics :file TP12-TD12/hist_urnes.jpg :width 600 :height 400 :session urne
+  n <- 200
+  m <- 10000
+
+  x <- SimXn(n, m)
+    
+  xfit<-seq(min(x),max(x),length=8*(max(x)-min(x)+1) )
+  yfit<-dnorm(xfit,mean=mean(x),sd=sd(x))
+
+  hist(x, breaks=seq(min(x),max(x)+1), freq= FALSE, right=FALSE,
+       main = "Probability of the number of draws to empty a ballot box", xlab = "Draws",
+       ylim = c(0, max(yfit)+ 2**(-10))
+       )     
+  lines(xfit+0.5, yfit, col="blue", lwd=2) 
+#+END_SRC
+
+#+RESULTS:
+[[file:TP12-TD12/hist_urnes.jpg]]
+
+
+** Comparaison avec la probabilité théorique
+   
+   On peut établir la probabilité théorique $P(X_n = k)$ que l'urne $U_n$ soit vidée en $k$ tirages :
+
+\begin{equation}
+P(X_n = k) = 
+ \begin{cases} 
+   1 & \text{if } n = k = 0 \\
+   0 & \text{if } k = 0 \text{ or } k > n \\
+   \frac{1}{n} \sum_{i=k}^n P( X_{i-1} = k-1) & \text{Otherwise}
+  \end{cases}
+\end{equation}
+
+   1. Écrire une fonction ~ProbXn(n, k)~ renvoyant la probabilité théorique $P(X_n = k)$.
+   2. Écrire une fonction ~DistXn(n)~ renvoyant la distribution de $X_n$.
+   3. Transformer ~ProbXn(n, k)~ en une mémo-fonction.
+
+
+#+BEGIN_SRC R :results none :session urne
+  MakeProbXn <- function() {
+    cache <- list()
+    ProbXn <- function(n,k) {
+      if( k == 0) {
+        ## No more draw
+        return(as.numeric(n == 0))
+      } else if(n < k) {
+        ## less balls than draws.
+        return(0)
+      } else {
+        if(length(cache) <= n) {
+          ## Cache list not initialized at n 
+           cache <<- append(cache, lapply(seq(length(cache):n), rep, x = NA))
+         }
+        if(is.na(cache[[n]][k])) {
+          ## Cache vector not initialized at k
+          cache[[n]][k] <<- sum(sapply( (k:n)-1, ProbXn, k=k-1))/n
+        }
+         return(cache[[n]][k])
+      }
+    }
+  }
+    
+  ProbXn <- MakeProbXn()
+  DistXn <- function(n) sapply(1:n, ProbXn, n = n)
+
+#+END_SRC
+
+   
+#+BEGIN_SRC R :exports both :results value :session urne
+  n <- 10
+  m <- 1000
+  du <- round(DistXn(n), digits = 3)
+  edu <- tabulate(SimXn(n, m), n)
+  edu <- round(edu/sum(edu), digits = 3)
+  cbind(
+    c("k", "P(X_n=k)", paste("m =", m)),
+    rbind(seq_along(du), du, edu)
+    )
+#+END_SRC
+   
+#+RESULTS:
+| k        |    1 |     2 |     3 |     4 |     5 |     6 |     7 | 8 | 9 | 10 |
+| P(X_n=k) |  0.1 | 0.283 | 0.323 | 0.199 | 0.074 | 0.017 | 0.003 | 0 | 0 |  0 |
+| m = 1000 | 0.09 | 0.274 | 0.345 | 0.193 | 0.082 |  0.01 | 0.006 | 0 | 0 |  0 |
+
+*** IDEA Comment peut-on simplifier $P(X_n = k)$ ?
+#+RESULTS:
+
+
+
+
+

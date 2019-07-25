@@ -1,0 +1,480 @@
+﻿#+SETUPFILE: ~/.emacs.d/org-templates/base.org
+#+TITLE:       Séance 11 : Algo & Prog avec R
+#+DESCRIPTION: Introduction à la programmation R.
+#+KEYWORDS:    computer science, teaching, programming, GNU R.
+#+HTML_HEAD_EXTRA:    <link rel="stylesheet" type="text/css" href="http://www.i3s.unice.fr/~malapert/css/logo_uns.min.css"/>
+#+HTML_LINK_HOME: ../introR.html
+#+OPTIONS: num:t toc:2 H:2
+#+LANGUAGE: fr
+#+PROPERTY: header-args :results output :exports none
+* Références                                                       :noexport:
+
+** http://www.r-bloggers.com/2015-fantasy-football-projections-using-opencpu/
+** https://learnr.wordpress.com/2009/03/19/data-manipulation-football-league-table/
+** TODO http://www.r-bloggers.com/mlb-rankings-using-the-bradley-terry-model/
+
+* Chargement des données
+  Les résultats d'une saison de ligue 1 de football composent le jeu de données.
+  Nous utiliserons les [[file:TP10-TD10/F1_14_15.csv][résultats de la saison 2014/2015]] récupérés sur [[http://www.football-data.co.uk/francem.php][www.football-data.co.uk]].
+  Les notes à propos du jeu de données sont disponibles [[http://www.football-data.co.uk/notes.txt][ici.]]
+  
+  Nous utiliserons le code suivant pour charger et filtrer le jeu de données.
+  
+  #+BEGIN_SRC R :exports both :results output :session soccer
+    df.schema <-c(
+        Div = "League Division",
+        Date = "Match Date (dd/mm/yy)",
+        HomeTeam = "Home Team",
+        AwayTeam = "Away Team",
+        FTHG = "Full Time Home Team Goals",
+        FTAG = "Full Time Away Team Goals",
+        FTR = "Full Time Result (H=Home Win, D=Draw, A=Away Win)",
+        HTHG = "Half Time Home Team Goals",
+        HTAG = "Half Time Away Team Goals",
+        HTR = "Half Time Result (H=Home Win, D=Draw, A=Away Win)",
+        Attendance = "Crowd Attendance",
+        Referee = "Match Referee",
+        HS = "Home Team Shots",
+        AS = "Away Team Shots",
+        HST = "Home Team Shots on Target",
+        AST = "Away Team Shots on Target",
+        HHW = "Home Team Hit Woodwork",
+        AHW = "Away Team Hit Woodwork",
+        HC = "Home Team Corners",
+        AC = "Away Team Corners",
+        HF = "Home Team Fouls Committed",
+        AF = "Away Team Fouls Committed",
+        HO = "Home Team Offsides",
+        AO = "Away Team Offsides",
+        HY = "Home Team Yellow Cards",
+        AY = "Away Team Yellow Cards",
+        HR = "Home Team Red Cards",
+        AR = "Away Team Red Cards",
+        HBP = "Home Team Bookings Points (10 = yellow, 25 = red)",
+        ABP = "Away Team Bookings Points (10 = yellow, 25 = red)"
+      )
+    read.csv.league <- function(file.db) {
+    ## Read csv file : season matrix (one row per match)
+      df <- read.csv(file.db)
+      ## Extract relevant columns
+     
+         df[,colnames(df) %in% names(df.schema)]
+       }
+    file.db <- file.path('TP11-TD11', 'F1_14_15.csv')
+    df <- read.csv.league(file.db)
+    tail(df[,1:7])
+  #+END_SRC
+
+  #+RESULTS:
+  :     Div     Date   HomeTeam AwayTeam FTHG FTAG FTR
+  : 375  F1 23/05/15  Marseille   Bastia    3    0   H
+  : 376  F1 23/05/15       Metz    Lille    1    4   A
+  : 377  F1 23/05/15   Paris SG    Reims    3    2   H
+  : 378  F1 23/05/15     Rennes     Lyon    0    1   A
+  : 379  F1 23/05/15 St Etienne Guingamp    2    1   H
+  : 380  F1 23/05/15   Toulouse     Nice    2    3   A
+
+
+
+  Il est possible de générer les statistiques ou les classements à n'importe quelle date de la saison.
+   #+BEGIN_SRC R :exports both :results output :session soccer
+     df.y <- df[ as.Date(df$Date, '%d/%m/%y') <=  as.Date('01/01/15', '%d/%m/%y'), ]
+     tail(df.y[,1:7])
+   #+END_SRC
+
+   #+RESULTS:
+   :     Div     Date   HomeTeam              AwayTeam FTHG FTAG FTR
+   : 184  F1 20/12/14   Paris SG           Montpellier    0    0   D
+   : 185  F1 20/12/14     Rennes                 Reims    1    3   A
+   : 186  F1 20/12/14   Toulouse              Guingamp    1    1   D
+   : 187  F1 21/12/14   Bordeaux                  Lyon    0    5   A
+   : 188  F1 21/12/14  Marseille                 Lille    2    1   H
+   : 189  F1 21/12/14 St Etienne Evian Thonon Gaillard    3    0   H
+
+* Statistiques De la saison
+
+Nous allons manipuler les fonctions ~table~ et ~pie~ pour afficher les statistiques de la saison à la manière de l'[[http://www.lequipe.fr/Football/STATS_JOURNEE_D1.html][équipe]].fr.
+
+*** À titre d'exemple, voici un camembert indiquant le nombre de victoires à domicile, matchs nul, et victoires à l'extérieur pour l'ensemble de la saison.
+#+BEGIN_SRC R :exports both :results output graphics :file TP11-TD11/pie_FTR.jpg :width 400 :height 300 :session soccer
+  x <- table(df$FTR) 
+  labs <- paste(c("Home", "Draw", "Away"), ":", x)
+  pie(x, labels = labs, main = "Full Time Results")
+#+END_SRC
+
+#+RESULTS:
+[[file:TP11-TD11/pie_FTR.jpg]]
+
+
+*** Tracer un camembert donnant les nombres ~x[i]~ de matchs terminant avec un total de ~i~ buts.
+#+BEGIN_SRC R :results output graphics :file TP11-TD11/pie_FTG.jpg :width 400 :height 400 :session soccer 
+  x <- table( abs(df$FTHG + df$FTAG) )
+  labs = paste(names(x), " goals:", x)
+  pie(x, labels = labs, main = "Numbers of goals")
+#+END_SRC
+
+#+RESULTS:
+[[file:TP11-TD11/pie_FTG.jpg]]
+
+
+*** Tracer un camembert donnant les nombres ~x[i]~ de matchs terminant avec une différence de ~i~ buts. 
+
+#+BEGIN_SRC R :results output graphics :file TP11-TD11/pie_Diff.jpg :width 400 :height 400 :session soccer 
+  x <- table( abs(df$FTHG - df$FTAG) )
+  labs = paste(names(x), " goals:", x)
+  pie(x, labels = labs, main = "Goal Differences")
+#+END_SRC
+
+#+RESULTS:
+[[file:TP11-TD11/pie_Diff.jpg]]
+
+
+*** Tracer un camembert avec les moyennes de buts à domicile et à l'extérieur par mi-temps
+
+#+BEGIN_SRC R :results output graphics :file TP11-TD11/pie_HTG.jpg :width 400 :height 300 :session soccer
+  goals <- c(
+    H1HG = mean(df$HTHG),
+    H1AG = mean(df$HTAG), 
+    H2HG = mean(df$FTHG-df$HTHG),
+    H2AG = mean(df$FTAG-df$HTAG) 
+    );
+  goals.lab <- paste( c(
+    "Home Goal 1st", 
+    "Away Goal 1st", 
+    "Home Goal 2nd", 
+    "Away Goal 2nd"
+    )," : ", round(goals, digits = 2))
+
+  title <- paste("Average Goals =", round(mean(df$FTHG+df$FTAG), digits = 1))
+  pie(goals, main = title, labels = goals.lab)
+#+END_SRC
+
+#+RESULTS:
+[[file:TP11-TD11/pie_HTG.jpg]]
+
+
+*** Tracer un camembert avec les moyennes des cartons jaunes et rouges à domicile et à l'extérieur 
+#+BEGIN_SRC R :results output graphics :file TP11-TD11/pie_YR.jpg :width 300 :height 300 :session soccer
+  cols <- c("HY", "AY", "HR", "AR")
+  cards <- sapply( df[,cols], mean)
+  labs <- paste( cols, ":", round(cards, digits=2))
+  title <- paste("Averages : Yellow =", 
+                 round(cards["HY"]+cards["AY"], digits = 2),
+                 " ; Red =", 
+                 round(cards["HR"]+cards["AR"], digits = 2)
+                 )
+  pie(cards, main = title, labels = labs, col = c("lightyellow", "yellow", "orangered", "indianred"))
+
+#+END_SRC
+
+#+RESULTS:
+[[file:TP11-TD11/pie_YR.jpg]]
+
+* Classement Ligue 1
+
+** Règlement 
+Le [[http://www.lequipe.fr/Football/ligue-1-classement.html][classement Ligue 1]] est édité avec les règles qui suivent :
+
+    - la victoire rapporte trois points ;
+    - le match nul rapporte un point ;
+    - la défaite ne rapporte pas de point.
+
+
+En cas d'égalité, on utilise successivement (vous pouvez ignorer la règle [[diffbp]]) :
+  1. la différence de buts ;
+  2. le nombre de buts marqués ;
+  3. <<diffbp>> la différence de buts "particulière" (c'est-à-dire en ne prenant en compte que les matches entre les équipes à égalité) ;
+  4. le classement au Challenge du Fair-Play suivant ce barème à la fin d'une rencontre : 3 points par joueur exclu (déjà averti ou non), 1 point par joueur averti. 
+
+
+
+Nous allons calculer les classements suivants :
+   1. Général 
+   2. Domicile 
+   3. Extérieur 
+   4. Fair-play
+
+Essayez d'utiliser les fonctions ~table~ et ~aggregate~.
+Par exemple, un appel de ~table~ vous aidera à calculer le nombre de points à domicile de chaque équipe grâce à l'arithmétique vectorielle.
+   #+BEGIN_SRC R :exports both :session soccer
+     head( table(df[,c("HomeTeam", "FTR")]), 3)
+   #+END_SRC
+
+   #+RESULTS:
+   :           FTR
+   : HomeTeam   A D  H
+   :   Bastia   4 7  8
+   :   Bordeaux 2 5 12
+   :   Caen     9 3  7
+
+
+La fonction ~aggregate~ permet de calculer les différences de buts à l'extérieur. 
+#+BEGIN_SRC R :session soccer 
+  head( aggregate(FTAG - FTHG ~ AwayTeam, data = df, sum), 3 )
+#+END_SRC
+
+#+RESULTS:
+:   AwayTeam FTAG - FTHG
+: 1   Bastia         -15
+: 2 Bordeaux          -5
+: 3     Caen          -2
+
+que l'on peut aussi écrire 
+
+#+BEGIN_SRC R :exports code :results none :session soccer 
+  head( aggregate(df$FTAG - df$FTHG, by = list(df$AwayTeam) , sum), 3 )
+#+END_SRC
+
+** Calcul des points
+   Écrire une fonction ~GetScores(df, home)~ renvoyant une ~data.frame~ avec les scores à domicile (~home=TRUE~) où à l'extérieur (~home=FALSE~).
+   Dans un second temps, vous pouvez aussi comptabiliser le nombre de cartons pour calculer simultanément le classement du Fair-play.
+#+BEGIN_SRC R :results none :session soccer
+  GetScores <-function(df, home = TRUE) {
+    hcol <- c("HomeTeam", "AwayTeam")
+    gcols <- c("FTHG", "FTAG")
+    ccols <- c("HY", "HR","AR","AY")
+    rcols <- levels(df$FTR)
+    if(home) {
+      rcols <- rev(rcols)
+    } else {
+      hcol <- rev(hcol)
+      ccols <- rev(ccols)
+      gcols <- rev(gcols)
+    }
+    agg.by <- list(Equipe=df[,hcol[1]])
+    df.gnp <- table(df[, c(hcol[1], "FTR")])
+    df.gnp <- data.frame( Pts = 3 * df.gnp[,rcols[1]] + df.gnp[,rcols[2]], df.gnp[,rcols])
+    df.pc <- aggregate(df[, gcols], by = agg.by, sum)
+    df.pc <- cbind(df.pc, df.pc[,2] - df.pc[,3])
+    if( all(ccols %in% colnames(df)) ) {
+      ## Cards columns are present
+      df.fp <- aggregate(df[, ccols[1:2]], by = agg.by, sum)
+      df.fp <- cbind(df.fp, df.fp[,2] + 3*df.fp[,3])
+      df.pts <- merge(df.fp, df.pc)
+      df.pts <- merge(df.gnp, df.pts, by.x = "row.names", by.y=1)
+      colnames(df.pts) <- c("Equipe", "Pts", "G", "N", "P", "CJ", "CR", "FP", "p", "c", "Diff")
+    } else {
+      df.pts <- merge(df.gnp, df.pc, by.x = "row.names", by.y=1)
+       colnames(df.pts) <- c("Equipe", "Pts", "G", "N", "P", "p", "c", "Diff")
+    }
+    ## df.pts <- merge(df.gnp, df.pts, by.x = "row.names", by.y=1)
+   
+    ## colnames(df.pts) <- c("Equipe", "Pts", "G", "N", "P", "CJ", "CR", "FP", "p", "c", "Diff")
+    return(df.pts)
+  }
+
+#+END_SRC
+
+
+
+#+BEGIN_SRC R :exports both :session soccer 
+  df.pts <- GetScores(df)
+  head(df.pts, 3)
+#+END_SRC
+
+#+RESULTS:
+:     Equipe Pts  G N P CJ CR FP  p  c Diff
+: 1   Bastia  31  8 7 4 43  2 49 24 18    6
+: 2 Bordeaux  41 12 5 2 19  2 25 31 23    8
+: 3     Caen  24  7 3 9 19  3 28 26 25    1
+
+** Classement des équipes
+   Utiliser les fonctions ~order~ et ~sort~ pour classer les équipes.
+#+BEGIN_SRC R :results none :session soccer
+  OrderLeague <- function(df.pts) {
+    if(is.null(df.pts$FP) ) {
+      order(df.pts$Pts, df.pts$Diff, df.pts$p, decreasing = TRUE)
+    } else {
+      order(df.pts$Pts, df.pts$Diff, df.pts$p, -df.pts$FP, decreasing = TRUE)
+    }  
+  }
+
+  SortLeague <- function(df.pts) {
+      df.ranks <- df.pts[ OrderLeague(df.pts), ]
+      rownames(df.ranks) <- NULL
+      return(df.ranks)
+    }
+#+END_SRC
+
+#+RESULTS:
+
+   
+
+#+BEGIN_SRC R :exports both :session soccer 
+  head( SortLeague(df.pts), n = 3)
+#+END_SRC
+
+#+RESULTS:
+:       Equipe Pts  G N P CJ CR FP  p  c Diff
+: 1   Paris SG  49 15 4 0 27  1 30 52 14   38
+: 2       Lyon  45 14 3 2 34  1 37 40 11   29
+: 3 St Etienne  41 12 5 2 33  0 33 32 11   21
+
+
+** Génération des classements
+   Écrire une fonction ~GetRankings(df)~ qui renvoie le classement général, à domicile, à l'extérieur et du Fair-play dans une liste.
+#+BEGIN_SRC R :results none :session soccer
+
+  GetRankings <- function(df) {
+    df.home <- GetScores(df, home = TRUE)
+    df.away <- GetScores(df, home = FALSE)
+    ccols <- c("CJ", "CR", "FP")
+    
+    fp <- colnames(df.home) %in% ccols 
+    if( all(ccols %in% colnames(df.home)) ) {
+      ## Cards columns are present
+      df.fair = data.frame(df.home$Equipe, df.home[,fp]+df.away[,fp])
+      colnames(df.fair) <- c("Equipe", "CJ", "CR", "Pts")
+      df.fair <- df.fair[ order(df.fair$Pts), ]
+      rownames(df.fair) <- NULL
+    } else {
+      df.fair <- data.frame(Equipe = df.pts$Equipe, CJ = NA, CR = NA, Pts = NA)
+    }
+
+     
+    df.home <- df.home[,!fp]
+    df.away <- df.away[,!fp]
+
+    res <- list(
+      general = data.frame( Equipe = df.home[,1], df.home[,-1] + df.away[,-1]),
+      home = df.home,
+      away = df.away
+     )
+    append(lapply(res, SortLeague), list(fairplay=df.fair))
+  }
+
+#+END_SRC
+
+#+RESULTS:
+
+
+#+BEGIN_SRC R :exports both :session soccer 
+  df.rankings <- GetRankings(df)
+  lapply(df.rankings, head, n = 3L)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+$general
+    Equipe Pts  G  N P  p  c Diff
+1 Paris SG  83 24 11 3 83 36   47
+2     Lyon  75 22  9 7 72 33   39
+3   Monaco  71 20 11 7 51 26   25
+
+$home
+      Equipe Pts  G N P  p  c Diff
+1   Paris SG  49 15 4 0 52 14   38
+2       Lyon  45 14 3 2 40 11   29
+3 St Etienne  41 12 5 2 32 11   21
+
+$away
+    Equipe Pts  G N P  p  c Diff
+1   Monaco  38 12 2 5 28 16   12
+2 Paris SG  34  9 7 3 31 22    9
+3     Lyon  30  8 6 5 32 22   10
+
+$fairplay
+       Equipe CJ CR Pts
+1 Montpellier 51  1  54
+2      Rennes 55  1  58
+3     Lorient 54  2  60
+#+end_example
+
+   
+** Histogramme du classement 
+   Écrire une fonction ~BarPlotGeneral~ qui trace un histogramme (~barplot~) indiquant le nombre de points à domicile et à l'extérieur des équipes classées de la première à la dernière. 
+#+BEGIN_SRC R :results none :session soccer
+  BarPlotGeneral <- function(df.rankings) {
+    par(cex = 1.5)
+    x <- merge (df.rankings$home[, c("Equipe", "Pts")], df.rankings$away[, c("Equipe", "Pts")], by=1)
+    rownames(x) <- x$Equipe
+    x <- as.matrix(x[df.rankings$general$Equipe,-1])
+    colnames(x) <- c( "Home", "Away")
+    x <- t(x)
+    barplot(x, names.arg = colnames(x), legend.text = rownames(x), las = 2)  
+  }
+#+END_SRC
+
+#+BEGIN_SRC R :exports both :results output graphics :file TP11-TD11/hist_general.jpg :width 900 :height 500 :session soccer
+  BarPlotGeneral(df.rankings) 
+#+END_SRC
+
+#+RESULTS:
+[[file:TP11-TD11/hist_general.jpg]]
+
+** [[http://www.lequipe.fr/Football/FootballClassementChampionnat2282_R.html][Classement en relief]] 
+  Écrire une fonction ~GetRelief(df.pts)~ qui renvoie une matrice permettant d'afficher le classement en relief.
+
+#+BEGIN_SRC R :results none :session soccer
+  GetRelief <- function(df.pts) {
+    GetTeam <- function(x) paste(x["Equipe"]," (", as.numeric(x["Diff"]), ")",sep = "") 
+    teams <- apply(df.pts, 1, GetTeam)
+    x <- aggregate(teams, by = list(Pts = df.pts$Pts), paste, collapse = ", ")
+    pts.range <- max(df.pts$Pts):min(df.pts$Pts)
+    r <- matrix(character(length(pts.range)), ncol=1)
+    rownames(r) <- pts.range
+    r[as.character(x$Pts),] <- x$x
+    return(r)
+    }
+#+END_SRC
+
+#+RESULTS:
+
+
+#+BEGIN_SRC R :exports both :session soccer
+  head( GetRelief(df.rankings$general), n = 15)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+   [,1]                             
+83 "Paris SG (47)"                  
+82 ""                               
+81 ""                               
+80 ""                               
+79 ""                               
+78 ""                               
+77 ""                               
+76 ""                               
+75 "Lyon (39)"                      
+74 ""                               
+73 ""                               
+72 ""                               
+71 "Monaco (25)"                    
+70 ""                               
+69 "Marseille (34), St Etienne (21)"
+#+end_example
+
+** Classement de la saison 2004/2005
+   Nous pouvons maintenant calculer les classements de n'importe quelle saison de L1 en quelques lignes de code sous réserve que le fichier d'entrée soit correct et que le règlement soit le même.
+#+BEGIN_SRC R :exports both :results value :session soccer
+  file.db <- file.path('TP11-TD11', 'F1_04_05.csv')
+  df.past <- read.csv.league(file.db)
+  df.past.general <- GetRankings(df.past)$general
+  res <- cbind( Rang = 1:nrow(df.past.general), df.past.general)
+  rbind(colnames(res), res)
+#+END_SRC
+
+#+RESULTS:
+| Rang | Equipe     | Pts |  G |  N |  P |  p |  c | Diff |
+|    1 | Lyon       |  79 | 22 | 13 |  3 | 56 | 22 |   34 |
+|    2 | Lille      |  67 | 18 | 13 |  7 | 52 | 29 |   23 |
+|    3 | Monaco     |  63 | 15 | 18 |  5 | 52 | 35 |   17 |
+|    4 | Rennes     |  55 | 15 | 10 | 13 | 49 | 42 |    7 |
+|    5 | Marseille  |  55 | 15 | 10 | 13 | 47 | 42 |    5 |
+|    6 | St Etienne |  53 | 12 | 17 |  9 | 47 | 34 |   13 |
+|    7 | Lens       |  52 | 13 | 13 | 12 | 45 | 39 |    6 |
+|    8 | Auxerre    |  52 | 14 | 10 | 14 | 48 | 47 |    1 |
+|    9 | Paris SG   |  51 | 12 | 15 | 11 | 40 | 41 |   -1 |
+|   10 | Sochaux    |  50 | 13 | 11 | 14 | 42 | 41 |    1 |
+|   11 | Strasbourg |  48 | 12 | 12 | 14 | 42 | 43 |   -1 |
+|   12 | Nice       |  46 | 10 | 16 | 12 | 38 | 45 |   -7 |
+|   13 | Toulouse   |  46 | 12 | 10 | 16 | 36 | 43 |   -7 |
+|   14 | Ajaccio    |  45 | 10 | 15 | 13 | 36 | 40 |   -4 |
+|   15 | Bordeaux   |  44 |  8 | 20 | 10 | 37 | 41 |   -4 |
+|   16 | Metz       |  44 | 10 | 14 | 14 | 33 | 45 |  -12 |
+|   17 | Nantes     |  43 | 10 | 13 | 15 | 33 | 38 |   -5 |
+|   18 | Caen       |  42 | 10 | 12 | 16 | 36 | 60 |  -24 |
+|   19 | Bastia     |  41 | 11 |  8 | 19 | 32 | 48 |  -16 |
+|   20 | Istres     |  32 |  6 | 14 | 18 | 25 | 51 |  -26 |
+

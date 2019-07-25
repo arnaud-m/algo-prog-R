@@ -1,0 +1,1132 @@
+#+SETUPFILE: ~/.emacs.d/org-templates/base-reveal.org
+#+TITLE:  Cours 10 : Matrices
+#+AUTHOR: Arnaud Malapert
+#+DESCRIPTION: Introduction à la programmation R.
+#+REVEAL_HEAD_PREAMBLE: <meta name="description" content="Introduction à la programmation R.">
+#+HTML_LINK_HOME: ../introR.html
+#+KEYWORDS:    computer science, teaching, programming, GNU R.
+#+LANGUAGE: fr
+#+OPTIONS: toc:1 num:0 H:3
+#+REVEAL_HLEVEL: 2
+#+OPTIONS: reveal_slide_number:t
+# #+REVEAL_SLIDE_HEADER: Test
+* Construction de matrices
+** Création d'une matrice à partir d'un vecteur
+   Tapez simplement:
+   #+BEGIN_SRC R
+    matrix(1:6, nrow = 2, ncol = 3)
+   #+END_SRC
+
+   #+RESULTS:
+   :      [,1] [,2] [,3]
+   : [1,]    1    3    5
+   : [2,]    2    4    6
+
+
+   #+BEGIN_SRC R
+     matrix(1:6, nrow = 2, byrow = TRUE)
+   #+END_SRC
+
+   #+RESULTS:
+   :      [,1] [,2] [,3]
+   : [1,]    1    2    3
+   : [2,]    4    5    6
+
+
+   Attention, les éléments du vecteur sont recyclés
+   #+BEGIN_SRC R
+     matrix(1:2, nrow = 2, ncol = 2)
+   #+END_SRC
+
+   #+RESULTS:
+   :      [,1] [,2]
+   : [1,]    1    1
+   : [2,]    2    2
+
+** Nommage des matrices
+   Nommer les deux dimensions simultanément 
+   #+BEGIN_SRC R :session name
+     A <- matrix(1:4, nrow = 2)
+     dimnames(A) <- list(c("a", "b"), c("c", "d"))
+     print(A)
+   #+END_SRC
+   
+   #+RESULTS:
+   :   c d
+   : a 1 3
+   : b 2 4
+   ou une à la fois.
+   #+BEGIN_SRC R :session name
+     rownames(A) <-  c("c", "d")
+     colnames(A) <- c("a", "b")
+     print(A)
+   #+END_SRC
+   
+     
+   #+RESULTS:
+   :   a b
+   : c 1 3
+   : d 2 4
+
+   - On peut aussi récupérer ou effacer les noms avec les mêmes fonctions.
+   - Il faut veiller à ce que les noms soient distincts.
+*** Récupération et effacement des noms
+    Récupérer les noms.
+    #+BEGIN_SRC R :session name
+         dimnames(A)
+    #+END_SRC
+
+    #+RESULTS:
+    : [[1]]
+    : [1] "c" "d"
+    : 
+    : [[2]]
+    : [1] "a" "b"
+
+    Effacer les noms.
+   #+BEGIN_SRC R :session name
+     rownames(A) <- NULL
+     colnames(A) <- NULL
+     print(A)
+    #+END_SRC
+
+   #+RESULTS:
+   : [1] "c" "d"
+   : [1] "a" "b"
+
+*** Unicité des noms
+    Le nom d'une ligne/colonne est une clé qui l'identifie.
+    Il est préférable que cette clé soit unique, mais R tolère qu'elle ne le soit pas.
+    
+
+    Un nom identifie le plus petit index portant ce nom.
+    #+BEGIN_SRC R :session
+      A <- rbind( a=1:2, a=3:4)
+      print(A["a",])
+    #+END_SRC
+
+    #+RESULTS:
+    : [1] 1 2
+
+    
+    Ce comportement va engendrer quelques problèmes.    
+    Par exemple, des instructions simples donneront des résultats faux.
+    #+BEGIN_SRC R :session
+      A <- rbind( a=1:2, a=3:4)
+      print(A[rownames(A),])
+    #+END_SRC
+
+    #+RESULTS:
+    :   [,1] [,2]
+    : a    1    2
+    : a    1    2
+
+    /En bref, donnez des noms uniques aux lignes et colonnes de vos structures de données. Vous vous épargnerez bien des soucis./
+    
+** Dimensions d'une matrice
+   
+   - ~nrow(A)~ renvoie le nombre de lignes de ~A~.
+   - ~ncol(A)~ renvoie le nombre de colonnes.
+   - ~dim(A)~ renvoie toutes les dimensions.
+   - ~length(A)~ renvoie le nombre d'éléments dans ~A~.
+   - ~is.matrix(A)~ vérifie si ~A~ est une matrice.
+   
+
+*** Exemples
+    #+BEGIN_SRC R
+      A <- matrix(1:6, nrow = 2)
+      nrow(A)
+      ncol(A)
+      dim(A)
+      length(A)
+      is.matrix(A)
+      is.matrix(1:4)
+    #+END_SRC
+
+    #+RESULTS:
+    : [1] 2
+    : [1] 3
+    : [1] 2 3
+    : [1] 6
+    : [1] TRUE
+    : [1] FALSE
+
+** Construction d'une matrice à partir d'autres matrices
+   Soit ~A~ et ~B~ deux matrices, 
+   #+BEGIN_SRC R :session matrix
+       A <- matrix(1:4, nrow = 2)
+       B <- matrix(5:8, nrow = 2, byrow = TRUE)
+   #+END_SRC
+
+    on peut les concaténer par colonnes
+   #+BEGIN_SRC R :session matrix
+       cbind(A,B)
+   #+END_SRC
+
+   #+RESULTS:
+   :      [,1] [,2] [,3] [,4]
+   : [1,]    1    3    5    6
+   : [2,]    2    4    7    8
+     
+   ou par ligne.
+   #+BEGIN_SRC R :session matrix
+      rbind(A,B)
+   #+END_SRC
+  
+   #+RESULTS:
+   :      [,1] [,2]
+   : [1,]    1    3
+   : [2,]    2    4
+   : [3,]    5    6
+   : [4,]    7    8
+
+*** Construction imbriquée et recyclage
+    #+BEGIN_SRC R :session matrix
+      rbind( cbind(A, 0, 0), cbind(0, 0, B))
+    #+END_SRC
+
+    #+RESULTS:
+    :      [,1] [,2] [,3] [,4]
+    : [1,]    1    3    0    0
+    : [2,]    2    4    0    0
+    : [3,]    0    0    5    6
+    : [4,]    0    0    7    8
+
+
+    #+BEGIN_SRC R :session matrix
+      rbind( 0, cbind(0, A, 0, B, 0), 0)    
+    #+END_SRC
+
+    #+RESULTS:
+    :      [,1] [,2] [,3] [,4] [,5] [,6] [,7]
+    : [1,]    0    0    0    0    0    0    0
+    : [2,]    0    1    3    0    5    6    0
+    : [3,]    0    2    4    0    7    8    0
+    : [4,]    0    0    0    0    0    0    0
+
+*** Travailler avec des noms est plus difficile
+    
+    L'argument ~deparse.level~ contrôle la construction des noms de la matrice à partir de ceux des composants.
+    #+BEGIN_SRC R :session deparse
+      dd <- 10
+      rbind(1:3, c = 2, "a++" = 10, dd, deparse.level = 0) # middle 2 rownames
+    #+END_SRC
+
+    #+RESULTS:
+    :     [,1] [,2] [,3]
+    :        1    2    3
+    : c      2    2    2
+    : a++   10   10   10
+    :       10   10   10
+
+    #+BEGIN_SRC R :session deparse
+      rbind(1:3, c = 2, "a++" = 10, dd, deparse.level = 1) # 3 rownames (default)
+    #+END_SRC
+
+    #+RESULTS:
+    :     [,1] [,2] [,3]
+    :        1    2    3
+    : c      2    2    2
+    : a++   10   10   10
+    : dd    10   10   10
+
+    #+BEGIN_SRC R :session deparse
+      rbind(1:3, c = 2, "a++" = 10, dd, deparse.level = 2) # 4 rownames
+    #+END_SRC
+
+    #+RESULTS:
+    :     [,1] [,2] [,3]
+    : 1:3    1    2    3
+    : c      2    2    2
+    : a++   10   10   10
+    : dd    10   10   10
+* Accès et modifications 
+** Accès aux éléments 
+
+   - On utilise l'opérateur ~[]~.
+   - Par convention, on référence les lignes avant les colonnes.
+   - On peut accéder aux éléments par leur /index/.
+   - On peut aussi accéder aux éléments par leur /noms/.
+
+
+*** Soit la matrice ~A~
+    #+BEGIN_SRC R :session get
+      A <- matrix(1:6, nrow = 2)
+      rownames(A) <- c("a", "b")
+      colnames(A) <- c("c", "d", "e")
+      print(A)
+     #+END_SRC
+
+    #+RESULTS:
+    :   c d e
+    : a 1 3 5
+    : b 2 4 6
+  
+*** Accès par index
+    Accès à un élément.
+    #+BEGIN_SRC R :session get
+      A[1,2]
+    #+END_SRC
+
+    #+RESULTS:
+    : [1] 3
+
+
+    Accès à une ligne.
+    #+BEGIN_SRC R :session get
+      A[1,]
+    #+END_SRC
+
+    #+RESULTS:
+    : c d e 
+    : 1 3 5
+
+
+    Accès à une colonne.
+    #+BEGIN_SRC R :session get
+      A[,1]
+    #+END_SRC
+
+    #+RESULTS:
+    : a b 
+    : 1 2
+
+
+    En combinant, on peut extraire une sous-matrice.
+    #+BEGIN_SRC R :session get
+      A[1:2,2:3]
+    #+END_SRC
+
+    #+RESULTS:
+    :   d e
+    : a 3 5
+    : b 4 6
+*** Accès par nom
+      Accès à un élément.
+    #+BEGIN_SRC R :session get
+      A["a","e"]
+    #+END_SRC
+
+    #+RESULTS:
+    : [1] 5
+
+
+    Accès à une ligne.
+    #+BEGIN_SRC R :session get
+      A["a",]
+    #+END_SRC
+
+    #+RESULTS:
+    : c d e 
+    : 1 3 5
+
+
+    Accès à une colonne.
+    #+BEGIN_SRC R :session get
+      A[,"c"]
+    #+END_SRC
+
+    #+RESULTS:
+    : a b 
+    : 1 2
+
+
+    En combinant, on peut extraire une sous-matrice.
+    #+BEGIN_SRC R :session get
+      A[c("a", "b"),c("d","e")]
+    #+END_SRC
+
+    #+RESULTS:
+    :   d e
+    : a 3 5
+    : b 4 6
+
+*** Accès à un élément non existant
+    Une erreur est levé quand on essaie d'accéder à un élément non existant.
+    #+BEGIN_SRC R
+      A <- matrix(1:4, nrow = 2)
+      A[3,3]
+    #+END_SRC
+
+    #+RESULTS:
+    : Error in A[3, 3] : indice hors limites
+
+
+    Une erreur est aussi levée pour une liste, 
+    #+BEGIN_SRC R
+       x <- list(1,2,3,4)
+       x[[5]]
+    #+END_SRC
+
+    #+RESULTS:
+    : Error in x[[5]] : indice hors limites
+
+
+    mais pas pour un vecteur.
+    #+BEGIN_SRC R
+      x <- 1:4
+      x[5]
+    #+END_SRC
+    
+    #+RESULTS:
+    : [1] NA
+
+*** TODO Accès par projection sur un vecteur
+** Modification de matrices 
+   
+   - On modifie la matrice en combinant l'opérateur ~[]~ et une affectation ~<-~.
+   - Une erreur est déclenchée si :
+     - Des éléments n'existent pas.
+     - Les dimensions des opérandes gauche et droit de l'affectation sont différents.
+     
+
+   Par exemple, on peut modifier un seul élément.
+   #+BEGIN_SRC R :session matrix
+     A <- matrix(1:6, nrow = 2)
+     rownames(A) <- c("a", "b")
+     A["a",1] <- 0
+     print(A)
+   #+END_SRC
+
+   #+RESULTS:
+   :   [,1] [,2] [,3]
+   : a    0    3    5
+   : b    2    4    6
+
+** Affectation d'une ligne ou d'une colonne
+   On peut affecter une même valeur à tous les éléments
+   #+BEGIN_SRC R :session matrix
+     A["a", ] <- 0
+     print(A)
+   #+END_SRC
+   #+RESULTS:
+   :   [,1] [,2] [,3]
+   : a    0    0    0
+   : b    2    4    6
+
+   ou des valeurs différentes.
+   #+BEGIN_SRC R :session matrix
+     A[, 2] <- 7:8
+     print(A)
+   #+END_SRC
+
+   #+RESULTS:
+   :   [,1] [,2] [,3]
+   : a    0    7    0
+   : b    2    8    6
+
+   Si les éléments n'existent pas, une erreur est levée.
+   #+BEGIN_SRC R :session matrix
+     A[3, ] <- 0
+   #+END_SRC
+
+   #+RESULTS:
+   : Error in `[<-`(`*tmp*`, 3, , value = 0) : indice hors limites
+
+
+*** Modification d'une sous-matrice
+    
+    #+BEGIN_SRC R :session matrix
+      A[c("a","b"), 2:3] <- matrix(9:12, nrow = 2)
+      print(A)
+    #+END_SRC
+
+    #+RESULTS:
+    :   [,1] [,2] [,3]
+    : a    0    9   11
+    : b    2   10   12
+
+** Suppression d'une ligne ou d'une colonne
+
+   /On va utiliser des indices négatifs dans l'opérateur ~[]~./
+   
+   Soit la matrice ~A~.
+   #+BEGIN_SRC R :session matrix
+     A <- matrix(1:6, nrow = 2)
+     rownames(A) <- c("a", "b")
+   #+END_SRC
+
+   #+RESULTS:
+
+   
+   On peut "supprimer" une ligne,
+   #+BEGIN_SRC R :session matrix
+     A[-1, ] 
+   #+END_SRC
+   #+RESULTS:
+   : [1] 2 4 6
+
+   ou des colonnes,
+   #+BEGIN_SRC R :session matrix
+     A[,-(1:2)] 
+   #+END_SRC
+
+   #+RESULTS:
+   : a b 
+   : 5 6
+   
+   mais pas une sous-matrice.
+   #+BEGIN_SRC R :session matrix
+     A[-(1:2),-(1:2)]
+   #+END_SRC
+
+   #+RESULTS:
+   : integer(0)
+ 
+   
+   Que remarquez vous ? 
+
+***  La variable ~A~ n'est pas modifée
+
+    En fait, l'opérateur ~[]~ accéde à une vue de la matrice.
+    #+BEGIN_SRC R :session matrix
+      invisible(A[-1, ]) 
+      print(A)
+    #+END_SRC
+
+
+    #+RESULTS:
+    :   [,1] [,2] [,3]
+    : a    1    3    5
+    : b    2    4    6
+
+
+    Il faut utiliser l'opérateur ~<-~ pour réaffecter la variable ~A~.
+    #+BEGIN_SRC R :session matrix
+      A <- A[-1, ] 
+      print(A)
+    #+END_SRC
+    
+
+    #+RESULTS:
+    : [1] 2 4 6
+
+*** TODO Et les noms ?
+
+** Pré-allocation de mémoire
+    
+    - Prévoir l’espace mémoire nécessaire avant l’exécution du programme, en spécifiant la quantité nécessaire dans le code source.
+    - Au chargement du programme en mémoire, juste avant l’exécution, l’espace réservé devient alors accessible.
+
+    
+    Souvent, la pré-allocation d'une matrice est :
+     - une matrice spéciale ;
+     - ou une matrice aléatoire.
+    
+*** Matrices spéciales
+
+    La matrice nulle ne contient que des 0. 
+     #+BEGIN_SRC R
+     matrix(0, nrow = 2, ncol = 3)
+     #+END_SRC
+
+     La matrice unité n contient que des 1. 
+     #+BEGIN_SRC R
+     matrix(1, nrow = 2, ncol = 3)
+     #+END_SRC
+
+     La matrice identité.
+     #+BEGIN_SRC R
+       diag(2)
+     #+END_SRC
+
+     Les matrices diagonales.
+     #+BEGIN_SRC R
+       diag(1:3)
+     #+END_SRC
+
+     #+RESULTS:
+     :      [,1] [,2] [,3]
+     : [1,]    1    0    0
+     : [2,]    0    2    0
+     : [3,]    0    0    3
+
+*** Matrices Diagonales
+
+    Une matrice carrée avec les elements de ~x~ dans la diagonale principale.
+    #+BEGIN_SRC R
+      diag(1:3)
+    #+END_SRC
+
+    #+RESULTS:
+    :      [,1] [,2] [,3]
+    : [1,]    1    0    0
+    : [2,]    0    2    0
+    : [3,]    0    0    3
+
+    Un vecteur avec les éléments de la diagonale principale.
+    #+BEGIN_SRC R
+     diag(matrix(1:9, nrow = 3))
+    #+END_SRC
+
+    #+RESULTS:
+    : [1] 1 5 9
+
+    Une matrice carrée ~k*k~ si ~k~ est un scalaire.
+    #+BEGIN_SRC R
+      diag(3)
+    #+END_SRC
+
+    #+RESULTS:
+    :      [,1] [,2] [,3]
+    : [1,]    1    0    0
+    : [2,]    0    1    0
+    : [3,]    0    0    1
+
+*** Matrices aléatoires
+   On crée un vecteur de nombres aléatoires qu'on transforme en matrice.
+**** Nombres flottants aléatoires suivant une distribution uniforme sur l’intervalle $[0,1]$.
+     #+BEGIN_SRC R
+       matrix(runif(4), nrow = 2) 
+     #+END_SRC
+
+     #+RESULTS:
+     :           [,1]      [,2]
+     : [1,] 0.1883247 0.1547749
+     : [2,] 0.8733712 0.8415802
+
+**** Nombres entiers aléatoires suivant une distribution uniforme sur l’intervalle $[1,10]$.
+     #+BEGIN_SRC R
+       matrix(sample(10, 4), nrow = 2) 
+     #+END_SRC
+
+     #+RESULTS:
+     :      [,1] [,2]
+     : [1,]   10    1
+     : [2,]    3    4
+** Exemple : super-diagonales et sous-diagonales
+
+   Soit une matrice carrée, on appelle :
+   - /diagonale principale/
+   - /sous-diagonale/ : une diagonale en dessous de la diagonale principale
+   - /super-diagonale/ : une diagonale au-dessus de la diagonale principale
+
+     
+   Écrire une fonction ~sdiag(n, k)~ qui renvoie une matrice nulle sauf la k-ème diagonale qui est égale à 1. 
+
+    #+BEGIN_SRC R :session sdiag
+      sdiag(4, 1)
+    #+END_SRC
+
+    #+RESULTS:
+    :      [,1] [,2] [,3] [,4]
+    : [1,]    0    1    0    0
+    : [2,]    0    0    1    0
+    : [3,]    0    0    0    1
+    : [4,]    0    0    0    0
+   
+*** Fonction ~sdiag~
+
+      #+BEGIN_SRC R :results none :session sdiag
+        sdiag <- function(n, k = 0) {
+          ## Preallocate result matrix
+          res <- matrix(0, nrow = n, ncol = n)
+          ## Column of the k-th diagonal for each row
+          c1 <- max(1,1+k)
+          c2 <- min(n,n+k)
+          if(c1 <= c2) {
+            ## For each line, add element if the super-diagonal column exists
+            for(i in c1:c2) {
+              res[i-k, i] <- 1
+            }
+          }
+          return(res)
+        }
+      #+END_SRC
+
+
+    #+BEGIN_SRC R :session sdiag
+      sdiag(4, -2)
+    #+END_SRC
+
+    #+RESULTS:
+    :      [,1] [,2] [,3] [,4]
+    : [1,]    0    0    0    0
+    : [2,]    0    0    0    0
+    : [3,]    1    0    0    0
+    : [4,]    0    1    0    0
+* Opérations sur les matrices
+** Opérations membre à membre 
+    
+     - ~A+B~ : addition 
+     - ~A-B~ : soustraction 
+     - ~A*B~ : multiplication 
+     - ~A/B~ : division 
+     - ~A**n~ : puissance ~n~
+#+BEGIN_SRC R
+  A <- matrix(1:4, nrow = 2)
+  print(A*2)
+  print(A*A)
+
+#+END_SRC
+
+#+RESULTS:
+:      [,1] [,2]
+: [1,]    2    6
+: [2,]    4    8
+:      [,1] [,2]
+: [1,]    1    9
+: [2,]    4   16
+
+   
+** Algèbre matricielle 
+
+   - ~t(A)~	transposée de A
+   - ~A %*% B~ multiplication de matrices.
+   - ~A %o% B~ ou ~outer(A,B)~ 	produit externe de matrices, renvoie un ~array~ de dimension ~c(dim(A), dim(B))~ obtenu par toutes les combinaisons de multiplication possibles 
+   - ~crossprod(A,B)~, ~crossprod(A)~ produit en croix (~t(A') %*% B~ and ~t(A') %*% A~).
+   - ~det(A)~ renvoie le déterminant d'une matrice carrée.
+   - ~eigen(A)~ calcul de valeurs propres et vecteurs propres d'une matrice carrée (diagonalisation de matrices).
+   - ~solve(A, b)~ 	renvoie un vecteur ~x~ solution de l'équation ~b = Ax~ (i.e., A^-1 b)
+   - ~solve(A)~ 	renvoie l'inverse de ~A~ où ~A~ est une matrice carrée.
+
+*** Exemple : table de multiplication
+    #+BEGIN_SRC R
+      x <- 1:9
+      names(x) <- x
+      x %o% x
+    #+END_SRC
+
+    #+RESULTS:
+    #+begin_example
+      1  2  3  4  5  6  7  8  9
+    1 1  2  3  4  5  6  7  8  9
+    2 2  4  6  8 10 12 14 16 18
+    3 3  6  9 12 15 18 21 24 27
+    4 4  8 12 16 20 24 28 32 36
+    5 5 10 15 20 25 30 35 40 45
+    6 6 12 18 24 30 36 42 48 54
+    7 7 14 21 28 35 42 49 56 63
+    8 8 16 24 32 40 48 56 64 72
+    9 9 18 27 36 45 54 63 72 81
+#+end_example
+*** Exemple : rotation dans le plan euclidien
+  
+    Construction de la matrice d'une rotation d'un angle de $\phi = \frac{\pi}{3}$:
+    #+BEGIN_SRC R :session matrix
+      phi <- pi/3
+      R <- matrix( c(cos(phi), sin(phi), -sin(phi), cos(phi)), nrow=2)
+      print(R)
+     #+END_SRC
+
+    #+RESULTS:
+    :           [,1]       [,2]
+    : [1,] 0.5000000 -0.8660254
+    : [2,] 0.8660254  0.5000000
+
+    L'image du point (1,1) par une rotation de $\phi$ est
+    #+BEGIN_SRC R :session matrix
+      R %*% c(1, 1)
+    #+END_SRC
+
+    #+RESULTS:
+    :            [,1]
+    : [1,] -0.3660254
+    : [2,]  1.3660254
+
+
+    Calculer l'image d'un ensemble de points
+    #+BEGIN_SRC R :session matrix
+      P <- matrix(runif(6), nrow = 2)
+      R %*% P
+    #+END_SRC
+
+    #+RESULTS:
+    :            [,1]       [,2]      [,3]
+    : [1,] 0.07489988 -0.2198921 0.3097203
+    : [2,] 0.94190313  0.7151099 0.8003908
+
+* Fonctions prédéfinies
+** Fonctions de somme
+  - ~sum(A)~ somme tous les éléments de ~A~.
+  - ~rowSums(A)~ renvoie un vecteur avec les sommes des lignes ~A~.
+  - ~colSums(A)~ renvoie un vecteur avec les sommes des colonnes de ~A~.
+
+** Fonctions statistiques
+
+  - ~mean(A)~ calcule la moyenne des éléments de ~A~.
+  - ~rowMeans(A)~ renvoie un vecteur avec les moyennes des lignes ~A~.
+  - ~colMeans(A)~ renvoie un vecteur avec les moyennes des colonnes de ~A~.
+    
+** Fonctions minimum et maximum
+
+  - ~min(A)~ le plus petit élément de ~A~
+  - ~max(A)~ le plus grand élément de ~A~
+
+** Fonction de balayage d'une matrice numérique
+   Soustraire la moyenne de chaque ligne à chaque élément.
+   #+BEGIN_SRC R :session matrix
+     A <- matrix(1:4, nrow = 2)
+     sweep(A, 1, rowMeans(A))
+   #+END_SRC
+
+   #+RESULTS:
+   :      [,1] [,2]
+   : [1,]   -1    1
+   : [2,]   -1    1
+
+
+   Normaliser une matrice pour obtenir une moyenne nulle sur chaque colonne.
+   #+BEGIN_SRC R :session matrix
+     scale(A, center = TRUE, scale = FALSE)
+   #+END_SRC
+
+   #+RESULTS:
+   :      [,1] [,2]
+   : [1,] -0.5 -0.5
+   : [2,]  0.5  0.5
+   : attr(,"scaled:center")
+   : [1] 1.5 3.5
+
+   Normaliser une matrice pour obtenir une moyenne nulle et un écart-type de 1 sur chaque ligne.
+   #+BEGIN_SRC R :session matrix
+     t( scale(t(A), center = TRUE, scale = TRUE) )
+   #+END_SRC
+
+   #+RESULTS:
+   :            [,1]      [,2]
+   : [1,] -0.7071068 0.7071068
+   : [2,] -0.7071068 0.7071068
+   : attr(,"scaled:center")
+   : [1] 2 3
+   : attr(,"scaled:scale")
+   : [1] 1.414214 1.414214
+* Exemples simples
+** Produit des lignes/colonnes
+   Le produit des lignes/colonnes de ~A~ n'existe pas, mais on peut le programmer avec des boucles ou ~apply~.
+    #+BEGIN_SRC R
+      rowProd <- function(A) apply(A, 1, prod)
+      colProd <- function(A) apply(A, 2, prod)
+
+      A <- matrix(1:4, nrow = 2)
+      print(rowProd(A))
+      print(colProd(A))
+    #+END_SRC
+
+    #+RESULTS:
+    : [1] 3 8
+    : [1]  2 12
+
+** Calcul de moyennes
+
+**** Génération d'une matrice ~notes~ telle que chaque ligne représente les trois notes d'un étudiant.
+    #+BEGIN_SRC R :session matrix
+      n <- 4
+      notes <- matrix(sample(0:20, 3*n), ncol = 3)
+      colnames(notes) <- c("CC", "TP", "CT")
+      print(notes)
+    #+END_SRC
+
+    #+RESULTS:
+    :      CC TP CT
+    : [1,]  3  2 14
+    : [2,] 10 20  5
+    : [3,]  9  8  0
+    : [4,] 12 17  7
+
+**** Calculer les notes finales des étudiants avec les coefficients suivants : $40\%$ CC ; $20\%$ TP ; $40\%$ CT.
+         
+    #+BEGIN_SRC R :session matrix
+      coefs <- c(0.4, 0.2, 0.4)
+      notes <- cbind(notes, NF = as.vector(notes %*% coefs) )
+      print(notes)
+    #+END_SRC
+
+    #+RESULTS:
+    :      CC TP CT   NF
+    : [1,]  3  2 14  7.2
+    : [2,] 10 20  5 10.0
+    : [3,]  9  8  0  5.2
+    : [4,] 12 17  7 11.0
+
+*** Calcul de moyennes (suite)
+    Pour chaque note, afficher les statistiques de la fonction ~summary~.
+
+      #+BEGIN_SRC R :session matrix
+       summary(notes)
+      #+END_SRC   
+
+      #+RESULTS:
+      :        CC             TP              CT              NF       
+      :  Min.   : 3.0   Min.   : 2.00   Min.   : 0.00   Min.   : 5.20  
+      :  1st Qu.: 7.5   1st Qu.: 6.50   1st Qu.: 3.75   1st Qu.: 6.70  
+      :  Median : 9.5   Median :12.50   Median : 6.00   Median : 8.60  
+      :  Mean   : 8.5   Mean   :11.75   Mean   : 6.50   Mean   : 8.35  
+      :  3rd Qu.:10.5   3rd Qu.:17.75   3rd Qu.: 8.75   3rd Qu.:10.25  
+      :  Max.   :12.0   Max.   :20.00   Max.   :14.00   Max.   :11.00
+
+
+* Matrices multidimensionnelles
+   Une matrice multidimensionnelle est un ~array~ en R défini par ses données et ses dimensions.
+   Un ~array~ est un vecteur avec des attributs supplémentaires donnant ses.
+   #+BEGIN_SRC R :session matrix
+     array(1:12, dim = c(2,3,2))
+   #+END_SRC
+
+   #+RESULTS:
+   #+begin_example
+   , , 1
+
+        [,1] [,2] [,3]
+   [1,]    1    3    5
+   [2,]    2    4    6
+
+   , , 2
+
+        [,1] [,2] [,3]
+   [1,]    7    9   11
+   [2,]    8   10   12
+#+end_example
+
+   On peut effectuer une permutation des dimensions d'un ~array~
+   #+BEGIN_SRC R
+    aperm( array(1:12, dim = c(2,3,2)), c(3,1,2))
+   #+END_SRC
+
+   #+RESULTS:
+   #+begin_example
+   , , 1
+
+        [,1] [,2]
+   [1,]    1    2
+   [2,]    7    8
+
+   , , 2
+
+        [,1] [,2]
+   [1,]    3    4
+   [2,]    9   10
+
+   , , 3
+
+        [,1] [,2]
+   [1,]    5    6
+   [2,]   11   12
+
+#+end_example
+
+* Quelques exemples de systèmes linéaires en économie
+  Exemples tirés de [[file:cours10/cours_proglin_eco.pdf]["Systèmes linéaires en économie"]] du [[http://math.unice.fr/~walter/L1MASS/L1MASS_AlgLin][cours d'algèbre linéaire en L1 MASS]]. 
+
+** TODO Avantages fiscaux de dons aux oeuvres de charité 
+
+   Source : C. Simon et L. Blume, Mathématiques  pour  économistes, trad. fran ̧caise, De Boeck, Bruxelles, 1998.
+
+   Une entreprise fait un bénéfice avant impôts de 100 000 F. Elle s’est engagée à verser 10% de son bénéfice net d’impôts à la caisse de secours de la Croix Rouge. 
+   Elle doit payer un impôt local pour la taxe professionnelle égal à 5% de son bénéfice (après donation à la Croix Rouge) et un impôt national sur les sociétés de 40% de son bénéfice (après que la donation et l’impôt local aient été prélevés). 
+
+   Quels sont les montants de l’impôt local, de l’impôt national, et de la donation à la Croix Rouge versés par l’entreprise ?
+
+
+*** Système linéaire associé au problème
+    Ecrivons $C$, $L$, $N$ pour les montants respectifs de la contribution à la Croix Rouge, de l’impôt local, et de l’impôt national.
+    Le bénéfice après impôts donne une équation :
+    \[
+    10* C + N + L =  100000 \Leftrightarrow \\
+    C + 0,1L + 0,1N = 10 000
+    \]
+    L’impôt local est 5% du bénéfice net de la donation, ce qui nous donne une équation :
+    \[
+    C + 0,05L = 5 000.
+    \]
+    L’impôt national est de 40% du bénéfice après déduction de C et de L :
+    \[
+    0,4C + 0,4L + N = 40 000.
+    \]
+ 
+*** Bénéfice après impôts et contribution
+    On construit les matrices du système linéaire ~Ax=b~.
+   #+BEGIN_SRC R :session fisc
+     A <- cbind( C = c(1, 0.05, 0.4), L = c(0.1, 1, 0.4), N = c(0.1, 0, 1) )
+     b <- c(10000, 5000, 40000)
+     print(A)
+     print(b)
+   #+END_SRC
+
+   #+RESULTS:
+   :         C   L   N
+   : [1,] 1.00 0.1 0.1
+   : [2,] 0.05 1.0 0.0
+   : [3,] 0.40 0.4 1.0
+   : [1] 10000  5000 40000
+
+   
+   On résout le système linéaire.
+   #+BEGIN_SRC R :session fisc
+     x1 <- solve(A,b)
+     print(round(x1,1))
+   #+END_SRC
+
+   #+RESULTS:
+   :       C       L       N 
+   :  5956.1  4702.2 35736.7
+
+   On calcule le bénéfice après impôts et contribution.
+   #+BEGIN_SRC R :session fisc
+     benef1 <- 100000 - sum(x1)
+     print(benef1)
+   #+END_SRC
+
+   
+   #+RESULTS:
+   : [1] 53605.02
+
+*** Bénéfice après impôts sans contribution
+    Il suffit de remplacer la première contrainte (ligne) par la contrainte $C=0$.en imposant que la contribution soit égale à 0.
+   #+BEGIN_SRC R :results none :session fisc 
+     A[1,] <- c(1, 0, 0)
+     b[1] <- 0
+   #+END_SRC
+
+   On résout à nouveau le système linéaire et on calcule le bénéfice après impôts sans contribution.
+   #+BEGIN_SRC R :session fisc
+     x2 <- solve(A,b)
+     print(x2)
+     benef2 <- 100000 - sum(x2)
+     print(benef2)
+   #+END_SRC
+
+   #+RESULTS:
+   :     C     L     N 
+   :     0  5000 38000
+   : [1] 57000
+
+   Finalement, le montant de la contribution après déduction d'impôts est  
+   #+BEGIN_SRC R :session fisc
+     cat(sprintf("%.1f soit %.1f%% du montant total.\n",
+                 benef2-benef1, 
+                 round(100*(benef2-benef1)/x1["C"],1)))
+   #+END_SRC
+
+   #+RESULTS:
+   : 3395.0 soit 57.0% du montant total.
+
+** STARTED Prix dans une économie de subsistance 
+
+     Source : B. Guerrien, Algèbre Linéaire pour économistes, 4ème éd., Economica, Paris, 1997.
+
+     Considérons une économie qui ne produit que ce qui est nécessaire pour continuer à subsister. 
+     Supposons qu'elle ne comporte que trois biens produits selons les relation suivantes :
+      - 240 quintaux de blé + 12 tonnes de fer + 18 porcs \rightarrow 450 quintaux de blé
+      - 90 quintaux de blé + 6 tonnes de fer + 12 porcs \rightarrow 21 tonnes de fer
+      - 120 quintaux de blé + 3 tonnes de fer + 30 porcs \rightarrow 60 porcs
+
+
+      Les porcs et le blé ne servent pas directement à produire le fer. Plutôt ils nourissent les travailleurs nécessaire pour produire le fer. 
+      Mais on les intègrera dans le modèle comme des biens nécessaires pour la production du fer.
+     
+      Notons que cette économie ne dégage aucun surplus pour la consommation. 
+      Les 450 quintaux de blé produits sont totalement utilisés dans la production : 240 quintaux servent dans la production du blé, 90 quintaux dans la production du fer, et 120 quintaux dans l'élevage des porcs. Il est de même pour les 21 tonnes de fer et les 60 porcs.
+     
+  
+
+*** Solution
+       Soit $B$, $F$, et $P$ les prix respectifs d'un quintal de blé, d'une tonne de fer, et d'un porc.
+       Comme l'économie ne dégage aucun surplus, elle n'a pas le moyen de gagner un bénéfice de sa production globalement. Donc un bénéfice dans un secteur serait compensé par un déficit dans un autre, qui augmenterait ses prix, et les prix s'évolueront vers un équilibre où les dépenses de chaque secteur sont égales à ses recettes. 
+       Cela se traduit en un système de trois équations
+       \[
+       240B + 12F + 18P = 450B \\
+       90B + 6F + 12P = 21F \\
+       120B + 3F + 30P = 60P 
+       \]
+
+
+
+  Résoudre ce système linéaire pour trouver les prix d'équilibre dans cette économie.
+
+  #+BEGIN_SRC R
+    A <- cbind(B = c(-210, 90, 120), F = c(12, -15, 3), P = c(18, 12, -30))
+    b <- numeric(3)
+    solve(A, b)
+  #+END_SRC
+
+  #+RESULTS:
+
+  Pour résoudre ce problème, on peut par exemple utiliser la fonction ~ginv~ du package ~MASS~ ou utiliser sa propre méthode d'[[http://biol09.biol.umontreal.ca/Bio6077/Exercice_inversion.pdf][inversion]].
+
+  Des modèles similaires mais plus compliqués servent pour l'analyse des prix dans les
+  économies avec surplus (modèle de Sraffa).
+
+** STARTED [[http://math.unice.fr/~walter/L1MASS/Cours_matrice_entrees.pdf][Matrices d'entrées/sorties]]
+
+Source : [[http://math.unice.fr/~walter/L1MASS/Cours_matrice_entrees.pdf][Cours sur les matrices d'entrées/sorties]]
+
+Léontief a utilisé l'analyse d'entrée-sortie pour étudier l'économie des Etats-Unis en 1958.
+Il a divisé l'économie en 81 secteurs et les a regroupés en six groupes distincts. 
+Nous allons traiter chacune des six familles comme des industries séparées afin de simplifier notre présentation. 
+Ces six industries sont listées ci-dessous :
+
+| Abbrev. | Secteur                             | Exemples                                               |
+|---------+-------------------------------------+--------------------------------------------------------|
+| FN      | Produits finis non métalliques      | Peausserie, mobilier, aliments                         |
+| FM      | Produits finis métalliques          | Appareils de construction, appareils ménagers          |
+| BM      | Métal brut                          | Produits d'exploitation minière et d'atelier d'usinage |
+| BN      | Produits semi-finis non métalliques | Verre, bois, textile, et produits pour l'élevage       |
+| E       | Energie                             | Charbon, pétrole, électricité, gaz                     |
+| S       | Services                            | Services publics, transports, immobilier               |
+
+
+Leurs demandes intermédiaires de facteurs sont données dans le tableau suivant. 
+Les unités sont des millions de dollars. 
+Les nombres dans chaque colonne représente les demandes faites (chiffrés en fractions de 1 million de dollars) par le secteur correspondant sur lui-même et les autres secteurs.
+pour produire 1 million de dollars de ses produits. 
+Donc 0,173 en ligne 3 et colonne 2 veut dire que la production d'une valeur de 1 million de dollars de produits finis métalliques nécessite une dépense de 173 000 dollars en métal brut.
+
+#+BEGIN_SRC R :results none :session matrix
+  A <- read.table( text =  
+        "FN  FM     BM     BN     E      S    
+         0.170  0.004  0.000  0.029  0.000  0.008
+         0.003  0.295  0.018  0.002  0.004  0.016
+         0.025  0.173  0.460  0.007  0.011  0.007
+         0.348  0.037  0.021  0.403  0.011  0.048
+         0.007  0.001  0.039  0.025  0.358  0.025
+         0.120  0.074  0.104  0.123  0.173  0.234", header= TRUE)
+  rownames(A) <- colnames(A)
+#+END_SRC
+
+Le tableau suivant donne les estimations de Léontief pour les demandes finales dans l'économie des Etats-Unis de 1958 (en millions de dollars). 
+Le problème est de déterminer combien d'unités ont dû être produites dans chacun des six secteurs afin de faire fonctionner l'économie des Etats-Unis
+en 1958.
+
+#+BEGIN_SRC R :results none :session matrix
+  b <- c(99640, 75548, 14444, 33501, 23527, 263985)
+  names(b) <- colnames(A)
+  rbind(names(b), b)
+#+END_SRC
+
+Pour résoudre ce problème, nous traitons les deux derniers tableaux comme une matrice de technologie ~A~ et un vecteur colonne de demandes finales ~b~. 
+L'objectif est de résoudre ~(I − A)x = c~ pour une matrice de colonnes de sorties ~x~ : ~x = (I − A)^-1 c~.
+
+Nous devons calculer la matrice d'entrée-sortie nette I − A.
+La matrice inverse de cette matrice d'entrées-sorties nette peut être calculée par la méthode ~solve~.
+
+#+BEGIN_SRC R :results value :session matrix
+  A.net <- diag(nrow(A)) - A
+  A.inv <- solve(A.net)
+  round(A.inv, digits = 3)
+#+END_SRC
+
+#+RESULTS:
+| 1.234 | 0.014 | 0.007 | 0.064 | 0.006 | 0.017 |
+| 0.017 | 1.436 | 0.056 | 0.014 | 0.019 | 0.032 |
+| 0.078 | 0.467 | 1.878 | 0.036 | 0.044 | 0.031 |
+| 0.752 | 0.133 | 0.101 | 1.741 | 0.065 | 0.123 |
+| 0.061 | 0.045 |  0.13 | 0.083 | 1.578 | 0.059 |
+|  0.34 | 0.236 | 0.307 | 0.315 | 0.376 | 1.349 |
+
+Ensuite, on l'utilise pour calculer la matrice colonne des sorties brutes.
+#+BEGIN_SRC R :results value :session matrix
+  x <- A.inv %*% b
+  rbind(rownames(x), t (round( x, digits = 0)))
+#+END_SRC
+
+#+RESULTS:
+|     FN |     FM |    BM |     BN |     E |      S |
+| 131033 | 120459 | 80681 | 178732 | 66929 | 431562 |
+
+
+Nous concluons que, par exemple, un total de 131 161 millions de dollars de produits finis non métalliques sont nécessaires pour satisfaire à la fois les demandes intermédiaires et finales de l'économie des Etats-Unis en 1958.
+
+* TODO Construction de matrice complexe 
+  
+

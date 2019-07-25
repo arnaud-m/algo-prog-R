@@ -1,0 +1,1923 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<title>Cours 10 : Matrices</title>
+<meta name="author" content="(Arnaud Malapert)"/>
+<meta name="description" content="Introduction à la programmation R."/>
+<meta name="keywords" content="computer science, teaching, programming, GNU R."/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/reveal.js/3.0.0/css/reveal.css"/>
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/reveal.js/3.0.0/css/theme/league.css" id="theme"/>
+<link rel="stylesheet" href="./local-reveal.css"/>
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/reveal.js/3.0.0/lib/css/zenburn.css"/>
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'http://cdn.jsdelivr.net/reveal.js/3.0.0/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<meta name="description" content="Introduction à la programmation R.">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1>Cours 10 : Matrices</h1>
+<h2>Arnaud Malapert</h2>
+<h2><a href="mailto:arnaud.malapert@unice.fr">arnaud.malapert@unice.fr</a></h2>
+<h2></h2>
+</section>
+<section id="table-of-contents">
+<div id="table-of-contents">
+<h2>Table des matières</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#/slide-orgheadline10">Construction de matrices</a></li>
+<li><a href="#/slide-orgheadline31">Accès et modifications</a></li>
+<li><a href="#/slide-orgheadline36">Opérations sur les matrices</a></li>
+<li><a href="#/slide-orgheadline41">Fonctions prédéfinies</a></li>
+<li><a href="#/slide-orgheadline47">Exemples simples</a></li>
+<li><a href="#/slide-orgheadline48">Matrices multidimensionnelles</a></li>
+<li><a href="#/slide-orgheadline56">Quelques exemples de systèmes linéaires en économie</a></li>
+<li><a href="#/slide-orgheadline57"><span class="todo TODO">TODO</span> Construction de matrice complexe</a></li>
+</ul>
+</div>
+</div>
+</section>
+
+<section>
+<section id="slide-orgheadline10">
+<h2 id="orgheadline10">Construction de matrices</h2>
+<div class="outline-text-2" id="text-orgheadline10">
+</div></section>
+</section>
+<section>
+<section id="slide-orgheadline1">
+<h3 id="orgheadline1">Création d&rsquo;une matrice à partir d&rsquo;un vecteur</h3>
+<p>
+Tapez simplement:
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">matrix(1:6, nrow = 2, ncol = 3)
+</code></pre>
+</div>
+
+<pre class="example">
+     [,1] [,2] [,3]
+[1,]    1    3    5
+[2,]    2    4    6
+</pre>
+
+
+<div class="org-src-container">
+
+<pre><code class="R">matrix(1:6, nrow = 2, byrow = TRUE)
+</code></pre>
+</div>
+
+<pre class="example">
+     [,1] [,2] [,3]
+[1,]    1    2    3
+[2,]    4    5    6
+</pre>
+
+
+<p>
+Attention, les éléments du vecteur sont recyclés
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">matrix(1:2, nrow = 2, ncol = 2)
+</code></pre>
+</div>
+
+<pre class="example">
+     [,1] [,2]
+[1,]    1    1
+[2,]    2    2
+</pre>
+
+</section>
+</section>
+<section>
+<section id="slide-orgheadline4">
+<h3 id="orgheadline4">Nommage des matrices</h3>
+<p>
+Nommer les deux dimensions simultanément 
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">A <- matrix(1:4, nrow = 2)
+dimnames(A) <- list(c("a", "b"), c("c", "d"))
+print(A)
+</code></pre>
+</div>
+
+<pre class="example">
+  c d
+a 1 3
+b 2 4
+</pre>
+<p>
+ou une à la fois.
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">rownames(A) <-  c("c", "d")
+colnames(A) <- c("a", "b")
+print(A)
+</code></pre>
+</div>
+
+
+<pre class="example">
+  a b
+c 1 3
+d 2 4
+</pre>
+
+<ul>
+<li>On peut aussi récupérer ou effacer les noms avec les mêmes fonctions.</li>
+<li>Il faut veiller à ce que les noms soient distincts.</li>
+
+</ul>
+</section>
+<section id="slide-orgheadline2">
+<h4 id="orgheadline2">Récupération et effacement des noms</h4>
+<p>
+Récupérer les noms.
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">dimnames(A)
+</code></pre>
+</div>
+
+<pre class="example">
+[[1]]
+[1] "c" "d"
+
+[[2]]
+[1] "a" "b"
+</pre>
+
+<p>
+Effacer les noms.
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">rownames(A) <- NULL
+colnames(A) <- NULL
+print(A)
+</code></pre>
+</div>
+
+<pre class="example">
+[1] "c" "d"
+[1] "a" "b"
+</pre>
+
+</section>
+<section id="slide-orgheadline3">
+<h4 id="orgheadline3">Unicité des noms</h4>
+<p>
+Le nom d&rsquo;une ligne/colonne est une clé qui l&rsquo;identifie.
+Il est préférable que cette clé soit unique, mais R tolère qu&rsquo;elle ne le soit pas.
+</p>
+
+
+<p>
+Un nom identifie le plus petit index portant ce nom.
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">A <- rbind( a=1:2, a=3:4)
+print(A["a",])
+</code></pre>
+</div>
+
+<pre class="example">
+[1] 1 2
+</pre>
+
+
+<p>
+Ce comportement va engendrer quelques problèmes.    
+Par exemple, des instructions simples donneront des résultats faux.
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">A <- rbind( a=1:2, a=3:4)
+print(A[rownames(A),])
+</code></pre>
+</div>
+
+<pre class="example">
+  [,1] [,2]
+a    1    2
+a    1    2
+</pre>
+
+<p>
+<i>En bref, donnez des noms uniques aux lignes et colonnes de vos structures de données. Vous vous épargnerez bien des soucis.</i>
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-orgheadline6">
+<h3 id="orgheadline6">Dimensions d&rsquo;une matrice</h3>
+<ul>
+<li><code>nrow(A)</code> renvoie le nombre de lignes de <code>A</code>.</li>
+<li><code>ncol(A)</code> renvoie le nombre de colonnes.</li>
+<li><code>dim(A)</code> renvoie toutes les dimensions.</li>
+<li><code>length(A)</code> renvoie le nombre d&rsquo;éléments dans <code>A</code>.</li>
+<li><code>is.matrix(A)</code> vérifie si <code>A</code> est une matrice.</li>
+
+</ul>
+
+
+</section>
+<section id="slide-orgheadline5">
+<h4 id="orgheadline5">Exemples</h4>
+<div class="org-src-container">
+
+<pre><code class="R">A <- matrix(1:6, nrow = 2)
+nrow(A)
+ncol(A)
+dim(A)
+length(A)
+is.matrix(A)
+is.matrix(1:4)
+</code></pre>
+</div>
+
+<pre class="example">
+[1] 2
+[1] 3
+[1] 2 3
+[1] 6
+[1] TRUE
+[1] FALSE
+</pre>
+
+</section>
+</section>
+<section>
+<section id="slide-orgheadline9">
+<h3 id="orgheadline9">Construction d&rsquo;une matrice à partir d&rsquo;autres matrices</h3>
+<p>
+Soit <code>A</code> et <code>B</code> deux matrices, 
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">A <- matrix(1:4, nrow = 2)
+B <- matrix(5:8, nrow = 2, byrow = TRUE)
+</code></pre>
+</div>
+
+<p>
+on peut les concaténer par colonnes
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">cbind(A,B)
+</code></pre>
+</div>
+
+<pre class="example">
+     [,1] [,2] [,3] [,4]
+[1,]    1    3    5    6
+[2,]    2    4    7    8
+</pre>
+
+<p>
+ou par ligne.
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">rbind(A,B)
+</code></pre>
+</div>
+
+<pre class="example">
+     [,1] [,2]
+[1,]    1    3
+[2,]    2    4
+[3,]    5    6
+[4,]    7    8
+</pre>
+
+</section>
+<section id="slide-orgheadline7">
+<h4 id="orgheadline7">Construction imbriquée et recyclage</h4>
+<div class="org-src-container">
+
+<pre><code class="R">rbind( cbind(A, 0, 0), cbind(0, 0, B))
+</code></pre>
+</div>
+
+<pre class="example">
+     [,1] [,2] [,3] [,4]
+[1,]    1    3    0    0
+[2,]    2    4    0    0
+[3,]    0    0    5    6
+[4,]    0    0    7    8
+</pre>
+
+
+<div class="org-src-container">
+
+<pre><code class="R">rbind( 0, cbind(0, A, 0, B, 0), 0)
+</code></pre>
+</div>
+
+<pre class="example">
+     [,1] [,2] [,3] [,4] [,5] [,6] [,7]
+[1,]    0    0    0    0    0    0    0
+[2,]    0    1    3    0    5    6    0
+[3,]    0    2    4    0    7    8    0
+[4,]    0    0    0    0    0    0    0
+</pre>
+
+</section>
+<section id="slide-orgheadline8">
+<h4 id="orgheadline8">Travailler avec des noms est plus difficile</h4>
+<p>
+L&rsquo;argument <code>deparse.level</code> contrôle la construction des noms de la matrice à partir de ceux des composants.
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">dd <- 10
+rbind(1:3, c = 2, "a++" = 10, dd, deparse.level = 0) # middle 2 rownames
+</code></pre>
+</div>
+
+<pre class="example">
+    [,1] [,2] [,3]
+       1    2    3
+c      2    2    2
+a++   10   10   10
+      10   10   10
+</pre>
+
+<div class="org-src-container">
+
+<pre><code class="R">rbind(1:3, c = 2, "a++" = 10, dd, deparse.level = 1) # 3 rownames (default)
+</code></pre>
+</div>
+
+<pre class="example">
+    [,1] [,2] [,3]
+       1    2    3
+c      2    2    2
+a++   10   10   10
+dd    10   10   10
+</pre>
+
+<div class="org-src-container">
+
+<pre><code class="R">rbind(1:3, c = 2, "a++" = 10, dd, deparse.level = 2) # 4 rownames
+</code></pre>
+</div>
+
+<pre class="example">
+    [,1] [,2] [,3]
+1:3    1    2    3
+c      2    2    2
+a++   10   10   10
+dd    10   10   10
+</pre>
+</section>
+</section>
+<section>
+<section id="slide-orgheadline31">
+<h2 id="orgheadline31">Accès et modifications</h2>
+<div class="outline-text-2" id="text-orgheadline31">
+</div></section>
+</section>
+<section>
+<section id="slide-orgheadline16">
+<h3 id="orgheadline16">Accès aux éléments</h3>
+<ul>
+<li>On utilise l&rsquo;opérateur <code>[]</code>.</li>
+<li>Par convention, on référence les lignes avant les colonnes.</li>
+<li>On peut accéder aux éléments par leur <i>index</i>.</li>
+<li>On peut aussi accéder aux éléments par leur <i>noms</i>.</li>
+
+</ul>
+
+
+</section>
+<section id="slide-orgheadline11">
+<h4 id="orgheadline11">Soit la matrice <code>A</code></h4>
+<div class="org-src-container">
+
+<pre><code class="R">A <- matrix(1:6, nrow = 2)
+rownames(A) <- c("a", "b")
+colnames(A) <- c("c", "d", "e")
+print(A)
+</code></pre>
+</div>
+
+<pre class="example">
+  c d e
+a 1 3 5
+b 2 4 6
+</pre>
+
+</section>
+<section id="slide-orgheadline12">
+<h4 id="orgheadline12">Accès par index</h4>
+<p>
+Accès à un élément.
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">A[1,2]
+</code></pre>
+</div>
+
+<pre class="example">
+[1] 3
+</pre>
+
+
+<p>
+Accès à une ligne.
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">A[1,]
+</code></pre>
+</div>
+
+<pre class="example">
+c d e 
+1 3 5
+</pre>
+
+
+<p>
+Accès à une colonne.
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">A[,1]
+</code></pre>
+</div>
+
+<pre class="example">
+a b 
+1 2
+</pre>
+
+
+<p>
+En combinant, on peut extraire une sous-matrice.
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">A[1:2,2:3]
+</code></pre>
+</div>
+
+<pre class="example">
+  d e
+a 3 5
+b 4 6
+</pre>
+</section>
+<section id="slide-orgheadline13">
+<h4 id="orgheadline13">Accès par nom</h4>
+<p>
+Accès à un élément.
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">A["a","e"]
+</code></pre>
+</div>
+
+<pre class="example">
+[1] 5
+</pre>
+
+
+<p>
+Accès à une ligne.
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">A["a",]
+</code></pre>
+</div>
+
+<pre class="example">
+c d e 
+1 3 5
+</pre>
+
+
+<p>
+Accès à une colonne.
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">A[,"c"]
+</code></pre>
+</div>
+
+<pre class="example">
+a b 
+1 2
+</pre>
+
+
+<p>
+En combinant, on peut extraire une sous-matrice.
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">A[c("a", "b"),c("d","e")]
+</code></pre>
+</div>
+
+<pre class="example">
+  d e
+a 3 5
+b 4 6
+</pre>
+
+</section>
+<section id="slide-orgheadline14">
+<h4 id="orgheadline14">Accès à un élément non existant</h4>
+<p>
+Une erreur est levé quand on essaie d&rsquo;accéder à un élément non existant.
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">A <- matrix(1:4, nrow = 2)
+A[3,3]
+</code></pre>
+</div>
+
+<pre class="example">
+Error in A[3, 3] : indice hors limites
+</pre>
+
+
+<p>
+Une erreur est aussi levée pour une liste, 
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">x <- list(1,2,3,4)
+x[[5]]
+</code></pre>
+</div>
+
+<pre class="example">
+Error in x[[5]] : indice hors limites
+</pre>
+
+
+<p>
+mais pas pour un vecteur.
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">x <- 1:4
+x[5]
+</code></pre>
+</div>
+
+<pre class="example">
+[1] NA
+</pre>
+
+</section>
+<section id="slide-orgheadline15">
+<h4 id="orgheadline15"><span class="todo TODO">TODO</span> Accès par projection sur un vecteur</h4>
+</section>
+</section>
+<section>
+<section id="slide-orgheadline17">
+<h3 id="orgheadline17">Modification de matrices</h3>
+<ul>
+<li>On modifie la matrice en combinant l&rsquo;opérateur <code>[]</code> et une affectation <code>&lt;-</code>.</li>
+<li>Une erreur est déclenchée si :
+<ul>
+<li>Des éléments n&rsquo;existent pas.</li>
+<li>Les dimensions des opérandes gauche et droit de l&rsquo;affectation sont différents.</li>
+
+</ul></li>
+
+</ul>
+
+
+<p>
+Par exemple, on peut modifier un seul élément.
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">A <- matrix(1:6, nrow = 2)
+rownames(A) <- c("a", "b")
+A["a",1] <- 0
+print(A)
+</code></pre>
+</div>
+
+<pre class="example">
+  [,1] [,2] [,3]
+a    0    3    5
+b    2    4    6
+</pre>
+
+</section>
+</section>
+<section>
+<section id="slide-orgheadline19">
+<h3 id="orgheadline19">Affectation d&rsquo;une ligne ou d&rsquo;une colonne</h3>
+<p>
+On peut affecter une même valeur à tous les éléments
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">A["a", ] <- 0
+print(A)
+</code></pre>
+</div>
+<pre class="example">
+  [,1] [,2] [,3]
+a    0    0    0
+b    2    4    6
+</pre>
+
+<p>
+ou des valeurs différentes.
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">A[, 2] <- 7:8
+print(A)
+</code></pre>
+</div>
+
+<pre class="example">
+  [,1] [,2] [,3]
+a    0    7    0
+b    2    8    6
+</pre>
+
+<p>
+Si les éléments n&rsquo;existent pas, une erreur est levée.
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">A[3, ] <- 0
+</code></pre>
+</div>
+
+<pre class="example">
+Error in `[&lt;-`(`*tmp*`, 3, , value = 0) : indice hors limites
+</pre>
+
+
+</section>
+<section id="slide-orgheadline18">
+<h4 id="orgheadline18">Modification d&rsquo;une sous-matrice</h4>
+<div class="org-src-container">
+
+<pre><code class="R">A[c("a","b"), 2:3] <- matrix(9:12, nrow = 2)
+print(A)
+</code></pre>
+</div>
+
+<pre class="example">
+  [,1] [,2] [,3]
+a    0    9   11
+b    2   10   12
+</pre>
+
+</section>
+</section>
+<section>
+<section id="slide-orgheadline22">
+<h3 id="orgheadline22">Suppression d&rsquo;une ligne ou d&rsquo;une colonne</h3>
+<p>
+<i>On va utiliser des indices négatifs dans l&rsquo;opérateur <code>[]</code>.</i>
+</p>
+
+<p>
+Soit la matrice <code>A</code>.
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">A <- matrix(1:6, nrow = 2)
+rownames(A) <- c("a", "b")
+</code></pre>
+</div>
+
+<p>
+On peut &laquo;&nbsp;supprimer&nbsp;&raquo; une ligne,
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">A[-1, ]
+</code></pre>
+</div>
+<pre class="example">
+[1] 2 4 6
+</pre>
+
+<p>
+ou des colonnes,
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">A[,-(1:2)]
+</code></pre>
+</div>
+
+<pre class="example">
+a b 
+5 6
+</pre>
+
+<p>
+mais pas une sous-matrice.
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">A[-(1:2),-(1:2)]
+</code></pre>
+</div>
+
+<pre class="example">
+integer(0)
+</pre>
+
+
+<p>
+Que remarquez vous ? 
+</p>
+
+</section>
+<section id="slide-orgheadline20">
+<h4 id="orgheadline20">La variable <code>A</code> n&rsquo;est pas modifée</h4>
+<p>
+En fait, l&rsquo;opérateur <code>[]</code> accéde à une vue de la matrice.
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">invisible(A[-1, ]) 
+print(A)
+</code></pre>
+</div>
+
+
+<pre class="example">
+  [,1] [,2] [,3]
+a    1    3    5
+b    2    4    6
+</pre>
+
+
+<p>
+Il faut utiliser l&rsquo;opérateur <code>&lt;-</code> pour réaffecter la variable <code>A</code>.
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">A <- A[-1, ] 
+print(A)
+</code></pre>
+</div>
+
+
+<pre class="example">
+[1] 2 4 6
+</pre>
+
+</section>
+<section id="slide-orgheadline21">
+<h4 id="orgheadline21"><span class="todo TODO">TODO</span> Et les noms ?</h4>
+
+</section>
+</section>
+<section>
+<section id="slide-orgheadline28">
+<h3 id="orgheadline28">Pré-allocation de mémoire</h3>
+<ul>
+<li>Prévoir l’espace mémoire nécessaire avant l’exécution du programme, en spécifiant la quantité nécessaire dans le code source.</li>
+<li>Au chargement du programme en mémoire, juste avant l’exécution, l’espace réservé devient alors accessible.</li>
+
+</ul>
+
+
+<p>
+Souvent, la pré-allocation d&rsquo;une matrice est :
+</p>
+<ul>
+<li>une matrice spéciale ;</li>
+<li>ou une matrice aléatoire.</li>
+
+</ul>
+
+</section>
+<section id="slide-orgheadline23">
+<h4 id="orgheadline23">Matrices spéciales</h4>
+<p>
+La matrice nulle ne contient que des 0. 
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">matrix(0, nrow = 2, ncol = 3)
+</code></pre>
+</div>
+
+<p>
+La matrice unité n contient que des 1. 
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">matrix(1, nrow = 2, ncol = 3)
+</code></pre>
+</div>
+
+<p>
+La matrice identité.
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">diag(2)
+</code></pre>
+</div>
+
+<p>
+Les matrices diagonales.
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">diag(1:3)
+</code></pre>
+</div>
+
+<pre class="example">
+     [,1] [,2] [,3]
+[1,]    1    0    0
+[2,]    0    2    0
+[3,]    0    0    3
+</pre>
+
+</section>
+<section id="slide-orgheadline24">
+<h4 id="orgheadline24">Matrices Diagonales</h4>
+<p>
+Une matrice carrée avec les elements de <code>x</code> dans la diagonale principale.
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">diag(1:3)
+</code></pre>
+</div>
+
+<pre class="example">
+     [,1] [,2] [,3]
+[1,]    1    0    0
+[2,]    0    2    0
+[3,]    0    0    3
+</pre>
+
+<p>
+Un vecteur avec les éléments de la diagonale principale.
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">diag(matrix(1:9, nrow = 3))
+</code></pre>
+</div>
+
+<pre class="example">
+[1] 1 5 9
+</pre>
+
+<p>
+Une matrice carrée <code>k*k</code> si <code>k</code> est un scalaire.
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">diag(3)
+</code></pre>
+</div>
+
+<pre class="example">
+     [,1] [,2] [,3]
+[1,]    1    0    0
+[2,]    0    1    0
+[3,]    0    0    1
+</pre>
+
+</section>
+<section id="slide-orgheadline27">
+<h4 id="orgheadline27">Matrices aléatoires</h4>
+<p>
+On crée un vecteur de nombres aléatoires qu&rsquo;on transforme en matrice.
+</p>
+<ul class="org-ul"><li><a id="orgheadline25"></a>Nombres flottants aléatoires suivant une distribution uniforme sur l’intervalle \([0,1]\).<br  /><div class="org-src-container">
+
+<pre><code class="R">matrix(runif(4), nrow = 2)
+</code></pre>
+</div>
+
+<pre class="example">
+          [,1]      [,2]
+[1,] 0.1883247 0.1547749
+[2,] 0.8733712 0.8415802
+</pre></li>
+
+<li><a id="orgheadline26"></a>Nombres entiers aléatoires suivant une distribution uniforme sur l’intervalle \([1,10]\).<br  /><div class="org-src-container">
+
+<pre><code class="R">matrix(sample(10, 4), nrow = 2)
+</code></pre>
+</div>
+
+<pre class="example">
+     [,1] [,2]
+[1,]   10    1
+[2,]    3    4
+</pre></li></ul>
+</section>
+</section>
+<section>
+<section id="slide-orgheadline30">
+<h3 id="orgheadline30">Exemple : super-diagonales et sous-diagonales</h3>
+<p>
+Soit une matrice carrée, on appelle :
+</p>
+<ul>
+<li><i>diagonale principale</i></li>
+<li><i>sous-diagonale</i> : une diagonale en dessous de la diagonale principale</li>
+<li><i>super-diagonale</i> : une diagonale au-dessus de la diagonale principale</li>
+
+</ul>
+
+
+<p>
+Écrire une fonction <code>sdiag(n, k)</code> qui renvoie une matrice nulle sauf la k-ème diagonale qui est égale à 1. 
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="R">sdiag(4, 1)
+</code></pre>
+</div>
+
+<pre class="example">
+     [,1] [,2] [,3] [,4]
+[1,]    0    1    0    0
+[2,]    0    0    1    0
+[3,]    0    0    0    1
+[4,]    0    0    0    0
+</pre>
+
+</section>
+<section id="slide-orgheadline29">
+<h4 id="orgheadline29">Fonction <code>sdiag</code></h4>
+<div class="org-src-container">
+
+<pre><code class="R">sdiag <- function(n, k = 0) {
+  ## Preallocate result matrix
+  res <- matrix(0, nrow = n, ncol = n)
+  ## Column of the k-th diagonal for each row
+  c1 <- max(1,1+k)
+  c2 <- min(n,n+k)
+  if(c1 <= c2) {
+    ## For each line, add element if the super-diagonal column exists
+    for(i in c1:c2) {
+      res[i-k, i] <- 1
+    }
+  }
+  return(res)
+}
+</code></pre>
+</div>
+
+
+<div class="org-src-container">
+
+<pre><code class="R">sdiag(4, -2)
+</code></pre>
+</div>
+
+<pre class="example">
+     [,1] [,2] [,3] [,4]
+[1,]    0    0    0    0
+[2,]    0    0    0    0
+[3,]    1    0    0    0
+[4,]    0    1    0    0
+</pre>
+</section>
+</section>
+<section>
+<section id="slide-orgheadline36">
+<h2 id="orgheadline36">Opérations sur les matrices</h2>
+<div class="outline-text-2" id="text-orgheadline36">
+</div></section>
+</section>
+<section>
+<section id="slide-orgheadline32">
+<h3 id="orgheadline32">Opérations membre à membre</h3>
+<ul>
+<li><code>A+B</code> : addition</li>
+<li><code>A-B</code> : soustraction</li>
+<li><code>A*B</code> : multiplication</li>
+<li><code>A/B</code> : division</li>
+<li><code>A**n</code> : puissance <code>n</code></li>
+
+</ul>
+<div class="org-src-container">
+
+<pre><code class="R">A <- matrix(1:4, nrow = 2)
+print(A*2)
+print(A*A)
+</code></pre>
+</div>
+
+<pre class="example">
+     [,1] [,2]
+[1,]    2    6
+[2,]    4    8
+     [,1] [,2]
+[1,]    1    9
+[2,]    4   16
+</pre>
+
+
+</section>
+</section>
+<section>
+<section id="slide-orgheadline35">
+<h3 id="orgheadline35">Algèbre matricielle</h3>
+<ul>
+<li><code>t(A)</code> transposée de A</li>
+<li><code>A %*% B</code> multiplication de matrices.</li>
+<li><code>A %o% B</code> ou <code>outer(A,B)</code>  produit externe de matrices, renvoie un <code>array</code> de dimension <code>c(dim(A), dim(B))</code> obtenu par toutes les combinaisons de multiplication possibles</li>
+<li><code>crossprod(A,B)</code>, <code>crossprod(A)</code> produit en croix (<code>t(A') %*% B</code> and <code>t(A') %*% A</code>).</li>
+<li><code>det(A)</code> renvoie le déterminant d&rsquo;une matrice carrée.</li>
+<li><code>eigen(A)</code> calcul de valeurs propres et vecteurs propres d&rsquo;une matrice carrée (diagonalisation de matrices).</li>
+<li><code>solve(A, b)</code>  renvoie un vecteur <code>x</code> solution de l&rsquo;équation <code>b = Ax</code> (i.e., A<sup>-1</sup> b)</li>
+<li><code>solve(A)</code>  renvoie l&rsquo;inverse de <code>A</code> où <code>A</code> est une matrice carrée.</li>
+
+</ul>
+
+</section>
+<section id="slide-orgheadline33">
+<h4 id="orgheadline33">Exemple : table de multiplication</h4>
+<div class="org-src-container">
+
+<pre><code class="R">x <- 1:9
+names(x) <- x
+x %o% x
+</code></pre>
+</div>
+
+<pre class="example">
+  1  2  3  4  5  6  7  8  9
+1 1  2  3  4  5  6  7  8  9
+2 2  4  6  8 10 12 14 16 18
+3 3  6  9 12 15 18 21 24 27
+4 4  8 12 16 20 24 28 32 36
+5 5 10 15 20 25 30 35 40 45
+6 6 12 18 24 30 36 42 48 54
+7 7 14 21 28 35 42 49 56 63
+8 8 16 24 32 40 48 56 64 72
+9 9 18 27 36 45 54 63 72 81
+</pre>
+</section>
+<section id="slide-orgheadline34">
+<h4 id="orgheadline34">Exemple : rotation dans le plan euclidien</h4>
+<p>
+Construction de la matrice d&rsquo;une rotation d&rsquo;un angle de \(\phi = \frac{\pi}{3}\):
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">phi <- pi/3
+R <- matrix( c(cos(phi), sin(phi), -sin(phi), cos(phi)), nrow=2)
+print(R)
+</code></pre>
+</div>
+
+<pre class="example">
+          [,1]       [,2]
+[1,] 0.5000000 -0.8660254
+[2,] 0.8660254  0.5000000
+</pre>
+
+<p>
+L&rsquo;image du point (1,1) par une rotation de \(\phi\) est
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">R %*% c(1, 1)
+</code></pre>
+</div>
+
+<pre class="example">
+           [,1]
+[1,] -0.3660254
+[2,]  1.3660254
+</pre>
+
+
+<p>
+Calculer l&rsquo;image d&rsquo;un ensemble de points
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">P <- matrix(runif(6), nrow = 2)
+R %*% P
+</code></pre>
+</div>
+
+<pre class="example">
+           [,1]       [,2]      [,3]
+[1,] 0.07489988 -0.2198921 0.3097203
+[2,] 0.94190313  0.7151099 0.8003908
+</pre>
+
+</section>
+</section>
+<section>
+<section id="slide-orgheadline41">
+<h2 id="orgheadline41">Fonctions prédéfinies</h2>
+<div class="outline-text-2" id="text-orgheadline41">
+</div></section>
+</section>
+<section>
+<section id="slide-orgheadline37">
+<h3 id="orgheadline37">Fonctions de somme</h3>
+<ul>
+<li><code>sum(A)</code> somme tous les éléments de <code>A</code>.</li>
+<li><code>rowSums(A)</code> renvoie un vecteur avec les sommes des lignes <code>A</code>.</li>
+<li><code>colSums(A)</code> renvoie un vecteur avec les sommes des colonnes de <code>A</code>.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-orgheadline38">
+<h3 id="orgheadline38">Fonctions statistiques</h3>
+<ul>
+<li><code>mean(A)</code> calcule la moyenne des éléments de <code>A</code>.</li>
+<li><code>rowMeans(A)</code> renvoie un vecteur avec les moyennes des lignes <code>A</code>.</li>
+<li><code>colMeans(A)</code> renvoie un vecteur avec les moyennes des colonnes de <code>A</code>.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-orgheadline39">
+<h3 id="orgheadline39">Fonctions minimum et maximum</h3>
+<ul>
+<li><code>min(A)</code> le plus petit élément de <code>A</code></li>
+<li><code>max(A)</code> le plus grand élément de <code>A</code></li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-orgheadline40">
+<h3 id="orgheadline40">Fonction de balayage d&rsquo;une matrice numérique</h3>
+<p>
+Soustraire la moyenne de chaque ligne à chaque élément.
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">A <- matrix(1:4, nrow = 2)
+sweep(A, 1, rowMeans(A))
+</code></pre>
+</div>
+
+<pre class="example">
+     [,1] [,2]
+[1,]   -1    1
+[2,]   -1    1
+</pre>
+
+
+<p>
+Normaliser une matrice pour obtenir une moyenne nulle sur chaque colonne.
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">scale(A, center = TRUE, scale = FALSE)
+</code></pre>
+</div>
+
+<pre class="example">
+     [,1] [,2]
+[1,] -0.5 -0.5
+[2,]  0.5  0.5
+attr(,"scaled:center")
+[1] 1.5 3.5
+</pre>
+
+<p>
+Normaliser une matrice pour obtenir une moyenne nulle et un écart-type de 1 sur chaque ligne.
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">t( scale(t(A), center = TRUE, scale = TRUE) )
+</code></pre>
+</div>
+
+<pre class="example">
+           [,1]      [,2]
+[1,] -0.7071068 0.7071068
+[2,] -0.7071068 0.7071068
+attr(,"scaled:center")
+[1] 2 3
+attr(,"scaled:scale")
+[1] 1.414214 1.414214
+</pre>
+</section>
+</section>
+<section>
+<section id="slide-orgheadline47">
+<h2 id="orgheadline47">Exemples simples</h2>
+<div class="outline-text-2" id="text-orgheadline47">
+</div></section>
+</section>
+<section>
+<section id="slide-orgheadline42">
+<h3 id="orgheadline42">Produit des lignes/colonnes</h3>
+<p>
+Le produit des lignes/colonnes de <code>A</code> n&rsquo;existe pas, mais on peut le programmer avec des boucles ou <code>apply</code>.
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">rowProd <- function(A) apply(A, 1, prod)
+colProd <- function(A) apply(A, 2, prod)
+
+A <- matrix(1:4, nrow = 2)
+print(rowProd(A))
+print(colProd(A))
+</code></pre>
+</div>
+
+<pre class="example">
+[1] 3 8
+[1]  2 12
+</pre>
+
+</section>
+</section>
+<section>
+<section id="slide-orgheadline46">
+<h3 id="orgheadline46">Calcul de moyennes</h3>
+<div class="outline-text-3" id="text-orgheadline46">
+</div><ul class="org-ul"><li><a id="orgheadline43"></a>Génération d&rsquo;une matrice <code>notes</code> telle que chaque ligne représente les trois notes d&rsquo;un étudiant.<br  /><div class="org-src-container">
+
+<pre><code class="R">n <- 4
+notes <- matrix(sample(0:20, 3*n), ncol = 3)
+colnames(notes) <- c("CC", "TP", "CT")
+print(notes)
+</code></pre>
+</div>
+
+<pre class="example">
+     CC TP CT
+[1,]  3  2 14
+[2,] 10 20  5
+[3,]  9  8  0
+[4,] 12 17  7
+</pre></li>
+
+<li><a id="orgheadline44"></a>Calculer les notes finales des étudiants avec les coefficients suivants : \(40\%\) CC ; \(20\%\) TP ; \(40\%\) CT.<br  /><div class="org-src-container">
+
+<pre><code class="R">coefs <- c(0.4, 0.2, 0.4)
+notes <- cbind(notes, NF = as.vector(notes %*% coefs) )
+print(notes)
+</code></pre>
+</div>
+
+<pre class="example">
+     CC TP CT   NF
+[1,]  3  2 14  7.2
+[2,] 10 20  5 10.0
+[3,]  9  8  0  5.2
+[4,] 12 17  7 11.0
+</pre></li>
+
+</section>
+<section id="slide-orgheadline45">
+<h4 id="orgheadline45">Calcul de moyennes (suite)</h4>
+<p>
+Pour chaque note, afficher les statistiques de la fonction <code>summary</code>.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="R">summary(notes)
+</code></pre>
+</div>
+
+<pre class="example">
+      CC             TP              CT              NF       
+Min.   : 3.0   Min.   : 2.00   Min.   : 0.00   Min.   : 5.20  
+1st Qu.: 7.5   1st Qu.: 6.50   1st Qu.: 3.75   1st Qu.: 6.70  
+Median : 9.5   Median :12.50   Median : 6.00   Median : 8.60  
+Mean   : 8.5   Mean   :11.75   Mean   : 6.50   Mean   : 8.35  
+3rd Qu.:10.5   3rd Qu.:17.75   3rd Qu.: 8.75   3rd Qu.:10.25  
+Max.   :12.0   Max.   :20.00   Max.   :14.00   Max.   :11.00
+</pre>
+
+
+</section>
+</section>
+<section>
+<section id="slide-orgheadline48">
+<h2 id="orgheadline48">Matrices multidimensionnelles</h2>
+<p>
+Une matrice multidimensionnelle est un <code>array</code> en R défini par ses données et ses dimensions.
+Un <code>array</code> est un vecteur avec des attributs supplémentaires donnant ses.
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">array(1:12, dim = c(2,3,2))
+</code></pre>
+</div>
+
+<pre class="example">
+, , 1
+
+     [,1] [,2] [,3]
+[1,]    1    3    5
+[2,]    2    4    6
+
+, , 2
+
+     [,1] [,2] [,3]
+[1,]    7    9   11
+[2,]    8   10   12
+</pre>
+
+<p>
+On peut effectuer une permutation des dimensions d&rsquo;un <code>array</code>
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">aperm( array(1:12, dim = c(2,3,2)), c(3,1,2))
+</code></pre>
+</div>
+
+<pre class="example">
+, , 1
+
+     [,1] [,2]
+[1,]    1    2
+[2,]    7    8
+
+, , 2
+
+     [,1] [,2]
+[1,]    3    4
+[2,]    9   10
+
+, , 3
+
+     [,1] [,2]
+[1,]    5    6
+[2,]   11   12
+</pre>
+
+</section>
+</section>
+<section>
+<section id="slide-orgheadline56">
+<h2 id="orgheadline56">Quelques exemples de systèmes linéaires en économie</h2>
+<p>
+Exemples tirés de <a href="cours10/cours_proglin_eco.pdf">&laquo;&nbsp;Systèmes linéaires en économie&nbsp;&raquo;</a> du <a href="http://math.unice.fr/~walter/L1MASS/L1MASS_AlgLin">cours d&rsquo;algèbre linéaire en L1 MASS</a>. 
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-orgheadline52">
+<h3 id="orgheadline52"><span class="todo TODO">TODO</span> Avantages fiscaux de dons aux oeuvres de charité</h3>
+<p>
+Source : C. Simon et L. Blume, Mathématiques  pour  économistes, trad. fran ̧caise, De Boeck, Bruxelles, 1998.
+</p>
+
+<p>
+Une entreprise fait un bénéfice avant impôts de 100 000 F. Elle s’est engagée à verser 10% de son bénéfice net d’impôts à la caisse de secours de la Croix Rouge. 
+Elle doit payer un impôt local pour la taxe professionnelle égal à 5% de son bénéfice (après donation à la Croix Rouge) et un impôt national sur les sociétés de 40% de son bénéfice (après que la donation et l’impôt local aient été prélevés). 
+</p>
+
+<p>
+Quels sont les montants de l’impôt local, de l’impôt national, et de la donation à la Croix Rouge versés par l’entreprise ?
+</p>
+
+
+</section>
+<section id="slide-orgheadline49">
+<h4 id="orgheadline49">Système linéaire associé au problème</h4>
+<p>
+Ecrivons \(C\), \(L\), \(N\) pour les montants respectifs de la contribution à la Croix Rouge, de l’impôt local, et de l’impôt national.
+Le bénéfice après impôts donne une équation :
+\[
+    10* C + N + L =  100000 \Leftrightarrow \\
+    C + 0,1L + 0,1N = 10 000
+    \]
+L’impôt local est 5% du bénéfice net de la donation, ce qui nous donne une équation :
+\[
+    C + 0,05L = 5 000.
+    \]
+L’impôt national est de 40% du bénéfice après déduction de C et de L :
+\[
+    0,4C + 0,4L + N = 40 000.
+    \]
+</p>
+
+</section>
+<section id="slide-orgheadline50">
+<h4 id="orgheadline50">Bénéfice après impôts et contribution</h4>
+<p>
+On construit les matrices du système linéaire <code>Ax=b</code>.
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">A <- cbind( C = c(1, 0.05, 0.4), L = c(0.1, 1, 0.4), N = c(0.1, 0, 1) )
+b <- c(10000, 5000, 40000)
+print(A)
+print(b)
+</code></pre>
+</div>
+
+<pre class="example">
+        C   L   N
+[1,] 1.00 0.1 0.1
+[2,] 0.05 1.0 0.0
+[3,] 0.40 0.4 1.0
+[1] 10000  5000 40000
+</pre>
+
+
+<p>
+On résout le système linéaire.
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">x1 <- solve(A,b)
+print(round(x1,1))
+</code></pre>
+</div>
+
+<pre class="example">
+     C       L       N 
+5956.1  4702.2 35736.7
+</pre>
+
+<p>
+On calcule le bénéfice après impôts et contribution.
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">benef1 <- 100000 - sum(x1)
+print(benef1)
+</code></pre>
+</div>
+
+
+<pre class="example">
+[1] 53605.02
+</pre>
+
+</section>
+<section id="slide-orgheadline51">
+<h4 id="orgheadline51">Bénéfice après impôts sans contribution</h4>
+<p>
+Il suffit de remplacer la première contrainte (ligne) par la contrainte \(C=0\).en imposant que la contribution soit égale à 0.
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">A[1,] <- c(1, 0, 0)
+b[1] <- 0
+</code></pre>
+</div>
+
+<p>
+On résout à nouveau le système linéaire et on calcule le bénéfice après impôts sans contribution.
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">x2 <- solve(A,b)
+print(x2)
+benef2 <- 100000 - sum(x2)
+print(benef2)
+</code></pre>
+</div>
+
+<pre class="example">
+    C     L     N 
+    0  5000 38000
+[1] 57000
+</pre>
+
+<p>
+Finalement, le montant de la contribution après déduction d&rsquo;impôts est  
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">cat(sprintf("%.1f soit %.1f%% du montant total.\n",
+            benef2-benef1, 
+            round(100*(benef2-benef1)/x1["C"],1)))
+</code></pre>
+</div>
+
+<pre class="example">
+3395.0 soit 57.0% du montant total.
+</pre>
+
+</section>
+</section>
+<section>
+<section id="slide-orgheadline54">
+<h3 id="orgheadline54"><span class="todo STARTED">STARTED</span> Prix dans une économie de subsistance</h3>
+<p>
+Source : B. Guerrien, Algèbre Linéaire pour économistes, 4ème éd., Economica, Paris, 1997.
+</p>
+
+<p>
+Considérons une économie qui ne produit que ce qui est nécessaire pour continuer à subsister. 
+Supposons qu&rsquo;elle ne comporte que trois biens produits selons les relation suivantes :
+</p>
+<ul>
+<li>240 quintaux de blé + 12 tonnes de fer + 18 porcs &rarr; 450 quintaux de blé</li>
+<li>90 quintaux de blé + 6 tonnes de fer + 12 porcs &rarr; 21 tonnes de fer</li>
+<li>120 quintaux de blé + 3 tonnes de fer + 30 porcs &rarr; 60 porcs</li>
+
+</ul>
+
+
+<p>
+Les porcs et le blé ne servent pas directement à produire le fer. Plutôt ils nourissent les travailleurs nécessaire pour produire le fer. 
+Mais on les intègrera dans le modèle comme des biens nécessaires pour la production du fer.
+</p>
+
+<p>
+Notons que cette économie ne dégage aucun surplus pour la consommation. 
+Les 450 quintaux de blé produits sont totalement utilisés dans la production : 240 quintaux servent dans la production du blé, 90 quintaux dans la production du fer, et 120 quintaux dans l&rsquo;élevage des porcs. Il est de même pour les 21 tonnes de fer et les 60 porcs.
+</p>
+
+
+
+</section>
+<section id="slide-orgheadline53">
+<h4 id="orgheadline53">Solution</h4>
+<p>
+Soit \(B\), \(F\), et \(P\) les prix respectifs d&rsquo;un quintal de blé, d&rsquo;une tonne de fer, et d&rsquo;un porc.
+Comme l&rsquo;économie ne dégage aucun surplus, elle n&rsquo;a pas le moyen de gagner un bénéfice de sa production globalement. Donc un bénéfice dans un secteur serait compensé par un déficit dans un autre, qui augmenterait ses prix, et les prix s&rsquo;évolueront vers un équilibre où les dépenses de chaque secteur sont égales à ses recettes. 
+Cela se traduit en un système de trois équations
+\[
+       240B + 12F + 18P = 450B \\
+       90B + 6F + 12P = 21F \\
+       120B + 3F + 30P = 60P 
+       \]
+</p>
+
+
+
+<p>
+Résoudre ce système linéaire pour trouver les prix d&rsquo;équilibre dans cette économie.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="R">A <- cbind(B = c(-210, 90, 120), F = c(12, -15, 3), P = c(18, 12, -30))
+b <- numeric(3)
+solve(A, b)
+</code></pre>
+</div>
+
+<p>
+Pour résoudre ce problème, on peut par exemple utiliser la fonction <code>ginv</code> du package <code>MASS</code> ou utiliser sa propre méthode d&rsquo;<a href="http://biol09.biol.umontreal.ca/Bio6077/Exercice_inversion.pdf">inversion</a>.
+</p>
+
+<p>
+Des modèles similaires mais plus compliqués servent pour l&rsquo;analyse des prix dans les
+économies avec surplus (modèle de Sraffa).
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-orgheadline55">
+<h3 id="orgheadline55"><span class="todo STARTED">STARTED</span> <a href="http://math.unice.fr/~walter/L1MASS/Cours_matrice_entrees.pdf">Matrices d&rsquo;entrées/sorties</a></h3>
+<p>
+Source : <a href="http://math.unice.fr/~walter/L1MASS/Cours_matrice_entrees.pdf">Cours sur les matrices d&rsquo;entrées/sorties</a>
+</p>
+
+<p>
+Léontief a utilisé l&rsquo;analyse d&rsquo;entrée-sortie pour étudier l&rsquo;économie des Etats-Unis en 1958.
+Il a divisé l&rsquo;économie en 81 secteurs et les a regroupés en six groupes distincts. 
+Nous allons traiter chacune des six familles comme des industries séparées afin de simplifier notre présentation. 
+Ces six industries sont listées ci-dessous :
+</p>
+
+<table border="0" cellspacing="0" cellpadding="6" rules="none" frame="none">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Abbrev.</th>
+<th scope="col" class="org-left">Secteur</th>
+<th scope="col" class="org-left">Exemples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">FN</td>
+<td class="org-left">Produits finis non métalliques</td>
+<td class="org-left">Peausserie, mobilier, aliments</td>
+</tr>
+
+<tr>
+<td class="org-left">FM</td>
+<td class="org-left">Produits finis métalliques</td>
+<td class="org-left">Appareils de construction, appareils ménagers</td>
+</tr>
+
+<tr>
+<td class="org-left">BM</td>
+<td class="org-left">Métal brut</td>
+<td class="org-left">Produits d&rsquo;exploitation minière et d&rsquo;atelier d&rsquo;usinage</td>
+</tr>
+
+<tr>
+<td class="org-left">BN</td>
+<td class="org-left">Produits semi-finis non métalliques</td>
+<td class="org-left">Verre, bois, textile, et produits pour l&rsquo;élevage</td>
+</tr>
+
+<tr>
+<td class="org-left">E</td>
+<td class="org-left">Energie</td>
+<td class="org-left">Charbon, pétrole, électricité, gaz</td>
+</tr>
+
+<tr>
+<td class="org-left">S</td>
+<td class="org-left">Services</td>
+<td class="org-left">Services publics, transports, immobilier</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>
+Leurs demandes intermédiaires de facteurs sont données dans le tableau suivant. 
+Les unités sont des millions de dollars. 
+Les nombres dans chaque colonne représente les demandes faites (chiffrés en fractions de 1 million de dollars) par le secteur correspondant sur lui-même et les autres secteurs.
+pour produire 1 million de dollars de ses produits. 
+Donc 0,173 en ligne 3 et colonne 2 veut dire que la production d&rsquo;une valeur de 1 million de dollars de produits finis métalliques nécessite une dépense de 173 000 dollars en métal brut.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="R">A <- read.table( text =  
+      "FN  FM     BM     BN     E      S    
+       0.170  0.004  0.000  0.029  0.000  0.008
+       0.003  0.295  0.018  0.002  0.004  0.016
+       0.025  0.173  0.460  0.007  0.011  0.007
+       0.348  0.037  0.021  0.403  0.011  0.048
+       0.007  0.001  0.039  0.025  0.358  0.025
+       0.120  0.074  0.104  0.123  0.173  0.234", header= TRUE)
+rownames(A) <- colnames(A)
+</code></pre>
+</div>
+
+<p>
+Le tableau suivant donne les estimations de Léontief pour les demandes finales dans l&rsquo;économie des Etats-Unis de 1958 (en millions de dollars). 
+Le problème est de déterminer combien d&rsquo;unités ont dû être produites dans chacun des six secteurs afin de faire fonctionner l&rsquo;économie des Etats-Unis
+en 1958.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="R">b <- c(99640, 75548, 14444, 33501, 23527, 263985)
+names(b) <- colnames(A)
+rbind(names(b), b)
+</code></pre>
+</div>
+
+<p>
+Pour résoudre ce problème, nous traitons les deux derniers tableaux comme une matrice de technologie <code>A</code> et un vecteur colonne de demandes finales <code>b</code>. 
+L&rsquo;objectif est de résoudre <code>(I − A)x = c</code> pour une matrice de colonnes de sorties <code>x</code> : <code>x = (I − A)^-1 c</code>.
+</p>
+
+<p>
+Nous devons calculer la matrice d&rsquo;entrée-sortie nette I − A.
+La matrice inverse de cette matrice d&rsquo;entrées-sorties nette peut être calculée par la méthode <code>solve</code>.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="R">A.net <- diag(nrow(A)) - A
+A.inv <- solve(A.net)
+round(A.inv, digits = 3)
+</code></pre>
+</div>
+
+<table border="0" cellspacing="0" cellpadding="6" rules="none" frame="none">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">1.234</td>
+<td class="org-right">0.014</td>
+<td class="org-right">0.007</td>
+<td class="org-right">0.064</td>
+<td class="org-right">0.006</td>
+<td class="org-right">0.017</td>
+</tr>
+
+<tr>
+<td class="org-right">0.017</td>
+<td class="org-right">1.436</td>
+<td class="org-right">0.056</td>
+<td class="org-right">0.014</td>
+<td class="org-right">0.019</td>
+<td class="org-right">0.032</td>
+</tr>
+
+<tr>
+<td class="org-right">0.078</td>
+<td class="org-right">0.467</td>
+<td class="org-right">1.878</td>
+<td class="org-right">0.036</td>
+<td class="org-right">0.044</td>
+<td class="org-right">0.031</td>
+</tr>
+
+<tr>
+<td class="org-right">0.752</td>
+<td class="org-right">0.133</td>
+<td class="org-right">0.101</td>
+<td class="org-right">1.741</td>
+<td class="org-right">0.065</td>
+<td class="org-right">0.123</td>
+</tr>
+
+<tr>
+<td class="org-right">0.061</td>
+<td class="org-right">0.045</td>
+<td class="org-right">0.13</td>
+<td class="org-right">0.083</td>
+<td class="org-right">1.578</td>
+<td class="org-right">0.059</td>
+</tr>
+
+<tr>
+<td class="org-right">0.34</td>
+<td class="org-right">0.236</td>
+<td class="org-right">0.307</td>
+<td class="org-right">0.315</td>
+<td class="org-right">0.376</td>
+<td class="org-right">1.349</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+Ensuite, on l&rsquo;utilise pour calculer la matrice colonne des sorties brutes.
+</p>
+<div class="org-src-container">
+
+<pre><code class="R">x <- A.inv %*% b
+rbind(rownames(x), t (round( x, digits = 0)))
+</code></pre>
+</div>
+
+<table border="0" cellspacing="0" cellpadding="6" rules="none" frame="none">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">FN</td>
+<td class="org-right">FM</td>
+<td class="org-right">BM</td>
+<td class="org-right">BN</td>
+<td class="org-right">E</td>
+<td class="org-right">S</td>
+</tr>
+
+<tr>
+<td class="org-right">131033</td>
+<td class="org-right">120459</td>
+<td class="org-right">80681</td>
+<td class="org-right">178732</td>
+<td class="org-right">66929</td>
+<td class="org-right">431562</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>
+Nous concluons que, par exemple, un total de 131 161 millions de dollars de produits finis non métalliques sont nécessaires pour satisfaire à la fois les demandes intermédiaires et finales de l&rsquo;économie des Etats-Unis en 1958.
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-orgheadline57">
+<h2 id="orgheadline57"><span class="todo TODO">TODO</span> Construction de matrice complexe</h2>
+</section>
+</section>
+</div>
+</div>
+<script src="http://cdn.jsdelivr.net/reveal.js/3.0.0/lib/js/head.min.js"></script>
+<script src="http://cdn.jsdelivr.net/reveal.js/3.0.0/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'h/v',
+rollingLinks: true,
+keyboard: true,
+overview: true,
+width: 1200,
+height: 800,
+margin: 0.10,
+minScale: 0.50,
+maxScale: 2.50,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'slide', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'http://cdn.jsdelivr.net/reveal.js/3.0.0/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }]
+});
+</script>
+</body>
+</html>

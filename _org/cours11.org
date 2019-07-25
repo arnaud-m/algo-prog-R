@@ -1,0 +1,17 @@
+#+SETUPFILE: ~/.emacs.d/org-templates/base.org
+#+TITLE:       Cours 11 : Data Frames et facteurs
+#+DESCRIPTION: Introduction à la programmation R.
+#+KEYWORDS:    computer science, teaching, programming, GNU R.
+#+HTML_HEAD_EXTRA:    <link rel="stylesheet" type="text/css" href="http://www.i3s.unice.fr/~malapert/css/worg.min.css"/>
+#+LANGUAGE: fr
+#+OPTIONS: num:2 toc:2 H:3
+#+HTML_LINK_HOME: ../introR.html
+#+INFOJS_OPT: view:info mouse:underline toc:t ltoc:t sdepth:2
+#+PROPERTY: header-args :results output :exports both
+* Facteurs
+
+Un facteur est un type de vecteur qui représente une propriété qualititative (attribut nominal) qui est codé en interne par un identfiant numérique et non par la chaîne de caractère représentant sa valeur.
+
+* Data frame
+* Création d'une data frame
+* Tables de contingence

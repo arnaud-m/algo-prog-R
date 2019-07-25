@@ -1,0 +1,692 @@
+#+SETUPFILE: ~/.emacs.d/org-templates/base.org
+#+TITLE:  Projet : partition d'entiers avec R
+#+Author: Arnaud Malapert
+#+Email: 
+#+DESCRIPTION: Projet de programmation R.
+#+KEYWORDS:    computer science, teaching, programming, GNU R.
+#+HTML_LINK_HOME: ../introR.html
+#+LANGUAGE: fr
+#+PROPERTY: header-args :results output :exports both
+* Principe du projet
+
+   Le but de ce projet est de participer à une compétition par équipes autour de la résolution du problème de partition.
+   Le projet s'organise autour des trois axes suivants :
+      1. Algorithmique : étude du problème de partition et de ses algorithmes de résolution ([[file:partition-reveal.html][notes de cours]]).
+      2. Programmation : implémentation correcte d'un ou plusieurs de ses algorithmes.
+      3. Gestion de projet : introduction d'une méthode rigoureuse et d'outils modernes ([[http://github.com/arnaud-m/partition][package partition]]).
+
+La note de projet comptera pour 60% de la note finale déterminée par les résultats de la compétition et une soutenance orale.
+* Déroulement du projet 
+  Le projet comporte quatres jalons qui sont notés sur un total 31 points plus des points bonus.
+** Inscription 
+   DEADLINE: <2016-10-07 ven. 23:55>
+   Une équipe est composée d'au plus 3 étudiants.
+   Le formulaire d'inscription est disponible [[https://unice-my.sharepoint.com/personal/arnaud_malapert_unice_fr/_layouts/15/guestaccess.aspx?guestaccesstoken=JY7eT%252fc6hTwBjwzIVLQbtKYlk8QHNofJNZcybXAtIBk%253d&docid=1_1e3f3120acda24f70be60bc14bb810839&wdFormId=%257B07B4E9A4%252DF2DC%252D46E8%252D9B7C%252D1E19FBC3A606%257D][ici]].
+** Qualifications (Version 0)
+   DEADLINE: <2016-11-07 lun. 23:55>
+   
+   Les têtes de série de la compétition seront déterminées à l'issue des qualifications.
+    
+ | Tâche                                                 | Pts | Code |
+ |-------------------------------------------------------+-----+------|
+ | Conforme aux spécifications                           |  .5 | S0   |
+ | Compilation et chargement réussi du code              |  .5 | C0   |
+ | Succès aux tests préliminaires                        |   1 | T0   |
+ | Victoire d'un match-test contre un algorithme glouton |   2 | V0   |
+ |-------------------------------------------------------+-----+------|
+ | *TOTAL*                                               |   4 |      |
+
+** Compétition de solveurs (Version 1)
+   DEADLINE: <2016-12-05 lun. 12:00>  SCHEDULED: <2016-12-06 mar. 15:15> 
+   
+   Les équipes sont engagées dans à [[https://fr.wikipedia.org/wiki/Tournoi_%25C3%25A0_double_%25C3%25A9limination][tournoi à double élimination]].
+   Les points sont attribués selon le classement final dans le tournoi.
+   
+   /Le vainqueur d'un match est le premier joueur avec deux courses victorieuses./
+   Une course correspond à un appel de la fonction ~PartRace~ du package [[https://github.com/arnaud-m/partition][partition]] développé pour ce projet. 
+   Le résultat d'une course est un classement des participants où les égalités sont possibles.
+
+ | Tâche                                                 |  Pts | Code |
+ |-------------------------------------------------------+------+------|
+ | Est conforme, compile, et passe les tests             |    1 | SCT  |
+ |-------------------------------------------------------+------+------|
+ | Victoire d'un match-test contre un algorithme glouton |    1 | V1   |
+ | Victoire d'un match-test contre un meilleur glouton   |    2 | V2   |
+ |-------------------------------------------------------+------+------|
+ | Participation au tournoi                              |    1 | PT   |
+ | Classement du tournoi                                 |   12 | CT   |
+ |-------------------------------------------------------+------+------|
+ | Victoire d'un match de gala contre les profs (bonus)  |    3 | VG   |
+ |-------------------------------------------------------+------+------|
+ | *TOTAL*                                               | 17+3 |      |
+
+*** TODO À ajouter !?                                              :noexport:
+      Les équipes doivent être présentes au complet au début de la compétition.
+ 
+*** Règlement d'un match
+  - Un bug pendant une course est éliminatoire, le joueur perd le match.
+  - Les égalités ne sont pas comptabilisées.
+  - Les joueurs choisissent à tour de rôle le nouveau jeu d'instances utilisé pour la course. Le gagnant d'un tirage au sort commence.  
+ 
+** Soutenance orale
+   SCHEDULED: <2016-12-06 mar. 13:05> 
+
+   Les équipes doivent être présentes au complet au début du jury.
+   La soutenance orale en français dure 8 minutes, suivie d'une séance de questions (4 minutes).
+
+#    Chaque équipe dispose d'un droit de vote pour la note finale.
+#    Pour voter, une équipe doit classer les meilleures autres équipes de son jury. 
+#    Le résultat du vote est donné par un [[http://condorcet.ericgorr.net/][calculateur en ligne]] de résultats par [[https://fr.wikipedia.org/wiki/M%25C3%25A9thode_Condorcet][méthode de Condorcet]].  
+
+ | Tâche                       |  Pts | Code |
+ |-----------------------------+------+------|
+ | Évaluation des professeurs  |    7 | EP   |
+ | Évaluation des participants |    3 | EE   |
+ |-----------------------------+------+------|
+ | Bonus anglais               |    1 | BA   |
+ | Bonus nouveau               |    1 | BN   |
+ |-----------------------------+------+------|
+ | *TOTAL*                     | 10+2 |      |
+
+*** Planning des soutenances
+
+  | Horaire     | Amphi |                     |         |            |               |              |               |
+  |-------------+-------+---------------------+---------+------------+---------------+--------------+---------------|
+  | 9h00-10h30  | Phy 1 | LEquipe21           | SKV     | TeamRocket | ElPsyCongroo  | ChequeEnBois | LesLegendR    |
+  | 11h00-12h30 | Phy 1 | uRhs                | BDM     | LesReds    | FioRoxPOWER   | TeamSheytan  | +GTA+         |
+  | 13h00-14h30 | M     | LaTripletteGagnante | LionsRT | ZizouTeam  | LesNinfomanes | LesNouveaux  | ProjectSmiley |
+ 
+** Bonus et Malus 
+
+   Des bonus et des malus peuvent être attribués pendant le projet.
+   Ils s'appliquent à la note finale sur 20.
+
+ | Tâche | Code |
+ |-------+------|
+ | Bonus | B    |
+ | Malus | M    |
+
+  
+* Rendu du projet                                                       :KEY:
+  Les versions 0 et 1 du projet seront rendues dans une boîte de dépôt JALON sous la forme d'une archive ZIP contenant : 
+    - Un fichier texte ~README~ comprenant le nom de l'équipe (~TeamName~), ses membres (noms et numéros d'étudiants) et quelques informations jugées essentielles.
+    - La présentation (au plus 12 diapositives) au format PDF nommé ~TeamName.pdf~ (version 1 uniquement). 
+    - Un fichier de code source nommé ~TeamName.R~  respectant les [[Spécifications][spécifications]].
+       
+    Attention, une erreur lors de l'exécution de la commande ~source('TeamName.R')~ entraîne une disqualification.
+ 
+    /Ces instructions doivent impérativement être respectées./
+
+* Spécifications                                                        :KEY:
+  Une équipe ~TeamName~ fournit un fichier ~TeamName.R~ contenant une fonction ~TeamName(sizes)~ qui prend en argument un vecteur d'entiers positifs.
+  La fonction résout la version optimisation du problème de partition et renvoie un vecteur logique d'indices représentant une partition (la meilleure possible).
+  Ce vecteur logique d'indices doit avoir la même longueur que le vecteur d'entiers en entrée. 
+  Autrement, le résultat sera considéré invalide. 
+
+  Le fichier ~TeamName.R~ ne doit contenir qu'une seule fonction et aucune autre instruction. 
+  Cependant, Des fonctions auxiliaires peuvent être définies dans la fonction principale.
+  Par ailleurs, la fonction ne doit rien afficher (~print~, ~cat~, \dots).
+
+  Attention, il est primordial que votre solveur puisse participer aux matches/courses.
+  Une course correspond à un appel de la fonction ~PartRace~ du package [[https://github.com/arnaud-m/partition][partition]] développé pour ce projet. 
+  La fonction PartRace appelle la fonction ~race~ du package [[https://cran.r-project.org/web/packages/race/][race]] qui exécute une course pour la sélection empirique du meilleur. 
+  Il existe des [[http://www.imada.sdu.dk/~marco/Teaching/Files/][notes de cours]] à propos du package [[https://cran.r-project.org/web/packages/race/][race]]. 
+  Les équipes peuvent contribuer au développement du package ~partition~ en proposant des corrections de bug, des améliorations ou de nouvelles fonctions.
+  
+  Vous ne devez pas seulement écrire du code, vous devez également le COMMENTER, faire attention aux NOMS des fonctions et des variables que vous utilisez (choisissez des noms EXPLICITES)
+  La qualité et la lisibilité du code seront prises en compte. \\
+  Dans ce projet, nous adopterons les [[https://google-styleguide.googlecode.com/svn/trunk/Rguide.xml][recommandations de google pour coder en R]].
+ 
+  
+  /Attention, Une équipe doit demander une autorisation pour utiliser un package ou une extension./
+   
+* Évaluation du projet                                             
+  
+
+#+tblname: teams
+| Equipe              | etu1     | etu2     | etu3     | Note/20 |   S0 |   C0 |  T0 |  V0 |  SCT |   V1 |  V2 | PT | CT |  VG |  EP |  EE | BN |   B |  M |
+|---------------------+----------+----------+----------+---------+------+------+-----+-----+------+------+-----+----+----+-----+-----+-----+----+-----+----|
+| BDM                 | by506127 | dg502433 | mm607262 |      14 |  0.5 |  0.5 | 0.5 | 0.5 |    1 |    1 |   0 |  1 |  9 |     |   5 | 1.5 |  1 |     |    |
+| ChequeEnBois        | cj503937 | as412741 | rm505280 |    10.5 | 0.25 |    0 | 0.5 |   0 |  0.5 |  0.5 |   0 |  1 |  6 | 0.5 | 4.5 | 2.5 |    |     |    |
+| ElPsyCongroo        | dt411921 | gl504436 | rt500892 |    19.5 |  0.5 | 0.25 | 0.5 |   0 | 0.25 |    1 | 1.5 |  1 | 12 |   3 |   7 |   3 |    |     |    |
+| FioRoxPOWER         | pf402134 | jr506436 | NA       |      11 | 0.25 | 0.25 | 0.5 |   0 |    0 |    0 |   0 |  1 |  7 |     | 6.5 | 1.5 |    |     |    |
+| +GTA+               | ct502678 | ng407922 | gl505046 |       0 |      |      |     |     |      |      |     |    |    |     |     |     |    |     |    |
+| LaTripletteGagnante | ma501325 | er402540 | tj510287 |     4.5 | 0.25 |  0.5 | 0.5 |   1 | 0.25 | 0.25 |   0 |  0 |    |     | 3.5 | 0.5 |    |     |    |
+| LEquipe21           | mn407471 | lr513114 | aj612792 |    16.5 |  0.5 |  0.5 | 0.5 |   1 |    1 |    1 |   1 |  1 | 10 | 0.5 |   6 | 1.5 |  1 |     |    |
+| LesLegendR          | ga405946 | pa100963 | sm308786 |     2.5 | 0.25 | 0.25 |   0 |   0 |    1 |    0 |   0 |  0 |    |     | 1.5 | 0.5 |    |     |    |
+| LesNinfomanes       | hc506416 | dl500593 | ln501446 |     6.5 | 0.25 | 0.25 | 0.5 |   0 | 0.25 |    0 |   0 |  0 |    |     | 6.5 | 2.5 |    |     |    |
+| LesNouveaux         | ml610140 | nm605493 | bm608749 |     9.5 | 0.25 |  0.5 |   0 |   0 | 0.25 | 0.25 |   0 |  1 |  8 |     | 3.5 |   3 |  1 |     | -2 |
+| LesReds             | ra501649 | eg406896 | bh506742 |    14.5 |  0.5 |  0.5 | 0.5 |   0 |  0.5 | 0.25 |   0 |  1 |  8 |     |   6 |   3 |  1 |   1 |    |
+| LionsRT             | fr507253 | bt506698 | cs610000 |    14.5 | 0.25 |  0.5 | 0.5 | 0.5 |    1 |    0 |   0 |  1 | 11 |   1 | 3.5 |   2 |  1 |     |    |
+| ProjectSmiley       | aa504011 | bt503254 | am501829 |     4.5 |      |      |     |     |      |      |     |  1 |  6 |     |   4 |   1 |    |     | -3 |
+| SKV                 | av502395 | vs502662 | bk506202 |    16.5 | 0.25 |  0.5 | 0.5 |   1 |  0.5 |    1 |   1 |  1 | 11 |   1 |   5 | 2.5 |    |     |    |
+| TeamRocket          | cm506616 | nm609672 | va506304 |       9 | 0.25 |  0.5 | 0.5 | 0.5 |  0.5 |    0 |   0 |  1 |  7 |     |   2 |   1 |  1 |     |    |
+| TeamSheytan         | mo608769 | bs610691 | hk608773 |     2.5 | 0.25 |  0.5 |   0 |   0 | 0.25 | 0.25 |   0 |  0 |    |     |   3 | 2.5 |    |     | -2 |
+| uRhs                | lp404690 | dl503057 | gy507016 |      18 | 0.25 |  0.5 | 0.5 |   1 |    1 |    1 | 1.5 |  1 |  9 |   3 | 6.5 | 1.5 |    | 0.5 |    |
+| ZizouTeam           | da400662 | cl401373 | rz308280 |    10.5 | 0.25 |  0.5 | 0.5 |   0 | 0.25 | 0.25 |   0 |  1 |  7 | 0.5 | 4.5 | 1.5 |    |     |    |
+
+
+** Note Finale (/20)
+   
+   Le calcul de votre note finale sur 20 est open source !
+    #+begin_src R :var teams=teams :exports code :results value :session part 
+      ## teams est le tableau détaillé d'évaluation
+      ## On calcule la note sur 20 sans les bonus
+      exclude <- colnames(teams) %in% c("Equipe", "etu1", "etu2", "etu3", "Note.20", "B", "M")
+      x <- teams[,!exclude]
+      x [ is.na(x) ] <- 0
+      x <- rowSums(x)
+      ## L'évaluation est sur 31 points
+      x <- round((40 * x)/31, 0)/2
+      ## On ajoute les bonus/malus
+      y <- teams[,c("B", "M")]
+      y [ is.na(y) ] <- 0
+      x <- x + rowSums(y)
+      ## On affiche les résultats
+      y <- order(x, decreasing = TRUE)
+      df <- data.frame( Equipe = teams$Equipe[y], Note = x[y])
+    #+end_src
+
+    #+RESULTS:
+    | ElPsyCongroo        | 19.5 |
+    | uRhs                |   18 |
+    | LEquipe21           | 16.5 |
+    | SKV                 | 16.5 |
+    | LesReds             | 14.5 |
+    | LionsRT             | 14.5 |
+    | BDM                 |   14 |
+    | FioRoxPOWER         |   11 |
+    | ChequeEnBois        | 10.5 |
+    | ZizouTeam           | 10.5 |
+    | LesNouveaux         |  9.5 |
+    | TeamRocket          |    9 |
+    | LesNinfomanes       |  6.5 |
+    | LaTripletteGagnante |  4.5 |
+    | ProjectSmiley       |  4.5 |
+    | LesLegendR          |  2.5 |
+    | TeamSheytan         |  2.5 |
+    | +GTA+               |    0 |
+
+
+
+** Export excel                                                    :noexport:
+
+   #+BEGIN_SRC R :var teams=teams :results value :exports none :session part
+     df <- data.frame(unlist(teams[,c("etu1", "etu2", "etu3")]), x)
+     df <- df[order(df[,1]),]
+   #+END_SRC
+
+   #+RESULTS:
+   | aa504011 |  4.5 |
+   | aj612792 | 16.5 |
+   | am501829 |  4.5 |
+   | as412741 | 10.5 |
+   | av502395 | 16.5 |
+   | bh506742 |   14 |
+   | bk506202 | 16.5 |
+   | bm608749 |  9.5 |
+   | bt503254 |  4.5 |
+   | bt506698 | 14.5 |
+   | by506127 |   14 |
+   | cj503937 | 10.5 |
+   | cl401373 | 10.5 |
+   | cm506616 |  8.5 |
+   | cs610000 | 14.5 |
+   | ct502678 |    0 |
+   | da400662 | 10.5 |
+   | dg502433 |   14 |
+   | dl500593 |  6.5 |
+   | dl503057 |   18 |
+   | dt411921 | 19.5 |
+   | eg406896 |   14 |
+   | er402540 |  4.5 |
+   | fr507253 | 14.5 |
+   | ga405946 |  2.5 |
+   | gl504436 | 19.5 |
+   | gl505046 |    0 |
+   | gy507016 |   18 |
+   | hc506416 |  6.5 |
+   | hk608773 |  2.5 |
+   | jr506436 |   11 |
+   | ln501446 |  6.5 |
+   | lp404690 |   18 |
+   | lr513114 | 16.5 |
+   | ma501325 |  4.5 |
+   | ml610140 |  9.5 |
+   | mm607262 |   14 |
+   | mn407471 | 16.5 |
+   | mo608769 |  2.5 |
+   | ng407922 |    0 |
+   | nm605493 |  9.5 |
+   | nm609672 |  8.5 |
+   | pa100963 |  2.5 |
+   | pf402134 |   11 |
+   | ra501649 |   14 |
+   | rm505280 | 10.5 |
+   | rt500892 | 19.5 |
+   | rz308280 | 10.5 |
+   | sb610691 |  2.5 |
+   | sm308786 |  2.5 |
+   | tj510287 |  4.5 |
+   | va506304 |  8.5 |
+   | vs502662 | 16.5 |
+   | nil      |   11 |
+
+** Ballots EP                                                      :noexport:
+
+| Equipe              |  A. |  G. |  EP |
+|---------------------+-----+-----+-----|
+| BDM                 |   3 |   2 |   5 |
+| ChequeEnBois        | 2.5 |   2 | 4.5 |
+| ElPsyCongroo        | 3.5 | 3.5 |   7 |
+| FioRoxPOWER         |   3 | 3.5 | 6.5 |
+| +GTA+               |     |     |     |
+| LaTripletteGagnante | 1.5 |   2 | 3.5 |
+| LEquipe21           |   3 |   3 |   6 |
+| LesLegendR          | 0.5 |   1 | 1.5 |
+| LesNinfomanes       |   3 | 3.5 | 6.5 |
+| LesNouveaux         |   2 | 1.5 | 3.5 |
+| LesReds             |   3 |   3 |   6 |
+| LionsRT             | 1.5 |   2 | 3.5 |
+| ProjectSmiley       |   2 |   2 |   4 |
+| SKV                 | 2.5 | 2.5 |   5 |
+| TeamRocket          |   1 |   1 |   2 |
+| TeamSheytan         | 1.5 | 1.5 |   3 |
+| uRhs                | 3.5 |   3 | 6.5 |
+| ZizouTeam           |   2 | 2.5 | 4.5 |
+
+   
+
+** Ballots EE                                                      :noexport:
+
+*** 1 
+    5:SKV>ElPsyCongroo>LegendR>TeamRocket>ChequeEnBois
+    5:ElPsyCongroo>ChequeEnBois>LEquipe>LegendR>TeamRocket
+    5:ChequeEnBois>LEquipe>SKV>TeamRocket>ElPsyCongroo
+    5:ElPsyCongroo>ChequeEnBois>LEquipe>SKV>LegendR
+    5:ElPsyCongroo>SKV>TeamRocket>LEquipe>LegendR
+*** 2
+    4:LesReds>FioRoxPOWER>TeamSheytan>uRhs
+    4:BDM>TeamSheytan>FioRoxPOWER>uRhs
+    4:uRhs>LesReds>FioRoxPOWER>BDM
+    4:LesReds>TeamSheytan>BDM>FioRoxPOWER
+    4:LesReds>TeamSheytan>uRhs>BDM
+*** 3
+    5:LionsRT>ZizouTeam>Ninfomanes>ProjectSmiley>LesNouveaux>LaTripletteGagnante
+    5:LesNouveaux>ProjectSmiley>LionsRT>ZizouTeam>LaTripletteGagnante>Ninfomanes
+    5:LesNouveaux>LaTripletteGagnante>Ninfomanes>LionsRT>ProjectSmiley>ZizouTeam
+    5:ZizouTeam>LionsRT>Ninfomanes>ProjectSmiley>LaTripletteGagnante>LesNouveaux
+    5:LesNouveaux>Ninfomanes>LaTripletteGagnante>ProjectSmiley>LionsRT=ZizouTeam
+    5:Ninfomanes>LesNouveaux>LionsRT>ZizouTeam>LaTripletteGagnante>ProjectSmiley
+
+** Utils                                                           :noexport:
+
+ 
+*** v0
+  #+begin_src R :var teams=teams :exports none :results output :session part 
+    ##print(teams)
+    ## print(sum(! is.na(teams[,c("etu1", "etu2", "etu3")])))
+    x <- rowSums(teams[,c("S0", "C0", "T0", "V0")])
+    x [ is.na(x) ] <- 0
+    y <- rev(order( x + runif(length(x), max = 0.1) ))
+    df <- data.frame( Equipe = teams$Equipe[y], NoteV0 = x[y])
+    print(df)
+   #+end_src
+  
+  #+RESULTS:
+  #+begin_example
+                  Equipe NoteV0
+  1            LEquipe21   2.50
+  2                 uRhs   2.25
+  3  LaTripletteGagnante   2.25
+  4                  SKV   2.25
+  5                  BDM   2.00
+  6              LionsRT   1.75
+  7           TeamRocket   1.75
+  8              LesReds   1.50
+  9            ZizouTeam   1.25
+  10        ElPsyCongroo   1.25
+  11         FioRoxPOWER   1.00
+  12       LesNinfomanes   1.00
+  13        ChequeEnBois   0.75
+  14         TeamSheytan   0.75
+  15         LesNouveaux   0.75
+  16          LesLegendR   0.50
+  17                 GTA   0.00
+  18       ProjectSmiley   0.00
+ #+end_example
+
+
+
+
+    - Copie : LaTripletteGagnante.R SKV.R (68% de similarité)
+    - Cas d'un vecteur de longueur nulle en entrée.
+    - Pas d'affichage
+    - Uniquement une fonction 
+
+   
+    Extraction depuis la boîtes de dépôts
+    #+BEGIN_SRC bash
+      ## unzip submission
+      find . -type f -name '*.zip' -execdir unzip {} \;
+      ## find READMEs
+      find . -type f -iname readme.txt -exec file {} \;
+      ## Retrieve sources
+      mkdir ../src
+      find . -type f -name '*.R' -exec cp {} ../src/ \;
+    #+END_SRC
+
+
+    Compilation et Exécution des tests
+    #+BEGIN_SRC R
+      sourceDir <- function(path, trace = TRUE, ...) {
+        for (nm in list.files(path, pattern = "[.][Rr]$")) {
+          if(trace) cat(nm,":")
+          source(file.path(path, nm), ...)
+          if(trace) cat("\n")
+        }
+      }
+      sourceDir('src')
+    #+END_SRC
+   
+
+*** Compilation et tests
+ #+BEGIN_SRC R :session eval
+   candidate <- "LionsRT"
+   cfile <- file.path('~', "downloads", "Projet v1", "src", paste0(candidate,".R"))
+   source(cfile)
+
+   eval(call(paste0(candidate), numeric(0)))
+   eval(call(paste0(candidate), 1))
+   eval(call(paste0(candidate), 1:2))
+   idir <- file.path('~', "introR-UNS", "partitionDatasets")
+   library(partition)
+   library(partitionSolvers)
+
+ #+END_SRC
+
+ #+RESULTS:
+ : logical(0)
+ : [1] 1
+ : [1] FALSE
+ : [1] 1
+ : [1]  TRUE FALSE
+
+*** LPT
+
+ #+BEGIN_SRC R :session eval
+   candidates <- c(candidate, "PartLPT")
+
+   load(file.path(idir, "S20.rdata"))
+   PartRace(candidates, instances, plot.file = NA, timeout=30)
+
+   load(file.path(idir, "M20.rdata"))
+   PartRace(candidates, instances, plot.file = NA, timeout=30)
+
+ #+END_SRC
+
+ #+RESULTS:
+ #+begin_example
+
+ Racing methods for the selection of the best
+ Copyright (C) 2003 Mauro Birattari
+ This software comes with ABSOLUTELY NO WARRANTY
+
+ Race name.....................................Partition problem 
+ Number of candidates..........................................2 
+ Number of available tasks...................................100 
+ Max number of experiments.............................unlimited 
+ Statistical test..................................Friedman test 
+ Tasks seen before discarding.................................10 
+ Initialization function......................................ok 
+ Parallel Virtual Machine.....................................no 
+
+     We select the best algorithm for the partition problem.
+     The partition problem consists in finding a bi-partition
+     of a set of integers which minimizes the difference
+     between their sums. Each run has a timeout of 30 seconds. 
+
+
+                             Markers:                           
+                                x No test is performed.         
+                                - The test is performed and     
+                                  some candidates are discarded.
+                                = The test is performed but     
+                                  no candidate is discarded.    
+
+
+ +-+-----------+-----------+-----------+-----------+-----------+
+ | |       Task|      Alive|       Best|  Mean best| Exp so far|
+ +-+-----------+-----------+-----------+-----------+-----------+
+ |x|          1|          2|          1|  9.978e+06|          2|
+ |x|          2|          2|          1|  5.168e+06|          4|
+ |x|          3|          2|          1|  3.445e+06|          6|
+ |x|          4|          2|          1|  5.081e+06|          8|
+ |x|          5|          2|          1|  4.065e+06|         10|
+ |x|          6|          2|          1|  3.389e+06|         12|
+ |x|          7|          2|          1|  3.047e+06|         14|
+ |x|          8|          2|          1|  2.716e+06|         16|
+ |x|          9|          2|          1|  2.416e+06|         18|
+ |-|         10|          1|          1|  3.034e+06|         20|
+ +-+-----------+-----------+-----------+-----------+-----------+
+
+ Selected candidate:           1	mean value:  3.034e+06
+
+ Description of the selected candidate:
+ [1] "LionsRT"
+
+
+ Ranking
+      name rank
+ 1 LionsRT    1
+ 2 PartLPT    2
+
+ That's all folks !
+
+ Racing methods for the selection of the best
+ Copyright (C) 2003 Mauro Birattari
+ This software comes with ABSOLUTELY NO WARRANTY
+
+ Race name.....................................Partition problem 
+ Number of candidates..........................................2 
+ Number of available tasks....................................40 
+ Max number of experiments.............................unlimited 
+ Statistical test..................................Friedman test 
+ Tasks seen before discarding.................................10 
+ Initialization function......................................ok 
+ Parallel Virtual Machine.....................................no 
+
+     We select the best algorithm for the partition problem.
+     The partition problem consists in finding a bi-partition
+     of a set of integers which minimizes the difference
+     between their sums. Each run has a timeout of 30 seconds. 
+
+
+                             Markers:                           
+                                x No test is performed.         
+                                - The test is performed and     
+                                  some candidates are discarded.
+                                = The test is performed but     
+                                  no candidate is discarded.    
+
+
+ +-+-----------+-----------+-----------+-----------+-----------+
+ | |       Task|      Alive|       Best|  Mean best| Exp so far|
+ +-+-----------+-----------+-----------+-----------+-----------+
+ |x|          1|          2|          1|        225|          2|
+ |x|          2|          2|          1|      115.5|          4|
+ |x|          3|          2|          1|        104|          6|
+ |x|          4|          2|          1|         83|          8|
+ |x|          5|          2|          1|       4987|         10|
+ |x|          6|          2|          1|       4177|         12|
+ |x|          7|          2|          1|       3582|         14|
+ |x|          8|          2|          1|       3136|         16|
+ |x|          9|          2|          1|       2800|         18|
+ |-|         10|          1|          1|  1.257e+04|         20|
+ +-+-----------+-----------+-----------+-----------+-----------+
+
+ Selected candidate:           1	mean value:  1.257e+04
+
+ Description of the selected candidate:
+ [1] "LionsRT"
+
+
+ Ranking
+      name rank
+ 1 LionsRT    1
+ 2 PartLPT    2
+
+ That's all folks !
+#+end_example
+
+ #+BEGIN_SRC R :session eval
+   load(file.path(idir, "L10.rdata"))
+   PartRace(candidates, instances, plot.file = NA, timeout=30)
+ #+END_SRC
+
+
+
+*** MTGS
+
+ #+BEGIN_SRC R :session eval
+   candidates <- c(candidate, "PartMTGS")
+
+   load(file.path(idir, "S20.rdata"))
+   PartRace(candidates, instances, plot.file = NA, timeout=30)
+
+   load(file.path(idir, "M20.rdata"))
+   PartRace(candidates, instances, plot.file = NA, timeout=30)
+
+ #+END_SRC
+
+#+BEGIN_SRC R :session eval
+  load(file.path(idir, "L10.rdata"))
+  PartRace(candidates, instances, plot.file = NA, timeout=30)
+#+END_SRC
+
+*** Gala
+
+
+#+BEGIN_SRC R :session eval
+  candidate <- "uRhs"
+  cfile <- file.path('~', "downloads", "Projet v1", "src", paste0(candidate,".R"))
+  source(cfile)
+
+  idir <- file.path('~', "introR-UNS", "partitionDatasets")
+  library(partition)
+  library(partitionSolvers)
+
+  candidates <- c(candidate, "PartSolver")
+#+END_SRC
+
+#+RESULTS:
+
+#+BEGIN_SRC R :session eval
+  load(file.path(idir, "S20.rdata"))
+  PartRace(candidates, instances, plot.file = NA, timeout=30)
+#+END_SRC
+#+BEGIN_SRC R :session eval
+  load(file.path(idir, "M20.rdata"))
+  PartRace(candidates, instances, plot.file = NA, timeout=30)
+#+END_SRC
+
+
+* Quelques Conseils en vrac 
+** Vérification et évaluation de votre solveur
+
+   Il est également essentiel de TESTER chacun des programmes que vous faites, de développer des tests pour le vérifier. 
+ Vous devez faire part d'un esprit critique.
+ Faire des tests à l'intérieur d'un programme peut également vous aider à trouver vous-même votre erreur lorsqu'un programme ne fonctionne pas: pensez-y !
+ Ici, nous cherchons vérifier la correction de votre algorithme et évaluer ses performances.
+
+    1. Un générateur aléatoire d'instances ainsi qu'un générateur d'instances difficiles sont fournis.
+    2. Un jeu d'instances résolues optimalement est fourni pour évaluer la qualité de vos solutions.
+    3. Un algorithme résolvant optimalement les petites instances est fourni.
+    4. Il existe un algorithme glouton pour résoudre optimalement les instances constituées des nombres de 1 à n multipliés par une constante. Vous pouvez ainsi générer des instances faciles dont la taille et la précision varient.
+     
+*** Passage à l'échelle                                            :noexport:
+
+
+ #+BEGIN_SRC R
+  size <- 5 
+  precision <- 10
+  precision * seq(size) 
+  #+END_SRC
+
+  #+RESULTS:
+  : [1] 10 20 30 40 50  
+
+     Ces instance sont "faciles", car un algorithme glouton les résout optimalement.
+     L'algorithme construit une partition parfaite si n ou n+1 est un multiple de 4, sinon il construit une partition optimale dont la différence est égale à la précision. 
+     Sans perte de généralité, nous supposons que la précision est égale à 1.
+     L'algorithme sélectionne les colonnes paires du tableau ci-dessous.
+
+   
+     | n          |      |      |       |       |       |      |      |
+     |------------+------+------+-------+-------+-------+------+------|
+     | /          |    < |      |       |       |       |      |      |
+     | n = 4p     |    1 |    2 | \dots | 2p-1  | 2p    |      |      |
+     | (parfaite) |   4p | 4p-1 | \dots | 2p+2  | 2p+1  |      |      |
+     |------------+------+------+-------+-------+-------+------+------|
+     | n = 4p +1  |    1 |    2 | 3     | \dots | 2p    | 2p+1 |      |
+     | (optimale) |      | 4p+1 | 4p    | \dots | 2p+3  | 2p+2 |      |
+     |------------+------+------+-------+-------+-------+------+------|
+     | n = 4p +2  |    1 |    2 | 3     | \dots | 2p    | 2p+1 |      |
+     | (optimale) | 4p+2 | 4p+1 | 4p    | \dots | 2p+3  |      | 2p+2 |
+     |------------+------+------+-------+-------+-------+------+------|
+     | n = 4p + 3 |    1 |    3 | 4     | 5     | \dots | 2p+2 | 2p+3 |
+     | (parfaite) |    2 |      | 4p+3  | 4p+2  | \dots | 2p+5 | 2p+4 |
+** Travailler sur un vecteur trié d'entiers 
+
+   La plupart des algorithmes offriront de meilleures performances en triant les entiers. 
+ #+BEGIN_SRC R :session perm
+   sizes <- c(13, 11, 8, 20, 20, 11, 16, 17, 4, 13)
+   perm <- order(sizes, decreasing = TRUE)
+   sortedSizes <- sizes[perm]
+   print(perm)
+   print(sortedSizes)
+ #+END_SRC
+
+ #+RESULTS:
+ :  [1]  4  5  8  7  1 10  2  6  3  9
+ :  [1] 20 20 17 16 13 13 11 11  8  4
+
+   Ces algorithmes calculent donc une partition du vecteur trié (une permutation du vecteur original).
+ #+BEGIN_SRC R :session perm
+   sortedPart <- rep(c(TRUE,FALSE), each = 5)
+   print(sortedPart)
+   print(sortedSizes[sortedPart])
+ #+END_SRC
+
+ #+RESULTS:
+ :  [1]  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE
+ :  [1] 20 20 17 16 13
+
+   Mais, les spécifications exigent de renvoyer une partition du vecteur non trié.
+   Il faut inverser la permutation triant le vecteur.
+
+ #+BEGIN_SRC R :session perm
+   part <- logical(10)
+   part[perm] <- sortedPart
+   print(part)
+   print(sizes[part])
+ #+END_SRC
+
+ #+RESULTS:
+ :  [1]  TRUE FALSE FALSE  TRUE  TRUE FALSE  TRUE  TRUE FALSE FALSE
+ :  [1] 13 20 20 16 17
+
+** Soutenance orale
+ Lors de cette soutenance, vous devez présenter le travail effectué. 
+
+ Voici quelques conseils.
+     - La soutenance sert à convaincre le jury de la qualité de votre travail.
+     - Ne prenez la parole que lorsqu'on vous la donne. Attendez le signal du jury pour commencer, dites bonjour, présentez vous.
+     - Répétez votre présentation avant, ne dépassez pas le timing. Il vaut mieux faire moins que trop.
+     - Chaque diapositive ne doit contenir qu'une information importante. Pour chaque diapositive, demandez vous quel est le message que vous voulez faire passer. Si vous n'en trouvez pas, la diapositive ne sert à rien.
+     - Numérotez vos transparents sous la forme n/total pour que le jury sache où vous en êtes de votre présentation.
+     - Pendant la séance de questions, ne coupez pas la parole au jury ou à vos camarades. Vos réponses doivent être concises.
+
+
+
+
