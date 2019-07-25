@@ -214,7 +214,7 @@ http://www.dcode.fr/compte-est-bon
 #+BEGIN_QUOTE
 */L’intelligence ce n'est pas ce que l’on sait, mais ce que l’on fait quand on ne sait pas./*
 #+END_QUOTE
-Citation de [[https://fr.wikipedia.org/wiki/Jean_Piaget][Jean Piaget]] , Six études de psychologie.
+[[https://fr.wikipedia.org/wiki/Jean_Piaget][Jean Piaget]] , Six études de psychologie.
 
 
 *COURS EN CONSTRUCTION !* 
@@ -224,13 +224,9 @@ R est un logiciel libre[fn:1] (Projet GNU) pour la manipulation de données, le 
 R propose aussi une large palette de techniques avancés : modèles linéaires et non-linéaires ; tests statistiques ; analyse de séries temporelles ; classification ; partitionnement.
 R peut être étendu par les utilisateurs et de nombreuses extensions sont disponibles sur [[http://cran.r-project.org/][cran]].
 
-En tant que scientifique, vous appliquerez certaines de ces techniques dans votre cursus, puis dans votre métier. 
-Cela vous sera difficile, voire impossible, si vous ne maîtrisez pas les concepts fondamentaux d'algorithmique et de programmation. 
-
+En tant que scientifique, vous appliquerez des techniques dans votre cursus, puis dans votre métier, qui exigent la maîtrise des concepts fondamentaux en algorithmique et programmation. \\
 En tant qu'être humain, vous utilisez déjà quotidiennement des systèmes informatiques sans nécessairement les comprendre. 
-Ce cours vous aidera à mieux appréhender la logique et les limites sous-jacentes de ces systèmes.
-
-[[file:index/computers-everywhere.jpeg]]
+Ce cours vous aidera à mieux appréhender leurs logiques et leurs limites ce qui fera de vous un meilleur utilisateur, et peut-être un programmeur ;)
 
 Ce cours est inspiré du cours de Python de Jean-Paul Roy et Bruno Martin que je remercie pour le partage.
 
@@ -239,13 +235,24 @@ Ce cours est inspiré du cours de Python de Jean-Paul Roy et Bruno Martin que je
 * Calendrier  
 
 #+BEGIN_EXPORT html
-<iframe src="https://calendar.google.com/calendar/embed?showCalendars=0&amp;mode=AGENDA&amp;height=600&amp;wkst=2&amp;bgcolor=%23FFFFFF&amp;src=g27lg2fr2i3kbmu91cn43jtdn4%40group.calendar.google.com&amp;color=%235229A3&amp;ctz=Europe%2FBrussels" style="border-width:0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+<iframe src="https://calendar.google.com/calendar/embed?showCalendars=0&amp;mode=AGENDA&amp;height=600&amp;wkst=2&amp;bgcolor=%23FFFFFF&amp;src=g27lg2fr2i3kbmu91cn43jtdn4%40group.calendar.google.com&amp;color=%235229A3&amp;ctz=Europe%2FBrussels" style="border-width:0" width="800" height="300" frameborder="0" scrolling="no"></iframe>
 #+END_EXPORT
 
 * Contenu
  #+BEGIN_EXPORT html 
  <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Licence Creative Commons" style="border-width:0;margin-left:0%" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br/>Ce cours  est mis à disposition dans ce <a rel="github repository" href="https://github.com/arnaud-m/algo-prog-R">dépôt github</a> selon les termes de la <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Licence Creative Commons Attribution - Pas d’Utilisation Commerciale 4.0 International</a>.
  #+END_EXPORT 
+
+
+** Organisation
+
+ 1. Le matériel pédagogique est ici,
+ 2. Les évaluations sont sur [[https://lms.unice.fr/][moodle]], et
+ 3. Le code source est sur [[https://github.com/arnaud-m/algo-prog-R][github]] !
+
+
+**** Inscrivez-vous au [[https://lms.unice.fr/course/view.php?id=8151][cours UCAnCODE]] sur moodle !
+
 ** DONE Autoformation
 
    La partie sur la représentation des nombres et les conversions de base est en autoformation.
@@ -254,7 +261,7 @@ Ce cours est inspiré du cours de Python de Jean-Paul Roy et Bruno Martin que je
    - [[file:cours/F1-nombres.pdf][Cours sur la représentation des nombres]] 
    
    L'autoformation est au programme du contrôle continu et de l'examen.
-   Pour le contrôle continu, elle est évaluée individuellement par des questionnaires sur [[https://lms.unice.fr/course/view.php?id=8151][Moodle]].
+   Pour le contrôle continu, elle est évaluée individuellement par des questionnaires sur [[https://lms.unice.fr/course/view.php?id=8151][moodle]].
 
 ** WAITING Carte de référence
    
@@ -262,35 +269,38 @@ Ce cours est inspiré du cours de Python de Jean-Paul Roy et Bruno Martin que je
    Ce sera le seul document autorisé à l'examen. Apprenez à vous en servir !
    
 ** STARTED Cours 
-
+   Il y a 8 cours, chaun divisé en deux parties, accompagnés de leurs travaux pratiques. 
+   Les corrigés des travaux pratiques seront publiés au fur et à mesure.
+   Des questionnaires de lecture de code au programme de l'examen sont accessibles sur [[https://lms.unice.fr/course/view.php?id=8151][moodle]].
+ 
 | #. | Cours (Partie I)         | Cours (Partie II)                       | Travaux pratiques |
 |----+--------------------------+-----------------------------------------+-------------------|
 | 1. | Présentation du syllabus | [[file:pdf/01-variables.pdf][Expressions, instructions, et variables]] | [[file:TP01.org][TP 1]]              |
 | 2. | [[file:pdf/02-fonctions.pdf][Conditions et fonctions]]  | [[file:pdf/03-jeu-roulette.pdf][Jeu de roulette]]                         | [[file:TP02.org][TP 2]]              |
 | 3. | [[file:pdf/04-iterations-while.pdf][Itérations (while)]]       | [[file:pdf/05-conversions.pdf][Conversions]]                             | [[file:tp03.org][TP 3]]              |
-| 4. | [[file:pdf/06-nombres-approches.pdf][Nombres réels approchés]]  | [[file:pdf/07-calcul-pi.pdf][Approximation du nombre]]                 | [[file:tp04.org][TP 4]]              |
+| 4. | [[file:pdf/06-nombres-approches.pdf][Nombres réels approchés]]  | [[file:pdf/07-calcul-pi.pdf][Approximation du nombre \pi]]             | [[file:tp04.org][TP 4]]              |
 | 5. | [[file:pdf/08-iterations-for.pdf][Itérations (for)]]         | [[file:pdf/09-chaines.pdf][Chaînes de caractères]]                   | [[file:tp05.org][TP 5]]              |
 | 6. | [[file:pdf/10-vecteurs.pdf][Les séquences : vecteurs]] | [[file:pdf/11-premiers.pdf][Nombres premiers]]                        | [[file:tp06.org][TP 6]]              |
 | 7. | [[file:pdf/12-listes.pdf][Les séquences : listes]]   | [[file:pdf/13-dictionnaires.pdf][Ensembles et dictionnaires]]              | [[file:tp07.org][TP 7]]              |
 | 8. | [[file:pdf/14-fibonacci.pdf][Suite de Fibonacci]]       |                                         | [[file:tp08.org][TP 8]]              |
 
 
-   Tous les corrigés des travaux pratiques seront publiés au fur et à mesure.
-   Des questionnaires de lecture de code au programme de l'examen sont accessibles sur [[https://lms.unice.fr/course/view.php?id=8151][moodle]].
-
 ** Activités 
 
-   Choisissez votre binôme sur moodle pour toutes vos activités ! 
+   Choisissez votre binôme sur [[https://lms.unice.fr/course/view.php?id=8151][moodle]] pour toutes vos activités ! 
    Les activités sont évaluées pour le contrôle continu, mais ne sont pas au programme de l'examen.
-   Les corrigés des activités ne seront pas publiés.
+   Les corrigés des activités ne sont pas publiés.
 
    Les activités ont différents niveaux de difficultés.
    Nous ne pouvons pas vraiment prédire combien de temps il vous faudra pour terminer une activité. 
    Choisissez judicieusement et n'hésitez pas à demander des conseils.
    
    Quelques séances sont prévues pour les activités, mais l'essentiel du travail aura lieu en distanciel.
-   Vous pouvez cependant demander de l'aide pendant les travaux pratiques.
+   N'hésitez pas à demander de l'aide pour choisir et réaliser les activités.
 
+   Nous vous demandons de respecter le *code de conduite* suivant pour les activités : 
+     1. Citer vos sources
+     2. Le partage de code est interdit sauf avec votre binôme.
 *** WAITING Exercices UCAnCODE
 
     Les exercices UCAnCODE sont sur [[https://lms.unice.fr/course/view.php?id=8151][moodle]]. Les notes sont attribuées par le juge automatique. 
@@ -299,9 +309,7 @@ Ce cours est inspiré du cours de Python de Jean-Paul Roy et Bruno Martin que je
  
 *** STARTED Mini-projets
     Les mini-projets complètent et étendent des notions abordées en cours et vous font découvrir différentes applications.  
-    Vous devez déposer le projet sur moodle.
-
-    <span class="todo TODO">TODO</span>
+    Vous devez déposer le projet sur moodle et faire une démonstration rapide du projet pendant les travaux pratiques.
 
     | #. |      | Activité                                         | Cours | Niveau      |
     |----+------+--------------------------------------------------+-------+-------------|
@@ -328,8 +336,11 @@ Ce cours est inspiré du cours de Python de Jean-Paul Roy et Bruno Martin que je
     - Correction ou amélioration des codes du cours ou des corrigés.
     - Proposition d'exercices venant d'autres disciplines (biologie, économie, gestion \dots)
   
-* Contrôle des connaissances
+    Pour soumettre une contribution, vous devez 
+     - poster un message dans le forum discussion sur moodle avec [BB] devant le titre, ou
+     - poster une [[https://github.com/arnaud-m/algo-prog-R/issues][issue]] sur github.
 
+* Contrôle des connaissances
 ** Contrôle continu (60%)
    La note de contrôle continu est la moyenne des 3 meilleures notes obtenues à des activités ou en autoformation.
 ** Examen terminal (40%)
@@ -347,6 +358,7 @@ Ce cours est inspiré du cours de Python de Jean-Paul Roy et Bruno Martin que je
    
    Les modalités sont les mêmes que celles de l'examen terminal.
    La note de seconde session annule et remplace la note de première session.
+   
 * Ressources électroniques
 ** Ressources BU
   - [[http://catalogue.unice.fr/primo_library/libweb/action/dlDisplay.do?&docId%3Dsc_aleph_uns01000332479&vid%3DUNS][Le livre de R : apprentissage et référence]], Bernard Desgraupes. 
