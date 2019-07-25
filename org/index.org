@@ -243,13 +243,10 @@ Ce cours est inspiré du cours de Python de Jean-Paul Roy et Bruno Martin que je
 #+END_EXPORT
 
 * Contenu
-** Licence
  #+BEGIN_EXPORT html 
- <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Licence Creative Commons" style="border-width:0;margin-left:5%" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br/>Ce cours  est mis à disposition selon les termes de la <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Licence Creative Commons Attribution - Pas d’Utilisation Commerciale 4.0 International</a>.
+ <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Licence Creative Commons" style="border-width:0;margin-left:0%" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br/>Ce cours  est mis à disposition dans ce <a rel="github repository" href="https://github.com/arnaud-m/algo-prog-R">dépôt github</a> selon les termes de la <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Licence Creative Commons Attribution - Pas d’Utilisation Commerciale 4.0 International</a>.
  #+END_EXPORT 
-  - [[https://github.com/arnaud-m/algo-prog-R][Code source du site web et des diapositives du cours]].
-  - Code source de la carte de référence.
-** Autoformation
+** DONE Autoformation
 
    La partie sur la représentation des nombres et les conversions de base est en autoformation.
    Les seuls pré-requis sont de savoir additionner, multiplier par 2, et diviser par 2.
@@ -259,12 +256,12 @@ Ce cours est inspiré du cours de Python de Jean-Paul Roy et Bruno Martin que je
    L'autoformation est au programme du contrôle continu et de l'examen.
    Pour le contrôle continu, elle est évaluée individuellement par des questionnaires sur [[https://lms.unice.fr/course/view.php?id=8151][Moodle]].
 
-** Carte de référence
+** WAITING Carte de référence
    
    Nous vous avons préparé une superbe carte de référence en couleurs.
    Ce sera le seul document autorisé à l'examen. Apprenez à vous en servir !
    
-** Cours 
+** STARTED Cours 
 
 | #. | Cours (Partie I)         | Cours (Partie II)                       | Travaux pratiques |
 |----+--------------------------+-----------------------------------------+-------------------|
@@ -294,25 +291,27 @@ Ce cours est inspiré du cours de Python de Jean-Paul Roy et Bruno Martin que je
    Quelques séances sont prévues pour les activités, mais l'essentiel du travail aura lieu en distanciel.
    Vous pouvez cependant demander de l'aide pendant les travaux pratiques.
 
-*** Exercices UCAnCODE
+*** WAITING Exercices UCAnCODE
 
     Les exercices UCAnCODE sont sur [[https://lms.unice.fr/course/view.php?id=8151][moodle]]. Les notes sont attribuées par le juge automatique. 
     
     - [[file:pdf/A0-ucancode.pdf][Cours d'introduction à la programmation compétitive]]
  
-*** Mini-projets
+*** STARTED Mini-projets
     Les mini-projets complètent et étendent des notions abordées en cours et vous font découvrir différentes applications.  
     Vous devez déposer le projet sur moodle.
 
-    | #. |         | Activité                                         | Cours | Niveau      |
-    |----+---------+--------------------------------------------------+-------+-------------|
-    | 1. | TODO    | Graphisme Tortue                                 | [[file:pdf/A1-Tortue.pdf][A1]]    | Tout niveau |
-    | 2. | TODO    | Graphisme Tortue 3D                              | A2    | Difficile   |
-    | 3. | STARTED | [[file:act03-base-converter.org][Convertisseur de base (shiny)]]                    | [[http://www.hanselsolutions.com/blog/surf-talk/shiny-surf.html#/][A3]]    | Facile      |
-    | 4. | TODO    | Coefficient de Gini (shiny)                      | [[http://www.hanselsolutions.com/blog/surf-talk/shiny-surf.html#][A3]]    | Facile      |
-    | 5. | TODO    | Estimation de moyenne  (shiny)                   | [[http://www.hanselsolutions.com/blog/surf-talk/shiny-surf.html#/][A3]]    | Facile      |
-    | 6. | TODO    | Manipulation de polynômes                        | [[file:pdf/A4-Polynomes.pdf][A4]]    | Difficile   |
-    | 7. | TODO    | Estimation d'aires par la méthode de Monte Carlo | A5    | Difficile   |
+    <span class="todo TODO">TODO</span>
+
+    | #. |      | Activité                                         | Cours | Niveau      |
+    |----+------+--------------------------------------------------+-------+-------------|
+    | 1. | NEXT | [[file:act01.org][Graphisme tortue]]                                 | [[file:pdf/A1-Tortue.pdf][A1]]    | Tout niveau |
+    | 2. | TODO | Graphisme tortue 3D                              | A2    | Difficile   |
+    | 3. | NEXT | [[file:act03.org][Convertisseur de base (shiny)]]                    | [[http://www.hanselsolutions.com/blog/surf-talk/shiny-surf.html#/][A3]]    | Facile      |
+    | 4. | TODO | [[file:act04.org][Coefficient de Gini (shiny)]]                      | [[http://www.hanselsolutions.com/blog/surf-talk/shiny-surf.html#][A3]]    | Facile      |
+    | 5. | TODO | [[file:act05.org][Estimation de la moyenne  (shiny)]]                | [[http://www.hanselsolutions.com/blog/surf-talk/shiny-surf.html#/][A3]]    | Facile      |
+    | 6. | TODO | [[file:act06.org][Manipulation de polynômes]]                        | [[file:pdf/A4-Polynomes.pdf][A4]]    | Difficile   |
+    | 7. | TODO | [[file:act07.org][Estimation d'aires par la méthode de Monte Carlo]] | A5    | Difficile   |
 
     Vous devez déposer sur moodle un seul fichier de code source commenté dont l'entête est donnée ci-dessous.
     Les commentaires doivent indiquer clairement comment lancer une démonstration du projet s'éxécutant sans erreur. 

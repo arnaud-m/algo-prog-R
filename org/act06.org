@@ -1,0 +1,577 @@
+﻿#+SETUPFILE: base-template.org
+#+TITLE:    Manipulation de polynômes
+#+SUBTITLE:     Activités #6
+#+PROPERTY: header-args :results output replace :exports none
+* Représentations en machine des polynômes
+  1. Quelle serait la représentation creuse sous forme de liste du polynôme $2 + x^ 4 - 3 x^5$ ?
+  2. Et sa représentation dense ?
+  3. Quand choisit-on de travailler plutôt en représentation creuse ?
+  4. Quelle est la représentation la plus économique en terme d’espace mémoire ?
+
+* Importation du module ~polynom~
+Installer le module (une seule fois).
+#+BEGIN_SRC R :exports code :results none
+  install.packages("polynom")
+#+END_SRC
+
+Utiliser ce module pour vérifier vos résultats.
+#+BEGIN_SRC R :exports both :results output
+  library("polynom")
+
+  p1 <- polynomial(c(1,-1,1))
+  p2 <- polynomial(c(-1,0,1))
+  ## Affichage
+  print(p1)
+  print(p2)
+  ## Surcharge des opérateurs
+  print(p1+p2)
+  print(p1-p2)
+  ## Évaluations d'un polynome en un point 
+  predict(p1,-5:5)
+  ## Visualisation d'un polynome
+  plot(p1, xlim = c(-10,10))
+#+END_SRC
+
+#+RESULTS:
+: 1 - x + x^2 
+: -1 + x^2 
+: -x + 2*x^2 
+: 2 - x 
+:  [1] 31 21 13  7  3  1  1  3  7 13 21
+
+* Polynômes creux
+
+  Vous pouvez vous référer à l'article : [[file:TP8-TD8/johnson.pdf][sparse polynomial arithmetic]].
+
+  Un polynôme creux est représenté sous la forme d'une liste de monômes.
+  Un monôme est un vecteur à 2 éléments : (coefficient, degré).
+  
+  On reprends les deux polynômes ~p~ et ~q~ utilisés en cours. 
+  #+BEGIN_SRC R :exports code :session sparse
+    p <- list(c(2,5), c(-1,4),c(-2,1))
+    q <- list(c(1,4), c(7,2),c(-1,0))
+  #+END_SRC
+  
+  #+RESULTS:
+
+
+** Fonctions utilitaires
+*** Définir la fonction ~is_poly0(p)~ indiquant si le polynôme est nul.
+    #+BEGIN_SRC R :session sparse
+      is_poly0 <- function(p) length(p) == 0     
+    #+END_SRC
+
+    #+RESULTS:
+
+*** Définir la fonction ~degre(mp)~ (resp. ~coeff(mp)~) renvoyant le degré (resp. coefficient) d'un monôme ou d'un polynôme.
+    #+BEGIN_SRC R :session sparse
+      GetHeadIndex <-function(p, index) {
+        if(is_poly0(p)) {return(-Inf)}
+        if (is.list(p)) {p <- p[[1]]}
+        if (is.vector(p) && length(p) >= index) {return(p[index])}
+        else {return(NULL)}
+      }
+
+      degre <- function(p) GetHeadIndex(p, 2)
+      degre(p)
+      degre(p[2])
+      degre(list())
+      degre(4)
+
+      coeff <- function(p) GetHeadIndex(p, 1)
+      coeff(p)
+      coeff(p[2])
+      coeff(list())
+      coeff(4)
+    #+END_SRC
+
+    #+RESULTS:
+    : [1] 5
+    : [1] 4
+    : [1] -Inf
+    : NULL
+    : [1] 2
+    : [1] -1
+    : [1] -Inf
+    : [1] 4
+
+*** Programmez la fonction ~poly2str(p)~ renvoyant une chaîne de caractères représentant le polynôme creux sous la forme $\sum a_i X^i$.
+    #+BEGIN_SRC R :results none :session sparse
+      poly2str <- function(p) {
+        mono2str <- function(m) paste(m[1],"*X^",m[2],sep="")
+        paste( sapply(p, mono2str), collapse = " + ")
+      }
+    #+END_SRC
+
+    #+RESULTS:
+
+    #+BEGIN_SRC R :exports both :results output :session sparse
+      poly2str(list())
+      poly2str(p)
+    #+END_SRC
+
+    #+RESULTS:
+    : [1] ""
+    : [1] "2*X^5 + -1*X^4 + -2*X^1"
+
+    
+*** Programmez la fonction ~mult_ext(p,k)~ de multiplication par un scalaire ~k~ d'un polynôme.
+    #+BEGIN_SRC R :session sparse
+      mult_ext <- function(p, k)  lapply(p, function (x) {c(k*x[1], x[2])})
+    #+END_SRC
+
+    #+RESULTS:
+
+  #+BEGIN_SRC R :exports both :results output :session sparse
+    poly2str(mult_ext(p,-2))
+    #+END_SRC
+
+    #+RESULTS:
+    : [1] "-4*X^5 + 2*X^4 + 4*X^1"
+
+** Constructeurs
+*** Programmez la fonction ~make_poly(x)~ transformant un polynôme plein en un polynôme creux.
+
+    #+BEGIN_SRC R :results none :session sparse
+      make_poly <- function(x=c()) {
+        x <- as.vector(x)
+        ## Compute non-nil terms
+        degs <- rev(which( x != 0))
+        ## Build monoms
+        lapply(degs, function(i) {c(x[i], i-1)})            
+      }
+    #+END_SRC
+
+    #+RESULTS:
+
+   #+BEGIN_SRC R :exports both :results output :session sparse
+     poly2str(make_poly(c(0, -2, 0, 0, -1, 2)))
+     poly2str(make_poly(c(-1, 0, -7, 0, 1)))
+   #+END_SRC
+
+   #+RESULTS:
+   : [1] "2*X^5 + -1*X^4 + -2*X^1"
+   : [1] "1*X^4 + -7*X^2 + -1*X^0"
+
+
+*** Programmez la fonction ~rand_poly(n, coeffs)~ générant un polynôme aléatoire de degré inférieur à ~n~ et dont les coefficients sont tirés dans le vecteur ~coeffs~.
+       #+BEGIN_SRC R :results none :session sparse
+         rand_poly <- function(n, coeffs) make_poly(sample(coeffs, n, replace=TRUE))
+       #+END_SRC
+
+       #+RESULTS:
+
+   #+BEGIN_SRC R :exports both :results output :session sparse
+     poly2str(rand_poly(5,0:3))
+     poly2str(rand_poly(10,0:1))
+   #+END_SRC
+
+   #+RESULTS:
+   : [1] "2*X^3 + 1*X^2 + 1*X^0"
+   : [1] "1*X^9 + 1*X^7 + 1*X^5 + 1*X^4 + 1*X^2"
+
+** Addition et soustraction                                             :KEY:
+*** Programmez la fonction ~add(p,q)~ d'addition de deux polynômes.
+    Nous allons nous appuyer sur deux fonctions auxiliaires : 
+    - la fonction ~sort_monoms(p)~ qui trie une liste de monômes par degré décroissant ;
+    - la fonction ~merge_monoms(p)~ somme les termes de même degré, et supprime les termes dont le coefficient est nul.
+    
+    #+BEGIN_SRC R :results none :session sparse
+      sort_monoms <- function(p) {
+        ## Sort the terms into decreasing order of exponent.
+        indices <- order(sapply(p, "[",2), decreasing = TRUE) #
+        return(p[indices])
+      }
+      merge_monoms <- function(p) {
+        ## Sort the terms into decreasing order of exponent.
+        coef <- function(x) p[[x]][1]
+        deg <- function(x) return(p[[x]][2])
+        ##  Make a pass through the sorted terms 
+        i <- 1
+        while(i < length(p)) {
+          ## Sum consecutive terms with the same degree
+          j <- i + 1
+          while( deg(i) == deg(j)) {
+            p[[i]][1] <- coef(i) + coef(j)
+            p <- p[-j]
+            if(i == length(p)) {break}
+          }
+          if(coef(i) == 0) {
+            p <- p[-i]
+            ## Remove nil term 
+          } else {
+            ## Examine next term
+            i <- i + 1
+          }
+        }
+        return(p)
+      }
+
+      add <- function(p,q) {
+        merge_monoms(
+          sort_monoms(append(p,q))
+        )    
+      }  
+    #+END_SRC
+
+    #+RESULTS:
+
+    
+    
+    #+BEGIN_SRC R :exports both :results output :session sparse
+      poly2str(add(p, list()))
+      poly2str(add(list(), q))
+      poly2str(add(p,q))
+    #+END_SRC
+
+    #+RESULTS:
+    : [1] "2*X^5 + -1*X^4 + -2*X^1"
+    : [1] "1*X^4 + 7*X^2 + -1*X^0"
+    : [1] "2*X^5 + 7*X^2 + -2*X^1 + -1*X^0"
+
+*** Programmez la fonction ~sub(p,q)~ de soustraction de deux polynômes.
+
+    #+BEGIN_SRC R :results none :session sparse
+      sub <- function(p,q) {
+        add(p,mult_ext(q,-1))
+      }      
+    #+END_SRC
+
+    #+RESULTS:
+
+
+    #+BEGIN_SRC R :exports both :results output :session sparse
+      poly2str(sub(p,p))
+      poly2str(sub(p,q))
+      poly2str(sub(q,p))
+    #+END_SRC
+
+    #+RESULTS:
+    : [1] ""
+    : [1] "2*X^5 + -2*X^4 + -7*X^2 + -2*X^1 + 1*X^0"
+    : [1] "-2*X^5 + 2*X^4 + 7*X^2 + 2*X^1 + -1*X^0"
+
+
+    #+BEGIN_SRC R :exports both :results output :session sparse
+      ## Random list of monoms      
+      li <- replicate(10, sample(0:3, 2, replace=TRUE), simplify = FALSE)
+      paste(li)      
+      ## Test auxiliary functions
+      p1 <- sort_monoms(li)
+      paste(p1)
+      p1 <- merge_monoms(li)
+      poly2str(p1)
+      
+      
+      p1 <- merge_monoms(append(li, mult_ext(li,-1)))
+      poly2str(p1)
+      
+      
+    #+END_SRC
+
+    #+RESULTS:
+    :  [1] "c(1, 0)" "c(0, 0)" "2:3"     "c(0, 0)" "1:2"     "c(0, 0)" "2:3"    
+    :  [8] "c(0, 0)" "c(2, 0)" "c(1, 1)"
+    :  [1] "2:3"     "2:3"     "1:2"     "c(1, 1)" "c(2, 0)" "c(0, 0)" "c(0, 0)"
+    :  [8] "c(0, 0)" "c(0, 0)" "c(1, 0)"
+    : [1] "4*X^3 + 1*X^2 + 1*X^1 + 3*X^0"
+    : [1] ""
+
+** Intégration et dérivation
+*** Programmez la fonction ~integ(p)~ retournant une primitive du polynôme p. 
+    #+BEGIN_SRC R :results none :session sparse
+      integ <- function(p)  {
+        r <- lapply(p, function (x) {c(x[1]/(x[2]+1),x[2]+1)})
+      }
+    #+END_SRC
+
+    #+RESULTS:
+
+
+    #+BEGIN_SRC R :exports both :results output :session sparse
+      poly2str(integ(p))
+      poly2str(integ(q))
+    #+END_SRC
+
+    #+RESULTS:
+    : [1] "0.333333333333333*X^6 + -0.2*X^5 + -1*X^2"
+    : [1] "0.2*X^5 + 2.33333333333333*X^3 + -1*X^1"
+
+
+*** Programmez la fonction ~deriv(p)~ retournant le polynôme dérivé du polynôme p. 
+    #+BEGIN_SRC R :results none :session sparse
+      deriv <- function(p)  {
+        if(length(p) > 0 && tail(p,1)[[1]][2] == 0) {
+          ## Remove constant (last monom) 
+          p <- head(p,-1)
+        }
+        r <- lapply(p, function (x) {c(x[1]*x[2],x[2]-1)})
+      }
+    #+END_SRC
+
+    #+RESULTS:
+
+    
+    #+BEGIN_SRC R :exports both :results output :session sparse
+      poly2str(deriv(p))
+      poly2str(deriv(q))
+    #+END_SRC
+
+    #+RESULTS:
+    : [1] "10*X^4 + -4*X^3 + -2*X^0"
+    : [1] "4*X^3 + 14*X^1"
+
+** Multiplication interne                                              :HARD:
+   Programmez la fonction ~mult(p,q)~ de multiplication de deux polynômes.
+   Nous allons nous appuyer sur deux fonctions internes auxiliaires : 
+    - la fonction ~mult_monoms(m1, m2)~ qui multiplie deux monômes.
+    - la fonction ~mult_poly_mono(p, m)~ qui multiplie un polynôme par un monôme.
+    #+BEGIN_SRC R :results none :session sparse
+      mult <- function(p,q) {
+        mult_monoms <- function(m1, m2) c(m1[1]*m2[1], m1[2]+m2[2])
+        mult_poly_mono <- function(p,m) lapply(p, mult_monoms, m)
+        if(length(q) > length(p)) {
+          ## swap polynoms to perform less additions
+          tmp <- p;
+          p <- q
+          q <- tmp;
+        }
+        r <- list()
+        for(m in q) {
+          r <- add(r, mult_poly_mono(p,m))
+        }
+        return(r)
+      }
+    #+END_SRC
+    
+    #+RESULTS:
+
+
+  #+BEGIN_SRC R :exports both :results output :session sparse
+    p1 <- make_poly(c(1,1))
+    p2 <- make_poly(c(-1,1))
+    
+    poly2str(p1)
+    poly2str(p2)
+    poly2str(mult(p1,p2))
+    print("")
+    
+    p3 <- make_poly(c(1,-1,1))
+    poly2str(p3)
+    poly2str(p3)
+    poly2str(mult(p3,p3))
+    #+END_SRC
+
+  #+RESULTS:
+  : [1] "1*X^1 + 1*X^0"
+  : [1] "1*X^1 + -1*X^0"
+  : [1] "1*X^2 + -1*X^0"
+  : [1] ""
+  : [1] "1*X^2 + -1*X^1 + 1*X^0"
+  : [1] "1*X^2 + -1*X^1 + 1*X^0"
+  : [1] "1*X^4 + -2*X^3 + 3*X^2 + -2*X^1 + 1*X^0"
+
+** Évaluation d'un polynôme ~p~ en un point ~x~.                        :KEY:
+*** ~p~ n’est pas une fonction, mais on peut toujours créer une fonction associée au polynôme !
+    #+BEGIN_SRC R :session sparse
+      fpoly <- function(p) {
+        return( function(x) {polyval(p, x)})
+      }
+    #+END_SRC
+
+    #+RESULTS:
+
+*** Programmez la fonction ~polyval(p,x)~ calculant naïvement $\sum a_i X^i$.
+     #+BEGIN_SRC R :results none :session sparse
+       polyval <- function(p, x) {
+         sum(sapply(p, function (m) {m[1]*(x**m[2])}))
+       }
+     #+END_SRC
+
+     #+RESULTS:
+
+    #+BEGIN_SRC R :exports both :results output :session sparse
+      poly2str(p)
+      for(i in -1:1) {      
+        print(paste("p(",i,") = ",polyval(p,i), sep=""))
+      }
+      poly2str(q)
+      for(i in -1:1) {      
+        print(paste("q(",i,") = ",polyval(q,i), sep=""))
+      }
+    #+END_SRC
+
+    #+RESULTS:
+    : [1] "2*X^5 + -1*X^4 + -2*X^1"
+    : [1] "p(-1) = -1"
+    : [1] "p(0) = 0"
+    : [1] "p(1) = -1"
+    : [1] "1*X^4 + 7*X^2 + -1*X^0"
+    : [1] "q(-1) = 7"
+    : [1] "q(0) = -1"
+    : [1] "q(1) = 7"
+
+*** Programmez la fonction ~polyhorn(p,x)~ avec la [[https://en.wikipedia.org/wiki/Horner's_method][méthode de Horner]].
+     #+BEGIN_SRC R :results none :session sparse
+       polyhorn <- function(p,x) {
+         if(length(p) == 0) return(NULL)
+         acc <- 0
+         deg <- p[[1]][2]
+         for(m in p) {
+           acc <- acc * (x**(deg-m[2])) + m[1]
+           deg <- m[2]
+         }
+         if(deg > 0) {
+           ## P = Q * X^deg 
+           acc <- acc * (x**deg)
+         }
+         return(acc)
+       }
+     #+END_SRC
+
+     #+RESULTS:
+
+
+    #+BEGIN_SRC R :exports both :results output :session sparse
+      poly2str(p)
+      for(i in -1:1) {      
+        print(paste("p(",i,") = ",polyhorn(p,i), sep=""))
+      }
+      poly2str(q)
+      for(i in -1:1) {      
+        print(paste("q(",i,") = ",polyhorn(q,i), sep=""))
+      }
+    #+END_SRC
+
+    #+RESULTS:
+    : [1] "2*X^5 + -1*X^4 + -2*X^1"
+    : [1] "p(-1) = -1"
+    : [1] "p(0) = 0"
+    : [1] "p(1) = -1"
+    : [1] "1*X^4 + 7*X^2 + -1*X^0"
+    : [1] "q(-1) = 7"
+    : [1] "q(0) = -1"
+    : [1] "q(1) = 7"
+
+*** Comparez les implémentations grâce au code ci-dessous.
+    #+BEGIN_SRC R :exports both :results output graphics :file TP8-TD8/comp_eval.jpg :width 500 :height 300  :session sparse
+      x <- seq(2-0.02,2.02,length.out=1001)
+      vec <- c(-2,0,1)
+      ## p(x) = (x^2-2)^16      
+      p1 <- make_poly(vec)
+      for(i in 1:4) {
+        p1 <- mult(p1,p1)
+      }
+      ## Evaluate p using our methods (observed)     
+      vn <- sapply(x, polyval, p=p1)
+      vh <- sapply(x, polyhorn, p=p1)
+      
+      
+      library("polynom")
+      ## Evaluate p using R package (expected)
+      pr <-as.polynomial(c(-2,0,1))
+      ## p is an R object ! I directly used the power operator.       
+      pr <- pr ** 16
+      ## I also use a generic function
+      vr <- predict(pr,x)
+      
+      ## Last, visualize the results
+      cols <- c("red", "gold")
+      matplot(x, cbind(vn-vr,vh-vr),t="l", lwd=2, lty=1,col=cols, xlab="x",ylab="P(x)-P^R(x)")
+      legend("topleft", inset=.05, legend=c("Naive", "Horner"), horiz=TRUE, lwd=2, lty=1, col=cols)
+     #+END_SRC
+    
+     #+RESULTS:
+     [[file:TP8-TD8/comp_eval.jpg]]
+
+** Visualisation 
+   Programmez une fonction ~dessiner(p,x)~ sans résultat, chargée de dessiner la courbe du polynôme p (en bleu), ainsi que celles de sa dérivée (en rouge) et de sa primitive (en vert), sur l’intervalle passé en argument.
+
+
+   #+BEGIN_SRC R :results output :session sparse
+     dessiner <- function(p, x) {
+       vp <- sapply(x, polyval, p=p)
+       pd <- deriv(p)
+       vd <- sapply(x, polyval, p=pd)
+       pi <- integ(p)
+       vi <- sapply(x, polyval, p=pi)
+       matplot(x, cbind(vp,vd,vi),t="l", lwd=2, lty=1,col=c("blue", "red", "green"), xlab="x",ylab="y")
+     }
+   #+END_SRC
+
+   #+RESULTS:
+
+   #+BEGIN_SRC R :exports both :results output graphics :file TP8-TD8/dessiner.jpg :session sparse
+     x <- seq(-2,4,length.out=1000)
+     p1 <- make_poly(c(-1,-1,1))
+     dessiner(p1,x)
+   #+END_SRC
+
+   #+RESULTS:
+   [[file:TP8-TD8/dessiner.jpg]]
+
+* Exercice optionnel un peu long, mais intéressant, et ô combien gratifiant !
+
+  Reprogrammez complètement le module dans lequel vous opterez pour une représentation dense des polynômes : un polynôme de degré ~d~ sera représenté par un vecteur ~p~ de longueur ~d+1~ telle que $a_k=$ ~p[k+1]~. 
+L’exercice est long, ne vous pressez pas, mais j’ai entendu dans le couloir qu’il vaudrait mieux le faire avant l’examen, allez savoir pourquoi \dots
+
+#+BEGIN_SRC R :exports none
+
+  deg <- function(p) seq_along(p)-1
+
+  rm0 <- function(p) {
+    while(length(p) > 1  && tail(p, 1) == 0) {
+      p <- head(p, -1)
+    }
+    return(p)
+  }   
+  add <- function(p , q) {
+    if(length(p) <= length(q)) {
+      p <- c(p , numeric(length(q)-length(p)))
+    } else {
+      q <- c(q , numeric(length(p)-length(q)))
+    }
+    return(rm0(p+q))
+  }
+
+  sub <- function(p , q) add(p ,-q)
+
+  mult <- function(p, q) {
+    r <- numeric(length(p) + length(q))
+    for(i in seq_along(q)) {
+      ind <- seq( i, i + length(p)-1)
+      r[ind] <- r[ind] + q[i] * p
+    }
+    return(rm0(r))
+  }
+
+  deriv <- function(p) tail(p*deg(p), -1) 
+
+  integ <- function(p) c( 0, p / (deg(p)+1))
+
+  polyval <- function(p, x) sum ( p * x**deg(p) )  
+
+  p <- c(0, -2, 0, 0, -1, 2)
+  q <- c(-1, 0, 7, 0, 1)
+  add(p, q)  
+  sub(p, q)
+  sub(p, p)
+  mult(p, q)
+  deriv(p)
+  integ(p)
+  polyval(p, 0)  
+  polyval(p, -1)  
+
+  #+END_SRC
+
+#+RESULTS:
+: [1] -1 -2  7  0  0  2
+: [1]  1 -2 -7  0 -2  2
+: [1] 0
+:  [1]   0   2   0 -14   1  -4  -7  14  -1   2
+: [1] -2  0  0 -4 10
+: [1]  0.0000000  0.0000000 -1.0000000  0.0000000  0.0000000 -0.2000000  0.3333333
+: [1] 0
+: [1] -1
+
+  

@@ -1,4 +1,4 @@
-#+STARTUP: overview hidestars logdone
+#+STARTUP: overview hidestars
 #+OPTIONS: tags:t todo:t timestamp:t p:t
 #+OPTIONS: skip:t @:t ::t |:t ^:nil f:t TeX:t LaTeX:t          
 #+LANGUAGE: fr

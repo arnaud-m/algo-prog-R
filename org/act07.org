@@ -1,0 +1,597 @@
+﻿#+SETUPFILE: base-template.org
+#+TITLE:    Estimation d'aires avec la méthode de Monte Carlo
+#+SUBTITLE:     Activités #7
+#+PROPERTY: header-args :results output graphics :exports none
+* Introduction
+** Principe du TP/projet
+
+Ce TP/projet doit vous servir de support afin de rendre un rapport, qui comptera pour 30% de la note finale. Il est fortement conseillé de lire TOUT le TP/projet avant de le commencer.
+
+Il s'agit d'un RAPPORT: vous ne devez pas seulement écrire du code, vous devez également le COMMENTER (à l'intérieur du code et à l'extérieur), faire attention aux NOMS des fonctions et des variables que vous utilisez (utilisez obligatoirement les noms donnés dans l'énoncé, choisissez des noms EXPLICITES pour vos variables et fonctions supplémentaires). Pensez à rédiger une introduction, une conclusion, et à faire des paragraphes pour vos explications.
+
+Il est également essentiel de TESTER chacun des programmes que vous faites, d'expliquer vos tests, ainsi que les résultats que vous avez obtenu (ces résultats correspondaient-ils aux résultats que vous attendiez ? Vous devez faire part d'un esprit critique, aussi n'hésitez pas à mentionner si vous vous attendiez à d'autres résultats que ceux obtenus...). Faire des tests à l'intérieur d'un programme peut également vous aider à trouver vous-même votre erreur lorsqu'un programme ne fonctionne pas: pensez-y !
+
+Si vous êtes bloqué à une question, parlez-en à vos professeurs (il est donc important de commencer le TP/projet le plus rapidement possible).
+Si, malgré tout, vous restez bloqués, expliquez ce qui vous a bloqué, n'hésitez pas également à exposer les idées que vous aviez pour la suite mais n'avez pas pu mettre en oeuvre. Certaines questions faciles ne nécessitent pas d'avoir fait la totalité des questions précédentes pour être faites: lisez donc bien l'intégralité du TP/projet.
+Le plus important n'est pas de faire la totalité du TP/projet, mais de faire BIEN ce que vous faites.
+
+La qualité de la rédaction et la lisibilité du code seront prises en compte.
+
+** But du TP/projet et dépendance entre les sections
+
+Le but de ce TP/projet est d'utiliser la méthode de Monte Carlo pour calculer une valeur approchée de l'aire d'un polygone.
+Afin de se familiariser avec la méthode, on se propose de l'utiliser dans un premier temps pour calculer une valeur approchée de \pi: cette première partie est indépendante du reste du TP/projet.
+
+Ce TP/projet est long. Il est indispensable que:
+ - vous fassiez la totalité de la section 2 (méthode de Monte Carlo pour approximer \pi: estimation, simulations, calcul de l'erreur, représentation des résultats),
+ - vous compreniez la façon dont sont représentés les polygones (section 3: si cette partie vous bloque, vous ne pourrez pas faire la suite),
+ - vous fassiez la section 4 (dessin d'un polygone), qui est très facile et permet de tester si vous avez compris la section 3.
+
+Pour la suite, il est à noter que:
+ - la section 5 (génération de polygones) n'est pas indispensable pour faire la suite du TP/projet, mais il est conseillé de l'utiliser à la fin des sections suivantes pour tester vos résultats,
+ - la section 6 est le coeur du TP/projet: la section 6.2 (définition de la fonction ~appartient~) est difficile, et cette fonction est utilisée dans la section 6.3. Sans cette fonction, vous ne pourrez pas calculer l'aire approchée d'un polygone. TOUTEFOIS, cela ne vous empêche pas de:
+    - répondre aux questions de la sous-partie "Principe" de la section 6.3 (ces questions ne sont pas liées à la programmation, elles sont là pour vérifier que vous avez compris le but du TP/projet),
+    - définir une fonction ~dessin_simu~ pour laquelle les points sont tous de la même couleur, qu'ils soient à l'intérieur ou à l'extérieur du polygone.
+ - la section 7 (sur l'aire exacte) peut être faite indépendamment de la section 6 (hormis la devinette initiale),
+ - pour la section 8, il est indispensable d'avoir fait au préalable les sections 1, 6 et 7.
+
+Il est important de tester les fonctions que vous programmez. De ce fait, le but du TP/projet n'est pas d'arriver à la fin de la section 8 (même si, évidemment, votre note risque d'être bien meilleure dans ce cas...), mais AVANT TOUT de faire BIEN ce que vous faites (commentaires, rédaction, tests, etc.) et de savoir répondre correctement aux questions faciles qui sont disséminées tout au long du TP/projet.
+
+** Rendu du projet                                                      :KEY:
+Le projet sera rendu dans une boîte de dépôt JALON sous la forme d'une archive ZIP contenant : 
+- Un fichier texte ~README~ comprenant les noms du binôme (~NOM1~ et ~NOM2~) et quelques informations essentielles sur le projet. 
+- Le rapport au format PDF (au plus 10 pages) nommé ~NOM1_NOM2.pdf~. Veuillez lire ce document pour [[file:act07/TM_Guide_Redaction_EPFL.pdf][préparer et écrire le rapport]]. 
+- Un dosser ~src~ contenant les fichiers source du projet commentés. Le dossier ~src~ doit au moins contenir un fichier ~main.R~.
+
+Le fichier ~main.R~ proposera une petite demonstration du projet. 
+Attention, il est essentiel que le fichier ~main.R~ s'exécute sans erreur.
+ 
+/Ces instructions doivent impérativement être respectées./
+
+* Méthode de Monte Carlo pour approximer [[https://youtu.be/uKuG4qqtP1Q][\pi]]                            :KEY:
+** Estimation de \pi
+*** Méthode de Monte Carlo
+
+Lire la partie "Détermination de la valeur de \pi" dans l'article wikipédia sur [[http://fr.wikipedia.org/wiki/M%25C3%25A9thode_de_Monte-Carlo][Méthode de Monte Carlo]].
+Il est écrit "la probabilité que le point M appartienne au disque est \pi/4." : détailler le calcul aboutissant à la valeur pi/4.
+*** Questions préliminaires
+
+ - Comment tirer uniformément au hasard ~n~ points dans un rectangle ? Indication: utiliser la primitive ~runif~, qui permet de tirer uniformément au hasard un ou plusieurs points dans un intervalle.
+ - Comment faire pour savoir si un point de coordonnées ~(x,y)~ appartient ou non au cercle de centre ~(0,0)~ et de rayon ~R~ ?
+
+*** Programmation
+Définir une fonction ~mc.pi~ qui prend en argument un entier ~n~, et renvoie une valeur approchée de \pi, obtenue à l'aide de la méthode de Monte Carlo, et avec ~n~ points tirés uniformément au hasard. 
+
+#+BEGIN_SRC R :exports results :file act07/mc_PI.jpg :width 300 :height 300 :session pi
+  mc.pi <- function(n, DRAW=FALSE) {
+    ## Calcul de PI par une méthode de monte-carlo.
+    x <- runif(n);
+    y <- runif(n);
+    pin = x**2 + y**2 <= 1;
+    if(DRAW) {
+      par(mar=c(2,2,3,2)+0.1)
+      plot(x[pin], y[pin], pch=20, col='firebrick',,main="Calcul de PI avec Monte Carlo",asp=1,xlab=NA, ylab=NA)
+      points(x[!pin], y[!pin],col='darkblue', pch=20)
+      if(library("plotrix", logical.return=TRUE)) {
+        draw.circle(0,0,1,nv=1000,border="black",col=NA,lty=1,lwd=1)
+      }     
+    }
+    return( 4*sum(pin) / n)
+  }
+  mc.pi(1000, DRAW=TRUE)     
+#+END_SRC
+
+#+RESULTS:
+[[file:act07/mc_PI.jpg]]
+
+** Simulations avec ~n=10**j~, pour ~j=1:p~
+*** Estimations
+
+Dans cette section, vous allez définir une matrice ~PIE~ de taille ~t*p~ (avec ~t=50~ et ~p=7~), contenant des estimations de \pi.
+Plus précisément, la coordonnée ~(i,j)~ de ~PIE~ (avec ~1<=i<=t~ et ~1<=j<=p~) doit contenir une estimation de \pi effectuée avec ~n=10**j~ points.
+Ainsi, la j-ième colonne de ~PIE~ contient ~t~ estimations de \pi, toutes effectuées avec ~n=10**j~ points.
+Toutes les estimations seront faites de façon indépendante les unes des autres. 
+
+*** Temps moyen
+
+Dans cette section, vous allez définir un vecteur ~tE~ de taille ~p~ contenant le temps moyen mis pour obtenir de telles estimations.
+Plus précisément, la j-ième coordonnée du vecteur ~tE~ (avec ~1<=j<=p~) doit contenir le temps moyen mis pour effectuer une estimation de \pi, chacune de ces estimations étant effectuée avec ~n=10**j~ points.
+
+Indication: utiliser la primitive ~system.time~, qui renvoie le temps mis pour évaluer un expression donnée et la primitive ~replicate~ qui répète l'évaluation d'une expression. 
+#+BEGIN_SRC R :exports both :results output
+  system.time(replicate(100, sum(1:1000)))
+    
+  vec <- matrix(0, 2,5)
+  system.time(vec[1,] <- runif(5))
+  system.time(vec[2,] <- runif(5))
+  print(vec)
+#+END_SRC
+
+#+RESULTS:
+: utilisateur     système      écoulé 
+:       0.001       0.000       0.001 
+: utilisateur     système      écoulé 
+:           0           0           0 
+: utilisateur     système      écoulé 
+:           0           0           0 
+:           [,1]        [,2]      [,3]      [,4]      [,5]
+: [1,] 0.6916834 0.001697275 0.9038988 0.6834348 0.9710516
+: [2,] 0.4069787 0.408694030 0.2347155 0.2954508 0.6385711
+
+#+RESULTS:
+
+#+BEGIN_SRC R :session pi
+   ## Number of simulations
+   t <- 50
+   ## Numbers of points are 10**1, 10**2, ..., 10**p
+   p=7
+   PIE=matrix(0,t,p)
+   colnames(PIE) <- 10 ** (1:p)
+   tE = numeric(p)
+   for( i in 1:p) {
+     tE[i] <- system.time( PIE[,i] <- replicate(t,mc.pi(10**i)))['elapsed']     
+   }
+   tE <- tE/t
+    
+#+END_SRC
+
+#+RESULTS:
+
+*** Erreur relative
+
+Quelle est la formule pour l'erreur relative entre une valeur et son estimation ?
+Définir une matrice ~ERR~ de taille ~t*p~ dont la coordonnée ~(i,j)~ est l'erreur relative entre π et son estimation ~PIE[i,j]~.
+
+*** Représentation des résultats
+
+Utiliser le code suivant pour:
+ - représenter sur un dessin la distribution de l'erreur relative ~ERR~ en fonction du nombre de points ~n~ utilisés pour l'estimation,
+ - représenter le temps moyen ~tE~ en fonction du nombre ~n~ de points utilisés pour la simulation.
+
+
+#+BEGIN_SRC R :exports both :file act07/mc_PI_TE.jpg :width 600 :height 300 :session pi
+  ERR <- abs(PIE/pi - 1)
+  par(mfrow=c(1,2),mar=c(4,4,2,2)+0.1)
+  boxplot(ERR, main='Erreur relative sur PI', log='y', xlab='#points', ylab='Rel. Error')
+  plot(10 ** (1:p), tE, type='b', main='Temps moyen d\'une simulation', log='x', xlab='#points', ylab='Time')
+#+END_SRC
+
+#+RESULTS:
+[[file:act07/mc_PI_TE.jpg]]
+** Autres méthodes d'estimation de \pi                                :BONUS:
+
+Instruisez vous avec la page wikipedia sur [[http://fr.wikipedia.org/wiki/Pi][PI]].
+Comparer la qualité des estimations obtenues avec la méthode de Monte Carlo avec :
+ - les représentations fractionnaires,
+ - les séries,
+ - les produits,
+ - les formules mathématiques,
+ - \dots
+
+
+N'oubliez pas qu'un ordinateur effectue des /calcul approchés/ sur les nombres réels.
+* Polygones dans la suite du TP/projet
+** Définition d'un polygone simple
+
+La suite du TP/projet utilise cette méthode dite de Monte Carlo, mais dans le but d'approximer l'aire d'un polygone.
+Un [[http://fr.wikipedia.org/wiki/Polygone][polygone]] est une figure géométrique plane, formée d'une suite cyclique de segments consécutifs.
+Les polygones considérés sont des [[http://fr.wikipedia.org/wiki/Polygone_simple][polygones simples]] (c'est-à-dire dont les arêtes ne se croisent pas), par opposition au cas des [[http://en.wikipedia.org/wiki/Complex_polygon][polygones complexes]]  qui n'est pas traité ici.
+Notez bien que les polygones considérés ne sont pas nécessairement convexes.
+
+** Représentation d'un polygone sous forme de matrice
+
+Dans la suite, on décrira un polygone à n côtés à l'aide d'une matrice de taille (n+1)*2. Plus pécisément, le polygone constitué des segments [(x_1,y_1);(x_2,y_2)], [(x_2,y_2);(x_3,y_3)], \dots, [(x_n,y_n);(x_1,y_1)] sera représenté par une matrice ~M~ telle que:
+ - M[i,1] = x_i et M[i,2] = y_i pour tout i compris entre 1 et n,
+ - M[n+1,1] = M[1,1] = x_1 et M[n+1,2] = M[1,2] = y_1.
+
+On notera que:
+ - chaque ligne de la matrice ~M~ représente un sommet du polygone;
+ - l'ordre dans lequel sont données les lignes est important, car un segment du polygone correspond à deux points consécutifs (autrement dit deux lignes consécutives);
+ - la dernière ligne de la matrice est toujours identique à la première ligne: cette redondance d'information va permettre d'alléger le code par la suite.
+
+Par exemple, on pourra utiliser le code suivant pour définir des polygones.
+#+BEGIN_SRC R :exports both :results output :session poly
+  ## Definition d'une fonction très utile
+  creer_polygone <- function (x,y) {
+    matrix(c(x, x[1], y, y[1]), ncol=2,dimnames=list(c(), c("x","y")))
+  }
+  
+  carre <- creer_polygone(c(10,10,90,90), c(30, 70, 70, 30))
+  ## Une permutation cyclique des points donne le même polygone
+  carre <- creer_polygone(c(10,90,90,10), c(70, 70, 30, 30))
+  ## En revanche, le code suivant ne définit pas un rectangle, 
+  ## mais un polygone dont les arêtes se croisent.
+  papillon <- creer_polygone(c(10,90,10,90), c(30,70,70,30))
+  ## pour finir, voici un losange.
+  losange <- creer_polygone(c(50,10,50,90),c(30,50,70,50))
+
+  print(carre)
+#+END_SRC
+
+#+RESULTS:
+:       x  y
+: [1,] 10 70
+: [2,] 90 70
+: [3,] 90 30
+: [4,] 10 30
+: [5,] 10 70
+
+
+** Dessin d'un polygone
+
+Vous pouvez dessiner un polygone avec la fonction ~plot~, 
+lorsque celui-ci est donné sous la forme décrite précédemment. 
+
+#+BEGIN_SRC R :exports both :file act07/dessin_poly.jpg :width 300 :height 300 :session poly 
+  plot(carre, type='l')
+  lines(papillon -1, type='b', col='firebrick')
+  lines(losange, type='l', col='darkblue')
+#+END_SRC R 
+
+#+RESULTS:
+[[file:act07/dessin_poly.jpg]]
+
+* Génération de polygones
+  Tous les polygones que l'on demande de générer doivent être sous la forme matricielle définie en section précédente.
+** Polygone régulier
+
+Pour rappel sur les propriétés de ces polygones, il est conseillé de jeter un oeil à l'adresse: http://fr.wikipedia.org/wiki/Polygone_r%C3%A9gulier.
+
+Définir une fonction ~reg_poly <- function(n, r=1) { ... }~ qui prend en argument un entier ~n~, un réel strictement positif ~r~ (de valeur 1 par défaut), et qui renvoie un polygone ~p~ vérifiant:
+ - le polygone ~p~ a ~n~ côtés,
+ - il est inscrit dans un cercle de centre ~(0,0)~ et de rayon ~r~.
+
+Indications: 
+ - Tous les sommets d'un polygone régulier peuvent être engendrés à partir d'un seul sommet et les images successives d'une rotation: quel est l'angle de cette rotation ? Donnez-le en radians et en fonction du nombre ~n~ de côtés du polygone.
+ - Quelles sont les coordonnées cartésiennes ~(x,y)~ d'un point dont les coordonnées polaires sont ~(r,theta)~?
+ - Tester votre fonction ~reg_poly~ en dessinant un exemple de polygone régulier (vous pouvez utiliser la fonction ~dessin_polygone~ définie précédemment).
+
+#+BEGIN_SRC R :export results  :file act07/octogone.jpg :width 300 :height 300 :session poly
+  reg_poly <- function(n, r=1) {
+    angles <- ( (2* c(0:(n-1),0) ) /n * pi )
+    return(creer_polygone(r*cos(angles),r*sin(angles)))
+  }
+  plot(reg_poly(8, r=4),col="black", type="l")
+#+END_SRC
+
+#+RESULTS:
+[[file:act07/octogone.jpg]]
+
+** Polygone surprise
+
+Quelle figure obtient-on lorsqu'on définit le polygone suivant ?
+
+#+BEGIN_SRC R :exports code :file act07/surprise.jpg :width 300 :height 300 :session poly
+x <- c(0,0,9,11,11,9,8,11,9,6,3,3,8,9,9,8,2,2)
+y <- c(0,12,12,10,7,5,5,0,0,5,5,7,7,8,9,10,10,0)
+surprise <- creer_polygone(x,y)
+plot(surprise,col="black", type="l")
+#+END_SRC
+
+
+#+RESULTS:
+[[file:act07/surprise.jpg]]
+
+* Approximation de l'aire d'un polygone simple                    
+** Tirer un ou plusieurs points uniformément au hasard dans un rectangle
+*** Dimensions d'un rectangle
+
+
+
+Définir une fonction ~boite~ qui prend en argument un polygone donné sous la forme d'une matrice (comme précédemment) et renvoie une matrice contenant l'abscisse minimale du plus petit rectangle contenant ce polygone, son abscisse maximale, son ordonnée minimale et son ordonnée maximale. Par exemple:
+
+#+BEGIN_SRC R :exports none :session poly
+  boite <- function(p) {
+    dimR <- matrix(c ( min(p[,1]), max(p[,1]), min(p[,2]), max(p[,2])), ncol=2, dimnames=list(c("min","max"), c("x","y")))
+    return(dimR)
+  }
+#+END_SRC
+
+#+BEGIN_SRC R :exports both :results output :session poly
+  print(losange)  
+  bo <- boite(losange)
+  print(bo)  
+#+END_SRC
+
+#+RESULTS:
+:       x  y
+: [1,] 50 30
+: [2,] 10 50
+: [3,] 50 70
+: [4,] 90 50
+: [5,] 50 30
+:      x  y
+: min 10 30
+: max 90 70
+
+*** Tirage de points uniformément aléatoirement dans un rectangle
+
+Définir une fonction ~points_aleatoires~ qui prend en argument un couple ~(n, bo)~, où ~n~ est un entier et ~bo~ une boîte rectangulaire, et renvoie une matrice ~M~ contenant ~n~ points tirés uniformément au hasard dans le rectangle ~r=[xmin;xmax]*[ymin;ymax]~. Plus précisément, la matrice ~M~ est de taille ~n*2~ et chaque colonne contient un point tiré uniformément au hasard dans le rectangle ~r~. Par exemple:
+
+#+BEGIN_SRC R :results none :session poly
+  points_aleatoires <- function(n, bo) {
+    x <- runif(n,min=bo['min','x'],max=bo['max','x'])
+    y <- runif(n,min=bo['min','y'],max=bo['max','y'])
+    return(matrix(c(x, y), ncol=2,dimnames=list(c(), c("x","y"))))
+  }
+#+END_SRC
+
+#+RESULTS:
+
+#+BEGIN_SRC R :exports both :results output :session poly
+bo <- matrix(c(3, 5, 6, 8),nrow=2, dimnames=list(c("min","max"), c("x","y")))
+pts <- points_aleatoires(5, bo)
+print(pts)
+#+END_SRC
+
+#+RESULTS:
+:             x        y
+: [1,] 3.258553 7.597769
+: [2,] 4.720517 7.375495
+: [3,] 4.828405 7.450762
+: [4,] 3.775091 7.941043
+: [5,] 3.278946 7.821924
+
+** Un point donné est-il à l'intérieur ou à l'extérieur du polygone ?  :HARD:
+Définir une fonction ~appartient(points, polygone)~ qui prend en arguments des points et un polygone, et renvoie pour chaque point ~TRUE~ si le point est à l'intérieur du polygone, ~FALSE~ sinon.
+On pourra s'appuyer sur une fonction auxiliaire ~appartient_poly(point, polygone)~ qui prend en arguments un point et un polygone, et renvoie ~TRUE~ si le point est à l'intérieur du polygone, ~FALSE~ sinon.
+On ne se souciera pas du résultat renvoyé par la fonction dans le cas où le point appartient à un des côtés du polygone.
+En théorie, les points seront tirés uniformément aléatoirement et la probabilité qu'un tel cas se produise sera nulle.
+
+Indication: Lorsqu'un point est à l'intérieur d'un polygone, toute demi-droite partant de ce point possède un nombre impair d'intersections avec les côtés du polygone. Lorsqu'il est à l'extérieur, elle en possède nécessairement un nombre pair. 
+
+#+BEGIN_SRC R :results none :session poly
+  
+  ## Drole de definition de la frontière avec le ray casting ?    
+  appartient <- function(points, polygone) {
+    #' Determine si les points appartiennent au polygone 
+    #' Algorithme de ray casting with a left-right horizontal ray 
+    
+    appartient_poly <- function(pt) {
+      #' Determine si UN point appartient au polygone 
+      ##print(pt)
+      intersecte_rayon <- function(i) {
+        ## Determine si le segment M[i]M[i+1] intersecte le rayon genere par pt.
+         m1 <- polygone[i-1,]
+         m2 <- polygone[i,]
+         ## cas difficile : le rayon passe par un sommet
+         if( (m1[2] > pt[2]) !=  ( m2[2] > pt[2])) {
+           ## Les deux extremites du segment ne sont pas du meme cote du rayon
+           ## Alors, le point d'intersection peut s'ecrire P = M1 + xt (M2 - M1).
+           ## On peut determiner xt, car  P.y = pt.y
+           ## TODO on pourrait aussi tester que pt.x <= min(M1.x, M2.x)
+           xt <- (pt[2]-m1[2])/(m2[2]-m1[2])
+           ## le droite support du rayon intersecte le segment en P.x  
+           px <- m1[1]+ xt * (m2[1]-m1[1])
+           ## le rayon intersecte le segment  
+           return (pt[1] < px)
+         } 
+         return(FALSE)
+       }
+       intersections <- sapply(2:nrow(polygone), intersecte_rayon)
+      ## print(intersections)
+      return(sum(intersections) %% 2 == 1)
+    }
+     return(apply(points,MARGIN=1, appartient_poly))
+  }
+  
+#+END_SRC
+
+#+RESULTS:
+
+
+
+Vous pourrez utiliser le code suivant pout tester la fonction ~appartient~.
+#+BEGIN_SRC R :exports both :results output :file act07/test_appartient.jpg :width 300 :height 300 :session poly
+  ## Réaliser un test de la fonction
+  carre <- creer_polygone(c(0, 0, 1, 1), c(0, 1, 1, 0))
+  cc <- seq(from=-0.25,to=1.25,by=0.25)
+  points <- do.call(rbind,lapply(cc, FUN=cbind, cc,deparse.level = 0))
+  pin <- appartient(points,carre);
+  ## Dessiner le résultat du test
+  par(mar=c(2,2,3,2)+0.1)
+  plot(carre, type='l', main="Test de la fonction appartient", xlim=range(carre[,1],points[,1]), ylim=range(carre[,2],points[,2]))
+  points(points[pin,1], points[pin,2], col='firebrick', pch=20)
+  points(points[!pin,1], points[!pin,2], col='darkblue', pch=20)  
+#+END_SRC
+
+#+RESULTS:
+[[file:act07/test_appartient.jpg]]
+*** Références                      
+    - http://en.wikipedia.org/wiki/Point_in_polygon
+    - http://stackoverflow.com/questions/217578/point-in-polygon-aka-hit-test
+    - http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
+** Méthode de Monte Carlo et calcul approché de l'aire d'un polygone
+*** Principe
+
+Pour calculer une valeur approchée de l'aire d'un polygone ~p~, on va utiliser la méthode de Monte Carlo. 
+Cette méthode nécessite de trouver une forme géométrique rectangulaire contenant le polygone , dont on sait calculer l'aire, et dans laquelle on est capable de tirer des points uniformément au hasard. 
+Détailler quelle forme géométrique va être utilisée ici.
+
+Donner la valeur approchée de l'aire du polygone en fonction de:
+ - la proportion du nombre de points qui sont dans le polygone, et
+ - l'aire de la boîte rectangulaire
+   
+*** Mise en oeuvre
+
+Définir une fonction ~mc.poly~ qui prend en argument un entier ~n~ correspondant au nombre de points à tirer au hasard et un ~polygone, et qui renvoie une valeur approchée de l'aire du ~polygone~ par la méthode de Monte Carlo.
+
+#+BEGIN_SRC R :session poly
+  mc.poly <- function(n, polygone, DRAW=FALSE) {
+    ## la forme géométrique est la boite r de la section précédente
+    bo <- boite(polygone)
+    aire_bo <- (bo['max','x']-bo['min','x'])*(bo['max','y']-bo['min','y'])
+    ## l'entier cpt va compter le nombre de points aléatoires qui tombent à l'intérieur du polygone
+    points <- points_aleatoires(n, bo);
+    pin <- appartient(points, polygone)
+    if(DRAW) {
+      par(mar=c(2,2,2,2)+0.1)
+      plot(polygone, type='l', main="Aire d'un polygone par Monte Carlo", xlim=bo[,'x'], ylim=bo[,'y'])
+      points(points[pin,1], points[pin,2], col='firebrick', pch=20)
+      points(points[!pin,1], points[!pin,2], col='darkblue', pch=20)
+   }
+    return((sum(pin)/n) * aire_bo)
+  }
+#+END_SRC
+
+#+RESULTS:
+
+
+#+BEGIN_SRC R :exports both :results output :session poly
+print(mc.poly(10, losange))
+print(mc.poly(1000, losange))
+print(mc.poly(10000, losange))
+#+END_SRC
+
+
+#+RESULTS:
+: [1] 1280
+: [1] 1606.4
+: [1] 1622.4
+
+
+*** Dessin d'une simulation
+
+Définir une fonction ~dessin_simu~ qui prend en argument un ~polygone~ (sous forme d'une matrice) et des ~points~ (une matrice) et les dessine.
+Une alternative consiste à définir un argument booléen optionnel ~DRAW~ à la fonction ~mc.poly~.
+
+#+BEGIN_SRC R :exports results :file act07/mc_losange.jpg :width 300 :height 300 :session poly
+mc.poly(1000, losange,DRAW=TRUE)
+#+END_SRC
+
+#+RESULTS:
+[[file:act07/mc_losange.jpg]]
+
+
+#+BEGIN_SRC R :exports none :file act07/mc_R.jpg :width 300 :height 300 :session poly
+mc.poly(1000, surprise,DRAW=TRUE)
+#+END_SRC
+
+#+RESULTS:
+[[file:act07/mc_R.jpg]]
+
+* Calcul exact de l'aire d'un polygone simple
+** Exemple
+Deviner l'aire du carré :
+#+BEGIN_SRC R :exports code
+print(mc.poly(10000, carre))
+#+END_SRC
+
+Vérifier par le calcul que votre résultat est satisfaisant pour le losange et la carré.
+
+** Aire exacte d'un polygone simple
+*** Explication de la formule
+
+    Donner la formule permettant de calculer l'aire d'un polygone simple (quelconque). 
+    Expliquer cette formule à l'aide de phrases et d'un dessin.
+
+*** Programmation
+
+    Définir une fonction ~aire.poly~ qui prend en argument un polygone et calcule son aire exacte.
+    
+#+BEGIN_SRC R :exports none :results none :session poly
+  aire.poly <- function(polygone) {
+    aire <- function(i) polygone[i-1,1]*polygone[i,2] - polygone[i,1]*polygone[i-1,2]
+    sum(sapply(2:nrow(polygone), aire))/2
+  }
+#+END_SRC
+
+#+RESULTS:
+
+Par exemple:
+
+#+BEGIN_SRC R :exports both :results output :session poly
+print(aire.poly(surprise))
+print(mc.poly(5000,surprise))
+#+END_SRC
+
+#+RESULTS:
+: [1] -71
+: [1] 69.1944
+
+L'aire du polygone est négative, car les sommets sont donnés dans le sens anti-trigonométrique (celui des aiguilles d'une montre).
+
+* Simulations : aire approchée versus aire exacte
+
+Définir un ou plusieurs polygone(s) (par exemple en utilisant la fonction ~reg_poly~), calculer une aire approchée à l'aide de la fonction ~mc.poly~, et l'aire exacte à l'aide de la fonction ~aire.poly~. Comparer les deux valeurs. Faire différentes simulations, en faisant varier le nombre de points utilisés pour approximer l'aire. Représenter vos résultats.
+
+Indication: pour la représentation des simulations, vous pourrez vous inspirer de la première partie du TP/projet, sur l'approximation du nombre \pi.
+
+#+BEGIN_SRC R :file act07/mc_R_TE.jpg :width 600 :height 300 :session poly
+  ## Number of simulations
+  t <- 50
+  ## Numbers of points are 100*1, 100*2, ..., 100*p
+  p=7
+  AE=matrix(0,t,p)
+  N <- 100 * (1:p)
+  colnames(AE) <- N
+  tE = numeric(p)
+  for( i in N) {
+    tE[i] <- system.time( AE[,i] <- replicate(t,mc.poly(i,surprise)))
+  }
+  tE <- tE/t
+  aire<- abs(aire.poly(surprise))
+  ERR <- abs(AE/aire - 1)
+  par(mfrow=c(1,2),mar=c(4,4,2,2)+0.1)
+  boxplot(ERR, main='Erreur relative sur l\'aire', log='y', xlab='#points', ylab='Rel. Error')
+  plot(N, tE, main='Temps moyen d\'une simulation', log='x', xlab='#points', ylab='Time')
+#+END_SRC
+
+* Plus de polygones réguliers                                         :BONUS:
+
+Cette section généralise la fonction ~reg_poly~.
+
+Redéfinir la fonction ~reg_poly~ qui prend maintenant en argument un entier ~n~, un réel strictement positif ~r~ (de valeur 1 par défaut), des réels ~x~, ~y~ et ~alpha~ (de valeur 0 par défaut), et qui renvoie un polygone ~p~ vérifiant:
+ - le polygone ~p~ a ~n~ côtés,
+ - il est inscrit dans un cercle de centre ~(x,y)~ et de rayon ~r~,
+ - l'un des sommets de ~p~ se trouve sur la droite passant par ~(x,y)~ et faisant un angle ~alpha~ avec l'axe des abscisses.
+
+Indications: 
+ - Tous les sommets d'un polygone régulier peuvent être engendrés à partir d'un seul sommet et les images successives d'une rotation: quel est l'angle de cette rotation ? Donnez-le en radians et en fonction du nombre ~n~ de côtés du polygone.
+ - Quelles sont les coordonnées cartésiennes ~(x,y)~ d'un point dont les coordonnées polaires sont ~(r,theta)~?
+ - Tester votre fonction ~reg_poly~ en dessinant un exemple de polygone régulier (vous pouvez utiliser la fonction ~dessin_polygone~ de la section 4).
+
+#+BEGIN_SRC R :export results :file act07/carre.jpg :width 200 :height 200 :session poly
+  reg_poly <- function(n, r=1, x=0, y=0, alpha=0) {
+    angles <- ( (2* c(0:(n-1),0) ) /n * pi ) + alpha
+    print(angles)
+    poly <- creer_polygone(r*cos(angles),r*sin(angles))
+    return(poly)
+  }
+  plot(reg_poly(4, r=4, x=3, alpha=pi/3),col="black", type="l")
+#+END_SRC
+
+#+RESULTS:
+[[file:act07/carre.jpg]]
+
+* Utilisation de data frame                :BONUS:
+
+** Représentation des résultats pour un polygone
+
+Définir une fonction ~resultats~ qui prend en argument un polygone ~p~, et renvoie un objet de type data frame, contenant des simulations obtenues à partir du polygone ~p~.
+Par exemple, chaque ligne du data frame peut contenir:
+ - un nombre ~n~ de points utilisés pour les simulations,
+ - plusieurs estimations de l'aire de ~p~, chacune obtenue par une simulation avec ~n~ points,
+ - le temps moyen mis pour obtenir ces estimations,
+ - l'erreur relative pour chaque simulation.
+
+Représenter vos résultats à partir du data frame.
+
+** Représentation des résultats pour une liste de polygones
+
+Le but de cette section est de créer un fichier .csv, qui contiendra les résultats obtenus pour plusieurs polygones. Il est conseillé de définir et d'utiliser des fonctions, plutôt que de représenter les résultats un par un.
+
+Choisir une dizaine de polygones. Créer un data frame contenant, sur chaque ligne:
+ - un polygone ~p~ (ou une référence à un polygone, tous les polygones étant par exemple stockés dans une liste externe),
+ - l'aire exacte de ce polygone,
+ - pour différentes valeurs de ~n~ (par exemple ~n=10**j~, pour ~j=1:3~):
+   * la moyenne ~m~ de plusieurs estimations de l'aire de ~p~, chaque estimation ayant été obtenue par une simulation avec ~n~ points,
+   * l'écart-type entre ces estimations,
+   * le temps moyen mis pour obtenir ces estimations,
+   * l'erreur relative entre la moyenne ~m~ et l'aire exacte.
+
+Exporter ce data frame dans un fichier .csv, afin de pouvoir le réutiliser par la suite.
+
+Représenter certains de vos résultats (par exemple moyenne et écart-type) à partir de la lecture du fichier .csv.
+
+

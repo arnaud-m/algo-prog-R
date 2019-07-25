@@ -1,11 +1,17 @@
-﻿#+SETUPFILE: base-template.org
-#+TITLE:    Convertisseur de base
-#+SUBTITLE:     Activités #3
-#+PROPERTY: header-args :results output replace :exports none
+﻿#+SETUPFILE: ~/.emacs.d/org-templates/base.org
+#+TITLE:       Convertisseur de base
+#+DESCRIPTION: Convertisseur de base
+#+KEYWORDS:    computer science, teaching, programming, GNU R.
+#+HTML_HEAD_EXTRA:    <link rel="stylesheet" type="text/css" href="http://www.i3s.unice.fr/~malapert/css/logo_uns.min.css"/>
+#+HTML_LINK_HOME: ../introR.html
+#+OPTIONS: num:t toc:2 H:2
+#+LANGUAGE: fr
+#+PROPERTY: header-args :results output :exports none
+* Introduction
+  Le but de cette activité est de développer une application web qui convertit un nombre d'une base vers une autre. Les bases doivent sont comprises entre 2 et 36.
+  
+  - [[http://www.hanselsolutions.com/blog/surf-talk/shiny-surf.html][Shiny Building Interactive Web Applications in R]]. Ian Hansel.
 
-#+BEGIN_abstract
-  Le but de cette activité est de développer une application web qui convertit un nombre d'une base vers une autre. Les bases doivent être comprises entre 2 et 36.
-#+END_abstract
 * Application web shiny
 ** Installer les extensions
    Installez d'abord l'extension requise. 
@@ -16,7 +22,7 @@
   
 ** Obtenir le code de l'application
 
-   Ensuite, téléchargez le fichier [[file:act03-base-converter/app-base-converter.R][app-base-converter.R]] contenant le code de l'application, et exécutez le. 
+   Ensuite, téléchargez le fichier [[file:app-base-converter/app-base-converter.R][app-base-converter.R]] contenant le code de l'application, et exécutez le. 
    #+BEGIN_SRC R :exports code
     app <- source('app-base-converter.R') ## construire l'application web
     app ## lancer l'application web dans un navigateur
@@ -260,7 +266,7 @@ Quelques exemples d'appels.
   #+END_SRC
 
   
-  #+BEGIN_SRC R :exports none :noweb yes :tangle act03-base-converter/app-base-converter.R 
+  #+BEGIN_SRC R :exports none :noweb yes :tangle app-base-converter/app-base-converter.R 
   <<common>>
 
   <<template1>>
@@ -272,10 +278,128 @@ Quelques exemples d'appels.
   <<shinyapp>>
   #+END_SRC
 
-   #+BEGIN_SRC R :exports none :noweb yes :tangle act03-base-converter/app-base-converter-demo.R 
+   #+BEGIN_SRC R :exports none :noweb yes :tangle app-base-converter/app-base-converter-demo.R 
    <<common>>
 
    <<demo>>
 
    <<shinyapp>>
    #+END_SRC
+* Backup                                                           :noexport:
+
+   
+  #+BEGIN_SRC R :exports none
+    library(shiny)
+
+    DecodeDigits <- function(word, alphabet = c(0:9, LETTERS)) {
+      digits <- unlist(strsplit(toupper(word), NULL)) 
+      return(match(digits, alphabet)-1)
+    }
+
+    EncodeDigits <- function(digits, alphabet = c(0:9, LETTERS)) {
+      return(paste(alphabet[digits + 1], collapse = ""))
+    }
+
+    DecodeNumber <- function(word, base) {
+      digits <- DecodeDigits(word)
+      if(all(digits < base)) {
+        pow <- seq(length(digits)-1, 0)
+        return(sum( digits * (base ** pow)))
+      } else {
+        return(NA)
+      }
+    }
+
+    EncodeNumber <- function(n, base, alphabet = c(0:9, LETTERS)) {
+      if(n == 0) {digits <- 0}
+      else {
+        digits <- numeric(0)
+        while(n > 0) {
+          digits <- c(n %% base, digits)
+          n <- n %/% base
+        }
+      }
+      return(EncodeDigits(digits, alphabet))
+    }
+
+    AlphabetBibi <- function() {
+      x <- expand.grid(c('O','A','E','I'),c('H','B','K','D'))
+      sprintf("%s%s", x[,2],x[,1])
+    }
+
+    EncodeBibi <- function(n) {
+      alphabet <- AlphabetBibi()
+      return(EncodeNumber(n, length(alphabet), alphabet))
+    }
+
+
+    #' La fonction server d'une application shiny réalise le traitement des données et la génération des graphiques/tableaux.
+    server <- function(input, output) {
+      CheckBase <- function(base) base >= 2 && base <= 36
+      fromBase <- reactive( {
+        validate(
+          need(!is.na(input$fromBase), "Base d'origine manquante"),
+          need(CheckBase(input$fromBase), "Base d'origine doit être entre 2 et 36.")
+        )
+        input$fromBase
+      })
+      number <- reactive( {
+        number <- trimws(input$number)
+        validate(
+          need(nchar(number) > 0, "Pas de nombre en entrée."), 
+          need(!grepl("[^a-zA-Z0-9]", number), "Format de nombre incorrect") 
+        )
+        number <- DecodeNumber(number, fromBase())
+        validate(
+          need(!is.na(number), "Chiffres invalides dans le nombre.")
+          )
+        number
+      })
+  
+      ConvertNumber <- function(n, base) {
+        validate(
+          need(!is.na(base), "Base de destination manquante")
+        )
+        if( CheckBase(base) ) {
+          return(EncodeNumber(n, base))
+        } else {
+          return(EncodeBibi(n))
+        }
+      }
+      output$toBase1 <- renderText({ ConvertNumber(number(), input$toBase1)})
+      output$toBase2 <- renderText({ ConvertNumber(number(), input$toBase2)})
+      output$toBase3 <- renderText({ ConvertNumber(number(), input$toBase3)})
+    }
+
+    #' La fonction server d'une application shiny construit l'interface graphique à partir de ses entrées/sorties.
+    ui <- fluidPage(
+      titlePanel("Hello Shiny!"),
+      sidebarLayout(
+        ## Barre latérale contenant les entrées de l'application
+        sidebarPanel(
+          textInput("number", "Nombre", "26"),
+          numericInput("fromBase", "Depuis la base:", "10")
+        ),
+        ## Panneau principal contenant les sorties de l'application
+        mainPanel(
+          column(4, 
+                 numericInput("toBase1", "Vers la base:", "10"),
+                 verbatimTextOutput("toBase1")
+                 ),
+          column(4, 
+                 numericInput("toBase2", "Vers la base:", "2"),
+                 verbatimTextOutput("toBase2")
+                 ),
+        column(4, 
+               numericInput("toBase3", "Vers la base:", "16"),
+               verbatimTextOutput("toBase3")
+               )
+        )
+      )
+    )
+
+    ## Construit un objet représentant l'application
+    shinyApp(ui = ui, server = server)
+
+  #+END_SRC
+  
