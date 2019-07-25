@@ -6,11 +6,27 @@ const $plumber = require('gulp-plumber');
 const del = require('del');
 const server = require('browser-sync').create();
 
-$.task('build', $.series($.parallel(pages)));
+$.task('clean', clean);
+$.task('publish', publish);
+$.task('minimize', pages);
+$.task('build', $.series('clean', 'publish', 'minimize'));
 $.task('default', $.series('build', $.parallel(serve, watch)));
 
 function clean() {
-  return del(['build']);
+    // TODO Find home dir : https://stackoverflow.com/questions/34713622/accessing-home-directory-with-base-in-gulp
+    return del(['build', '/home/nono/.org-timestamps/org-r-notes.cache', '/home/nono/.org-timestamps/org-r-static.cache'], {force:true});
+}
+
+var spawn = require('child_process').spawn;
+
+function publish(cb) {
+    //var cmd = spawn('cmd', ['arg1', 'agr2'], {stdio: 'inherit'});
+    // var cmd = spawn('ls', [], {stdio: 'inherit'});
+    var cmd = spawn('emacs', ['--eval', '(prog1 (org-publish-project "org-r")(kill-emacs))'], {stdio: 'inherit'});
+    cmd.on('close', function (code) {
+    console.log('emacs org-publish exited with code ' + code);
+    cb(code);
+    });
 }
 
 function reload(done) {
@@ -28,7 +44,7 @@ function serve(done) {
 }
 
 function pages() {
-  // https://github.com/gulpjs/gulp/issues/267  
+    // https://github.com/gulpjs/gulp/issues/267  
     return $.src('build/*.html',  {base: './'})
     .pipe($changed('build'))
     .pipe($plumber())
