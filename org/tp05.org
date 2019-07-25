@@ -1,0 +1,360 @@
+﻿#+SETUPFILE: base-template.org
+#+TITLE:     Travaux Pratiques #5
+#+SUBTITLE:     Algo & Prog avec R
+#+PROPERTY: header-args :results output replace :exports none
+* Le tour de la boucle 
+#+BEGIN_SRC R :results output :exports both
+  Foo <- function(x,a,b) {
+    for (i in a:b) {
+      x = x + i
+    }
+    return(x)
+  }
+  Foo(10,15,20)
+  Foo(10,20,15)  
+#+END_SRC
+
+#+RESULTS:
+: [1] 115
+: [1] 115
+
+
+  À partir de maintenant, vous pouvez supposez que ~a<=b~.
+
+*** Reprogrammez la fonction précédente en remplaçant la boucle for par une boucle while.
+
+#+BEGIN_SRC R   
+  Foo <- function(x,a,b) {
+    while(a <= b) {
+      x <- x + a
+      a <- a + 1             
+    }
+    return(x)
+  }
+  Foo(10,15,20)   
+#+END_SRC
+
+#+RESULTS:
+: [1] 115
+
+*** Reprogrammez cette même fonction sans utiliser aucune boucle !
+
+#+BEGIN_SRC R   
+  # Calcul Direct
+  Foo <- function(x,a,b) {
+    return( x + (b-a+1)* ((a+b) / 2) )
+  }  
+  Foo(10,15,20)   
+  # Vectorisation
+  Foo <- function(x,a,b) x + sum(a:b)
+  Foo(10,15,20)   
+#+END_SRC
+
+#+RESULTS:
+: [1] 115
+: [1] 115
+* Alphabet
+
+#+BEGIN_SRC R :session alphabet :results silent
+  Alphabet <- function(upper=FALSE) intToUtf8( 0:25 + (utf8ToInt(ifelse(upper,'A','a'))))
+#+END_SRC
+
+  1. Programmez une fonction ~Alphabet()~ dont le résultat est la chaîne : 'abcdefghijklmnopqrstuvwxyz'.
+
+#+BEGIN_SRC R :exports both :session alphabet
+  Alphabet()
+#+END_SRC
+
+#+RESULTS:
+: [1] "abcdefghijklmnopqrstuvwxyz"
+
+  2. [@2] Ajoutez un paramètre optionel ~upper~ pour renvoyer l'alphabet en lettres minuscules ou majuscules.
+
+#+BEGIN_SRC R :exports both :session alphabet
+  Alphabet(upper = TRUE)
+#+END_SRC
+
+#+RESULTS:
+: [1] "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+* Table ASCII
+   Programmez une fonction ~Ascii()~ qui affiche une table ASCII pour les caractères dont le code est compris entre 32 et 126.
+
+#+BEGIN_SRC R :results none :session ascii
+  Ascii <- function(upper=FALSE) {
+    print(sprintf("%3d:%s", 32:126, intToUtf8(32:126, multiple=TRUE)), quote=FALSE)
+  }
+
+#+END_SRC
+
+#+BEGIN_SRC R :exports both :session ascii
+  Ascii()
+#+END_SRC
+
+
+#+RESULTS:
+#+begin_example
+ [1]  32:    33:!   34:"   35:#   36:$   37:%   38:&   39:'   40:(   41:) 
+[11]  42:*   43:+   44:,   45:-   46:.   47:/   48:0   49:1   50:2   51:3 
+[21]  52:4   53:5   54:6   55:7   56:8   57:9   58::   59:;   60:<   61:= 
+[31]  62:>   63:?   64:@   65:A   66:B   67:C   68:D   69:E   70:F   71:G 
+[41]  72:H   73:I   74:J   75:K   76:L   77:M   78:N   79:O   80:P   81:Q 
+[51]  82:R   83:S   84:T   85:U   86:V   87:W   88:X   89:Y   90:Z   91:[ 
+[61]  92:\\  93:]   94:^   95:_   96:`   97:a   98:b   99:c  100:d  101:e 
+[71] 102:f  103:g  104:h  105:i  106:j  107:k  108:l  109:m  110:n  111:o 
+[81] 112:p  113:q  114:r  115:s  116:t  117:u  118:v  119:w  120:x  121:y 
+[91] 122:z  123:{  124:|  125:}  126:~
+#+end_example
+
+* Tables de multiplication
+
+  Programmez une fonction ~TableMult(n)~ prenant un entier ~n~ compris entr 1 et 9, et affichant la table de mutliplication par n.
+  Vérifier la validité de l'argument ~n~ en utilisant la fonction ~stopifnot~.
+
+#+BEGIN_SRC R :session tables
+  TableMult <- function(n) {
+    stopifnot(length(n) == 1, n > 0, n < 10, floor(n) == n)
+    x <- 1:10
+    cat(' ')
+    cat(sprintf("%d x%2d = %3d\n",n,x,n*x))
+  }
+#+END_SRC
+
+#+RESULTS:
+
+
+#+BEGIN_SRC R :exports both :session tables 
+  ## TableMult(0) ## error !
+  ## TableMult(1.5) ## error !
+  TableMult(4)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+ 4 x  1 =   4
+ 4 x  2 =   8
+ 4 x  3 =  12
+ 4 x  4 =  16
+ 4 x  5 =  20
+ 4 x  6 =  24
+ 4 x  7 =  28
+ 4 x  8 =  32
+ 4 x  9 =  36
+ 4 x 10 =  40
+#+end_example
+
+* WAITING Épluchages de chaînes                                         :KEY:
+  En utilisant l'idée d'épluchage d'un entier, programmez les fonctions suivantes d'écriture et de lecture d'un nombre binaire.
+
+*** La fonction ~IntToBin(n)~ prenant un entier n et retournant la chaîne contenant l'écriture binaire de n. 
+    
+#+BEGIN_SRC R :session strbin
+  IntToBin <- function(n) {
+    n <- abs(n);
+    acc <- "";
+    while(n > 0) {
+      acc <- paste(n %% 2, str, sep="");
+      n  <- n %/% 2;
+    }
+    return(acc)
+    }
+#+END_SRC
+
+#+RESULTS:
+
+#+BEGIN_SRC R :exports both :session strbin
+  n <- 3456  
+  nbin <- IntToBin(3456)
+  paste(n, "->", nbin,  "->", strtoi(nbin, base = 2))
+#+END_SRC
+
+#+RESULTS:
+: [1] "3456 -> 110110000000 -> 3456"
+
+*** La fonction inverse ~BinToInt(s)~ prenant une chaîne ~s~ contenant l'écriture binaire d'un entier ~n~, et retournant ~n~. 
+#+BEGIN_SRC R :session strbin
+  BinToInt <- function(s) {
+    digits <- utf8ToInt(s)-utf8ToInt("0")
+    pows <- seq(from = length(digits)-1, to = 0)
+    return(sum( 2**pows * digits))
+  }
+#+END_SRC
+
+#+BEGIN_SRC R :exports both :session strbin
+  n <- 3456  
+  nbin <- IntToBin(3456)
+  paste(n, "->", nbin,  "->", BinToInt(nbin))
+#+END_SRC
+
+#+RESULTS:
+: [1] "3456 -> 110110000000 -> 3456"
+
+
+
+*** TODO Schéma de Horner ?
+* Code de César                                                        :HARD:
+  Le codage des messages secrets selon Jules César consistait à choisir une clé entière ~k~ dans [1,25] pour fabriquer à partir d'un message ~msg~ un nouveau message codé avec la technique suivante. 
+Chaque lettre majuscule de ~msg~ est décalée de ~k~ positions vers la droite (l'alphabet est circulaire : après 'Z' on revient sur 'A'). 
+Les autres caractères du message sont laissés intacts.
+
+ 1. Programmez la fonction ~CodeCesar(msg,k)~ qui retourne le message codé avec un décalage ~k~.
+ 2. Programmez la fonction ~DecodeCesar(msg,k)~ qui prend un message codé par et retourne le message en clair. 
+ 3. Défi urgent : décodez le message 'JLGVI XRJFZC' dont Jules a perdu la clef !
+ 4. Modifiez la fonction ~CodeCesar(msg,k)~ pour qu'elle code les majuscules et les minuscules.
+
+
+#+BEGIN_SRC R :results none :session cesar
+  CodeCesar <- function(msg, k) {
+    ## traduction de la chaîne en vecteur de codes utf8
+    cc <-utf8ToInt(msg)
+    ## normalisation de la clé
+    k <- k %% 26;
+    CircShift <- function(aa) {
+      aa <- utf8ToInt(aa)
+      zz <- aa + 25
+      enc <- cc >= aa & cc <= zz
+      cc[enc] <- cc[enc] + k
+      enc[enc] <- cc[enc] > zz
+      cc[enc] <- cc[enc] - 26
+      return(cc)
+    }
+    cc <- CircShift('a')
+    cc <- CircShift('A')
+    return(intToUtf8(cc))
+  }
+
+  DecodeCesar <- function(msg, k) CodeCesar(msg, -k)
+#+END_SRC
+
+
+#+BEGIN_SRC R :exports both :session cesar
+  TestCesar <- function(msg, k) {
+    cod <- CodeCesar(msg,k)
+    dcod <- DecodeCesar(cod,k)
+    cat(paste('k=', k, ":" , msg, '-->', cod,'-->', dcod, '\n'))
+  }
+  TestCesar('envoyez 36 hommes !', 3)
+  TestCesar('ENVOYEZ 36 HOMMES !', -23)
+  TestCesar('ENVOyez 36 homMES !', 5)
+#+END_SRC
+
+#+RESULTS:
+: k= 3 : envoyez 36 hommes ! --> hqyrbhc 36 krpphv ! --> envoyez 36 hommes !
+: k= -23 : ENVOYEZ 36 HOMMES ! --> HQYRBHC 36 KRPPHV ! --> ENVOYEZ 36 HOMMES !
+: k= 5 : ENVOyez 36 homMES ! --> JSATdje 36 mtrRJX ! --> ENVOyez 36 homMES !
+
+* Recherche de chaînes : une perspective biologique                    :HARD:
+  D'après le cours Python du MIT. 
+
+  La recherche de chaînes (string matching) est intéressante dans plusieurs disciplines, comme la biologie, dont un problème courant consiste à comprendre la structure des molécules d'ADN, et le rôle de structures spécifiques dans le fonctionnement de la molécule. Une séquence ADN est représentée par une suite  de caractères choisis parmi les quatre nucléotides : adenine (A), cytosine (C), guanine (G) et thymine (T). Par exemple, la chaîne de caractères 'AAACAACTTCGTAAGTATA' représente un brin d'ADN.
+  Une manière de comprendre la fonction d'un brin d'ADN consiste à y rechercher une séquence précise, avec l'idée qu'une structure identique induira des effets identiques. Nous allons pénétrer un tout petit peu dans cette idée. 
+  
+  Programmez une fonction ~CountSubstringMatch(s1,s2)~ qui prend deux chaînes en argument et retourne le nombre de fois que ~s2~ apparaît comme sous-chaîne de ~s1~. \\
+  /Indice/ : utiliser la fonction ~regexpr~.
+
+#+BEGIN_SRC R :results none :session biology
+  CountSubstringMatch <- function(str, pattern) {
+    occ = 0
+    r <- regexpr(pattern,str)
+    while(r > 0) {
+      occ <- occ + 1
+      str <- substr(str,start=r+1,stop=nchar(str))
+      r <- regexpr(pattern,str)
+      ## On ne peut pas utilisr gregexpr, car on autorise le chevauchement entre les motifs
+    }
+    return(occ)
+  }
+#+END_SRC
+
+
+#+BEGIN_SRC R :exports both :session biology
+  CountSubstringMatch('atatata','ata') 
+  CountSubstringMatch('atgacatgcacaagtatgcat','atgc') 
+  CountSubstringMatch('atatata','atc') 
+#+END_SRC
+
+#+RESULTS:
+: [1] 3
+: [1] 2
+: [1] 0
+* Commande ~tr~                                                   :HOME:HARD:
+
+  La commande shell ~tr~ copie son entrée standard sur sa sortie standard en transposant ou éliminant des caractères.
+  Par exemple, taper les commandes suivantes dans un terminal.
+  #+BEGIN_SRC sh :exports both
+    echo "foobar" | tr a-z A-Z
+    echo "foobar" | tr -d oa
+  #+END_SRC
+  
+  #+RESULTS:
+  : FOOBAR
+  : fbr
+  
+  
+  Programmer une fonction ~tr(text, str1, str2)~ similaire à la commande shell ~tr~.
+  La fonction retourne une copie de la chaîne de caractère ~text~ en effectuant l'une des manipulations suivantes : 
+   - si la chaîne ~str2~ est vide, elle supprime les caractères de ~str1~ ;
+   - si la chaîne ~str2~ n'est pas vide, elle transpose les caractères de ~str1~ par ceux de ~str2~.
+  
+   #+BEGIN_SRC R :results none :session tr
+     tr <- function(text, str1, str2) {
+       stopifnot(is.character(text), is.character(str1), 
+                 length(text) == 1,length(str1) == 1)
+       ## transposer ou éliminer des caractères
+       textL <- utf8ToInt(text)
+       if( missing(str2) || is.na(str2) || nchar(str2) == 0) {
+         ## éliminer les caractères de str1
+         del <- utf8ToInt(str1)
+         textL <- textL[ !( textL %in% del) ]
+       }else {
+         ## transposer les caractères de str1 par ceux de str2
+         ch1 <- utf8ToInt(str1)
+         ## recyclage de str2
+         ch2 <- rep_len(utf8ToInt(str2), length(ch1))
+         ## recherche des caractères
+         x <- match(textL, ch1)
+         ## position à trasnposer
+         xb <- ! is.na(x)
+         ## transposition
+         textL[xb] <- ch2[x[xb]]
+       }
+       return (intToUtf8(textL))
+     }
+   #+END_SRC
+
+
+   #+BEGIN_SRC R :exports both :session tr
+     tr("foobar","oo") 
+     tr("foobar","oa", "eu")
+     tr("foobar","oo", "eu")
+     tr("foobar","foar", "eu")
+   #+END_SRC
+
+  #+RESULTS:
+  : [1] "fbar"
+  : [1] "feebur"
+  : [1] "feebar"
+  : [1] "euubeu"
+
+   /Indice/ : lire la page de manuel de la commande shell ~tr~
+   #+BEGIN_SRC sh :exports code
+     man tr
+   #+END_SRC
+
+* NEXT Chiffre Vigenère                                            :noexport:
+   #+BEGIN_SRC R
+     code_vigenere <- function(texte, cle, decode = FALSE) {
+       ## transposer ou éliminer des caractères
+       # normalisation de la cle modulo 26
+       cleL <- utf8ToInt(tolower(cle)) - utf8ToInt('a') %% 26
+       textL <- utf8ToInt(texte)
+       for( i in seq_along(cleL)) {
+         k <-  
+           
+       }
+       return (intToUtf8(textL))
+     }
+     return (intToUtf8(textL))
+     
+     code_vigenere("toto","tA");
+   #+END_SRC

@@ -1,0 +1,533 @@
+#+SETUPFILE: base-template.org
+#+TITLE:     Travaux Pratiques #7
+#+SUBTITLE:     Algo & Prog avec R
+#+PROPERTY: header-args :results output replace :exports none
+* Ensembles et Dictionnaires
+** Ensemble d'entiers aléatoires
+   1. Définissez deux ensemble ~e2~ et ~e3~ de 10 entiers aléatoires de [0,20].
+   2. Faites afficher la réunion, l’intersection, la différence asymétrique, et la différence symétrique de ~e2~ et ~e3~.
+
+   #+BEGIN_SRC R
+   e2 <- sample(0:20, 10, replace=FALSE)
+   e3 <- sample(0:20, 10, replace=FALSE)
+   print(e2)     
+   print(e3)     
+   union(e2,e3)
+   intersect(e2,e3)
+   setdiff(e2,e3)
+   union(setdiff(e2,e3),setdiff(e3,e2))
+   #+END_SRC
+
+   #+RESULTS:
+   :  [1] 17  7 11  4 20  0 12 13 16  1
+   :  [1] 12 20 14  0 16 10 13  3 18 15
+   :  [1] 17  7 11  4 20  0 12 13 16  1 14 10  3 18 15
+   : [1] 20  0 12 13 16
+   : [1] 17  7 11  4  1
+   :  [1] 17  7 11  4  1 14 10  3 18 15
+
+** Histoire de s’amuser !
+   Supposons que R ne dispose pas des fonctions ensemblistes.
+   Comment programmeriez-vous les fonctions ~Union(x,y)~, ~Intersection(x,y)~, et ~Difference(x,y)~ (asymétrique) sur des vecteurs non triées avec répétitions.
+   #+BEGIN_SRC R 
+     Union <- function(x, y) unique(append(x,y))
+     Intersection <- function(x, y) x[ x %in% y ]
+     Difference <- function(x, y) x[ !(x %in% y) ]
+     x <- sample(1:5)
+     y <- sample(4:8)
+     print(x)
+     print(y)
+     print(Union(x,y))
+     print(Intersection(x,y))
+     print(Difference(x,y))
+   #+END_SRC
+
+   #+RESULTS:
+   : [1] 5 1 4 2 3
+   : [1] 5 6 4 7 8
+   : [1] 5 1 4 2 3 6 7 8
+   : [1] 5 4
+   : [1] 1 2 3
+
+** Dictionnaire simple
+   Créez un petit dictionnaire d1 ayant trois couples var:val dont les valeurs ont des types distincts.
+   1. Faites afficher le type de d1.
+   2. Faites afficher la liste des clés de d1.
+   3. Faites afficher l’ensemble des valeurs de d1.
+   4. Demandez la valeur de la clé "toto".
+      
+
+   #+BEGIN_SRC R
+   d1 <- list("foo"=0, "bar"=1:2, "team"="foobar")
+   class(d1)
+   names(d1)
+   paste(d1)
+   d1["foo"]
+   d1[["foo"]]
+   d1["toto"]
+   d1[["toto"]]
+   #+END_SRC
+
+   #+RESULTS:
+   #+begin_example
+   [1] "list"
+   [1] "foo"  "bar"  "team"
+   [1] "0"      "1:2"    "foobar"
+   $foo
+   [1] 0
+
+   [1] 0
+   $<NA>
+   NULL
+
+   NULL
+#+end_example
+
+** Dictionnaire aléatoire
+  1. Programmez une fonction ~RandomDict()~, retournant un dictionnaire aléatoire de longueur 10.
+     - Les 10 clés distinctes seront choisies au hasard parmi les entiers de [0,20].
+     - Les valeurs associées à ces clés (non nécessairement distinctes) seront choisies parmi les voyelles ’a’,’e’,’i’,’o’,’u’,’y’.
+  2. Posons ensuite ~d2 <- RandomDict()~.  
+  3. Faites afficher le nombres de clés paires de ~d2~.
+  4. Faites afficher les valeurs distinctes de ~d2~.
+
+#+BEGIN_SRC R
+  RandomDict <- function() {
+    res <- sample(c('a','e','i','o','u','y'),10,replace=TRUE)
+    names(res) <- sample(0:20,10,replace=FALSE)
+    return(res)
+  }
+  d2 <- RandomDict()
+  print(d2)
+  sum(as.integer(names(d2)) %% 2 == 0)
+  unique(d2)
+#+END_SRC
+
+#+RESULTS:
+:  15   4   5  19   8  16   0   6   3  14 
+: "o" "u" "y" "e" "y" "e" "u" "e" "y" "y" 
+: [1] 6
+: [1] "o" "u" "y" "e"
+
+** Filtrage des clés par valeur
+   Programmez une fonction ~GetKeys(d,v)~ retournant l’ensemble des clés d’un dictionnaire quelconque ~d~, dont la valeur associée est ~v~. 
+
+   Rappel : les clés sont uniques, mais pas les valeurs! 
+   #+BEGIN_SRC R
+     d1 <- list('a'=5, 'b'=6, 'c'=5, 'd'='b', 'e'=0:1, 'f'=list(0,1))
+     GetKeys <- function(d, v) {
+       ind <- logical(length(d))
+       for(i in seq_along(d)) {
+         if(all(d[[i]] == v) ) {ind[i]=TRUE}
+       }
+       return(names(d)[ind])
+     }
+
+     GetKeys(d1,5)     
+     GetKeys(d1,'b')     
+     GetKeys(d1,0:1)
+     GetKeys(d1,0:2)
+   #+END_SRC
+ 
+   #+RESULTS:
+   : [1] "a" "c"
+   : [1] "d"
+   : [1] "e" "f"
+   : character(0)
+
+* Coefficient de Gini 
+  :PROPERTIES:
+       :header-args:    :exports none
+  :END:
+*** Entrer les données ci-dessous dans R grâce à la fonction ~scan~.
+    Nous considérons trois échantillons aléatoires d'une population :
+**** le nombre d'heures de charge pour différents modèles de téléphone mobile ;
+     #+BEGIN_EXAMPLE
+     45.8   41.1   55.9   46.6   57.0   45.0   58.5   46.7   49.3   52.7   
+     54.9   48.5   40.4   44.4   51.0   44.2   59.1   46.9   50.7   43.7   
+     41.7   52.8   60.5   38.5   60.4   53.8   47.3   50.2   58.8   50.7 
+     #+END_EXAMPLE
+  
+**** le nombre d'heures passées devant la télévision pour 34 foyers ;
+     #+BEGIN_EXAMPLE
+     23.1   15.9   21.0   26.0   25.1   14.7   24.2   16.6   18.2   16.5   
+     20.7   15.3   17.7   19.1   22.7   21.9   14.6   26.3   25.8    9.4   
+     17.0   21.2   17.9   24.7   21.1   17.2   19.1   22.7   24.0   24.7   
+     22.5    8.3   2.5    30.4 
+     #+END_EXAMPLE
+**** le nombre de km pour aller et revenir du travail de 12 employés.
+     #+BEGIN_EXAMPLE
+     3.7    14.3   11.0   26.5    5.2    4.8   24.2   16.9   8.2    26.5   
+     40.7   5.3       
+     #+END_EXAMPLE
+
+*** Le [[https://fr.wikipedia.org/wiki/Coefficient_de_Gini][coefficient de Gini]] est donné par la formule ($x_i \leq x_{i+1}$): 
+   $$
+   \frac{2}{n} \frac{ \sum_1^n i \times x_i}{\sum_1^n x_i} - \frac{n+1}{n}.
+   $$
+   Écrire une fonction ~GiniIndex~ qui calcule le coefficient de Gini. 
+   Calculer les coefficients de Gini pour les trois échantillons ci-dessus. Qu'en concluez-vous ?
+   
+    #+BEGIN_SRC R :session gini :results output silent 
+      phones <- scan(text = "45.8   41.1   55.9   46.6   57.0   45.0   58.5   46.7   49.3   52.7   
+              54.9   48.5   40.4   44.4   51.0   44.2   59.1   46.9   50.7   43.7   
+              41.7   52.8   60.5   38.5   60.4   53.8   47.3   50.2   58.8   50.7 
+          ")
+
+
+      tv <- scan(text ="  23.1   15.9   21.0   26.0   25.1   14.7   24.2   16.6   18.2   16.5   
+         20.7   15.3   17.7   19.1   22.7   21.9   14.6   26.3   25.8    9.4   
+         17.0   21.2   17.9   24.7   21.1   17.2   19.1   22.7   24.0   24.7   
+         22.5    8.3   2.5    30.4 ")
+
+      dist <- scan(text = "  3.7    14.3   11.0   26.5    5.2    4.8   24.2   16.9   8.2    26.5   
+        40.7   5.3     ")
+
+      GiniIndex <- function(x) {
+        x <- sort(x)
+        n <- length(x)
+        return( (2/n)*(sum( (1:n)*x )/sum(x)) - (n+1)/n )
+      }
+      #+END_SRC   
+
+
+
+    #+BEGIN_SRC R :session gini :exports both
+      GiniIndex(phones)
+      GiniIndex(tv)
+      GiniIndex(dist)
+    #+END_SRC   
+    
+    #+RESULTS:
+    : [1] 0.07121991
+    : [1] 0.1539792
+    : [1] 0.3894376
+
+
+*** Implémenter les fonctions ~LorenzCurve(data)~ renvoyant une matrice (ou dataframe) contenant les coordonnées des points de la courbe de Lorenz pour l'échantillon ~data~. 
+    
+    #+BEGIN_SRC R :results output silent :session gini
+      LorenzCurve <- function(data) {
+        y <- c(0, cumsum(sort(data)))
+        return(data.frame( x= 0:length(data)/length(data), y = y / tail(y,1)))
+      }
+    #+END_SRC   
+
+  
+    #+BEGIN_SRC R :session gini :exports both
+      LorenzCurve(dist)
+    #+END_SRC   
+
+
+    #+RESULTS:
+    #+begin_example
+                x          y
+    1  0.00000000 0.00000000
+    2  0.08333333 0.01975440
+    3  0.16666667 0.04538174
+    4  0.25000000 0.07314469
+    5  0.33333333 0.10144154
+    6  0.41666667 0.14522157
+    7  0.50000000 0.20395088
+    8  0.58333333 0.28029899
+    9  0.66666667 0.37052856
+    10 0.75000000 0.49973305
+    11 0.83333333 0.64121730
+    12 0.91666667 0.78270155
+    13 1.00000000 1.00000000
+#+end_example
+
+
+*** Utiliser l'extension [[http://ggplot2.org/][~ggplot2~]] pour produire des graphiques de la courbe de Lorenz.
+    
+    Tout d'abord, il faut installer quelques extensions.
+     #+BEGIN_SRC R :exports code :results output silent :session gini
+       install.packages(c("ggplot2", "ggthemes", "Rmisc"))
+     #+END_SRC   
+     
+     Ensuite, définir les fonctions construisant les graphiques à partir d'un jeu de données.
+     #+BEGIN_SRC R :exports code :results output silent :session gini 
+        library(ggplot2)
+        library(ggthemes)
+        PlotLorenz <- function(lorenzCurve, giniIndex, dataName) {
+          ggplot() + 
+            geom_line(aes(y = y, x = x),
+                      data = as.data.frame(lorenzCurve), stat="identity", 
+                      color =  ptol_pal()(1), size = 2) +
+            geom_segment(aes(x = 0, y = 0, xend = 1, yend = 1),linetype="dotted", size = 1.5) +
+            theme_gdocs() + scale_colour_ptol() +
+            ggtitle(paste("Courbe de Lorenz - Gini Index =", format(giniIndex, digits=2)), 
+                    sub = dataName) +
+            labs(x="Part cumulée de la population", y=paste("Part cumulée :", dataName)) +  
+            theme(text = element_text(size=14), plot.title = element_text(size=14))
+        }
+
+        PlotLorenzFromSample <- function(data, dataName) {
+          PlotLorenz(LorenzCurve(data), GiniIndex(data), dataName)
+        }
+
+        phonesName <- "temps de charge"
+        tvName <- "temps passé devant la TV"
+        distName <- "distance du lieu de travail"
+     #+END_SRC   
+
+
+     Ensuite, exécuter le code ci-dessous pour afficher les courbes de Lorenz des trois échantillons. 
+    #+BEGIN_SRC R :exports both :results output graphics :file TP7-TD7/lorenz.jpg :width 1000 :height 300 :session gini 
+        library(Rmisc)
+        multiplot(
+          PlotLorenzFromSample(phones, phonesName),
+          PlotLorenzFromSample(tv, tvName),
+          PlotLorenzFromSample(dist, distName), cols =3
+        )
+    #+END_SRC   
+    
+    #+RESULTS:
+     [[file:TP7-TD7/lorenz.jpg]]
+
+
+*** Utiliser l'extension [[http://shiny.rstudio.com/][~shiny~]] pour produire une application web interactive.
+
+     Installer d'abord l'extension.
+     #+BEGIN_SRC R :exports code :results output silent :session gini
+       install.packages("shiny")
+     #+END_SRC   
+
+     Ensuite, rassembler le code définissant les nécessaire dans un fichier et exécuter le.
+     N'hésitez pas à lire l'[[http://shiny.rstudio.com/tutorial/written-tutorial/lesson1/][introduction]] à shiny.
+    
+     #+BEGIN_SRC R :exports code :results output silent :session gini
+       library(shiny)
+       if (interactive()) {
+         ## Only run examples in interactive R sessions
+         choices <- c("phones", "tv", "dist")
+         names(choices) <-c(phonesName, tvName, distName) 
+
+         ## user interface object
+         ui <- fluidPage(
+           titlePanel("Ma première application web avec shiny!"),
+           sidebarLayout(
+             ## Sidebar with radio buttons
+             sidebarPanel(
+               radioButtons("data", "Données : ", choices)
+             ),
+             ## Main panel with graphic
+             mainPanel(
+               plotOutput("dataPlot")
+             )
+           )
+         )
+
+         ## a server function
+         server <- function(input, output) {
+           ## Build plot objects in advance
+           phonesPlot <- PlotLorenzFromSample(phones, phonesName)
+           tvPlot <- PlotLorenzFromSample(tv, tvName)
+           distPlot <- PlotLorenzFromSample(dist, distName)
+
+           ## Set the right plot object according to the user choice
+           output$dataPlot <- renderPlot({
+             switch(input$data,
+                    phones = phonesPlot,
+                    tv = tvPlot,
+                    dist = distPlot,
+                    phonesPlot)
+           })
+         }
+         ## a call to the shinyApp function
+         shinyApp(ui, server)
+       }
+    #+END_SRC
+
+* Fréquence des mots dans une chaîne
+  Vous êtes invités à essayer la méthode ~strsplit~ qui renvoie une liste de vecteurs de ~character~ séparés par un séparateur ~split~ :
+
+#+BEGIN_SRC R :export both
+txt <- 'le chien et le loup font la course'
+strsplit(txt,' ')
+txt <- 'Nice, Antibes, Monaco'
+unlist(strsplit(txt,split=', '))
+txt <- 'foo   bar'
+unlist(strsplit(txt,' '))
+unlist(strsplit(txt,' +',fixed=FALSE))
+#+END_SRC
+
+#+RESULTS:
+: [[1]]
+: [1] "le"     "chien"  "et"     "le"     "loup"   "font"   "la"     "course"
+: 
+: [1] "Nice"    "Antibes" "Monaco" 
+: [1] "foo" ""    ""    "bar"
+: [1] "foo" "bar"
+
+    1. Utilisez les méthodes ~strsplit~ et ~table~ pour programmer une fonction ~Frequences(str)~ prenant une chaîne ~str~ et retournant un vecteur nommé contenant les fréquences d’apparition de chaque mot de ~str~.
+    2. Modifiez votre solution pour que le résultat soit une liste de couples triée par la fréquence en utilisant la fonction ~sort~.
+    3. En déduire une fonction ~PlusFrequents(str)~ retournant les mots les plus fréquents.
+
+
+    #+BEGIN_SRC R :session frequences
+    Frequences <- function(str) {
+      words <- unlist(strsplit( trimws(str),' +',fixed=FALSE))
+      res <- table(words)
+      res <- sort(res, decreasing=TRUE)
+      return(res)
+    }
+
+    PlusFrequents <- function(str) {
+      r <- Frequences(str)
+      names(r[ r == r[1] ])
+    }
+    #+END_SRC
+
+    #+RESULTS:
+
+   #+BEGIN_SRC R :exports both :session frequences
+     Frequences(" ")
+     str <- "do re do mi do la la mi la"
+     Frequences(str)
+     PlusFrequents(str)
+   #+END_SRC
+
+   #+RESULTS:
+   : integer(0)
+   : words
+   : do la mi re 
+   :  3  3  2  1
+   : [1] "do" "la"
+
+
+
+* Algorithme de Bezout
+L’[[http://fr.wikipedia.org/wiki/Algorithme_d%2527Euclide_%25C3%25A9tendu][algorithme de Bezout]] prolonge l’algorithme d’Euclide. 
+Il dit qu’il est possible d’écrire le PGCD g de a et b comme combinaison linéaire de a et b à coefficients entiers : il existe u et v (non uniques) tels que g = a*u + b*v. 
+Par exemple 4 = 8*(-1) + 12*1.
+*** On se propose de programmer une fonction ~bezout(a,b)~ retournant un triplet (g,u,v).
+*** Montrez que si l’on sait calculer bezout(b,a %% b), alors on peut en déduire bezout(a,b).
+*** Programmez une fonction ~bezout(a,b)~ récursive. Testez-la sur ~bezout(8,12)~.
+
+  #+BEGIN_SRC R :session bezout 
+    bezout <- function(a,b) {
+      ## fonction récursive 
+      if(b == 0) return(c(a,1,0))
+      x <- bezout(b, a %% b)
+      return( c(x[1], x[3], x[2] - a %/% b * x[3]))
+    }
+    print(bezout(8, 12))
+  #+END_SRC
+
+  #+RESULTS:
+  : [1] 12  0  1
+  : [1]  4 -1  1
+
+*** Programmez une fonction ~aff_bezout(a,b)~ affichant la décomposition g = a*u + b*v.
+
+  #+BEGIN_SRC R :session bezout :results none
+    aff_bezout <- function(a,b) {
+      bz <- bezout(a,b);
+      paste(bz[2],'*',a,'+',bz[3],'*',b,'=',bz[1])
+    }
+   #+END_SRC 
+
+  #+BEGIN_SRC R :session bezout :exports both
+    aff_bezout(8, 12)
+    aff_bezout(120,23)
+    aff_bezout(5040,4116)
+   #+END_SRC 
+
+  #+RESULTS:
+  : [1] "-1 * 8 + 1 * 12 = 4"
+  : [1] "-9 * 120 + 47 * 23 = 1"
+  : [1] "9 * 5040 + -11 * 4116 = 84"
+
+*** Programmez une fonction ~bezout(a,b)~ itérative. Testez-la sur ~bezout(8,12)~.
+    
+  #+BEGIN_SRC R :session bezout
+    bezout <- function(a,b) {
+      ## fonction itérative 
+      bz <- c(a,1,0,b,0,1)
+      ## égalités r = a*u+b*v et r' = a*u'+b*v' sont des invariants de boucle
+      while(bz[4] != 0) {
+        q <- bz[1] %/% bz[4]
+        bz <- c(bz[4:6], bz[1:3]-q*bz[4:6])
+        ##print(bz)
+      }
+      return(bz[1:3])
+    }
+    aff_bezout(8, 12)
+    aff_bezout(120,23)
+    aff_bezout(5040,4116)
+   #+END_SRC
+  
+  #+RESULTS:
+  : [1] "-1 * 8 + 1 * 12 = 4"
+  : [1] "-9 * 120 + 47 * 23 = 1"
+  : [1] "9 * 5040 + -11 * 4116 = 84"
+
+* Jeu de Pendu
+Le [[https://fr.wikipedia.org/wiki/Le_pendu_%2528jeu%2529][pendu]] est un jeu consistant à trouver un mot en devinant quelles sont les lettres qui le composent.
+ 1. Programmer une fonction ~JeuPendu()~ sans limite du nombre de coups. Le joueur entre une lettres au clavier jusqu'à ce qu'il ait trouvé le mot.
+ 2. Modifier la fonction ~JeuPendu(n)~ pour que le joueur soit déclaré perdant après ~n~ erreurs.
+
+ Vous pouvez utiliser la fonction suivante pour capturer les saisies au claviers.
+#+BEGIN_SRC R :session pendu :exports code :results none
+  Read1 <- function(x) {
+    cat(sprintf("Entrer %s :\n", x))
+    word <- scan(file = "", what = "character", n = 1, quiet = TRUE)
+    stopifnot(length(word) == 1)
+    return(word)
+  }
+#+END_SRC
+
+Le déroulement du jeu doit s'inspirer de l'exemple ci-dessous.
+#+BEGIN_SRC R :session pendu :results none
+  JeuPendu <- function(n = Inf) {
+    ## Type a word
+    word <- Read1("un mot")
+    cat("Tapez Ctrl + L pour effacer l'écran.\n")
+
+    ## Init. search objects
+    word.code <- utf8ToInt(tolower(word))
+    word.mask <- !logical(nchar(word))
+    i <- 1
+    j <- 0
+    while(any(word.mask) && j < n) {
+      ## Type a letter
+      letter <- Read1("une lettre")
+      stopifnot(nchar(letter) == 1)
+      ## Update search status 
+      word.letter <- word.code != utf8ToInt(letter)
+      if(all(word.letter)) {
+       j <- j + 1
+      }
+      word.mask <- word.mask & word.letter
+      ## Pretty print of the search status
+      word.current <- word.code
+      word.current[word.mask] <- utf8ToInt("_")
+      cat(sprintf("Tour %d : %s\n", i, intToUtf8(word.current)))
+      ## Increment round
+      i <- i + 1
+    }
+    cat( ifelse( any(word.mask), "Perdu\n", "Gagné\n"))
+   }
+  }
+#+END_SRC
+
+#+BEGIN_EXAMPLE
+> JeuPendu()
+Entrer un mot :
+1: ici
+Tapez Ctrl + L pour effacer l'écran.
+Entrer une lettre :
+1: a
+Tour 1 : ___
+Entrer une lettre :
+1: i
+Tour 2 : i_i
+Entrer une lettre :
+1: b
+Tour 3 : i_i
+Entrer une lettre :
+1: c
+Tour 4 : ici
+>
+#+END_EXAMPLE

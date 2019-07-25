@@ -1,7 +1,6 @@
-﻿# #+SETUPFILE: base-template.org
+﻿#+SETUPFILE: base-template.org
 #+TITLE:     Travaux Pratiques #1
 #+SUBTITLE:     Algo & Prog avec R
-#+OPTIONS: num:t toc:2 H:2
 #+PROPERTY: header-args :results output :exports none
 #+BEGIN_abstract
 Cette séance de travaux pratiques doit être réalisée en distanciel.

@@ -1,0 +1,315 @@
+﻿#+SETUPFILE: base-template.org
+#+TITLE:     Travaux Pratiques #4
+#+SUBTITLE:     Algo & Prog avec R
+#+PROPERTY: header-args :results output replace :exports none
+* Calcul flottant
+
+  Définissez en R la variable a dont la valeur est $\sqrt{3}$.
+ 1. Demandez si $a^2$ est bien égal à 3.
+ 2. Expliquez. Indice : ~print(sprintf('%.17f',0.1))~ et sur [[http://stackoverflow.com/questions/21872854/floating-point-math-in-different-programming-languages][stackoverflow.]]
+ 
+  #+BEGIN_SRC R 
+    a <- sqrt(3)
+    b <-  a**2
+    a == b
+    print(paste('Attention à l affichage de a**2', b))
+    print(sprintf('Voici la valeur de a**2 en interne : %.17f',b))
+  #+END_SRC
+
+  #+RESULTS:
+  : [1] FALSE
+  : [1] "Attention à l affichage de a**2 3"
+  : [1] "Voici la valeur de a**2 en interne : 2.99999999999999956"
+
+
+ 3. [@3] Programmer $100 \times 1.0$ par additions successives (à l'aide d'une boucle) : $100 \times 1.0 = 1.0 + 1.0 + \dots + 1.0 + 1.0$. Que constatez-vous ?
+
+  #+BEGIN_SRC R
+   acc <- 0
+   i <- 0
+   while (i < 100) {
+     i <- i + 1
+     acc <- acc + 1.0
+   }
+   print(sprintf("100 * 1.0 = %.16f",acc))
+  #+END_SRC
+
+  #+RESULTS:
+  : [1] "100 * 1.0 = 100.0000000000000000"
+
+ 4. [@4] Même question pour $100 \times 0.1$.
+
+  #+BEGIN_SRC R
+    acc <- 0
+    i <- 0
+    while (i < 100) {
+      i <- i + 1
+      acc <- acc + 0.1
+    }
+    print(sprintf("100 * 0.1 = %.16f",acc))
+  #+END_SRC
+
+  #+RESULTS:
+  : [1] "100 * 0.1 = 9.9999999999999805"
+* Formule d'Euler 
+Le cours de maths de seconde année vous démontrera peut-être la formule suivante : $\sum_{i=1}^{+\infty} \frac{1}{i^2}=\frac{\pi^2}{6}$. \\
+Écrire une fonction ~PiEuler(n)~ qui calcule une estimation de $\pi$ à partir de la somme partielle d'ordre ~n~ : $\sum_{i=1}^{n} \frac{1}{i^2}$.
+
+Le code ci-dessous sert à TESTER la fonction ~PiEuler~.
+#+BEGIN_SRC R :results none :session euler
+
+  PiEuler <- function(n) {
+    ## calcul de pi avec n termes dans la somme
+    i = 1
+    ## acc represente le resultat en construction
+    acc = 1           
+    while (i < n) {
+      i = i + 1
+      acc = acc + 1/(i*i)
+    }
+    return(sqrt(6 * acc))
+  }
+#+END_SRC
+
+#+BEGIN_SRC R :exports both :session euler
+  cat(sprintf('Calcul approximatif de pi=%.16f :\n',pi))
+  k <- 1
+  while (k <= 7){
+    n <- 10**k
+    cat(sprintf("PiEuler(%d) --> %.10f\n",n, PiEuler(n)))
+    k <- k+1
+  }
+#+END_SRC
+
+#+RESULTS:
+: Calcul approximatif de pi=3.1415926535897931 :
+: PiEuler(10) --> 3.0493616360
+: PiEuler(100) --> 3.1320765318
+: PiEuler(1000) --> 3.1406380562
+: PiEuler(10000) --> 3.1414971639
+: PiEuler(100000) --> 3.1415831043
+: PiEuler(1000000) --> 3.1415916987
+: PiEuler(10000000) --> 3.1415925581
+
+* Méthode des tangentes de Newton                              :HARD:
+** Formule de Newton
+  La formule de Newton [cours 2 page 16] pour améliorer une approximation $a$ de $\sqrt{r}$ est obtenue de la manière suivante.  On trace la courbe d'équation  $y = f(x) = x^2-r$ qui coupe Ox précisément en $\sqrt{r}$.
+  [[file:tp04/formule_newton.png]]
+  1. Quelle est l'équation de la tangente (T) à la courbe au point d'abscisse $a$ ?
+  2. La tangente n'étant pas horizontale, calculez l'abscisse b du point d'intersection de (T) avec Ox. Vous devez retrouver la formule de Newton !
+*** Solution : petites maths sur papier \dots                      :noexport:
+L'equation de la tangente au point d'abscisse $a$ pour la courbe $y = f(x) = x^2-r$ est :      
+$$
+y - f(a) = f^{\prime}(a)(x - a) \Leftrightarrow  y - a^2 + r = 2a(x - a)
+$$
+
+Elle coupe l'axe 0x en y = 0, et il vient la formule d'amelioration de $x = (a + r/a)/2$
+** Généralisation
+
+Les calculettes modernes possèdent souvent une touche Solve permettant de calculer une racine d'une équation $f(x)=0$. 
+Par exemple, il est difficile sans machine de trouver une solution réelle à l'équation $x^5-3x+1=0$. 
+ 1. Pourquoi sommes-nous sûrs qu'il y en a au moins une ?
+ 2. Nous allons faire abstraction de la fonction , la supposer dérivable et à dérivée non nulle en tout point (de sorte que la tangente à la courbe existe et n'est jamais horizontale) pour appliquer la *méthode des tangentes de Newton* vue ci-dessus dans un cas particulier \dots 
+
+On suppose que l'approximation courante est $a > 0$. Calculez l'équation de la droite tangente à la courbe de $f$ au point $(a,f(a))$.
+
+ 3. [@3] Calculez la valeur de $b$ qui est une amélioration de $a$.
+ 4. Ecrivez la condition pour que l'approximation courante $a$ soit suffisamment proche de la solution. On nommera $h$ la constante > 0 de précision.
+ 5. Ecrivez une expression mathématique utilisant $f$, $a$ et $h$, qui approche la valeur de la dérivée $f^{\prime}(a)$ de $f$ au point $a$.
+ 6. Programmez en R la fonction ~Solve(f,a,h)~ retournant une approximation d'une solution de ~f~ en partant de l'approximation $a$. L'argument $h$ gouvernera la précision.
+
+#+BEGIN_SRC R :results none :session solve 
+  Solve <- function(f,a,h) {    
+    ## une solution de f(x) = 0 en partant de a, et h gouverne la precision
+    ## tant que la precision n'est pas atteinte...
+    while (abs(f(a)) > h)   {      
+      dfa = (f(a+h)-f(a))/h     # approximation de f'(a)
+      a = a - f(a) / dfa        # amelioration de Newton...
+    }
+    return(a)                      # et hop !
+  }
+#+END_SRC
+
+
+#+BEGIN_SRC R :session solve 
+  g <-function(x) x**5 - 3 * x + 1
+  sol = Solve(g,1,0.0001)
+  print('x**5-3x+1 = 0 admet au moins une racine reelle car le degre est impair, ok ?')
+  paste('Une solution de x**5-3x+1 = 0 :',sol)
+  paste('Verification : g(sol) =',g(sol),'où e-05 signifie *10**(-5)')
+#+END_SRC
+
+#+RESULTS:
+: [1] "x**5-3x+1 = 0 admet au moins une racine reelle car le degre est impair, ok ?"
+: [1] "Une solution de x**5-3x+1 = 0 : 1.2146493830778"
+: [1] "Verification : g(sol) = 1.05670215906351e-05 où e-05 signifie *10**(-5)"
+
+*** Solution : petites maths sur papier \dots                      :noexport:
+    Meme technique, sauf que la fonction f reste abstraite et derivable :
+    $$
+    y - f(a) = f^{\prime}(a)(x - a) \text{ et } y = 0  ===> x = a - f(a)/f^{\prime}(a)
+    $$
+    On voit qu'il est très malsain que f'(a) == 0 : tangente horizontale !!!
+
+** Applications numériques à faire sur ordinateur 
+    Utilisez la fonction ~Solve(f,a,h)~ pour faire afficher une valeur approchée :
+    - de $\sqrt{2}$,
+    - puis de $\sqrt[3]{2}$,
+    - puis d'une solution de l'équation $x^5-3x+1=0$,
+    - puis de l'équation $cos(x)=x$,
+    - et enfin du nombre $\pi$.
+
+#+BEGIN_SRC R :session solve 
+  paste('Approximation de la racine cubique de 2 :',Solve( function(x) x**3-2, 1, 0.0001))
+  paste('(la "vraie" valeur est ',2**(1/3),')')
+  paste('Approximation de pi comme solution de sin(x) = 0 :',Solve(sin,3,0.0001))
+  paste('(la "vraie" valeur est ',pi,')')
+  sol = Solve((function(x) x-cos(x)),1,0.0001)
+  paste('Solution de cos(x) = x :',sol)
+  paste('Verification de cos(',sol,') == ',cos(sol), ':', sol == cos(sol))
+#+END_SRC
+
+#+RESULTS:
+: [1] "Approximation de la racine cubique de 2 : 1.25993381738363"
+: [1] "(la \"vraie\" valeur est  1.25992104989487 )"
+: [1] "Approximation de pi comme solution de sin(x) = 0 : 3.14159265325442"
+: [1] "(la \"vraie\" valeur est  3.14159265358979 )"
+: [1] "Solution de cos(x) = x : 0.739113153543173"
+: [1] "Verification de cos( 0.739113153543173 ) ==  0.73906625809501 : FALSE"
+
+
+N.B. Au moment d'utiliser la fonction ~Solve(f,a,h)~, il n'est pas nécessaire que la fonction f soit déjà définie. On peut *passer une "fonction anonyme" en paramètre de ~Solve~*. 
+
+Par exemple, la fonction  QUI N'A AUCUN NOM s'écrit en R :
+: function(x) x**2 – 1
+On pourra donc demander par exemple 
+: Solve((function(x) x**2 – 1), 3, 0.01)
+
+
+
+
+    
+
+
+    
+* Racines d'un trinôme                                                 :HARD:
+
+  Il est fortement conseillé de lire la page wikipedia sur les [[https://fr.wikipedia.org/wiki/%25C3%2589quation_du_second_degr%25C3%25A9][équations du second degré]] ou encore mieux [[http://www.scilab.org/content/download/249/1710/file/scilabisnotnaive.pdf][Scilab is not naive]]. 
+
+** Méthode naïve
+   Écrire une fonction ~triroot(a,b,c)~ prenant en paramètre les coefficients ~a~, ~b~ et ~c~ d'un trinôme et renvoyant les racines réelles de l’équation $ax^2 + bx + c =0$.
+   Plus précisément, la fonction renvoie :
+     - ~NULL~ si l'équation n'admet pas de racines réelles ;
+     - un scalaire si l'équation admet une racine double ;
+     - un vecteur à deux éléments si l'équation admet deux racines distinctes.
+
+      #+BEGIN_SRC R :results none :session triroot
+        triroot <- function(a, b, c) {
+          delta <- b**2 - 4*a*c
+          if(delta < 0) {
+            return(NULL)
+          } else if(delta > 0) {
+            s <- sqrt(delta)
+            return(c( -b + s, -b - s)/(2*a))
+          } else {
+            return -b/(2*a)
+          }
+        }
+      #+END_SRC
+
+      #+RESULTS:
+
+
+     Vérifiez votre programme en utilisant la fonction prédéfinie ~polyroot~.
+      #+BEGIN_SRC R :session triroot 
+        triroot(1,-3,2)
+        polyroot(c(2,-3,1))
+      #+END_SRC
+
+      #+RESULTS:
+      : [1] 2 1
+      : [1] 1+0i 2-0i
+
+** Autour de la validité de la comparaison à 0
+   Tester votre programme avec le code ci-dessous. Quelle conclusion en tirez-vous?
+    #+BEGIN_SRC R :session triroot 
+      triroot(0.01,0.2,1)
+      polyroot(c(1,0.2,0.01))
+      triroot(0.011025,0.21,1)
+      polyroot(c(1,0.21,0.01025))
+    #+END_SRC
+
+    #+RESULTS:
+    : [1] -10 -10
+    : [1] -10-0i -10+0i
+    : NULL
+    : [1]  -7.52792+0i -12.95989-0i
+
+   Proposer une amélioration permettant d'éviter le problème ci-dessus grâce à la fonction ~all.equal~.
+
+** Autour de l'annulation massive
+    On va analyser l'erreur d'arrondi pendant le calcul du discriminant quand $b^2 >> 4ac$ en étudiant le trinôme $\epsilon x + \frac{x}{\epsilon} - \epsilon$.
+     #+BEGIN_SRC R :session triroot 
+       li <- head(seq(0.0001,0,length.out=4),-1)
+       for (epsilon in li) {
+         e1 <- epsilon**2
+         #print(paste("Epsilon:", epsilon))
+         print(paste("Expected root:",e1))
+         r1 <- triroot(epsilon, 1/epsilon, -epsilon)[1]
+         print(paste("Naive method:",r1, "error=", format(abs(1-r1/e1), digits=3)))
+         r2 <-  Re(polyroot(c(-epsilon,1/epsilon,epsilon))[1])
+         print(paste("R method:",r2, "error=", format(abs(1-r2/e1),digits=3)))
+       }
+     #+END_SRC
+
+     #+RESULTS:
+     : [1] "Expected root: 1e-08"
+     : [1] "Naive method: 9.09494701772928e-09 error= 0.0905"
+     : [1] "R method: 1e-08 error= 0"
+     : [1] "Expected root: 4.44444444444445e-09"
+     : [1] "Naive method: 1.36424205265939e-08 error= 2.07"
+     : [1] "R method: 4.44444444444445e-09 error= 0"
+     : [1] "Expected root: 1.11111111111111e-09"
+     : [1] "Naive method: 0 error= 1"
+     : [1] "R method: 1.11111111111111e-09 error= 0"
+
+
+    #+BEGIN_SRC R :results none :session triroot
+      triroot <- function(a, b, c) {
+        b <- b/2
+        d1 <- b**2 
+        d2 <- a*c
+        if(isTRUE(all.equal(d1,d2))) {
+          return(-b/a)
+        } else if(d1 < d2) {
+          return(NULL)
+        } else {
+          h <- -(b + sign(b)*sqrt(d1-d2))
+          return(c(c/h, h/a))
+        } 
+      }            
+   #+END_SRC
+
+    #+RESULTS:
+
+** TODO Autour du dépassement de capacité
+** STARTED Extension aux racines complexes
+Vous  avez  de  la chance, il existe une classe ~complex~ d'emblée intégrée à R, donc sans import. 
+  1. Cherchez  dans la documentation ou sur le web comment définir les nombres complexes $z_1=3-2i$, $z_2=5+i$ et $z_3=i$.
+  2. Calculez l'addition $z_1 + z_2$, le produit $z_1 \times z_2$ et l'inverse $\frac{1}{z_3}. Vérifiez que $z_3$ est bien la racine carrée de -1 ...
+  3. Reprogrammez  la méthode ~triroot~  retournera aussi les racines complexes.
+  4. Calculez les racines des polynômes  $2x^2 - 3x -2$, $x^2+x+1$, et $x^2+1$.
+
+#+BEGIN_SRC R 
+z1 <- 3-2i
+z2 <- 5+1i
+z3 <- 1i
+z1 + z2
+z1 * z2
+1/z3
+#+END_SRC
+
+#+RESULTS:
+: [1] 8-1i
+: [1] 17-7i
+: [1] 0-1i

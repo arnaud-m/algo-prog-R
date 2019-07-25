@@ -29,6 +29,10 @@ sitemap.org
 build/
 node_modules/
 
+# R stuff
+.RHistory
+.Rplots.pdf
+
 # Random OS stuff
 .DS_Store
 Thumbs.db

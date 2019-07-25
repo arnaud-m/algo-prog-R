@@ -1,10 +1,9 @@
-﻿# #+SETUPFILE: base-template.org
+﻿#+SETUPFILE: base-template.org
 #+TITLE:     Travaux Pratiques #2
 #+SUBTITLE:     Algo & Prog avec R
-#+OPTIONS: num:t toc:2 H:2
 #+PROPERTY: header-args :results output replace :exports none
-* Travail sous Windows (2ème étage) ou Linux (3ème étage) (CRIPS)
-   Vous allez travailler sur des ordinateurs sous le système d'exploitation Windows ou Linux.
+* Travail au CRIPS (Petit Valrose)
+   Vous allez travailler sur des ordinateurs sous le système d'exploitation Windows (2ème étage) ou Linux (3ème étage).
    Peut-être utilisez-vous un ordinateur MacOS-X (basé sur UNIX comme Linux) ?
    Aucune importance puisque les logiciels qui nous serviront à programmer en R fonctionnent sur tous ces systèmes quasiment à l'identique. 
    Nous supposons que vous savez utiliser votre ordinateur pour copier/déplacer des fichiers et lancer un logiciel ou un navigateur Web (Firefox, Chrome, etc).
@@ -24,12 +23,54 @@
     - Votre espace de stockage est accessible grâce à votre navigateur : télécharger votre code source /depuis/ cet espace au début de chaque séance et n'oubliez pas de le télécharger /dans/ cet espace à la fin.
 
 ** Passons dans l'éditeur
-   À partir de maintenant, le travail se fait dans l'éditeur, et non plus dans le top level. 
+   À partir de maintenant, le travail se fait dans l'éditeur, et non plus dans le top level comme au premier TP. 
 
    Lorsque l'on vous demandera de sauver le contenu de votre éditeur, vous opterez pour un fichier avec un nom explicite, par exemple tp01.R.
 
    N.B. Vous prendrez l'habitude de n'utiliser des caractères accentués français ou d'espacement qu'à l'intérieur des chaînes de caractères, et jamais dans les noms de fonctions ou de variables ou de fichiers.
    Vous risquez sinon, d'avoir de désagréables surprises \dots
+* Maximum d'une somme
+ 1. Définissez la fonction ~Somme2Max(x,y,z)~ prenant trois entiers x, y, z et retournant la somme des deux plus grands. Deux solutions : ou bien vous emboîtez des ~if~, ou bien vous utilisez ~max~ ou ~min~.
+ 2. Définissez la fonction ~PrintSommeMax(x,y,z)~ faisant afficher la somme des deux plus grands des entiers ~x~, ~y~, ~z~. Cette fonction n'aura aucun résultat (ne confondez pas l'effet et le résultat d'une fonction !).
+
+
+#+BEGIN_SRC R 
+  Somme2Max <- function(x,y,z) {x+y+z-min(x,y,z)}
+    
+  PrintSomme2Max <- function(x,y,z) {
+    print(paste('Somme2Max(',x,',',y,',',z,') --> ',Somme2Max(x,y,z)))
+  }
+  PrintSomme2Max(3,5,7)
+
+  Somme2Max <- function(x,y,z) {max(x+y,y+z,x+z)}
+  PrintSomme2Max(3,5,7)
+
+  Somme2Max <- function(x,y,z) {
+    if(x > y) {
+      if(y > z) {return(x+y)}
+      else {return(x+z)}
+    } else {
+      if(x > z) {return(y+x)}
+      else {return(y+z)}
+    }
+  }
+  PrintSomme2Max(3,5,7)
+
+  ## à méditer ...
+   PrintSomme2Max <- function(x,y,z) {
+     sm <- quote(Somme2Max(x,y,z))
+     print(sm)
+     print(eval(sm))
+   }
+   PrintSomme2Max(3,5,7)
+#+END_SRC
+
+#+RESULTS:
+: [1] "Somme2Max( 3 , 5 , 7 ) -->  12"
+: [1] "Somme2Max( 3 , 5 , 7 ) -->  12"
+: [1] "Somme2Max( 3 , 5 , 7 ) -->  12"
+: Somme2Max(x, y, z)
+: [1] 12
 
 * Génération aléatoire d'un nombre                                      :KEY:
 
@@ -93,49 +134,6 @@
 [4] "Voici un entier aleatoire de 8 chiffres : 79526092"
 [5] "Voici un entier aleatoire de 8 chiffres : 75925821"
 #+end_example
-
-* Maximum d'une somme
- 1. Définissez la fonction ~Somme2Max(x,y,z)~ prenant trois entiers x, y, z et retournant la somme des deux plus grands. Deux solutions : ou bien vous emboîtez des ~if~, ou bien vous utilisez ~max~ ou ~min~.
- 2. Définissez la fonction ~PrintSommeMax(x,y,z)~ faisant afficher la somme des deux plus grands des entiers ~x~, ~y~, ~z~. Cette fonction n'aura aucun résultat (ne confondez pas l'effet et le résultat d'une fonction !).
-
-
-#+BEGIN_SRC R 
-  Somme2Max <- function(x,y,z) {x+y+z-min(x,y,z)}
-    
-  PrintSomme2Max <- function(x,y,z) {
-    print(paste('Somme2Max(',x,',',y,',',z,') --> ',Somme2Max(x,y,z)))
-  }
-  PrintSomme2Max(3,5,7)
-
-  Somme2Max <- function(x,y,z) {max(x+y,y+z,x+z)}
-  PrintSomme2Max(3,5,7)
-
-  Somme2Max <- function(x,y,z) {
-    if(x > y) {
-      if(y > z) {return(x+y)}
-      else {return(x+z)}
-    } else {
-      if(x > z) {return(y+x)}
-      else {return(y+z)}
-    }
-  }
-  PrintSomme2Max(3,5,7)
-
-  ## à méditer ...
-   PrintSomme2Max <- function(x,y,z) {
-     sm <- quote(Somme2Max(x,y,z))
-     print(sm)
-     print(eval(sm))
-   }
-   PrintSomme2Max(3,5,7)
-#+END_SRC
-
-#+RESULTS:
-: [1] "Somme2Max( 3 , 5 , 7 ) -->  12"
-: [1] "Somme2Max( 3 , 5 , 7 ) -->  12"
-: [1] "Somme2Max( 3 , 5 , 7 ) -->  12"
-: Somme2Max(x, y, z)
-: [1] 12
 
 * Circuit électrique
 Dans le cours d'électricité du lycée, vous avez sans doute vu que :
@@ -225,8 +223,9 @@ Maintenant, programmez la fonction ~Circuit2(R1,R2,R3)~ retournant la résistanc
   - Il paye 10% sur chaque euro gagné entre 8000 € et 25000 €,
   - et enfin 20% sur chaque euro gagné au-dessus de 25000 €.
 
-  1. Définissez la fonction ~Tranche(s,b,h,p)~ retournant l'impôt dû pour un salaire annuel s dans la tranche [b,h] dont le pourcentage est p%.
-  2. Définissez la fonction ~Impot(s)~ retournant l'impôt total dû pour un salaire annuel s.
+
+  1. Définissez la fonction ~Tranche(s,b,h,p)~ retournant l'impôt dû pour un salaire annuel ~s~ dans la tranche ~[b,h]~ dont le pourcentage est ~p~ %.
+  2. Définissez la fonction ~Impot(s)~ retournant l'impôt total dû pour un salaire annuel ~s~.
 
 #+BEGIN_SRC R :session impot 
   Tranche <- function(s,b,h,p) {
@@ -263,116 +262,22 @@ Maintenant, programmez la fonction ~Circuit2(R1,R2,R3)~ retournant la résistanc
 : [1] 100
 : [1] 4700
 
-* Représentation des nombres
-** Représentation d'un entier
-   La fonction ~typeof~ renvoie le type d'un objet.
-   #+BEGIN_SRC R :exports both
-     typeof(2105)
-   #+END_SRC
-   
-   #+RESULTS:
-   : [1] "double"
+* Calcul de l'hypoténuse
+  1. Calculez l’hypoténuse d’un triangle connaissant les deux côtés de l’angle droit (~a~ et ~b~).
+  2. Demander à l'utilisateur de saisir les valeurs ~a~ et ~b~ à l'aide de la fonction ~scan()~
+  3. Afficher et formatter le résultat avec les fonctions ~cat~ et ~paste~.
 
-   la reponse du "top level" est interessante.
-  
-*** Qu'est ce qu'un double en R ?
-    
-    double fait partie des  6 [[https://cran.r-project.org/doc/manuals/r-release/R-lang.html#Basic-types][basic atomic vector types]] de R.
-    donc 2015 est un vector (des cellules contigues) d'une seule cellule.
-
-*** Pourquoi ca rend double ? 
-    Voir la réponse [[https://cran.r-project.org/doc/manuals/r-release/R-lang.html#Constants][ici.]]
-*** Comment travailler avec un entier ? 
-
-#+BEGIN_SRC R :exports both
-  typeof(2015L)
-   v <- 2015
-   typeof(as.integer(v))
-#+END_SRC
-
-#+RESULTS:
-: [1] "integer"
-: [1] "integer"
-
-
-*** Comment sont représentés les entiers en machine ?
-    #+BEGIN_SRC R :exports both
-      intToBits(2015)
-    #+END_SRC
-
-    #+RESULTS:
-    :  [1] 01 01 01 01 01 00 01 01 01 01 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-    : [26] 00 00 00 00 00 00 00
-
-    
-    Les entiers sont représentés dans un [[https://fr.wikipedia.org/wiki/Syst%25C3%25A8me_binaire][système binaire]] (base 2).
-    Le système binaire le plus courant est l'équivalent en base deux de la [[https://fr.wikipedia.org/wiki/Notation_positionnelle][numération de position]] que nous utilisons en base dix dans la vie courante.
-*** les objets de base de R sont les vecteurs.
-    
-    Même un entier "tout seul" est représenté par un vecteur \dots de une seule cellule.
-    C'est comme ça : [[https://cran.r-project.org/doc/manuals/r-release/R-lang.html#Basic-types][basic types]] ; [[http://adv-r.had.co.nz/Expressions.html][expressions]].
-** Conversion binaire-décimal                                           :KEY:
-*** Comment l'entier 2015 s'écrit-il en binaire (base 2) ?
-
-    Il est obligatoire de comprendre ce tutoriel sur les [[http://lehollandaisvolant.net/tuto/bin.php][systèmes binaire et l'hexadécimal]].
-    On procede par une suite de divisions par 2 jusqu'a tomber sur un quotient nul.
-    On "remonte" alors tous les restes des divisions. 
-    Soit a convertir 123 en binaire.
-#+BEGIN_EXAMPLE
-123 | 2
-  1   61 | 2
-       1   30 | 2
-            0   15 | 2
-                 1   7 | 2
-                     1   3 | 2
-                         1   1 | 2
-                             1   0=STOP
-#+END_EXAMPLE
-Donc en binaire 123 s'ecrit '1111011'.
-
-#+BEGIN_SRC R
-  rev(intToBits(2015))
-#+END_SRC
-
-#+RESULTS:
-:  [1] 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 01 01 01
-: [26] 01 00 01 01 01 01 01
-
-*** Quel est l'entier dont l'écriture binaire est 1101110 ? On verifie ?
-    On n'utilise pas obligatoirement les puissances de 2, mais le "schema de Horner" qui consiste
-    à eplucher l'ecriture binaire de gauche a droite en appliquant la question d. 
-    On part d'un accumulateur acc=0. 
-    Chaque fois que l'on rencontre un 0 on fait acc = 2*acc et si l'on rencontre un 1 on fait acc=2*acc+1. 
-    Exemple sur 1001101 : 0, 1, 2, 4, 9, 19, 38, 77. Facile ? 
-
-#+BEGIN_SRC R
-  bits <- strsplit('1001101','')[[1]]=="1"
-  pows <- 2**((length(bits)-1):0)
-  sum(pows*bits)
-#+END_SRC
-
-#+RESULTS:
-: [1] 77
-
-**** CODAGE BINAIRE-->DECIMAL                                      :noexport:
-
-* Fraction irréductible                                               :HARD:
-  Comment feriez-vous pour savoir si la fraction 51/85 est irréductible ? 
-  En d'autres termes, peut-on la simplifier ? Par combien ?
-  
-  /Indice/ : calcul du [[https://fr.wikipedia.org/wiki/Plus_grand_commun_diviseur][pgcd]] par la [[https://fr.wikipedia.org/wiki/Plus_grand_commun_diviseur#M.C3.A9thode_soustractive][méthode soustractive]] ou encore mieux l'[[https://fr.wikipedia.org/wiki/PGCD_de_nombres_entiers#Algorithme_d.27Euclide][algorithme d'euclide]].
-#+BEGIN_SRC R 
-      
-  gcd <- function(a,b) ifelse (b==0, a, gcd(b, a %% b))
-  g = gcd(58,87)
-  if (g == 1) {
-    print('La fraction 58/87 est irreductible !')
-  } else {
-    paste("La fraction 58/87 n'est pas irreductible, on peut la simplifier par",g)
-  }
-    
-#+END_SRC
-
+     #+BEGIN_SRC R
+       cat("Veuillez entrer les longueurs des deux côtés de l’angle droit :\n")
+       ab <- scan( nmax=2)
+       if(length(ab) == 2) {
+         hypo <- sqrt(ab[1]**2 + ab[2]**2)
+         print(paste("Longueur de l'hypoténuse :", hypo))
+       } else {
+         print("Erreur de saisie")
+       }
+     #+END_SRC
+     
 * Évaluation des arguments d'une fonction                              :HOME:
 ** Il y a deux sortes de fonctions en R.
 *** Les fonctions prédéfinies
@@ -461,4 +366,39 @@ Vous pouvez spécifier le point dans l'un ou l'autre des systèmes de coordonné
 
 
     
+* Fonction "Lambda"                               :HARD:HOME:
+   1. Définissez en R la fonction $f(x)=\frac{sin(x)}{\sqrt{x^4+1}}$.
+   2. Calculez une valeur approchée de la dérivée seconde $f^{\prime\prime}(\sqrt{2})$. Réponse : 0.036705\dots
+
+#+BEGIN_SRC R 
+  ## Prenons une fonction f particuliere :
+  f <- function(x) sin(x)/sqrt(x**4 + 1)
+
+  ## Calcul de la derivee premiere de f quelconque en un point x avec une precision de h
+  Deriv <- function(f,x,h) (f(x + h) - f(x)) / h          
+  ## formule vue au lycee...
+
+  paste('f\'(sqrt(2)) =',Deriv(f,sqrt(2),0.0001))
+
+  ## Probleme : pour exprimer que la derivee seconde est la derivee de la derivee, j'ai
+  ## besoin d'obtenir la FONCTION DERIVEE f' et pas seulement sa valeur en un point f'(x).
+  ## Pour cela on peut utilise la notation lambda en python. 
+  ## En R, on définit une sous-fonction a l'interieur de deriv et en rendant en resultat cette sous-fonction.
+  ## C'est ce que les specialistes nomment une "fermeture" :
+  ## http://fr.wikipedia.org/wiki/Fermeture_(informatique)
+
+  Deriv <- function(f,h) return (function(x) (f(x + h) - f(x)) / h)            
+  ## Du coup, je peux exprimer mes maths sans etat d'ame :
+  df = Deriv(f,0.0001)
+  d2f = Deriv(df,0.0001)
+  paste('f"(sqrt(2)) =',d2f(sqrt(2)))    # et zou ! Intellectuel non ?...
+#+END_SRC
+
+#+RESULTS:
+: [1] "f'(sqrt(2)) = -0.430032458566543"
+: [1] "f\"(sqrt(2)) = 0.0367057773065227"
+
+*Si cet exercice vous passe par-dessus la tete, ce n'est pas si grave que cela.*
+Vous y reviendrez plus tard ! simple question de maturité...
+
 

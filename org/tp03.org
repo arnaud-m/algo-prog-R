@@ -1,0 +1,516 @@
+﻿#+SETUPFILE: base-template.org
+#+TITLE:     Travaux Pratiques #3
+#+SUBTITLE:     Algo & Prog avec R
+#+PROPERTY: header-args :results output replace :exports none
+* Factorielles                                                          :KEY:
+Les choix algorithmiques que vous ferez influent sur la qualité du programme en terme de complexité et donc de vitesse d'exécution.
+** Petites factorielles
+Ecrivez un programme itératif faisant afficher toutes les factorielles des entiers de 0 à 20, une par ligne. 
+*** En utilisant la fonction factorial, combien votre programme fera-t-il de multiplications ?
+
+    
+#+BEGIN_SRC R 
+  print('Voici les factorielles des entiers de [1,20] :')
+  i = 1                 
+  while (i <= 20) {       
+    ## la boucle d'iteration effectue en tout 1+2+3+...+20 = 210 multiplications
+    print(paste(i,'! =', factorial(i)))
+    i = i + 1
+  }
+  ## Si l'on remplace 20 par N, on obtiendrait N(N+1)/2 multiplications, polynome du
+  ## second degre. On dit que l'algorithme a un cout QUADRATIQUE. Pas fameux...
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+[1] "Voici les factorielles des entiers de [1,20] :"
+[1] "1 ! = 1"
+[1] "2 ! = 2"
+[1] "3 ! = 6"
+[1] "4 ! = 24"
+[1] "5 ! = 120"
+[1] "6 ! = 720"
+[1] "7 ! = 5040"
+[1] "8 ! = 40320"
+[1] "9 ! = 362880"
+[1] "10 ! = 3628800"
+[1] "11 ! = 39916800"
+[1] "12 ! = 479001600"
+[1] "13 ! = 6227020800"
+[1] "14 ! = 87178291200"
+[1] "15 ! = 1307674368000"
+[1] "16 ! = 20922789888000"
+[1] "17 ! = 355687428096000"
+[1] "18 ! = 6402373705728000"
+[1] "19 ! = 121645100408832000"
+[1] "20 ! = 2432902008176640000"
+#+end_example
+
+*** Sans utiliser cette fonction. Tâchez de faire baisser le nombre de multiplications ! Combien votre programme fera-t-il de multiplications ?
+
+#+BEGIN_SRC R 
+  ## Si l'on veut faire tomber le nombre de multiplications, il ne FAUT PAS
+  ## utiliser une fonction factorielle qui repart chaque fois du debut, mais maintenir
+  ## dans une variable f la derniere factorielle calculee !
+  print('Voici les factorielles (rapides) des entiers de [1,5] :')
+  i = 1
+  f = 1
+  while (i <= 5) {
+    ## la boucle effectue en tout 5 multiplications !!!
+    print(paste(i,'! =', f))
+    i = i + 1
+    f = f * i
+  }
+  ## Le cout d'affichage des factorielles des entiers de [1,N] est donc maintenant de N, 
+  ## le cout est devenu LINEAIRE. Difficile de faire mieux dans le cas present...
+#+END_SRC
+
+#+RESULTS:
+: [1] "Voici les factorielles (rapides) des entiers de [1,5] :"
+: [1] "1 ! = 1"
+: [1] "2 ! = 2"
+: [1] "3 ! = 6"
+: [1] "4 ! = 24"
+: [1] "5 ! = 120"
+
+** Fonctions factorielle
+   Programmez plusieurs fonctions prenant un entier positif ~n~ et retournant la factorielle n! de n. Par exemple, 5! est égal à 120.
+   
+*** Par récurrence, sous la forme d'une fonction ~FactRec(n)~, en supposant le problème résolu pour n-1. Vérifier ~FactRec(5)~ grâce à la fonction ~factorial~.
+    #+BEGIN_SRC R :session fact 
+      FactRec <- function(n) {
+        if(n > 1) return(n*FactRec(n-1))
+        else return (1)
+      }
+      paste('FactRec(-1) =',FactRec(-1))
+      paste('FactRec(0) =',FactRec(0))
+      paste('FactRec(5) =',FactRec(5))
+#+END_SRC
+
+    #+RESULTS:
+    : [1] "FactRec(-1) = 1"
+    : [1] "FactRec(0) = 1"
+    : [1] "FactRec(5) = 120"
+
+*** Par une itération (boucle while) sous la forme d'une fonction ~Fact(n)~. 
+
+#+BEGIN_SRC R :session fact 
+  Fact <- function(n) {
+    acc=1;
+    while(n > 1) {
+      acc = acc * n
+        n = n - 1
+    }
+    return(acc)
+  }
+  paste('Fact(-1) =',Fact(-1))
+  paste('Fact(0) =',Fact(0))
+  paste('Fact(5) =',Fact(5))
+#+END_SRC
+
+#+RESULTS:
+: [1] "Fact(-1) = 1"
+: [1] "Fact(0) = 1"
+: [1] "Fact(5) = 120"
+
+
+*** R est-il capable de calculer 1000! ?
+#+BEGIN_SRC R 
+  factorial(1000)
+#+END_SRC
+
+#+RESULTS:
+: [1] Inf
+
+*** Pour chronométrer un calcul en R, il suffit d'importer la fonction ~system.time~ : ~system.time(replicate(1000,factorial(100)))~. Qui est le plus rapide entre ~Fact(100)~ et ~FactRec(100)~ ?
+
+#+BEGIN_SRC R :session fact 
+  FactVec <- function(n) {
+    return(prod(1:n))
+  }
+  for(i in c(50, 100)) {
+    print(paste('fact(', i, ') =', factorial(i)))
+    for(f in c(factorial, Fact, FactRec, FactVec)) {
+      print(system.time(replicate(2000,do.call(f,list(i)))))
+    }  
+  } 
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+[1] "fact( 50 ) = 3.0414093201713e+64"
+utilisateur     système      écoulé 
+      0.004       0.000       0.004 
+utilisateur     système      écoulé 
+      0.057       0.000       0.057 
+utilisateur     système      écoulé 
+      0.080       0.000       0.081 
+utilisateur     système      écoulé 
+      0.006       0.000       0.006 
+[1] "fact( 100 ) = 9.33262154439422e+157"
+utilisateur     système      écoulé 
+      0.005       0.001       0.005 
+utilisateur     système      écoulé 
+      0.108       0.000       0.109 
+utilisateur     système      écoulé 
+      0.159       0.000       0.160 
+utilisateur     système      écoulé 
+      0.008       0.000       0.007
+#+end_example
+
+* Quelques fonctions prédéfinies pour les conversions 
+  L'exercice suivant est un complément de cours. 
+  Cherchez la documentation sur les fonctions ~intToBits~, ~utf8ToInt~, ~strtoi~, et ~as.hexmode~.
+
+ 1. Comment demande-t-on au toplevel R de voir l'écriture binaire (base 2) de 233 ? Que remarquez-vous ?
+#+BEGIN_SRC R :exports code
+  intToBits(233)
+#+END_SRC
+
+#+RESULTS:
+:  [1] 01 00 00 01 00 01 01 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+: [26] 00 00 00 00 00 00 00
+
+
+ 2. [@2] Sur papier, quel est le résultat de l'addition 11010 + 10111 en binaire ? Vérifiez votre réponse au toplevel.
+#+BEGIN_SRC R  :exports code
+  strtoi("11010", base = 2) + strtoi("10111", base = 2)
+#+END_SRC 
+
+#+RESULTS:
+: [1] 49
+
+ 3. [@3] Quelle est l'écriture hexadécimale (base 16) de l'entier qui s'écrit 164 en décimal ? Vérifiez-le au toplevel.
+
+#+BEGIN_SRC R :exports code
+  as.hexmode(164)
+#+END_SRC
+
+#+RESULTS:
+: [1] "a4"
+
+ 4. [@4] Sur papier, quel est le résultat de l'addition 3F + A2 en hexadécimal ? En binaire ? Vérifiez votre réponse au toplevel. 
+
+#+BEGIN_SRC R :exports code  
+  as.hexmode("3F") + as.hexmode("A2")
+  as.integer(as.hexmode("3F") + as.hexmode("A2"))
+#+END_SRC
+
+#+RESULTS:
+: [1] "e1"
+: [1] 225
+
+* Épluchages d'entiers                                    :KEY:
+  En utilisant l'idée d'épluchage d'un entier, programmez les fonctions suivantes.
+** Somme des chiffres d'un nombre
+#+BEGIN_SRC R :results none :session somch
+  SomCh <- function(n, base=10) {
+    n <- abs(n);
+    base <- abs(base)
+    acc <- 0;
+    while(n > 0) {
+      acc <- acc + n %% base;
+      n <- n %/% base;
+    }
+    return(acc)
+  }
+ 
+  SomChBin <- function(n) SomCh(n, base = 2)
+#+END_SRC
+
+*** La fonction ~SomCh(n)~ prenant un entier ~n~, et retournant la somme des chiffres de ~n~ en base 10.
+#+BEGIN_SRC R :exports both :session somch
+  SomCh(3456)
+#+END_SRC
+
+#+RESULTS:
+: [1] 18
+
+
+*** La fonction ~SomChBin(n)~ retournant cette fois la somme des chiffres de ~n~ en binaire.
+#+BEGIN_SRC R :exports both :session somch
+  SomChBin(3456)
+#+END_SRC
+
+#+RESULTS:
+: [1] 4
+
+*** Généraliser en une fonction ~SomCh(n, base)~ retournant la somme des chiffres du nombre pour une base quelquonque en ajoutant un second paramètre ~base~.
+
+#+BEGIN_SRC R  :exports both :session somch
+  as.hexmode(3456)
+  SomCh(3456, base = 16)
+#+END_SRC
+
+#+RESULTS:
+: [1] "d80"
+: [1] 21
+
+** Renversement d'un nombre
+
+#+BEGIN_SRC R :output none :session renverser
+  Renverser <- function(n, base = 10) {
+    n <- abs(n);
+    acc <- 0;
+    while(n > 0) {
+      acc <- acc * base + n %% base;
+      n <- n %/% base;
+    }
+    return(acc)
+  }
+#+END_SRC
+
+
+*** La fonction ~Renverser(n)~ prenant un entier positif ~n~ et retournant l'entier obtenu en prenant les chiffres de ~n~ en sens inverse. 
+#+BEGIN_SRC R :exports both :session renverser
+  Renverser(34560)
+#+END_SRC
+
+#+RESULTS:
+: [1] 6543
+
+*** La fonction ~Renverser(n, base)~ prenant un entier positif ~n~ et retournant l'entier obtenu en prenant les chiffres de ~n~ en base ~b~ en sens inverse. 
+
+#+BEGIN_SRC R :exports both :session renverser
+  ## 3456 en décimal devient 110110000000 en binaire 
+  ## qui se renverse en (0000000)11011 en binaire soit 27 en décimal
+  Renverser(3456, base = 2) 
+  Renverser(as.hexmode("ABC"), base = 16)
+#+END_SRC
+
+#+RESULTS:
+: [1] 27
+: [1] "cba"
+
+* Jeu de hasard
+  Virginie lance trois dés numérotés de 1 à 6.
+    - Si elle obtient une somme de 18, elle gagne 50 euros,
+    - entre 10 et 17, elle gagne 5 euros,
+    - sinon elle ne gagne rien.
+
+
+*** Écrivez une fonction ~JeuHasard~ utilisant la fonction ~sample~ pour simuler un lancer de dés, puis renvoyant le gain.
+
+ #+BEGIN_SRC R :session jeuHasard
+   JeuHasard <- function() {
+     somme <- sum(sample(1:6, 3, replace=TRUE))
+     if(somme <10) {return(0)}
+     else if(somme <18) {return(5)}
+     else {return(50)}
+   }
+  #+END_SRC 
+
+ #+RESULTS:
+
+*** Écrire une simulation où Virginie joue jusqu'à ce que son gain dépasse 50. 
+    
+    #+BEGIN_SRC R :session jeuHasard
+      gain <- 0
+      partie <- 0
+      while(gain < 50) {
+        gain <- gain + JeuHasard()
+        partie <- partie + 1
+        cat(paste("Partie", partie, ":", gain,"\n"))
+      }
+    #+END_SRC
+
+    #+RESULTS:
+    #+begin_example
+    Partie 1 : 0 
+    Partie 2 : 0 
+    Partie 3 : 5 
+    Partie 4 : 5 
+    Partie 5 : 10 
+    Partie 6 : 10 
+    Partie 7 : 15 
+    Partie 8 : 20 
+    Partie 9 : 25 
+    Partie 10 : 30 
+    Partie 11 : 30 
+    Partie 12 : 35 
+    Partie 13 : 35 
+    Partie 14 : 40 
+    Partie 15 : 40 
+    Partie 16 : 40 
+    Partie 17 : 45 
+    Partie 18 : 50
+#+end_example
+
+
+
+
+  #+BEGIN_SRC R
+    tirages <- expand.grid(1:6, 1:6, 1:6)
+    sommes <- rowSums(tirages)
+    n5 <- sum( sommes >= 10) - 1
+    cat(paste("Esperance :", 50/6**3 + 5*n5/nrow(tirages))) 
+
+  #+END_SRC 
+
+  #+RESULTS:
+  : Esperance : 3.33333333333333
+*** Quelle est la probabilité de gagner 50 euros ? Quelle est l'espérance de gain ? Proposer un tarif pour jouer à ce jeu ? Justifier.
+    
+     #+BEGIN_SRC R :session jeuHasard
+       ## Estimation de l'espérance par simulation
+       n <- 10000
+       gains <- replicate(n, JeuHasard())
+       cat(paste("Esperance simulée :", sum(gains)/n, "\n")) 
+       ## Calcul théorique de l'espérance
+       prob50 <- 1 / 6**3
+       tirages <- expand.grid(1:6, 1:6, 1:6)
+       sommes <- rowSums(tirages)
+       prob5 <- (sum(sommes >= 10) - 1)/ nrow(tirages)
+       cat(paste("Esperance théorique", 50*prob50 + 5*prob5), '\n')
+     #+END_SRC 
+
+     #+RESULTS:
+     : Esperance simulée : 3.3625
+     : Esperance théorique 3.33333333333333
+* Algorithme d'Euclide
+   L’algorithme d’Euclide pour calculer le PGCD de deux entiers a et b ≥ 0 consiste à appliquer les deux règles suivantes :
+   - si b = 0, le PGCD de a et de b est a
+   - sinon, le PGCD de a et b est le même que celui de b et du reste de la division de a par b
+*** Calculez le PGCD de 8 et 12 par cette méthode.
+
+*** Programmez une fonction récursive ~pgcd(a,b)~.
+     #+BEGIN_SRC R 
+       pgcd <- function(a,b) ifelse(b == 0, a, pgcd(b, a %% b))
+       pgcd(12,8)
+       pgcd(8,12)
+       pgcd(87,116)   
+     #+END_SRC
+
+     #+RESULTS:
+     : [1] 4
+     : [1] 4
+     : [1] 29
+
+*** Programmez cette fonction de manière itérative. 
+
+  #+BEGIN_SRC R 
+    pgcd <- function(a,b) {
+      while ( b != 0 ) {
+        tmp = a %% b
+        a = b
+        b = tmp
+      }
+      return(a);
+    }
+    pgcd(12,8)
+    pgcd(8,12)
+    pgcd(87,116)  
+  #+END_SRC
+
+  #+RESULTS:
+  : [1] 4
+  : [1] 4
+  : [1] 29
+* Fraction irréductible
+  Comment feriez-vous pour savoir si la fraction 51/85 est irréductible ? 
+  En d'autres termes, peut-on la simplifier ? Par combien ?
+  
+  /Indice/ : calcul du [[https://fr.wikipedia.org/wiki/Plus_grand_commun_diviseur][pgcd]] par la [[https://fr.wikipedia.org/wiki/Plus_grand_commun_diviseur#M.C3.A9thode_soustractive][méthode soustractive]] ou encore mieux avec l'[[https://fr.wikipedia.org/wiki/PGCD_de_nombres_entiers#Algorithme_d.27Euclide][algorithme d'euclide]].
+#+BEGIN_SRC R 
+      
+  gcd <- function(a,b) ifelse (b==0, a, gcd(b, a %% b))
+  g = gcd(58,87)
+  if (g == 1) {
+    print('La fraction 58/87 est irreductible !')
+  } else {
+    paste("La fraction 58/87 n'est pas irreductible, on peut la simplifier par",g)
+  }
+    
+#+END_SRC
+
+* Représentation des nombres en machines
+** Représentation d'un entier en machine
+   La fonction ~typeof~ renvoie le type d'un objet.
+   #+BEGIN_SRC R :exports both
+     typeof(2105)
+   #+END_SRC
+   
+   #+RESULTS:
+   : [1] "double"
+
+   la reponse du "top level" est interessante.
+  
+*** Qu'est ce qu'un double en R ?
+    
+    double fait partie des  6 [[https://cran.r-project.org/doc/manuals/r-release/R-lang.html#Basic-types][basic atomic vector types]] de R.
+    donc 2015 est un vector (des cellules contigues) d'une seule cellule.
+
+*** Pourquoi ca rend double ? 
+    Voir la réponse [[https://cran.r-project.org/doc/manuals/r-release/R-lang.html#Constants][ici.]]
+*** Comment travailler avec un entier ? 
+
+#+BEGIN_SRC R :exports both
+  typeof(2015L)
+   v <- 2015
+   typeof(as.integer(v))
+#+END_SRC
+
+#+RESULTS:
+: [1] "integer"
+: [1] "integer"
+
+
+*** Comment sont représentés les entiers en machine ?
+    #+BEGIN_SRC R :exports both
+      intToBits(2015)
+    #+END_SRC
+
+    #+RESULTS:
+    :  [1] 01 01 01 01 01 00 01 01 01 01 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    : [26] 00 00 00 00 00 00 00
+
+    
+    Les entiers sont représentés dans un [[https://fr.wikipedia.org/wiki/Syst%25C3%25A8me_binaire][système binaire]] (base 2).
+    Le système binaire le plus courant est l'équivalent en base deux de la [[https://fr.wikipedia.org/wiki/Notation_positionnelle][numération de position]] que nous utilisons en base dix dans la vie courante.
+*** les objets de base de R sont les vecteurs.
+    
+    Même un entier "tout seul" est représenté par un vecteur \dots de une seule cellule.
+    C'est comme ça : [[https://cran.r-project.org/doc/manuals/r-release/R-lang.html#Basic-types][basic types]] ; [[http://adv-r.had.co.nz/Expressions.html][expressions]].
+** Conversion binaire-décimal                                           :KEY:
+*** Comment l'entier 2015 s'écrit-il en binaire (base 2) ?
+
+    Il est obligatoire de comprendre ce tutoriel sur les [[http://lehollandaisvolant.net/tuto/bin.php][systèmes binaire et l'hexadécimal]].
+    On procede par une suite de divisions par 2 jusqu'a tomber sur un quotient nul.
+    On "remonte" alors tous les restes des divisions. 
+    Soit a convertir 123 en binaire.
+#+BEGIN_EXAMPLE
+123 | 2
+  1   61 | 2
+       1   30 | 2
+            0   15 | 2
+                 1   7 | 2
+                     1   3 | 2
+                         1   1 | 2
+                             1   0=STOP
+#+END_EXAMPLE
+Donc en binaire 123 s'ecrit '1111011'.
+
+#+BEGIN_SRC R
+  rev(intToBits(2015))
+#+END_SRC
+
+#+RESULTS:
+:  [1] 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 01 01 01
+: [26] 01 00 01 01 01 01 01
+
+*** Quel est l'entier dont l'écriture binaire est 1101110 ? On verifie ?
+    On n'utilise pas obligatoirement les puissances de 2, mais le "schema de Horner" qui consiste
+    à eplucher l'ecriture binaire de gauche a droite en appliquant la question d. 
+    On part d'un accumulateur acc=0. 
+    Chaque fois que l'on rencontre un 0 on fait acc = 2*acc et si l'on rencontre un 1 on fait acc=2*acc+1. 
+    Exemple sur 1001101 : 0, 1, 2, 4, 9, 19, 38, 77. Facile ? 
+
+#+BEGIN_SRC R
+  bits <- strsplit('1001101','')[[1]]=="1"
+  pows <- 2**((length(bits)-1):0)
+  sum(pows*bits)
+#+END_SRC
+
+#+RESULTS:
+: [1] 77
+

@@ -1,0 +1,654 @@
+#+SETUPFILE: base-template.org
+#+TITLE:     Travaux Pratiques #6
+#+SUBTITLE:     Algo & Prog avec R
+#+PROPERTY: header-args :results output replace :exports none
+* Recherche d'éléments dans un vecteur
+  
+  1. Déterminez le nombre de 0 présent dans un vecteur.
+  2. Déterminer l'indice du premier 0 d'un vecteur.
+  3. Déterminez le plus petit élément non nul d'un vecteur.
+  4. Déterminer la valeur médiane d'un vecteur. 
+     
+
+  #+BEGIN_SRC R :exports code
+    vec <- sample(0:10,12, replace=TRUE)
+    print(vec)
+    sum(vec == 0)
+    head(which(vec == 0),1)
+    min(vec[ vec != 0])
+    median(vec)
+  #+END_SRC
+
+  #+RESULTS:
+  :  [1]  0  3  5 10  9  2 10 10  7  0  2 10
+  : [1] 2
+  : [1] 1
+  : [1] 2
+  : [1] 6
+
+* Recherche de maximum
+** Recherche simple
+
+1. Programmez la fonction ~Max2(a, b)~ prenant en argument deux nombres ~a~ et ~b~, et retournant le maximum de ces deux nombres.
+2. Programmez la fonction ~Max3(a, b, c)~ renvoyant le maximum de trois nombres ~a~ et ~b~, et ~c~.
+3. Programmez la fonction ~MaxF(x)~ prenant un vecteur numérique ~x~ et retournant le maximum de ~x~.
+
+
+*** de trois éléments
+*** dans un vecteur
+** Recherche à partir d'une position
+   Programmez la fonction ~MaxFrom(x,i)~ prenant un vecteur numérique ~x~ et retournant le maximum de ~x~ à partir de l’indice ~i~ inclus. 
+*** Avec une boucle.
+   
+  #+BEGIN_SRC R :session max :results none
+    MaxFrom <- function(x, i = 1) {
+      vmax <- -Inf
+      j <- max(i,1)
+      while(j <= length(x)) {
+          if(x[j] > vmax) {
+            vmax <- x[j]
+          }
+          j <- j + 1
+        }
+      return(vmax)
+    }
+  #+END_SRC
+
+
+  #+BEGIN_SRC R :session max :exports both
+    print(MaxFrom(c(), 1))
+    x <- sample(1:100, 6, replace = TRUE)
+    print(x)
+    print(MaxFrom(x,0))
+    print(MaxFrom(x,4))
+    print(MaxFrom(x,7))
+  #+END_SRC
+
+  #+RESULTS:
+  : [1] -Inf
+  : [1] 51 57 98 30 19 75
+  : [1] 98
+  : [1] 75
+  : [1] -Inf
+
+*** Avec des fonctions prédéfinies. /Indices/ : ~tail~ et ~max~.
+  #+BEGIN_SRC R :session max :results none
+    MaxFrom <- function(x, i = 1) {
+      if(i > 1) {
+        x <- tail(x,-i+1)
+      }
+      return(max(x))
+    }
+  #+END_SRC
+
+  #+BEGIN_SRC R :session max 
+    print(MaxFrom(c(), 1))
+    print(MaxFrom(x,0))
+    print(MaxFrom(x,4))
+    print(MaxFrom(x,7))
+  #+END_SRC
+
+  #+RESULTS:
+  : [1] -Inf
+  : Warning message:
+  : In max(x) : aucun argument pour max ; -Inf est renvoyé
+  : [1] 98
+  : [1] 75
+  : [1] -Inf
+  : Warning message:
+  : In max(x) : aucun argument pour max ; -Inf est renvoyé
+
+** Recherche de la valeur et de la position
+   Programmer une fonction ~MaxAndIdx(x)~ prenant en argument un vecteur ~x~ numérique, et retournant un vecteur contenant le plus grand élément et sa position.
+*** Avec une boucle. 
+ #+BEGIN_SRC R :session max :results none
+   MaxAndIdx <- function(x) {
+       imax=0;
+       vmax=-Inf
+       for (i in seq_along(x)) {
+         if(x[i] > vmax) {
+           imax=i;
+           vmax=x[i];
+         }
+       }
+       return (c(vmax, imax))
+     }
+ #+END_SRC
+
+
+ #+BEGIN_SRC R :session max :exports both 
+   x <- runif(6);
+   print(x)
+   print(MaxAndIdx(x))
+ #+END_SRC
+
+ #+RESULTS:
+ : [1] 0.2560613 0.7291801 0.5234866 0.2992518 0.3504035 0.4288227
+ : [1] 0.7291801 2.0000000
+
+*** Avec des fonctions prédéfinies. /Indice/ : ~which.max~.
+
+ #+BEGIN_SRC R :session max :results none
+   MaxAndIdx <- function(x) c(max(x), which.max(x))
+ #+END_SRC
+
+ #+BEGIN_SRC R :session max 
+   print(MaxAndIdx(x))
+ #+END_SRC
+
+
+ #+RESULTS:
+ : [1] 0.7291801 2.0000000
+
+
+*** Attention, l'affichage facilite la lecture, mais peut induire en erreur sur le type des données.
+ #+BEGIN_SRC R :session max :exports both 
+   x <- c(0, 0.25, 0.5)
+   print(x)  
+   print(x[-2])
+   print(x[1]) 
+   print(typeof(x[1])) 
+ #+END_SRC
+
+ #+RESULTS:
+ : [1] 0.00 0.25 0.50
+ : [1] 0.0 0.5
+ : [1] 0
+ : [1] "double"
+
+** Recherche des k plus grands éléments. 
+*** Programmez une fonction avec une boucle ~Max2(x)~ prenant un vecteur ~x~ numérique, et retournant le couple des deux plus grands éléments de ~x~, le maximum étant en première position. 
+
+  #+BEGIN_SRC R :session max2 :results none
+    Max2 <- function(x) {
+      v1=-Inf
+      v2=-Inf
+      for (v in x) {
+        if(v > v1) {
+          v2 <- v1
+          v1 <- v
+        } else if(v > v2) {
+          v2 <- v
+        }
+      }
+      return(c(v1,v2))
+    }     
+  #+END_SRC
+
+
+  #+BEGIN_SRC R :session max2 :exports both
+    print(Max2(c()))
+    x <- runif(6);
+    print(x)
+    print(Max2(x))
+  #+END_SRC
+
+  #+RESULTS:
+  : [1] -Inf -Inf
+  : [1] 0.6031135 0.1285228 0.3853113 0.7070992 0.7411141 0.9772133
+  : [1] 0.9772133 0.7411141
+
+*** Programmez une fonction avec une boucle ~Kmax(x, k)~ prenant un vecteur ~x~ numérique, et retournant les ~k~ plus grands éléments de ~x~ triés par ordre non croissant. /Indices/ : ~sort~ et ~head~.
+    
+  #+BEGIN_SRC R :session max2 :results none
+    Kmax <- function(x, k) {
+      k <- max(0,k)
+      return( head( sort(x, decreasing = TRUE), k) )
+    }     
+  #+END_SRC
+
+
+  #+BEGIN_SRC R :session max2 :exports both
+    x <- sample(1:100, 6, replace = TRUE)
+    print(x)
+    print(Kmax(x, 0))
+    print(Kmax(x, 2))
+    print(Kmax(x, 4))
+    print(Kmax(x, 7))
+  #+END_SRC
+
+  #+RESULTS:
+  : [1] 40 25 25 37 97 56
+  : integer(0)
+  : [1] 97 56
+  : [1] 97 56 40 37
+  : [1] 97 56 40 37 25 25
+* La baguette chanceuse  
+  J’ai dans ma poche 2 pièces de 10 centimes, 1 pièce de 20 centimes, 3 pièces de 50 centimes, 1 pièce de 1 euro et 2 pièces de 2 euro.
+  Quelle est la probabilité pour qu'en sortant deux pièces au hasard de ma poche, je puisse payer une baguette à 1 euro. ?
+
+    1. Estimez la probabilité par simulation. Indice: ~replicate~
+    2. Calculez la probabilité théorique.
+       
+#+BEGIN_SRC R
+  money <- c(10, 10, 20, 50, 50, 50, 100, 200, 200)
+  can_pay <- function(take, money, amount) {
+    sum(sample(money, take, replace=FALSE)) >= amount
+  } 
+  n <- 10**5
+  proba <- mean(replicate(n, can_pay(2, money, 100)))
+  cat(paste("Simulation probability :", round(proba,4)),"\n")
+
+  ## Theory : 
+  ## Winning combinations : 
+  ## 100 or 200 x 1 of the 8 remaining coins
+  wins <- choose(3,1)*choose(8,1) 
+  ## Combinations with only 100 or 200 are counted twice
+  wins <- wins - choose(3,2) 
+  ## 2 x 50.
+  wins <- wins + choose(3,1) 
+  total <- choose(length(money), 2)
+  cat(paste("Theoritical probability:", round(wins/total,4)),"\n")  
+#+END_SRC
+
+#+RESULTS:
+: Simulation probability : 0.6673 
+: Theoritical probability: 0.6667 
+* Flux d'élèves                                                         :KEY:
+
+  En l’an 2000, le lycée A compte 2 000 élèves et le lycée B compte 8 000 élèves.
+  Une étude montre que, chaque année :
+  - 10% des élèves du lycée A quittent leur lycée pour aller au lycée B ;
+  - 15% des élèves du lycée B quittent leur lycée pour aller au lycée A.
+
+   1. Au bout de combien de temps le lycée A comptera-t-il plus d’élèves que le lycée B ?
+   2. Quelle est l'évolution de ce système dynamique ? Est-ce qu'il atteint un état stationnaire ? Si oui, caractèrisez-le.
+   3. Tracer un graphique illustrant l'évolution de ce système dynamique. Que se passe t'il ? Expliquez.
+
+#+BEGIN_SRC R :session flux :results none
+  n <- 50;  
+  na <- numeric(n)
+  na[1] <- 2000
+  nab <- 10000
+  for(i in seq(2,n)) {
+     da <- round( na[i-1] / 10 )
+     db <- round( 3*(nab-na[i-1])/20 )  
+     na[i] <- na[i-1] - da + db 
+     if(na[i] == na[i-1]) {
+       na <- head(na, i)
+       break
+     }
+   }
+  nb <- nab - na
+#+END_SRC
+
+#+BEGIN_SRC R :exports code :session flux 
+  plot(na, type = 'b', xlab = "Année", ylab = "Effectif", lty = 1, pch = 1)
+  lines(nb, type = 'b', lty = 2, pch = 2)
+#+END_SRC
+
+* Nombres premiers                                                      :KEY:
+Reprenons le cours sur les nombres premiers. 
+La fonction ~estPremier(n)~  retourne False si elle trouve un diviseur non trivial (dans [2,n-1]) de n. Nous voudrions connaître ce diviseur !
+*** Programmez avec une boucle une fonction ~PlusPetitDiv(n)~ prenant un entier ~n~ ≥ 2 et retournant son plus petit diviseur $\geq 2$. Par exemple ~PlusPetitDiv(35)~ renvoie la valeur 5. Notez au passage que le résultat de ~PlusPetitDiv(n)~ est le plus petit facteur premier de ~n~ (pourquoi ?).
+#+BEGIN_SRC R :session primes
+  PlusPetitDiv <- function(n) {
+    ## le plus petit diviseur de n dans [2,n-1], avec n >= 2
+    if (n %% 2 == 0) return(2)  # je regle le cas pair en premier
+    ## donc je peux maintenant monter de 3 vers n, sur les impairs uniquement !
+    d <- 3
+    while(n %% d != 0) {
+      ## deux fois plus rapide que le d=d+1 du cours. Bof...
+      d <- d + 2       
+    }      
+    ## d == n dans le pire des cas, coût = au plus n operations
+    return(d)                  
+  }
+  paste('PlusPetitDiv(77) =',PlusPetitDiv(77))
+  paste('PlusPetitDiv(29) =',PlusPetitDiv(29))
+
+  p <- 1000003
+  paste('PlusPetitDiv(',p,') Version O(n)')
+  system.time(replicate(5,PlusPetitDiv(p))) 
+#+END_SRC
+
+#+RESULTS:
+: [1] "PlusPetitDiv(77) = 7"
+: [1] "PlusPetitDiv(29) = 29"
+: [1] "PlusPetitDiv( 1000003 ) Version O(n)"
+: utilisateur     système      écoulé 
+:       1.231       0.001       1.234
+
+*** En déduire une nouvelle version en une ligne de la fonction ~EstPremier(n)~.
+#+BEGIN_SRC R :session primes
+  EstPremier <- function(n) (n >= 2) && (PlusPetitDiv(n) == n)      
+    
+  paste('EstPremier(77) =',EstPremier(77))
+  paste('EstPremier(29) =',EstPremier(29))
+#+END_SRC
+
+#+RESULTS:
+: [1] "EstPremier(77) = FALSE"
+: [1] "EstPremier(29) = TRUE"
+
+*** Faites afficher tous les nombres premiers jusqu'à 100.
+#+BEGIN_SRC R :session primes
+  cat("Voici les nombres premiers compris entre 3 et 100 :\n")
+  n <- 3
+  while (n <= 100) {
+    if (EstPremier(n)) {
+      cat(n)
+      cat(" ")
+    }
+    n <- n + 2
+  }
+  cat("\n")
+#+END_SRC
+
+#+RESULTS:
+: Voici les nombres premiers compris entre 3 et 100 :
+: 3 5 7 11 13 17 19 23 29 31 37 41 43 47 53 59 61 67 71 73 79 83 89 97 
+
+
+*** Il est souvent intéressant d'accélérer un algorithme. Accélérons donc ~PlusPetitDiv~. Montrez par un raisonnement mathématique très simple que s'il n'existe aucun diviseur de n dans $[2,\sqrt{n}]$ alors ~PlusPetitDiv(n) == n~, ce qui évite de chercher dans le gros intervalle $[\sqrt{n},n]$. Implémentez cette optimisation. Au passage, accélérez encore en évitant de considérer les nombres pairs qui à part 2, ne sont pas premiers. 
+
+#+BEGIN_SRC R :session primes
+  PlusPetitDiv <- function(n) {
+    ## avec au plus sqrt(n) operations
+    if (n %% 2 == 0 ) return(2)
+    d <- 3
+    ## acc to compute the d*d
+    acc <- 9 
+    while (n %% d != 0 ) {
+      ## <==> d > sqrt(n) mais plus rapide !
+      if(acc > n) return(n)    
+      d <- d + 2
+      acc <- acc + 4*(d-1)
+    }
+    return(d)
+  }
+  paste('PlusPetitDiv(77) =',PlusPetitDiv(77))
+  paste('PlusPetitDiv(84201097) =',PlusPetitDiv(84201097),'donc il est premier !')
+  
+  paste('PlusPetitDiv(',p,') Version O(sqrt(n))')
+  system.time(replicate(5,PlusPetitDiv(p)))        
+#+END_SRC
+
+#+RESULTS:
+: [1] "PlusPetitDiv(77) = 7"
+: [1] "PlusPetitDiv(84201097) = 84201097 donc il est premier !"
+: [1] "PlusPetitDiv( 1000003 ) Version O(sqrt(n))"
+: utilisateur     système      écoulé 
+:       0.003       0.000       0.003
+* Vectorisation ou fonction prédéfinie ~Filter~
+  /Vous ne devez utiliser aucune boucle./
+** Nombres non multiples d'un entier k
+   Programmez une fonction ~NoMult(k,a,b)~ retournant le vecteur des entiers non multiples de ~k~ dans l’intervalle ~[a,b]~. 
+   Essayez de programmer une fonction sans boucle, en la vectorisant ou utilisant la fonction ~filter~. 
+   #+BEGIN_SRC R :session nomult :results none
+     NoMult <- function(k,a,b) {
+       x <- a:b;
+       return(x[ x %% k != 0])
+     }
+   #+END_SRC
+
+   #+BEGIN_SRC R :session nomult :exports both
+     NoMult(5,10,30)
+   #+END_SRC
+
+   #+RESULTS:
+   :  [1] 11 12 13 14 16 17 18 19 21 22 23 24 26 27 28 29
+
+   #+BEGIN_SRC R :session nomult :results none
+     NoMult <- function(k,a,b) Filter(function(n) n %% k != 0 , a:b)
+   #+END_SRC
+
+
+   #+BEGIN_SRC R :session nomult :exports both
+     NoMult(2,11,31)
+   #+END_SRC
+
+   #+RESULTS:
+   :  [1] 11 13 15 17 19 21 23 25 27 29 31
+
+** Nombres premiers avec un entier k                                   :HARD:
+   Programmez une fonction ~CoPremiers(k,a,b)~ retournant le vecteur des entiers copremiers avec ~k~ dans l’intervalle ~[a,b]~. 
+   
+ #+BEGIN_SRC R :session coprimes :results none
+   PGCD <- function(a,b) {
+     while ( b != 0 ) {
+       tmp = a %% b
+       a = b
+       b = tmp
+     }
+     return(a);
+   }
+   CoPremiers <- function(k,a,b) Filter(function(n) PGCD(n,k) == 1 , a:b)
+ #+END_SRC
+
+ #+BEGIN_SRC R :session coprimes :exports both
+   CoPremiers(15,10,30)
+ #+END_SRC
+
+ #+RESULTS:
+ :  [1] 11 13 14 16 17 19 22 23 26 28 29
+* Nombres aléatoires absents
+   1. Utilisez la fonction ~sample~ pour créer une liste de 100 entiers compris entre 1 et 100 tirés au hasard avec remise.
+   2. Calculer le nombre d’éléments compris entre 1 et 100 qui n’appartiennent pas à cette liste.
+   3. Recommencer cette expérience un grand nombre de fois et calculer la moyenne du nombre d’absents.
+   4. Comparer à la valeur théorique.
+
+  #+BEGIN_SRC R 
+    n <- 100 
+    xp <- 1000
+    
+    ## Réalise l'expérience et renvoie le nombre d'absents 
+    CountMissing <- function(n) {
+      x <- sample.int(n, n, replace=TRUE)
+      missing <- !(1:n %in% x)
+      return(sum(missing))
+    } 
+
+    ## Répétons l'expérience avec une boucle
+    absents <- 0
+    for(i in 1:xp) {
+      absents <- absents + CountMissing(n)
+    }
+    print(absents/xp)
+
+    ## Répétons l'expérience par vectorisation
+    print(mean(replicate(xp, CountMissing(n))))
+  #+END_SRC
+
+  #+RESULTS:
+  : [1] 36.578
+  : [1] 36.514
+* Compression d'un vecteur
+*** Programmez une fonction ~Compacter(x)~ prenant une vecteur ~x~ et remplaçant toute suite d’éléments consécutifs ~x~, ~x~,\dots, ~x~ par le seul élément ~x~.
+    
+ #+BEGIN_SRC R :session compact1 :results none 
+   Compacter <- function(x) {
+     i <- 1
+     cx <- c()
+     while (i <= length(x) ) {
+       y <- x[i]
+       i <- i + 1
+       cx <- append(cx, y)
+       ## ou
+       ## cx[length(cx)+1] <- x
+       while (i <= length(x) && x[i]==y) {
+         i <- i + 1
+       }
+     }
+     return(cx)
+   }
+ #+END_SRC
+
+
+ #+BEGIN_SRC R :session compact1 :exports both
+   x <- c(3,3,3,8,5,5,5,7,7)
+   Compacter(x)
+   Compacter(c(1,x,9))
+   Compacter(c(x,x))
+ #+END_SRC
+
+ #+RESULTS:
+ : [1] 3 8 5 7
+ : [1] 1 3 8 5 7 9
+ : [1] 3 8 5 7 3 8 5 7
+
+*** Programmez une fonction ~Compacter(x)~ vectorisée. /Indice/ : utiliser les fonctions ~diff~ et ~as.logical~.
+
+ #+BEGIN_SRC R :session compact1 
+   Compacter <- function (x) x[c(TRUE, as.logical(diff(x)))]
+   Compacter(x)
+   Compacter(c(1,x,9))
+ #+END_SRC
+
+
+ #+RESULTS:
+ : [1] 3 8 5 7
+ : [1] 1 3 8 5 7 9
+
+*** Modifiez la fonction ~Compacter~ de sorte qu’elle indique en plus la longueur de chaque sous-suite d’éléments consécutifs. :HARD:
+    La fonction renvoie une liste nommée contenant deux vecteurs. 
+ #+BEGIN_SRC R :session compact1 :results none 
+   Compacter <- function(x) {
+     i <- 1
+     cx <- c()
+     cl <- c()
+     while (i <= length(x) ) {
+       y <- x[i]
+       j <- i + 1
+       cx <- append(cx, y)
+       while (j <= length(x) && x[j]==y) {
+         j <- j + 1
+       }
+       cl <- append(cl, j-i)
+       i <- j
+     }
+     return(list(values = cx, lengths = cl ))
+   }
+ #+END_SRC
+
+ #+BEGIN_SRC R :session compact1 :exports both
+   Compacter(x)
+ #+END_SRC
+
+ #+RESULTS:
+ : $values
+ : [1] 3 8 5 7
+ : 
+ : $lengths
+ : [1] 3 1 3 2
+
+
+ #+BEGIN_SRC R :session compact1 :exports both
+   Compacter(c(1,x,9))
+ #+END_SRC
+
+ #+RESULTS:
+ : $values
+ : [1] 1 3 8 5 7 9
+ : 
+ : $lengths
+ : [1] 1 3 1 3 2 1
+* Masque d'une chaîne
+Programmez une fonction ~masque(s,x)~ prenant un vecteur ~x~ numérique et une chaîne ~s~, et retournant une nouvelle chaîne contenant les caractères dont les positions dans ~s~ figurent dans la liste ~x~. 
+
+#+BEGIN_SRC R :session mask :results none
+  masque <- function(str, pos) intToUtf8(utf8ToInt(str)[pos])
+#+END_SRC
+
+#+RESULTS:
+
+#+BEGIN_SRC R :session mask :exports both
+  masque("CAGCTACCTA",c(2,5,3,8)) 
+#+END_SRC
+
+#+RESULTS:
+: [1] "ATGC"
+
+/Attention/ : les chaînes de caractères ne sont pas des vecteurs. 
+
+* Recherche d'un motif                                       :HOME:
+
+ Nous poursuivons l’exercice complémentaire du TP3, dont nous supposons que vous avez programmé la fonction ~CountSubstringMatch(s1,s2)~ dont vous allez vous inspirer. Programmez une fonction ~SubstringMatchExact(s1,s2)~ retournant le vecteur conternant les positions successives de l’apparition de ~s2~ dans ~s1~. 
+#+BEGIN_SRC R :session match :results none
+  SubstringMatchExact <- function(str, pattern) {
+    res <- c();
+    r <- regexpr(pattern,str)
+    i <- 0
+    while(r > 0) {
+      i <- i + r
+      res <- append(res, i)
+      str <- substr(str,start=r+1,stop=nchar(str))
+      r <- regexpr(pattern,str)
+      ## On ne peut pas utilisr gregexpr, car on autorise le chevauchement entre les motifs
+    }
+    return(res)
+  }
+#+END_SRC
+
+
+#+BEGIN_SRC R :session match :exports both
+  SubstringMatchExact('atatata','ata') 
+#+END_SRC
+
+#+RESULTS:
+: [1] 1 3 5
+
+
+#+BEGIN_SRC R :session match :exports both
+  SubstringMatchExact('atgacatgcacaagtatgcat','atgc') 
+#+END_SRC
+
+#+RESULTS:
+: [1]  6 16
+
+* Produit de nombres premiers                           :HOME:
+  D'après le cours Python du MIT. 
+
+La théorie des nombres sait démontrer que si $P_n$ dénote le *produit* de tous les nombres premiers jusqu'à $n$, alors :
+$$
+\lim_{n\rightarrow +\infty} \frac{P_n}{e^n}=1 \quad (\text{en maths } P_n \sim e^n)
+$$
+Mais calculer le produit d'un grand nombre d'entiers premiers va produire un très grand nombre ce qui peut nous occasionner des problèmes de calcul. 
+Une manière d'y remédier est de remplacer les multiplications par des additions. 
+Les logarithmes existent précisément dans ce but. 
+Nous allons donc remplacer le produit des nombres premiers par la *somme* $S_n$ de leur logarithme. 
+ 1. Montrez que le théorème précédent s'exprime alors sous la forme : $S_n \sim n$. Attention, ne croyez pas que $f \sim g$ entraîne toujours $\log(f) \sim \log(g)$. Mais c'est vrai ici car elles tendent vers $+\infty$. Tâchez de faire une petite démonstration si possible, ou parlez-en à votre prof de maths.
+ 2. La fonction logarithme (népérien) de R est ~log~. Comment utiliseriez-vous l'ordinateur et le langage R pour vous convaincre du bien-fondé de ce théorème ?
+
+#+BEGIN_SRC R :session primes
+  S <-function(n) {
+    ## somme des logarithmes des nombres premiers <= n
+    p = 2 ; acc = 0
+    while (p <= n){
+      acc = acc + log(p)
+      p = Suivant(p)      
+      ## je saute de p au nombre premier suivant. Voir en-dessous...
+    }
+    return(acc)
+  }
+  
+  Suivant <- function(p) {
+    ## retourne le plus petit nombre premier apres p
+      essai=ifelse(p %% 2 == 0, p+1, p+2)
+      while ( ! EstPremier(essai)) {
+        ## je suis certain d'en trouver, ok ?
+        essai = essai + 2
+      }
+      return(essai)
+  }
+  paste('Suivant(13) =',Suivant(13))
+  
+  print('Je regarde si S(n)/n tend bien vers 1 :')
+   for (i in 1:5) {
+        n = 10**i
+        somme = S(n)
+        print(paste('n =',n,':',somme/n))
+    }
+    print('Mmmm. Oui, on dirait bien que la limite vaut 1.')
+#+END_SRC  
+
+#+RESULTS:
+: [1] "Suivant(13) = 17"
+: [1] "Je regarde si S(n)/n tend bien vers 1 :"
+: [1] "n = 10 : 0.534710753071747"
+: [1] "n = 100 : 0.837283903990639"
+: [1] "n = 1000 : 0.956245265120059"
+: [1] "n = 10000 : 0.989599137915698"
+: [1] "n = 1e+05 : 0.996853892686125"
+: [1] "Mmmm. Oui, on dirait bien que la limite vaut 1."
+

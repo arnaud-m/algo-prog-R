@@ -1,0 +1,440 @@
+#+SETUPFILE: base-template.org
+#+TITLE:     Travaux Pratiques #8
+#+SUBTITLE:     Algo & Prog avec R
+#+PROPERTY: header-args :results output replace :exports none
+* Memo-Fonctions
+** Factorielle                                                     :noexport:
+   
+   #+BEGIN_SRC R
+   make_fac <- function() {
+     cache <- c(1,1)
+     fac <- function(n) {
+       m <- length(cache)
+       if(n >= m) {
+         for(i in m:n) {
+           cache <<- append(cache, tail(cache,1)*i)
+         }
+         print(paste("number of cached factorials", length(cache))) 
+       }
+       return(cache[n+1])
+     }
+     return(fac)
+   }
+
+   fac <- make_fac()
+   fac(5)
+   fac(20)
+   #+END_SRC
+
+   #+RESULTS:
+   : [1] "number of cached factorials 6"
+   : [1] 120
+   : [1] "number of cached factorials 21"
+   : [1] 2.432902e+18
+
+** Une récurrence simple
+   On considère la suite définie par récurrence de la manière suivante : $u_0=2$ et $u_n = \frac{1}{2} u_{n-1} + 3$.
+*** Programmez la fonction ~u(n)~ par récurrence et afficher la liste des termes de 0 à 10.
+     #+BEGIN_SRC R
+     u <- function(n) ifelse(n == 0, 2, u(n-1)/2 + 3)
+     sapply(0:10,u) 
+     #+END_SRC
+
+     #+RESULTS:
+     :  [1] 2.000000 4.000000 5.000000 5.500000 5.750000 5.875000 5.937500 5.968750
+     :  [9] 5.984375 5.992188 5.996094
+
+*** Reprogrammez-la par une boucle.
+    #+BEGIN_SRC R
+    vec <- numeric(11)
+    vec[1] <- 2
+    for(i in 1:10) {
+      vec[i+1] <- vec[i]/2 + 3
+    }
+    print(vec)
+    #+END_SRC
+
+    #+RESULTS:
+    :  [1] 2.000000 4.000000 5.000000 5.500000 5.750000 5.875000 5.937500 5.968750
+    :  [9] 5.984375 5.992188 5.996094
+
+*** Quel est le coût du calcul de cette liste en fonction de N ?
+*** Reprogrammez la fonction ~u(n)~ sous la forme d’une mémo-fonction, qui se souvienne des calculs qu’elle a déjà effectués.
+    #+BEGIN_SRC R
+    make_u <- function() {
+      terms <- c(2)
+      u <- function(n) { 
+        m <- length(terms)
+        if(n >= m) {
+          ## print(terms)
+          for(i in m:n) {
+            terms <<- append(terms, terms[i]/2 + 3) ## opérateur <<- au lieu de <- !
+          }
+        }
+        return(terms[n+1])
+      }
+      return(u)
+    }
+
+    u <- make_u()
+    sapply(0:10,u) 
+    #+END_SRC
+
+    #+RESULTS:
+    :  [1] 2.000000 4.000000 5.000000 5.500000 5.750000 5.875000 5.937500 5.968750
+    :  [9] 5.984375 5.992188 5.996094
+
+** Coefficients binomiaux
+   Vous connaissez tous le Triangle de Pascal [sinon : Google!]. 
+  Il est bâti sur les coefficients $C_n^p$ et se construit à la main par des additions : 
+#+BEGIN_EXAMPLE
+     1
+     1  1
+     1  2  1
+     1  3  3  1
+     1  4  6  4  1
+     1  5 10 10  5  1
+     ...
+#+END_EXAMPLE
+Autrement dit : 
+\[
+C_n^p = C_{n-1}^p + C_{n-1}^{p-1}
+\qquad
+(10 = 4 + 6 = 6 + 4)
+\]
+Nous nous proposons de programmer la fonction ~binomial(n,p)~ retournant $C_n^p$.
+*** Vérifiez que la fonction ci-dessous conduit à une pauvre programmation.
+   #+BEGIN_SRC R
+   binomial <- function(n,p) {
+     if(p == 0 || p == n) {return(1)}
+     else return(binomial(n-1,p)+binomial(n-1,p-1))
+   }
+   #+END_SRC
+
+    Demandez par exemple à calculer $C_5^3$, puis $C_{52}^{13}$ qui représente le nombre de mains de 13 cartes parmi 52 au bridge.
+*** Programmez ~binomial~ sous la forme d’une mémo-fonction qui se souvient des calculs déjà effectués. Vérifiez qu’alors le calcul de $C_{52}^{13}$ est immédiat !
+
+    #+BEGIN_SRC R
+    make_binomial <- function() {
+      ## a list of vectors
+      binodict <- list(c(1),c(1,1))
+      binomial <- function(n, p) {
+        m <- length(binodict)
+        n1 <- n + 1
+        p1 <- p + 1
+        if(n >= m) {
+          ## Increase Dictionary size
+          binodict <<- append(binodict, lapply((m+1):(n1), rep, x=NA))
+        }
+
+        if(is.na(binodict[[n1]][p1])) {
+          if(p == 0 || p == n) {
+            binodict[[n1]][1] <<- 1
+            binodict[[n1]][n1] <<- 1
+          } else {
+            binodict[[n1]][p1] <<- binomial(n-1,p) + binomial(n-1,p-1)
+          }
+        }
+        return(binodict[[n1]][p1])      
+      }
+      return(binomial)
+    }
+
+    binomial <- make_binomial()
+    triangle_pascal(6)
+    binomial(52,13)
+    #+END_SRC
+
+   
+    #+BEGIN_SRC R
+    make_binomial <- function() {
+      ## a named vector
+      key <- function(n,p) paste(n,p,sep="_")
+      binodict <- c(1)
+      names(binodict) <- key(0,0)
+
+      binomial <- function(n, p) {
+        knp <- key(n,p) 
+           if(is.na(binodict[knp])) {
+             if(p == 0 || p == n) {
+               binodict[knp] <<- 1
+             } else {
+               binodict[knp]<<- binomial(n-1,p) + binomial(n-1,p-1)
+             }
+           }
+           return(unname(binodict[knp]))      
+      }
+      return(binomial)
+    }
+
+    binomial <- make_binomial()
+    triangle_pascal(6)
+    binomial(52,13)
+    #+END_SRC
+
+
+*** Faîtes afficher le Triangle de Pascal jusqu’à la ligne 10 incluse. Tâchez d’avoir des colonnes bien alignées ! 
+
+    #+BEGIN_SRC R
+    triangle_pascal <- function(m) {
+      for(n in 0:m) {
+        cat(format(sapply(0:n, binomial, n=n), width=3),sep=" ")
+        cat("\n")
+      }
+    }
+    #+END_SRC
+
+    #+RESULTS:
+
+*** N.B. Il existe une autre formule pour $C_n^p$, basée sur des factorielles et utilisée en combinatoire : 
+    $$
+    C_n^p = \frac{n!}{p!(n-p)!}
+    $$
+    Vous pouvez la programmer en R, en vous posant quand même la question : ne suis-je pas en train de faire trop de multiplications ? 
+
+*** Il existe encore une autre formule                             :noexport:
+    $$
+    C_n^p = \frac{n}{k} \times C_{n-1}^{p-1}
+    $$
+    
+    #+BEGIN_SRC R :session pascal
+      ChooseRec <- function(n, k) {
+        if(n <= 0 || k <= 0) {
+          return(1)
+        }
+        return(n*ChooseRec(n-1,k-1)/k)
+      }
+    #+END_SRC
+
+    #+RESULTS:
+
+     #+BEGIN_SRC R :session pascal
+       ChooseIter <- function(n, k) {
+         if(n <= 0 || k <= 0) {
+           return(1)
+         }
+         m <- min(n,k)
+         n1 <- n - m
+         k1 <- k - m
+         acc <- 1
+         for(i in 1:m) {
+           acc <-(n1+i)*acc / (k1+i)
+         }
+         return(acc)
+       }
+    #+END_SRC
+
+     #+RESULTS:
+
+    #+BEGIN_SRC R :results output :export both :session pascal
+      TrianglePascal <- function(n, binoFunc = choose) {
+        TriangleRow <- function(n) sapply(0:n, binoFunc, n = n) 
+        lapply(0:n, TriangleRow)
+      }
+
+      TriangleToString <- function(triangle, width = 3) {
+        RowToString <- function(x) paste(format(x, scientific = FALSE, width = width), collapse = " ")
+        paste0(paste(sapply(triangle, RowToString), collapse="\n"), "\n")
+      }
+
+      cat(TriangleToString(TrianglePascal(10)))
+    #+END_SRC
+
+    #+RESULTS:
+    #+begin_example
+      1
+      1   1
+      1   2   1
+      1   3   3   1
+      1   4   6   4   1
+      1   5  10  10   5   1
+      1   6  15  20  15   6   1
+      1   7  21  35  35  21   7   1
+      1   8  28  56  70  56  28   8   1
+      1   9  36  84 126 126  84  36   9   1
+      1  10  45 120 210 252 210 120  45  10   1
+#+end_example
+
+** Suite de Padovan                                                :noexport:
+   La [[https://fr.wikipedia.org/wiki/Suite_de_Padovan][Suite de Padovan]] est une suite d'entiers définie par récurrence par : 
+   \[
+   \mathcal{P}_{n+3}=\mathcal{P}_{n+1}+\mathcal{P}_{n}\
+   \]
+   pour tout entier naturel $n$. 
+   
+*** Programmez une fonction récursive ~p(n)~ et afficher la liste des termes de 0 à 10 lorsque $\mathcal{P}_{0} = \mathcal{P}_{1} = \mathcal{P}_{2} = 1$.
+    
+    #+BEGIN_SRC R
+      p <- function(n) ifelse(n > 2, p(n-2) + p(n-3), 1)
+      sapply(seq.int(10), p)
+    #+END_SRC
+    
+    #+RESULTS:
+    :  [1]  1  1  2  2  3  4  5  7  9 12
+
+*** Programmez une fonction itérative ~p(n)~.
+    
+    #+BEGIN_SRC R
+      p <- function(n) {
+        x <- c(1, 1, 1)
+        while(n > 2) {
+          x <- append(tail(x, -1), x[1]+x[2])
+          n <- n - 1
+        } 
+        return(tail(x,1))
+      }  
+      sapply(seq.int(10), p)
+    #+END_SRC
+
+    #+RESULTS:
+    :  [1]  1  1  2  2  3  4  5  7  9 12
+
+*** Reprogrammez la fonction ~p(n)~ sous la forme d’une mémo-fonction, qui se souvienne des calculs qu’elle a déjà effectués.
+    
+#+BEGIN_SRC R
+  make_p <- function(p0 = 1, p1 = 1, p2 = 1) {
+    terms <- c(p0, p1, p2)
+    p <- function(n) { 
+      m <- length(terms)
+      if(n >= m) {
+        ## print(terms)
+        for(i in m:n) {
+          ## opérateur <<- au lieu de <- !
+          terms <<- append(terms, terms[i-1]+terms[i-2]) 
+        }
+      }
+      return(terms[n+1])
+    }
+    return(p)
+  }
+
+  p <- make_p()
+  sapply(0:10,p) 
+
+#+END_SRC
+
+#+RESULTS:
+:  [1]  1  1  1  2  2  3  4  5  7  9 12
+
+* Jeu de Nim (Fibonacci)                                               :HARD:
+  La [[http://jean-paul.davalan.pagesperso-orange.fr/jeux/nim/fibonacci/][page de Jean-Paul Dalavan]] peut vous aider.
+** Décomposition de Zeckendorf                                          :KEY:
+Étant donné un entier naturel $n$, déterminer la liste des facteurs de la décomposition de Zeckendorf de $n$, c’est-à-dire les uniques nombres de Fibonacci deux à deux distincts et non consécutifs de somme égale à $n$
+** Jeu de Nim
+Deux joueurs tirent à tour de rôle des allumettes d’une boîte, avec les règles suivantes :
+  - Chaque joueur tire à chaque fois au moins une allumette.
+  - Le premier joueur ne retire pas la totalité des allumettes au premier tour.
+  - Un joueur tire au plus deux fois le nombre d’allumettes tirées par le joueur précédent.
+  - Le joueur qui retire la dernière allumette a gagné.
+
+
+On peut montrer que si le nombre initial d’allumettes n’est pas un nombre de Fibonacci, une stratégie gagnante pour le joueur 1 consiste à tirer autant d’allumettes que le plus petit terme de la décomposition de Zeckendorf du nombre d’allumettes.
+
+Écrire une fonction prenant en argument un entier ~n~ (nombre d’allumettes), et mettant en place la stratégie gagnante si c’est possible (on alternera le jeu de l’ordinateur, qui commence, et le jeu de l’utilisateur, à qui on demandera une valeur, en précisant dans quel intervalle il a le droit de tirer).
+
+#+BEGIN_SRC R :session game
+  zeckendorf <- function() {
+    fibo <- c(1,1)
+    z <- function(x){
+      ## Compute mandatory fibonnacci terms
+      while(x > tail(fibo,1) ) {
+        ## Here, <<- will assign to the parent environment
+        fibo <<- append(fibo, sum(tail(fibo,2)))
+      }
+      ## Greedy computation of zeckendorf decomposition
+      i <- length(fibo)
+      zeck <- c()
+      while( x > 0) {
+        ## find largest Fibonacci number smaller than x
+        while(fibo[i] > x) {
+          i <- i - 1
+        }
+        zeck <- append(zeck, fibo[i])
+        x <- x - fibo[i]
+        i <- i - 2
+      }
+      return(zeck)
+    }
+    return(z)
+  }
+
+  z <- zeckendorf()
+  z(20)
+  z(30)
+  z(8)
+  z(100)
+#+END_SRC
+
+#+RESULTS:
+: [1] 13  5  2
+: [1] 21  8  1
+: [1] 8
+: [1] 89  8  3
+
+#+BEGIN_SRC R :session game      
+
+  play_game <- function(n, player1, player2, verbose=TRUE) {
+    players <- c(player1, player2)
+    pidx = 1
+    l <- 0; ##last stroke
+    repeat {
+      ## Player pidx plays 
+      lim <- ifelse(l == 0, n-1,min(2*l, n))
+      take <- players[[pidx]](n,lim)
+      if(1 <= take && take <= lim) {
+        ## valid stroke
+        n <- n - take
+        l <- take
+        if(verbose) {
+          cat(paste("Player", pidx, "takes", take,"matche(s) :", n, "left.\n"))
+        }
+        ## Termination condition 
+        if(n <= 0) {
+          break
+        }
+      } else {
+        cat(paste("Player", pidx, "takes", take,"matche(s) : ERROR!\n"))
+        ## Swtich players
+        pidx <- ifelse(pidx == 1, 2, 1) 
+        break
+      }
+      
+      ## Swtich players
+      pidx <- ifelse(pidx == 1, 2, 1) 
+    }
+    if(verbose) {
+      cat(paste("Player", pidx, "wins!\n"))
+    }
+    return(pidx)
+  }
+
+  player.one <- function(n, max) 1
+
+  player.random <- function(n, max) {
+    ifelse(max > n, n, sample(1:max,1))
+  }
+
+  player.human <- function(n, max) {
+    take <- ""
+    while( ! grepl("^[0-9]+$",take)) {
+      take <- readline(prompt="Enter an integer: ")
+    }
+    return(as.integer(take))
+  }
+
+  z <- zeckendorf()
+  player.zeckendorf <- function(n, max) {
+    if(max >= n) {return(n)}
+    else {
+      take <- tail(z(n),1)
+      if(take <= max) {return(take)}
+      else {return(1)}
+    }
+  }
+
+
+#+END_SRC
+
+#+RESULTS:
+
+  
