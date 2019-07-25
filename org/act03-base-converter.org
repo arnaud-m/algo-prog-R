@@ -1,0 +1,281 @@
+﻿#+SETUPFILE: base-template.org
+#+TITLE:    Convertisseur de base
+#+SUBTITLE:     Activités #3
+#+PROPERTY: header-args :results output replace :exports none
+
+#+BEGIN_abstract
+  Le but de cette activité est de développer une application web qui convertit un nombre d'une base vers une autre. Les bases doivent être comprises entre 2 et 36.
+#+END_abstract
+* Application web shiny
+** Installer les extensions
+   Installez d'abord l'extension requise. 
+   #+BEGIN_SRC R :exports code :results output silent 
+     install.packages("shiny") ## pour l'application web
+   #+END_SRC   
+   N'hésitez pas à parcourir l'[[http://shiny.rstudio.com/tutorial/written-tutorial/lesson1/][introduction]] à shiny.
+  
+** Obtenir le code de l'application
+
+   Ensuite, téléchargez le fichier [[file:act03-base-converter/app-base-converter.R][app-base-converter.R]] contenant le code de l'application, et exécutez le. 
+   #+BEGIN_SRC R :exports code
+    app <- source('app-base-converter.R') ## construire l'application web
+    app ## lancer l'application web dans un navigateur
+   #+END_SRC
+   Pour l'instant, l'application fonctionne mais n'affiche rien d'intéressant.
+  
+** Compléter le code de l'application
+   Votre mission consiste compléter le code de l'application.
+   La spécification des fonctions est précisée dans les sections suivantes.
+   Vous pourrez vous inspirer du code écrit pour cet [[file:TP3-TD3.org::*%C3%89pluchages%20d'entiers%20et%20de%20cha%C3%AEnes][exercice]].
+
+   Nous allons suivre certains préceptes des [[https://fr.wikipedia.org/wiki/M%25C3%25A9thode_agile][méthodes agiles]].
+   L'application est développé en plusieurs étapes.
+   Chaque étape ajoute une ou plusieurs fonctionnalités à l'application.
+   À la fin de chaque étape, notre application est opérationnelle.
+
+
+* Code source des conversions                                      :noexport:
+  #+NAME: common 
+  #+BEGIN_SRC R :exports none :results none :session convert
+    DecodeDigits <- function(word, alphabet = c(0:9, LETTERS)) {
+      digits <- unlist(strsplit(toupper(word), NULL)) 
+      return(match(digits, alphabet)-1)
+    }
+ #+END_SRC
+
+  #+NAME: demo 
+  #+BEGIN_SRC R :exports none :results none :session convert
+    DecodeNumber <- function(word, base) {
+      digits <- DecodeDigits(word)
+      if(all(digits < base)) {
+        pow <- seq(length(digits)-1, 0)
+        return(sum( digits * (base ** pow)))
+      } else {
+        return(NA)
+      }
+    }
+
+    EncodeDigits <- function(digits, alphabet = c(0:9, LETTERS)) {
+       return(paste(alphabet[digits + 1], collapse = ""))
+     }
+
+    EncodeNumber <- function(n, base, alphabet = c(0:9, LETTERS)) {
+      if(n == 0) {digits <- 0}
+      else {
+        digits <- numeric(0)
+        while(n > 0) {
+          digits <- c(n %% base, digits)
+          n <- n %/% base
+        }
+      }
+      return(EncodeDigits(digits, alphabet))
+    } 
+
+    AlphabetBibi <- function() {
+      x <- expand.grid(c('O','A','E','I'),c('H','B','K','D'))
+      sprintf("%s%s", x[,2],x[,1])
+    }
+
+    EncodeBibi <- function(n) {
+      alphabet <- AlphabetBibi()
+      return(EncodeNumber(n, length(alphabet), alphabet))
+    }
+
+ #+END_SRC
+
+* Conversion depuis une base comprise entre 2 et 36
+
+  Écrire la fonction ~DecodeNumber~, une version simplifiée de la fonction prédéfinie ~strtoi~.
+
+#+NAME: template1
+#+BEGIN_SRC R :exports code
+  #' Décode une chaîne de caractère word représentant un nombre n écrit dans une base comprise entre 2 et 36. 
+  #'
+  #' @param word la chaîne de caractère représentant le nombre ne contenant que des caractères alphanumériques.
+  #' @param base la base dans laquelle est écrite le nombre
+  #' @return le nombre n ou NA si le format de la chaîne est invalide.
+  DecodeNumber <- function(word, base) {
+    return(NA)
+  }
+#+END_SRC
+
+Voici le résultat de la fonction avec des nombres correctement formatés.
+ #+BEGIN_SRC R :exports both :session convert
+   DecodeNumber("121", 10);
+   DecodeNumber("1010", 2);
+   DecodeNumber("1A", 16);
+   DecodeNumber("1Az", 36);
+ #+END_SRC
+
+ #+RESULTS:
+ : [1] 121
+ : [1] 10
+ : [1] 26
+ : [1] 1691
+ 
+ Le format du nombre est incorrect lorsqu'au moins un chiffre est supérieur ou égal à la base.
+ #+BEGIN_SRC R :exports both :session convert
+   DecodeNumber("121A", 10);
+ #+END_SRC
+
+ #+RESULTS:
+ : [1] NA
+
+ Pour vous aider, la fonction ~DecodeDigit~ prend en paramètre une chaîne de caractères et renvoie le vecteur des chiffres du nombre.  
+ 
+ #+BEGIN_SRC R :exports both :session convert
+   alphabet <- c(0:9, LETTERS)
+   alphabet
+   DecodeDigits(alphabet);
+ #+END_SRC
+
+ #+RESULTS:
+ :  [1] "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" "A" "B" "C" "D" "E" "F" "G" "H" "I"
+ : [20] "J" "K" "L" "M" "N" "O" "P" "Q" "R" "S" "T" "U" "V" "W" "X" "Y" "Z"
+ :  [1]  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24
+ : [26] 25 26 27 28 29 30 31 32 33 34 35
+ : [1]  1 NA  2
+
+* Conversion vers une base entre 2 et 36
+  Écrire la fonction réciproque ~EncodeNumber~.
+#+NAME: template2
+#+BEGIN_SRC R :exports code
+  #' Écrit le nombre n dans une chaîne de caractères en utilisant un base comprise entre 2 et 36
+  #' @param n le nombre à encoder
+  #' @param base la base dans laquelle écrire le nombre
+  #' @return la chaîne de caractère contenant le nombre n écrit dans la base
+  EncodeNumber <- function(n, base) {
+    return(NA)
+  } 
+#+END_SRC
+
+Quelques exemples d'appels.
+ #+BEGIN_SRC R :exports both :session convert
+   EncodeNumber(60, 10);
+   EncodeNumber(60, 2);
+   EncodeNumber(60, 16);
+   EncodeNumber(61, 36);
+ #+END_SRC
+
+ #+RESULTS:
+ : [1] "60"
+ : [1] "111100"
+ : [1] "3C"
+ : [1] "1P"
+
+* Conversion vers bibi-binaire
+  Écrire la fonction réciproque ~EncodeBibi~ qui prend en paramètre un nombre ~n~ et renvoie une chaîne de caractère, le nombre ~n~ écrit avec le [[https://fr.wikipedia.org/wiki/Syst%25C3%25A8me_bibi-binaire][système bibi-binaire]].
+
+#+NAME: template3
+#+BEGIN_SRC R :exports code
+  #' Écrit un nombre n dans une chaîne de caractère avec le système bibi-binaire
+  #' @param n le nombre à encoder
+  #' @return la chaîne de caractère contenant le nombre n écrit en bibi-binaire
+  EncodeBibi <- function(n) {
+    return(NA)
+  }
+#+END_SRC
+Quelques exemples d'appels.
+ #+BEGIN_SRC R :exports both :session convert
+   EncodeBibi(60);
+   EncodeBibi(2018);
+ #+END_SRC
+
+ #+RESULTS:
+ : [1] "HIDO"
+ : [1] "BIDEHE"
+
+* Code source shiny app                                            :noexport:
+  
+  #+NAME: shinyapp
+  #+BEGIN_SRC R :exports none
+    library(shiny)
+    #' La fonction server d'une application shiny réalise le traitement des données et la génération des graphiques/tableaux.
+    server <- function(input, output) {
+      CheckBase <- function(base) base >= 2 && base <= 36
+      fromBase <- reactive( {
+        validate(
+          need(!is.na(input$fromBase), "Base d'origine manquante"),
+          need(CheckBase(input$fromBase), "Base d'origine doit être entre 2 et 36.")
+        )
+        input$fromBase
+      })
+      number <- reactive( {
+        number <- trimws(input$number)
+        validate(
+          need(nchar(number) > 0, "Pas de nombre en entrée."), 
+          need(!grepl("[^a-zA-Z0-9]", number), "Format de nombre incorrect") 
+        )
+        number <- DecodeNumber(number, fromBase())
+        validate(
+          need(!is.na(number), "Chiffres invalides dans le nombre.")
+          )
+        number
+      })
+
+      ConvertNumber <- function(n, base) {
+        validate(
+          need(!is.na(base), "Base de destination manquante")
+        )
+        if( CheckBase(base) ) {
+          return(EncodeNumber(n, base))
+        } else {
+          return(EncodeBibi(n))
+        }
+      }
+      output$toBase1 <- renderText({ ConvertNumber(number(), input$toBase1)})
+      output$toBase2 <- renderText({ ConvertNumber(number(), input$toBase2)})
+      output$toBase3 <- renderText({ ConvertNumber(number(), input$toBase3)})
+    }
+
+    #' La fonction server d'une application shiny construit l'interface graphique à partir de ses entrées/sorties.
+    ui <- fluidPage(
+      titlePanel("Convertisseur à Bibi"),
+      sidebarLayout(
+        ## Barre latérale contenant les entrées de l'application
+        sidebarPanel(
+          textInput("number", "Nombre", "26"),
+          numericInput("fromBase", "Depuis la base:", "10")
+        ),
+        ## Panneau principal contenant les sorties de l'application
+        mainPanel(
+          column(4, 
+                 numericInput("toBase1", "Vers la base:", "10"),
+                 verbatimTextOutput("toBase1")
+                 ),
+          column(4, 
+                 numericInput("toBase2", "Vers la base:", "2"),
+                 verbatimTextOutput("toBase2")
+                 ),
+        column(4, 
+               numericInput("toBase3", "Vers la base:", "16"),
+               verbatimTextOutput("toBase3")
+               )
+        )
+      )
+    )
+
+    ## Construit un objet représentant l'application
+    shinyApp(ui = ui, server = server)
+  #+END_SRC
+
+  
+  #+BEGIN_SRC R :exports none :noweb yes :tangle act03-base-converter/app-base-converter.R 
+  <<common>>
+
+  <<template1>>
+
+  <<template2>>
+
+  <<template3>>
+
+  <<shinyapp>>
+  #+END_SRC
+
+   #+BEGIN_SRC R :exports none :noweb yes :tangle act03-base-converter/app-base-converter-demo.R 
+   <<common>>
+
+   <<demo>>
+
+   <<shinyapp>>
+   #+END_SRC
