@@ -400,7 +400,6 @@ Vous pourrez utiliser le code suivant pout tester la fonction ~appartient~.
 *** Références                      
     - http://en.wikipedia.org/wiki/Point_in_polygon
     - http://stackoverflow.com/questions/217578/point-in-polygon-aka-hit-test
-    - http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
 ** Méthode de Monte Carlo et calcul approché de l'aire d'un polygone
 *** Principe
 

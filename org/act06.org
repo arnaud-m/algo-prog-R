@@ -41,7 +41,7 @@ Utiliser ce module pour vérifier vos résultats.
 
 * Polynômes creux
 
-  Vous pouvez vous référer à l'article : [[file:TP8-TD8/johnson.pdf][sparse polynomial arithmetic]].
+  Vous pouvez vous référer à l'article : [[file:act06/johnson.pdf][sparse polynomial arithmetic]].
 
   Un polynôme creux est représenté sous la forme d'une liste de monômes.
   Un monôme est un vecteur à 2 éléments : (coefficient, degré).
@@ -454,7 +454,7 @@ Utiliser ce module pour vérifier vos résultats.
     : [1] "q(1) = 7"
 
 *** Comparez les implémentations grâce au code ci-dessous.
-    #+BEGIN_SRC R :exports both :results output graphics :file TP8-TD8/comp_eval.jpg :width 500 :height 300  :session sparse
+    #+BEGIN_SRC R :exports both :results output graphics :file act06/comp_eval.jpg :width 500 :height 300  :session sparse
       x <- seq(2-0.02,2.02,length.out=1001)
       vec <- c(-2,0,1)
       ## p(x) = (x^2-2)^16      
@@ -482,7 +482,7 @@ Utiliser ce module pour vérifier vos résultats.
      #+END_SRC
     
      #+RESULTS:
-     [[file:TP8-TD8/comp_eval.jpg]]
+     [[file:act06/comp_eval.jpg]]
 
 ** Visualisation 
    Programmez une fonction ~dessiner(p,x)~ sans résultat, chargée de dessiner la courbe du polynôme p (en bleu), ainsi que celles de sa dérivée (en rouge) et de sa primitive (en vert), sur l’intervalle passé en argument.
@@ -501,14 +501,14 @@ Utiliser ce module pour vérifier vos résultats.
 
    #+RESULTS:
 
-   #+BEGIN_SRC R :exports both :results output graphics :file TP8-TD8/dessiner.jpg :session sparse
+   #+BEGIN_SRC R :exports both :results output graphics :file act06/dessiner.jpg :session sparse
      x <- seq(-2,4,length.out=1000)
      p1 <- make_poly(c(-1,-1,1))
      dessiner(p1,x)
    #+END_SRC
 
    #+RESULTS:
-   [[file:TP8-TD8/dessiner.jpg]]
+   [[file:act06/dessiner.jpg]]
 
 * Exercice optionnel un peu long, mais intéressant, et ô combien gratifiant !
 

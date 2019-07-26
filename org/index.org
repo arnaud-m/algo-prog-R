@@ -258,7 +258,7 @@ Ce cours est inspiré du cours de Python de Jean-Paul Roy et Bruno Martin que je
    La partie sur la représentation des nombres et les conversions de base est en autoformation.
    Les seuls pré-requis sont de savoir additionner, multiplier par 2, et diviser par 2.
    
-   - [[file:cours/F1-nombres.pdf][Cours sur la représentation des nombres]] 
+   - [[file:pdf/F1-nombres.pdf][Cours sur la représentation des nombres]] 
    
    L'autoformation est au programme du contrôle continu et de l'examen.
    Pour le contrôle continu, elle est évaluée individuellement par des questionnaires sur [[https://lms.unice.fr/course/view.php?id=8151][moodle]].
@@ -275,8 +275,8 @@ Ce cours est inspiré du cours de Python de Jean-Paul Roy et Bruno Martin que je
  
 | #. | Cours (Partie I)         | Cours (Partie II)                       | Travaux pratiques |
 |----+--------------------------+-----------------------------------------+-------------------|
-| 1. | Présentation du syllabus | [[file:pdf/01-variables.pdf][Expressions, instructions, et variables]] | [[file:TP01.org][TP 1]]              |
-| 2. | [[file:pdf/02-fonctions.pdf][Conditions et fonctions]]  | [[file:pdf/03-jeu-roulette.pdf][Jeu de roulette]]                         | [[file:TP02.org][TP 2]]              |
+| 1. | Présentation du syllabus | [[file:pdf/01-variables.pdf][Expressions, instructions, et variables]] | [[file:tp01.org][TP 1]]              |
+| 2. | [[file:pdf/02-fonctions.pdf][Conditions et fonctions]]  | [[file:pdf/03-jeu-roulette.pdf][Jeu de roulette]]                         | [[file:tp02.org][TP 2]]              |
 | 3. | [[file:pdf/04-iterations-while.pdf][Itérations (while)]]       | [[file:pdf/05-conversions.pdf][Conversions]]                             | [[file:tp03.org][TP 3]]              |
 | 4. | [[file:pdf/06-nombres-approches.pdf][Nombres réels approchés]]  | [[file:pdf/07-calcul-pi.pdf][Approximation du nombre \pi]]             | [[file:tp04.org][TP 4]]              |
 | 5. | [[file:pdf/08-iterations-for.pdf][Itérations (for)]]         | [[file:pdf/09-chaines.pdf][Chaînes de caractères]]                   | [[file:tp05.org][TP 5]]              |

@@ -3,7 +3,7 @@
 #+SUBTITLE:     Activités #5
 #+PROPERTY: header-args :results output replace :exports none
 * Pour mieux comprendre
-  [[file:TP-PSI/cm-PSI-R-Chabot.pdf][Traitement de données avec R : initiation aux méthodes exploratoires]]. Simon Chabot.
+  [[file:act05/cm-PSI-R-Chabot.pdf][Traitement de données avec R : initiation aux méthodes exploratoires]]. Simon Chabot.
 * Application web shiny
 ** Installer les extensions
    Installez d'abord l'extension requise. 
@@ -19,7 +19,7 @@
 
 ** Obtenir le code de l'application
 
-   Ensuite, téléchargez le fichier [[file:TP-PSI/app-PSI.R][app-PSI.R]] contenant le code de l'application, et exécutez le. 
+   Ensuite, téléchargez le fichier [[file:act05/app-PSI.R][app-PSI.R]] contenant le code de l'application, et exécutez le. 
    #+BEGIN_SRC R :exports code
     app <- source('app-PSI.R') ## construire l'application web
     app ## lancer l'application web dans un navigateur

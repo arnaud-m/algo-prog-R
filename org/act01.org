@@ -465,7 +465,7 @@ Programmez l’approximant de niveau ~n~ et de taille ~T~ de la célèbre [[http
 [[file:act01/jeu_chaos.jpg]]
 
 * Fils tendus II
-*** Prolongez l’exercice des fils tendus avec cette [[file:TP4-TD4/ex_fils_tendus_2.png][image]].
+*** Prolongez l’exercice des fils tendus avec cette [[file:act01/ex_fils_tendus_2.png][image]].
     
 #+BEGIN_SRC R :file act01/fils_tendus_2.jpg :width 300 :height 300 :session fils 
   FilsTendusII <- function(n, x0, y0, radius) {

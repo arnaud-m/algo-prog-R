@@ -26,7 +26,6 @@
 ** Compléter le code de l'application
    Votre mission consiste compléter le code de l'application.
    La spécification des fonctions est précisée dans les sections suivantes.
-   Vous pourrez vous inspirer du code écrit pour cet [[file:TP3-TD3.org::*%C3%89pluchages%20d'entiers%20et%20de%20cha%C3%AEnes][exercice]].
 
    Nous allons suivre certains préceptes des [[https://fr.wikipedia.org/wiki/M%25C3%25A9thode_agile][méthodes agiles]].
    L'application est développé en plusieurs étapes.
