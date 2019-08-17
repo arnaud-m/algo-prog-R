@@ -65,7 +65,7 @@
         \bottomrule
       \end{tabular}
       \begin{block}{Question}
-        Quel est le rôle du numero 0 ?
+        Quel est le rôle du numéro 0 ?
       \end{block}
     \end{column}
     \begin{column}{0.47\textwidth}
@@ -105,10 +105,9 @@
   \frametitle{Représenter la mise du joueur}
   \begin{description}[Montant]
   \item[Type] un nombre identifie le type de la mise (plein, transversale \dots).
-  \item[Numéro] un numéro gagnant de la mise. Remarquez que pour chaque type de myse, un numéro n'apparaît que dans une seule combinaison gagnante.
-  \item[Montant] le montant en de la mise.
+  \item[Numéro] un numéro gagnant de la mise. Pour chaque type, un numéro n'apparaît que dans une seule combinaison gagnante.
+  \item[Montant] le montant de la mise.
   \end{description}
-
   
 \begin{columns}[c]
 \begin{column}{0.58\textwidth}
@@ -126,8 +125,11 @@
     6    & 8   & Manque           \\
     \bottomrule
   \end{tabular}
-  \begin{alertblock}{Pas d'unicité !}
-    Manque avec le type 6 et n'importe quel numéro entre 1 et 18.
+  \begin{alertblock}{Pas d'unicité de la représentation}
+    \begin{itemize}
+    \item Type 6 (manque).
+    \item N'importe quel numéro entre 1 et 18.
+    \end{itemize}
   \end{alertblock}
   \end{column}
 \begin{column}{0.42\textwidth}
@@ -141,13 +143,13 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Moteur de jeu}
-  \lstinputlisting[linerange=67-85]{roulette.R}
+  \lstinputlisting[linerange=28-48]{jeu-roulette.R}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Saisir le type de la mise}
-  \lstinputlisting[style=editor,linerange=1-7]{roulette.R}
+  \lstinputlisting[style=editor,linerange=3-8]{jeu-roulette.R}
   \begin{lstlisting}
 > LireMise()
 Veuillez saisir le type de la mise :  
@@ -173,7 +175,7 @@ Selection: 2
   \item[\texttt{scan}] lire un nombre dans l'interpréteur
   \item[\texttt{stopifnot}] arréter le programme si une condition n'est pas satisfaite
   \end{description}
-  \lstinputlisting[style=editor,linerange=8-13]{roulette.R}
+  \lstinputlisting[style=editor,linerange=10-15]{jeu-roulette.R}
 
   \begin{lstlisting}
 > LireNumero()
@@ -192,7 +194,7 @@ Error in LireNumero() : numero <= 36 is not TRUE
 \begin{frame}[fragile]
   \frametitle{Saisir le montant de la mise}
   Un peu répétitif ! On modifie légérement la fonction précédente.
-  \lstinputlisting[style=editor,linerange=15-20]{roulette.R}
+  \lstinputlisting[style=editor,linerange=17-22]{jeu-roulette.R}
 \end{frame}
 
 
@@ -202,9 +204,9 @@ Error in LireNumero() : numero <= 36 is not TRUE
     La \href{https://fr.wikipedia.org/wiki/Simulation_informatique}{simulation informatique} désigne l'exécution d'un programme informatique sur un ordinateur ou un réseau en vue de simuler un phénomène physique réel et complexe (par exemple : chute d’un corps sur un support mou, résistance d’une plateforme pétrolière à la houle, \dots).
 
     \begin{block}{Simuler le tirage du numéro gagnant}
-      Générer un entier \alert{pseudo-aléaloire} compris entre 0 et 36.
+      Générer un \alert{entier pseudo-aléaloire} compris entre 0 et 36.
     \end{block}
-    \lstinputlisting[style=editor,linerange=22-24]{roulette.R}
+    \lstinputlisting[style=editor,linerange=24-26]{jeu-roulette.R}
     \begin{lstlisting}
 > TirerNumeroGagnant()
 [1] 13
@@ -213,12 +215,11 @@ Error in LireNumero() : numero <= 36 is not TRUE
 \end{lstlisting}
 \end{frame}
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Déterminer le gain en fonction de la mise et du tirage}
   Pour écrire des programmes corrects, il faut les structurer.
-  \lstinputlisting[style=editor,linerange=56-64]{roulette.R}
+  \lstinputlisting[style=editor,linerange=31-40-64]{gain-roulette.R}
   \begin{itemize}
   \item Ici, c'est un peu répétitif et fastidieux \dots
   \item On peut utiliser d'autres paradigmes ou techniques pour l'eviter.
@@ -229,8 +230,7 @@ Error in LireNumero() : numero <= 36 is not TRUE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Déterminer le gain I}
-  \lstinputlisting[style=editor,linerange=26-39]{roulette.R}
-
+  \lstinputlisting[style=editor,linerange=1-14]{gain-roulette.R}
   
 \begin{columns}[t]
 \begin{column}{0.48\textwidth}
@@ -255,7 +255,7 @@ Error in LireNumero() : numero <= 36 is not TRUE
 \begin{frame}[fragile]
   \frametitle{Déterminer le gain II}
   \begin{exampleblock}{À vous de jouer !}
-    \lstinputlisting[style=edblock,linerange=61-63]{roulette.R}
+    \lstinputlisting[style=edblock,linerange=36-68]{gain-roulette.R}
   \end{exampleblock}
   \begin{lstlisting}
 > GainDouzaine(1, 11)
@@ -292,7 +292,7 @@ Veuillez saisir un numéro gagnant de la mise :
 1: 0
 Veuillez saisir le montant de la mise :
 1: 0
-Le numéro gagnant est le 34.
+Le numéro gagnant est le 0.
 Vous avez gagné 0.
 [1] 0
 \end{lstlisting}
