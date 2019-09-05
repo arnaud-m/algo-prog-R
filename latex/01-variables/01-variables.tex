@@ -235,7 +235,7 @@ Attention, l’arithmétique flottante n’est pas exacte !
       \begin{lstlisting}
 > a <- 2 # lire : a prend pour valeur 2
 > p <- 10 # p prend pour valeur 10
-> c <- a ** p # c prend pour valeur celle de a p
+> c <- a ** p # c prend pour valeur celle de a puissance p
 > c  # toujours le kilo informatique
 [1] 1024 
 \end{lstlisting}
@@ -318,7 +318,7 @@ Error in 2 + 3 = 5 : ...
   \begin{lstlisting}
 > a <- 2
 > b <- a # la valeur de a est calculée puis c'est elle qui est transmise à b
-> a <- a + 1 # qui se lit : a "devient égal à " a + 1
+> a <- a + 1 # qui se lit : a devient égal à a + 1
 > b # et non 3, ok ?
 [1] 2
 \end{lstlisting}
@@ -327,9 +327,9 @@ Error in 2 + 3 = 5 : ...
 \begin{exampleblock}{Échange de deux variables}
   Avec une variable temporaire.
   \begin{lstlisting}[style=block]
-> temp <- a
-> a <- b
-> b <- temp
+> temp <- a # la variable temp mémorise la valeur de a
+> a <- b # la variable a prend la valeur de b
+> b <- temp # la variable b prend l'ancienne valeur de a
 > a
 [1] 2
 > b
@@ -392,7 +392,7 @@ Error in 2 + 3 = 5 : ...
   \begin{lstlisting}
 > a = 2
 > print(a * a)
-4
+[1] 4
 >
 \end{lstlisting}
 
