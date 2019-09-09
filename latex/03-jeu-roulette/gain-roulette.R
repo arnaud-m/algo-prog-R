@@ -31,6 +31,7 @@ GainManquePasse <- function(numero, gagnant) {
 GainRoulette <- function(mise, numero, gagnant) {
   ## Le return est implicite !
   if(mise == 1) GainPlein(numero, gagnant)
+  else if(gagnant == 0) return(0) # merci Marie !
   else if(mise == 2) GainTransversale(numero, gagnant)
   else if(mise == 3) GainColonne(numero, gagnant)
   else if(mise == 4) GainDouzaine(numero, gagnant)
