@@ -207,7 +207,7 @@ http://www.dcode.fr/compte-est-bon
    - http://www.java-online.ch/lego/legoEnglish/index.php?inhalt_links=turtle/nav_turtle.inc.php&inhalt_mitte=turtle/aufgaben/aufgaben.inc.php
 ** TODO http://socserv.socsci.mcmaster.ca/jfox/Courses/R-programming/
 * Intervenants
- - Arnaud Malapert (responsable), Marie Pelleau , Marc Bailly-Bechet, Sara Riva.
+ - Arnaud Malapert (responsable), Marie Pelleau , Marc Bailly-Bechet, Enrico Formenti, Alessio Pagliari, Zeinab Rekad, Sara Riva, Laurent Tichit.
 
 * Introduction
 
@@ -216,8 +216,6 @@ http://www.dcode.fr/compte-est-bon
 #+END_QUOTE
 [[https://fr.wikipedia.org/wiki/Jean_Piaget][Jean Piaget]] , Six études de psychologie.
 
-
-*COURS EN CONSTRUCTION !* 
 
 Ce cours est une initiation à l'algorithmique et à la programmation dans le langage R.
 R est un logiciel libre[fn:1] (Projet GNU) pour la manipulation de données, le calcul numérique, les statistiques, le graphisme \dots
@@ -238,6 +236,28 @@ Ce cours est inspiré du cours de Python de Jean-Paul Roy et Bruno Martin que je
 <iframe src="https://calendar.google.com/calendar/embed?showCalendars=0&amp;mode=AGENDA&amp;height=600&amp;wkst=2&amp;bgcolor=%23FFFFFF&amp;src=g27lg2fr2i3kbmu91cn43jtdn4%40group.calendar.google.com&amp;color=%235229A3&amp;ctz=Europe%2FBrussels" style="border-width:0" width="800" height="300" frameborder="0" scrolling="no"></iframe>
 #+END_EXPORT
 
+** Salles
+
+*** Jeudi (SV)
+
+  | 13h00-15h00 |           |          | 15h15-17h15 |           |          |
+  |-------------+-----------+----------+-------------+-----------+----------|
+  | *Groupe 4*  | 304 (LT)  | 314 (FG) | *Groupe 1*  | 304 (LT)  | (XX)     |
+  | *Groupe 5*  | 201 (AM)  | 214 (AP) | *Groupe 2*  | 201 (AM)  | 214 (AP) |
+  | *Groupe 6*  | 316 (MBB) | 317 (XX) | *Groupe 3*  | 316 (MBB) | 317 (XX) |
+  |             |           |          | *Groupe 8*  | 202 (XX)  | 314 (FG) |
+
+  - Les travaux pratiques des étudiants du groupe 1 inscrits en SV-ST auront lieu le vendredi de 13h à 15h en salle 314.
+  - À partir du 1er novembre, les groupes 6 et 3 seront dans les salles 306 et 315 du bâtiment de sciences naturelles.
+
+*** Vendredi (SITE)
+  | 09h00-12h00 |          |          | 13h00-16h00 |          |          |
+  |-------------+----------+----------+-------------+----------+----------|
+  | *Groupe 1*  | 215 (AM) | 202 (SR) | *Groupe 3*  | 315 (AM) | 314 (SR) |
+  | *Groupe 2*  | 304 (MP) | 214 (EF) | *Groupe 4*  | 317 (MP) | 214 (EF) |
+
+
+
 * Contenu
  #+BEGIN_EXPORT html 
  <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Licence Creative Commons" style="border-width:0;margin-left:0%" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br/>Ce cours  est mis à disposition dans ce <a rel="github repository" href="https://github.com/arnaud-m/algo-prog-R">dépôt github</a> selon les termes de la <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Licence Creative Commons Attribution - Pas d’Utilisation Commerciale 4.0 International</a>.
@@ -251,9 +271,9 @@ Ce cours est inspiré du cours de Python de Jean-Paul Roy et Bruno Martin que je
  3. Le code source est sur [[https://github.com/arnaud-m/algo-prog-R][github]] !
 
 
-**** Inscrivez-vous au [[https://lms.unice.fr/course/view.php?id=8151][cours UCAnCODE]] sur moodle !
+**** Inscrivez-vous au [[https://lms.univ-cotedazur.fr/course/view.php?id=14552][cours UCAnCODE]] sur moodle !
 
-** DONE Autoformation
+** Autoformation
 
    La partie sur la représentation des nombres et les conversions de base est en autoformation.
    Les seuls pré-requis sont de savoir additionner, multiplier par 2, et diviser par 2.
@@ -261,18 +281,21 @@ Ce cours est inspiré du cours de Python de Jean-Paul Roy et Bruno Martin que je
    - [[file:pdf/F1-nombres.pdf][Cours sur la représentation des nombres]] 
    
    L'autoformation est au programme du contrôle continu et de l'examen.
-   Pour le contrôle continu, elle est évaluée individuellement par des questionnaires sur [[https://lms.unice.fr/course/view.php?id=8151][moodle]].
+   Pour le contrôle continu, elle est évaluée individuellement par des questionnaires sur [[https://lms.univ-cotedazur.fr/course/view.php?id=14552][moodle]].
 
-** WAITING Carte de référence
+** Carte de référence
    
-   Nous vous avons préparé une superbe carte de référence en couleurs.
+   Nous vous avons préparé une superbe [[file:pdf/base-r.pdf][carte de référence]] en couleurs.
    Ce sera le seul document autorisé à l'examen. Apprenez à vous en servir !
    
-** STARTED Cours 
-   Il y a 8 cours, chaun divisé en deux parties, accompagnés de leurs travaux pratiques. 
+** Cours 
+   Il y a 8 cours, chacun divisé en deux parties, accompagnés de leurs travaux pratiques. 
    Les corrigés des travaux pratiques seront publiés au fur et à mesure.
-   Des questionnaires de lecture de code au programme de l'examen sont accessibles sur [[https://lms.unice.fr/course/view.php?id=8151][moodle]].
+   Des questionnaires de lecture de code au programme de l'examen sont accessibles sur [[https://lms.univ-cotedazur.fr/course/view.php?id=14552][moodle]].
  
+   - Portail Sciences de la Vie : les 6 premiers cours sont au programme.
+   - Portail Sciences et Technologies : tous les cours sont au programme.
+
 | #. | Cours (Partie I)         | Cours (Partie II)                       | Travaux pratiques |
 |----+--------------------------+-----------------------------------------+-------------------|
 | 1. | Présentation du syllabus | [[file:pdf/01-variables.pdf][Expressions, instructions, et variables]] | [[file:tp01.org][TP 1]]              |
@@ -287,7 +310,7 @@ Ce cours est inspiré du cours de Python de Jean-Paul Roy et Bruno Martin que je
 
 ** Activités 
 
-   Choisissez votre binôme sur [[https://lms.unice.fr/course/view.php?id=8151][moodle]] pour toutes vos activités ! 
+   Choisissez votre binôme sur [[https://lms.univ-cotedazur.fr/course/view.php?id=14552][moodle]] pour toutes vos activités ! 
    Les activités sont évaluées pour le contrôle continu, mais ne sont pas au programme de l'examen.
    Les corrigés des activités ne sont pas publiés.
 
@@ -301,25 +324,30 @@ Ce cours est inspiré du cours de Python de Jean-Paul Roy et Bruno Martin que je
    Nous vous demandons de respecter le *code de conduite* suivant pour les activités : 
      1. Citer vos sources
      2. Le partage de code est interdit sauf avec votre binôme.
-*** WAITING Exercices UCAnCODE
 
-    Les exercices UCAnCODE sont sur [[https://lms.unice.fr/course/view.php?id=8151][moodle]]. Les notes sont attribuées par le juge automatique. 
+  Le barème des activités est différent selon votre portail : Sciences de la Vie ; Sciences et Technologies.
+
+*** Exercices UCAnCODE
+
+    Les exercices UCAnCODE sont sur [[https://lms.univ-cotedazur.fr/course/view.php?id=14552][moodle]]. Les notes sont attribuées par le juge automatique. 
     
     - [[file:pdf/A0-ucancode.pdf][Cours d'introduction à la programmation compétitive]]
  
-*** STARTED Mini-projets
-    Les mini-projets complètent et étendent des notions abordées en cours et vous font découvrir différentes applications.  
-    Vous devez déposer le projet sur moodle et faire une démonstration rapide du projet pendant les travaux pratiques.
+    *Malheureusement, votre note ne remonte pas automatiquement dans votre carnet de note à cause d'un problème de configuration.*
 
-    | #. |      | Activité                                         | Cours | Niveau      |
-    |----+------+--------------------------------------------------+-------+-------------|
-    | 1. | NEXT | [[file:act01.org][Graphisme tortue]]                                 | [[file:pdf/A1-Tortue.pdf][A1]]    | Tout niveau |
-    | 2. | TODO | Graphisme tortue 3D                              | A2    | Difficile   |
-    | 3. | NEXT | [[file:act03.org][Convertisseur de base (shiny)]]                    | [[http://www.hanselsolutions.com/blog/surf-talk/shiny-surf.html#/][A3]]    | Facile      |
-    | 4. | TODO | [[file:act04.org][Coefficient de Gini (shiny)]]                      | [[http://www.hanselsolutions.com/blog/surf-talk/shiny-surf.html#][A3]]    | Facile      |
-    | 5. | TODO | [[file:act05.org][Estimation de la moyenne  (shiny)]]                | [[http://www.hanselsolutions.com/blog/surf-talk/shiny-surf.html#/][A3]]    | Facile      |
-    | 6. | TODO | [[file:act06.org][Manipulation de polynômes]]                        | [[file:pdf/A4-Polynomes.pdf][A4]]    | Difficile   |
-    | 7. | TODO | [[file:act07.org][Estimation d'aires par la méthode de Monte Carlo]] | A5    | Difficile   |
+*** Mini-projets
+    Les mini-projets complètent et étendent des notions abordées en cours et vous font découvrir différentes applications.  
+    Vous devez déposer le projet sur moodle et faire une démonstration du projet pendant les travaux pratiques.
+
+    | #. | Activité                                         | Cours | Niveau      |
+    |----+--------------------------------------------------+-------+-------------|
+    | 1. | [[file:act01.org][Graphisme tortue]]                                 | [[file:pdf/A1-Tortue.pdf][A1]]    | Tout niveau |
+    | 2. | Graphisme tortue 3D                              | A2    | Difficile   |
+    | 3. | [[file:act03.org][Convertisseur de base (shiny)]]                    | [[http://www.hanselsolutions.com/blog/surf-talk/shiny-surf.html#/][A3]]    | Facile      |
+    | 4. | [[file:act04.org][Coefficient de Gini (shiny)]]                      | [[http://www.hanselsolutions.com/blog/surf-talk/shiny-surf.html#][A3]]    | Facile      |
+    | 5. | [[file:act05.org][Estimation de la moyenne  (shiny)]]                | [[http://www.hanselsolutions.com/blog/surf-talk/shiny-surf.html#/][A3]]    | Facile      |
+    | 6. | [[file:act06.org][Manipulation de polynômes]]                        | [[file:pdf/A4-Polynomes.pdf][A4]]    | Difficile   |
+    | 7. | [[file:act07.org][Estimation d'aires par la méthode de Monte Carlo]] | A5    | Difficile   |
 
     Vous devez déposer sur moodle un seul fichier de code source commenté dont l'entête est donnée ci-dessous.
     Les commentaires doivent indiquer clairement comment lancer une démonstration du projet s'éxécutant sans erreur. 

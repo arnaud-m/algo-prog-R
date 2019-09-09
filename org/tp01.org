@@ -54,7 +54,7 @@ Quand R et Rstudio sont installés, ouvrez RStudio en vérifiant l'absence de me
 : [1] 1
 : [1] 0
 
-   N.B. Il est de bonne pratique de laisser un espace de part et d'autre d'un opérateur : il est plus facile de lire ~2 – x // y~ que ~2-x//y~ \dots
+   N.B. Il est de bonne pratique de laisser un espace de part et d'autre d'un opérateur : il est plus facile de lire ~2 – x // y~ que ~2-x%/%y~ \dots
    
    1. Si ~n~ est un entier écrit en décimal, que représentent au niveau des chiffres les opérations ~n %/% 10~ et ~n %% 10~ ?
    2. Quelle opération permet de savoir si un entier ~n~ est un multiple d'un entier ~d~ ?
