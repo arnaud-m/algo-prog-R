@@ -237,24 +237,29 @@ Ce cours est inspiré du cours de Python de Jean-Paul Roy et Bruno Martin que je
 #+END_EXPORT
 
 ** Salles
-
+   Toutes les salles sont au 2ème et 3ème étage du Petit Valrose, sauf les salles 306 et 315 qui sont dans le bâtiment de sciences naturelles. 
+   Vos groupes de TD sont divisés en deux pour les TP. Répartissez-vous comme vous voulez dans les deux salles.
 *** Jeudi (SV)
 
   | 13h00-15h00 |           |          | 15h15-17h15 |           |          |
   |-------------+-----------+----------+-------------+-----------+----------|
-  | *Groupe 4*  | 304 (LT)  | 314 (FG) | *Groupe 1*  | 304 (LT)  | (XX)     |
+  | *Groupe 4*  | 304 (LT)  | 314 (FG) | *Groupe 1*  | 304 (LT)  | vendredi |
   | *Groupe 5*  | 201 (AM)  | 214 (AP) | *Groupe 2*  | 201 (AM)  | 214 (AP) |
-  | *Groupe 6*  | 316 (MBB) | 317 (XX) | *Groupe 3*  | 316 (MBB) | 317 (XX) |
+  | *Groupe 6*  | 316 (MBB) | 317 (ZR) | *Groupe 3*  | 316 (MBB) | 317 (ZR) |
   |             |           |          | *Groupe 8*  | 202 (XX)  | 314 (FG) |
 
-  - Les travaux pratiques des étudiants du groupe 1 inscrits en SV-ST auront lieu le vendredi de 13h à 15h en salle 314.
+  - Les travaux pratiques des étudiants du *groupe 1* inscrits en SV-ST auront lieu le vendredi de 13h à 15h en salle 315 (AM).
   - À partir du 1er novembre, les groupes 6 et 3 seront dans les salles 306 et 315 du bâtiment de sciences naturelles.
 
+
 *** Vendredi (SITE)
-  | 09h00-12h00 |          |          | 13h00-16h00 |          |          |
-  |-------------+----------+----------+-------------+----------+----------|
-  | *Groupe 1*  | 215 (AM) | 202 (SR) | *Groupe 3*  | 315 (AM) | 314 (SR) |
-  | *Groupe 2*  | 304 (MP) | 214 (EF) | *Groupe 4*  | 317 (MP) | 214 (EF) |
+  | 09h00-12h00 |          | 13h00-16h00 |          |
+  |-------------+----------+-------------+----------|
+  | *Groupe 1*  | 215 (AM) | *Groupe 4*  | 314 (SR) |
+  | *Groupe 2*  | 214 (SR) | *Groupe 5*  | 317 (EF) |
+  | *Groupe 3*  | 202 (MP) |             |          |
+
+# |             | +304+    |             | +214+    |
 
 
 
@@ -296,6 +301,8 @@ Ce cours est inspiré du cours de Python de Jean-Paul Roy et Bruno Martin que je
    - Portail Sciences de la Vie : les 6 premiers cours sont au programme.
    - Portail Sciences et Technologies : tous les cours sont au programme.
 
+   Les prochains cours et travaux pratiques sont indiqués en gras.
+ 
 | #. | Cours (Partie I)         | Cours (Partie II)                       | Travaux pratiques |
 |----+--------------------------+-----------------------------------------+-------------------|
 | 1. | Présentation du syllabus | [[file:pdf/01-variables.pdf][Expressions, instructions, et variables]] | [[file:tp01.org][TP 1]]              |
