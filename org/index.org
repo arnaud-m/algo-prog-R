@@ -272,7 +272,7 @@ Ce cours est inspiré du cours de Python de Jean-Paul Roy et Bruno Martin que je
 ** Organisation
 
  1. Le matériel pédagogique est ici,
- 2. Les évaluations sont sur [[https://lms.unice.fr/][moodle]], et
+ 2. Les évaluations sont sur [[lms.univ-cotedazur.fr][moodle]], et
  3. Le code source est sur [[https://github.com/arnaud-m/algo-prog-R][github]] !
 
 
