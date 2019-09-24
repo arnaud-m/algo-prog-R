@@ -207,7 +207,7 @@ http://www.dcode.fr/compte-est-bon
    - http://www.java-online.ch/lego/legoEnglish/index.php?inhalt_links=turtle/nav_turtle.inc.php&inhalt_mitte=turtle/aufgaben/aufgaben.inc.php
 ** TODO http://socserv.socsci.mcmaster.ca/jfox/Courses/R-programming/
 * Intervenants
- - Arnaud Malapert (responsable), Marie Pelleau , Marc Bailly-Bechet, Enrico Formenti, Alessio Pagliari, Zeinab Rekad, Sara Riva, Laurent Tichit.
+ - Arnaud Malapert (responsable), Marie Pelleau , Olivier Baldellon, Marc Bailly-Bechet, Enrico Formenti, Franck Guingne, Alessio Pagliari, Zeinab Rekad, Sara Riva, Laurent Tichit.
 
 * Introduction
 
@@ -224,8 +224,9 @@ R peut être étendu par les utilisateurs et de nombreuses extensions sont dispo
 
 En tant que scientifique, vous appliquerez des techniques dans votre cursus, puis dans votre métier, qui exigent la maîtrise des concepts fondamentaux en algorithmique et programmation. \\
 En tant qu'être humain, vous utilisez déjà quotidiennement des systèmes informatiques sans nécessairement les comprendre. 
-Ce cours vous aidera à mieux appréhender leurs logiques et leurs limites ce qui fera de vous un meilleur utilisateur, et peut-être un programmeur ;)
 
+Ce cours vous aidera à mieux appréhender les logiques et limites des systèmes informatiques ce qui fera de vous un meilleur utilisateur, et peut-être un programmeur ;)
+\\
 Ce cours est inspiré du cours de Python de Jean-Paul Roy et Bruno Martin que je remercie pour le partage.
 
 [fn:1] Un logiciel libre est un logiciel dont l'utilisation, l'étude, la modification et la duplication par autrui en vue de sa diffusion sont permises, techniquement et légalement, ceci afin de garantir certaines libertés induites, dont le contrôle du programme par l'utilisateur et la possibilité de partage entre individus.
@@ -246,7 +247,7 @@ Ce cours est inspiré du cours de Python de Jean-Paul Roy et Bruno Martin que je
   | *Groupe 4*  | 304 (LT)  | 314 (FG) | *Groupe 1*  | 304 (LT)  | vendredi |
   | *Groupe 5*  | 201 (AM)  | 214 (AP) | *Groupe 2*  | 201 (AM)  | 214 (AP) |
   | *Groupe 6*  | 316 (MBB) | 317 (ZR) | *Groupe 3*  | 316 (MBB) | 317 (ZR) |
-  |             |           |          | *Groupe 8*  | 202 (XX)  | 314 (FG) |
+  |             |           |          | *Groupe 8*  | 202 (OB) | 314 (FG) |
 
   - Les travaux pratiques des étudiants du *groupe 1* inscrits en SV-ST auront lieu le vendredi de 13h à 15h en salle 315 (AM).
   - À partir du 1er novembre, les groupes 6 et 3 seront dans les salles 306 et 315 du bâtiment de sciences naturelles.
@@ -272,9 +273,8 @@ Ce cours est inspiré du cours de Python de Jean-Paul Roy et Bruno Martin que je
 ** Organisation
 
  1. Le matériel pédagogique est ici,
- 2. Les évaluations sont sur [[lms.univ-cotedazur.fr][moodle]], et
+ 2. Les évaluations sont sur [[https://lms.univ-cotedazur.fr][Moodle]] et [[https://sphere-engine.com/][Sphere Engine]], 
  3. Le code source est sur [[https://github.com/arnaud-m/algo-prog-R][github]] !
-
 
 **** Inscrivez-vous au [[https://lms.univ-cotedazur.fr/course/view.php?id=14552][cours UCAnCODE]] sur moodle !
 
@@ -286,7 +286,7 @@ Ce cours est inspiré du cours de Python de Jean-Paul Roy et Bruno Martin que je
    - [[file:pdf/F1-nombres.pdf][Cours sur la représentation des nombres]] 
    
    L'autoformation est au programme du contrôle continu et de l'examen.
-   Pour le contrôle continu, elle est évaluée individuellement par des questionnaires sur [[https://lms.univ-cotedazur.fr/course/view.php?id=14552][moodle]].
+   Pour le contrôle continu, elle est évaluée individuellement par des questionnaires sur [[https://lms.univ-cotedazur.fr/course/view.php?id=14552][moodle]] accessible pendant tout le semestre.
 
 ** Carte de référence
    
@@ -301,7 +301,6 @@ Ce cours est inspiré du cours de Python de Jean-Paul Roy et Bruno Martin que je
    - Portail Sciences de la Vie : les 6 premiers cours sont au programme.
    - Portail Sciences et Technologies : tous les cours sont au programme.
 
-   Les prochains cours et travaux pratiques sont indiqués en gras.
  
 | #. | Cours (Partie I)         | Cours (Partie II)                       | Travaux pratiques |
 |----+--------------------------+-----------------------------------------+-------------------|
@@ -336,12 +335,16 @@ Ce cours est inspiré du cours de Python de Jean-Paul Roy et Bruno Martin que je
 
 *** Exercices UCAnCODE
 
-    Les exercices UCAnCODE sont sur [[https://lms.univ-cotedazur.fr/course/view.php?id=14552][moodle]]. Les notes sont attribuées par le juge automatique. 
+    +Les exercices UCAnCODE sont sur [[https://lms.univ-cotedazur.fr/course/view.php?id=14552][moodle]].+ 
+    En fait, non car votre note ne remonte pas dans votre carnet de note à cause d'un problème de configuration.
+
+    Donc, les exercices UCAnCODE sont sur [[https://sphere-engine.com/][Sphere Engine]].
+    Les notes sont attribuées par le juge automatique. 
     
     - [[file:pdf/A0-ucancode.pdf][Cours d'introduction à la programmation compétitive]]
- 
-    *Malheureusement, votre note ne remonte pas automatiquement dans votre carnet de note à cause d'un problème de configuration.*
 
+    Les activités seront publiés ici au fur et à mesure à partir 3 octobre 2019.
+ 
 *** Mini-projets
     Les mini-projets complètent et étendent des notions abordées en cours et vous font découvrir différentes applications.  
     Vous devez déposer le projet sur moodle et faire une démonstration du projet pendant les travaux pratiques.
@@ -372,7 +375,7 @@ Ce cours est inspiré du cours de Python de Jean-Paul Roy et Bruno Martin que je
     - Proposition d'exercices venant d'autres disciplines (biologie, économie, gestion \dots)
   
     Pour soumettre une contribution, vous devez 
-     - poster un message dans le forum discussion sur moodle avec [BB] devant le titre, ou
+     - rendre un devoir à l'activité /Bug Bounty/  sur moodle, ou
      - poster une [[https://github.com/arnaud-m/algo-prog-R/issues][issue]] sur github.
 
 * Contrôle des connaissances
@@ -394,6 +397,11 @@ Ce cours est inspiré du cours de Python de Jean-Paul Roy et Bruno Martin que je
    Les modalités sont les mêmes que celles de l'examen terminal.
    La note de seconde session annule et remplace la note de première session.
    
+* Communication
+Sauf urgence absolue, notre mode de communication est le *forum sur moodle* dont les règles sont simples : 
+- pas de réponse des intervenants avant 48h,
+- et seulement si un étudiant a essayé de répondre entretemps.
+
 * Ressources électroniques
 ** Ressources BU
   - [[http://catalogue.unice.fr/primo_library/libweb/action/dlDisplay.do?&docId%3Dsc_aleph_uns01000332479&vid%3DUNS][Le livre de R : apprentissage et référence]], Bernard Desgraupes. 
