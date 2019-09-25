@@ -1,6 +1,7 @@
 ﻿#+SETUPFILE: base-template.org
 #+TITLE:     Travaux Pratiques #2
 #+SUBTITLE:     Algo & Prog avec R
+#+OPTIONS: num:1 toc:1
 #+PROPERTY: header-args :results output replace :exports none
 * Travail au CRIPS (Petit Valrose)
    Vous allez travailler sur des ordinateurs sous le système d'exploitation Windows (2ème étage) ou Linux (3ème étage).
@@ -30,110 +31,154 @@
    N.B. Vous prendrez l'habitude de n'utiliser des caractères accentués français ou d'espacement qu'à l'intérieur des chaînes de caractères, et jamais dans les noms de fonctions ou de variables ou de fichiers.
    Vous risquez sinon, d'avoir de désagréables surprises \dots
 * Maximum d'une somme
- 1. Définissez la fonction ~Somme2Max(x,y,z)~ prenant trois entiers x, y, z et retournant la somme des deux plus grands. Deux solutions : ou bien vous emboîtez des ~if~, ou bien vous utilisez ~max~ ou ~min~.
- 2. Définissez la fonction ~PrintSommeMax(x,y,z)~ faisant afficher la somme des deux plus grands des entiers ~x~, ~y~, ~z~. Cette fonction n'aura aucun résultat (ne confondez pas l'effet et le résultat d'une fonction !).
+** Calcul du résultat par une fonction
+   Définissez la fonction ~Somme2Max(x,y,z)~ prenant trois entiers x, y, z et retournant la somme des deux plus grands. 
+     1. Écrivez une première version en emboîtant des ~if~,
+     2. Écrivez une seconde version utilisant les fonctions prédéfinies ~max~ ou ~min~.
+
+   #+BEGIN_SRC R :results silent :session maxsom
+     ## Avec des if 
+     Somme2Max <- function(x,y,z) {
+       if(x > y) {
+         if(y > z) {return(x+y)}
+         else {return(x+z)}
+       } else {
+         if(x > z) {return(y+x)}
+         else {return(y+z)}
+       }
+     }
+     ## Avec min
+     Somme2Max <- function(x,y,z) {x+y+z-min(x,y,z)}
+     ## Avec max
+     Somme2Max <- function(x,y,z) {max(x+y,y+z,x+z)}
+   #+END_SRC
+
+   À chaque fois, testez votre fonction grâce aux appels ci-dessous.
+   #+BEGIN_SRC R :exports code :session maxsom
+     Somme2Max(1, 2, 3)
+     Somme2Max(1, 3, 2)
+     Somme2Max(2, 1, 3)
+     Somme2Max(2, 3, 1)
+     Somme2Max(3, 1, 2)
+     Somme2Max(3, 2, 1)
+   #+END_SRC
+
+   #+RESULTS:
+   : [1] 5
+   : [1] 5
+   : [1] 5
+   : [1] 5
+   : [1] 5
+   : [1] 5
 
 
-#+BEGIN_SRC R 
-  Somme2Max <- function(x,y,z) {x+y+z-min(x,y,z)}
-    
-  PrintSomme2Max <- function(x,y,z) {
-    print(paste('Somme2Max(',x,',',y,',',z,') --> ',Somme2Max(x,y,z)))
-  }
-  PrintSomme2Max(3,5,7)
+** Affichage du résultat à l'écran 
+   Définissez la fonction ~PrintSomme2Max(x,y,z)~ faisant afficher la somme des deux plus grands des entiers ~x~, ~y~, ~z~. Cette fonction n'aura aucun résultat (ne confondez pas l'effet et le résultat d'une fonction !).
 
-  Somme2Max <- function(x,y,z) {max(x+y,y+z,x+z)}
-  PrintSomme2Max(3,5,7)
+ #+BEGIN_SRC R :results silent :session maxsom
+   PrintSomme2Max <- function(x,y,z) {
+     cat('Le résultat de l\'appel de fonction Somme2Max(',x,', ',y,', ',z,') est ',Somme2Max(x,y,z), '.\n', sep = '')
+   }
+   PrintSomme2Max(3,5,7)
+ #+END_SRC
 
-  Somme2Max <- function(x,y,z) {
-    if(x > y) {
-      if(y > z) {return(x+y)}
-      else {return(x+z)}
-    } else {
-      if(x > z) {return(y+x)}
-      else {return(y+z)}
-    }
-  }
-  PrintSomme2Max(3,5,7)
+ #+BEGIN_SRC R :exports both :session maxsom
+   PrintSomme2Max(3,5,7)
+ #+END_SRC
 
-  ## à méditer ...
+ #+RESULTS:
+ : Le résultat de l'appel de fonction Somme2Max(3, 5, 7) est 12
+
+ #+BEGIN_SRC R :session maxsom
+   ## à méditer ...
    PrintSomme2Max <- function(x,y,z) {
      sm <- quote(Somme2Max(x,y,z))
      print(sm)
      print(eval(sm))
    }
    PrintSomme2Max(3,5,7)
-#+END_SRC
+ #+END_SRC
 
-#+RESULTS:
-: [1] "Somme2Max( 3 , 5 , 7 ) -->  12"
-: [1] "Somme2Max( 3 , 5 , 7 ) -->  12"
-: [1] "Somme2Max( 3 , 5 , 7 ) -->  12"
-: Somme2Max(x, y, z)
-: [1] 12
+ #+RESULTS:
+ : [1] "Somme2Max( 3 , 5 , 7 ) -->  12"
+ : [1] "Somme2Max( 3 , 5 , 7 ) -->  12"
+ : [1] "Somme2Max( 3 , 5 , 7 ) -->  12"
+ : Somme2Max(x, y, z)
+ : [1] 12
 
 * Génération aléatoire d'un nombre                                      :KEY:
 
-  Nous allons utiliser une fonction ~sample~ tirant au hasard des éléments dans une collection, on dit aussi aléatoires.
-  Pour afficher un entier aléatoire entre [1,100], tapez ~sample(1:100,size=1)~.
-  Lisez la documentation ~help(sample)~ et exécutez les examples ~example(sample)~ avant d'essayer de répondre aux questions.
-
-
-   1. Faites afficher trois entiers aléatoires de [100,200] avec un simple appel à ~sample~.
-   2. Définissez une fonction ~RandPair(n)~ prenant un entier n \geq 0 et retournant un entier pair aléatoire de [0,n]. 
-      - Est-ce que la définition ~RandPair <- function(n) 2*sample(n%/%2,1)~ respecte les spécifications ? Dans le cas contraire, corrigez la fonction.
-      - Faites suivre la définition de votre fonction d'une instruction pour la tester.
-      - Que se passe-t'il quand l'argument ~n~ est négatif ?
-   3. Définissez une fonction ~MonteCarlo()~ sans argument retournant au hasard 2, 3 ou 5. Testez-la plusieurs fois.
-   4. Définissez une fonction ~LasVegas()~ retournant 2, 3 ou 5 mais de manière truquée : 2 avec 1 chance sur 6, ou bien 3 avec 1 chance sur 3, ou bien 5 avec 1 chance sur 2. 
-      - Testez-la une dizaine de fois\dots les résultats sont-ils conformes à ce que l'on attend ?
-      - Testez la commande ~replicate(10, LasVegas())~ ? À quoi sert-elle ?
-   5. Définissez une fonction ~RandChiffres(n)~ prenant un entier n \geq 1 et retournant un entier aléatoire non nul contenant exactement ~n~ chiffres. Testez-la plusieurs fois \dots
+  Nous allons utiliser une fonction ~sample~ tirant au hasard des éléments dans une collection, on dit aussi aléatoires. Pour afficher un entier aléatoire entre [1,100], tapez l'instruction ci-dessous.
+#+BEGIN_SRC R :exports code
+  sample(1:100, size=1)
+#+END_SRC
+Faites afficher un entier aléatoire de [100,200] avec un appel à ~sample~.
 #+BEGIN_SRC R 
-  sample(100:200, 3, replace=TRUE)
-
-  RandPair <- function(n) 2*sample(0:(n%/%2),1) ## Attention, les parenthèses sont importantes!
-  paste('Comportement non spécifié pour n < 0 : ',RandPair(-2))
-  paste('Comportement défini pour n = 0 : ',RandPair(0))
-  paste('Voici un entier pair aleatoire de [0,2] :',RandPair(2))
-  paste('Voici un entier pair aleatoire de [0,20] :',RandPair(20))
-
-  MonteCarlo <- function() sample(c(2,3,5),1)
-  paste('monte_carlo() --> ',MonteCarlo())
-
-  LasVegas <- function() sample(c(2,3,3,5,5,5),1)
-  for(i in 1:5) print(paste('LasVegas() --> ',LasVegas()))
-  print('LasVegas() --> ')
-  print(replicate(10, LasVegas()))
-
-  ## les entiers non nuls ayant n chiffres sont les elements de [10**(n-1),10**n-1]
-  RandChiffres <- function(n) sample(10**(n-1):10**n-1, 1)
-  print(replicate(5, paste('Voici un entier aleatoire de 4 chiffres :',RandChiffres(4))))
-
+  sample(100:200, size = 1)
 #+END_SRC
 
-#+RESULTS:
-#+begin_example
-[1] 108 179 113
-[1] 151 150 181
-[1] "Comportement indéfini pour n < 0 :  0"
-[1] "Comportement défini pour n = 0 :  0"
-[1] "Voici un entier pair aleatoire de [0,2] : 2"
-[1] "Voici un entier pair aleatoire de [0,20] : 8"
-[1] "monte_carlo() -->  5"
-[1] "LasVegas() -->  5"
-[1] "LasVegas() -->  2"
-[1] "LasVegas() -->  5"
-[1] "LasVegas() -->  3"
-[1] "LasVegas() -->  5"
-[1] "LasVegas() --> "
-[1] 5 5 5 5 3 5 5 3 5 5
-[1] "Voici un entier aleatoire de 8 chiffres : 66495533"
-[2] "Voici un entier aleatoire de 8 chiffres : 79597943"
-[3] "Voici un entier aleatoire de 8 chiffres : 74014571"
-[4] "Voici un entier aleatoire de 8 chiffres : 79526092"
-[5] "Voici un entier aleatoire de 8 chiffres : 75925821"
-#+end_example
+** Entier pair
+  La fonction ~RandPair(n)~ ci-dessous prend un entier n \geq 0 et retourne un entier pair aléatoire de [0,n].
+#+BEGIN_SRC R :exports code
+  RandPair <- function(n) {
+    return(2*sample(n%/%2, size = 1))
+  }
+#+END_SRC
+Malheureusement, cette fonction est buggée : elle ne respecte sa spécification. 
+Votre tâche consiste à corriger cette fonction.
+Faites suivre la définition de votre fonction d'une instruction pour la tester.
+
+ #+BEGIN_SRC R 
+   RandPair <- function(n) 2*sample(0:(n%/%2), size = 1) ## Attention, les parenthèses sont importantes!
+   cat('Comportement défini pour n = 0 : ',RandPair(0), '\n')
+   cat('Voici un entier pair aleatoire de [0,2] :',RandPair(2), '\n')
+   cat('Voici un entier pair aleatoire de [0,20] :',RandPair(20), '\n')
+ #+END_SRC   
+
+ #+RESULTS:
+ : Comportement défini pour n = 0 :  0
+ : Voici un entier pair aleatoire de [0,2] : 2
+ : Voici un entier pair aleatoire de [0,20] : 12
+
+** Dans un ensemble
+   1. Définissez une fonction ~MonteCarlo()~ sans argument retournant au hasard 2, 3 ou 5. Testez-la plusieurs fois. /Indice/ : utilisez la fonction ~c~. 
+   2. Définissez une fonction ~LasVegas()~ retournant 2, 3 ou 5 mais de manière truquée : 2 avec 1 chance sur 6, ou bien 3 avec 1 chance sur 3, ou bien 5 avec 1 chance sur 2. Testez-la une dizaine de fois\dots Les résultats sont-ils conformes à ce que l'on attend ?
+   3. Testez la commande ~table(replicate(10, LasVegas()))~ ? À quoi sert-elle ?
+
+   Lisez la documentation ~help(sample)~ avant d'essayer de répondre aux questions.
+
+#+BEGIN_SRC R 
+  MonteCarlo <- function() sample(c(2, 3, 5), size = 1)
+  cat('MonteCarlo() --> ',MonteCarlo(), '\n')
+
+  ## Version 1 en dupliquant les éléments
+  LasVegas <- function() sample(c(2, 3, 3, 5, 5, 5), size = 1)
+  cat('LasVegas() --> ',LasVegas(), '\n')
+
+  ## Version 2 en utilisant l'argument optionel prob
+  LasVegas <- function() sample(c(2, 3, 5), prob = c(1/6, 1/3, 1/2), size = 1)
+
+  table(replicate(100, LasVegas()))
+ #+END_SRC
+
+ #+RESULTS:
+ : MonteCarlo() -->  5
+ : LasVegas() -->  3
+ : 
+ :  2  3  5 
+ : 18 36 46
+
+** Avec un nombre de chiffres fixé
+   Définissez une fonction ~RandChiffres(n)~ prenant un entier n \geq 1 et retournant un entier aléatoire non nul contenant exactement ~n~ chiffres. Testez-la plusieurs fois \dots
+
+   #+BEGIN_SRC R 
+   ## les entiers non nuls ayant n chiffres sont les elements de [10**(n-1),10**n-1]
+   RandChiffres <- function(n) sample(10**(n-1):10**n-1, 1)
+   replicate(5, RandChiffres(4))
+   #+END_SRC
+
+ #+RESULTS:
+ : [1] 6275 4690 5349 1333 8659
 
 * Circuit électrique
 Dans le cours d'électricité du lycée, vous avez sans doute vu que :
@@ -193,8 +238,8 @@ Maintenant, programmez la fonction ~Circuit2(R1,R2,R3)~ retournant la résistanc
 : La resistance totale du circuit 2 est 24 Ω.
 
 * Conversion du temps   
-   Programmez une fonction hconv(n) prenant un entier n > 0 représentant un nombre de secondes. 
-   L'effet de cette fonction est l'affichage d'une ligne exprimant la conversion de n secondes en heures-minutes-secondes. 
+   Programmez une fonction ~hconv(n)~ prenant un entier ~n~ > 0 représentant un nombre de secondes. 
+   L'effet de cette fonction est l'affichage d'une ligne exprimant la conversion de ~n~ secondes en heures-minutes-secondes. 
 
 #+BEGIN_SRC R :session hconv 
   hconv <- function(n) {
@@ -336,10 +381,9 @@ Maintenant, programmez la fonction ~Circuit2(R1,R2,R3)~ retournant la résistanc
 *** Utilisation d'arguments par défaut
 
 
- Un autre avantage de l'évaluation paresseuse est que vous pouvez définir des arguments par défaut mutuellement récursif.
-Another benefit of R’s lazy argument evaluation is that you can provide mutually recursive defaults, which is a great way to implement adaptive interfaces. 
-Par exemple, voici une fonction (voir [[http://blog.moertel.com/posts/2006-01-20-wondrous-oddities-rs-function-call-semantics.html][ici]]) qui calcule la représentation d'un point en coordonnées poaires et cartesiennes.
-Vous pouvez spécifier le point dans l'un ou l'autre des systèmes de coordonnées.
+ Un autre avantage de l'évaluation paresseuse est que vous pouvez définir des arguments par défaut mutuellement récursif ce qui permet d'implémenter des interfaces adaptatives.
+ Par exemple, voici une fonction (voir [[http://blog.moertel.com/posts/2006-01-20-wondrous-oddities-rs-function-call-semantics.html][ici]]) qui calcule la représentation d'un point en coordonnées poaires et cartesiennes.
+ Vous pouvez spécifier le point dans l'un ou l'autre des systèmes de coordonnées.
 
 #+BEGIN_SRC R :exports both :output results
   polar <- function(x = r * cos(theta), y = r * sin(theta),
@@ -368,35 +412,58 @@ Vous pouvez spécifier le point dans l'un ou l'autre des systèmes de coordonné
     
 * Fonction "Lambda"                               :HARD:HOME:
    1. Définissez en R la fonction $f(x)=\frac{sin(x)}{\sqrt{x^4+1}}$.
-   2. Calculez une valeur approchée de la dérivée seconde $f^{\prime\prime}(\sqrt{2})$. Réponse : 0.036705\dots
+   2. Calculez une valeur approchée de la dérivée seconde $f^{\prime\prime}(\sqrt{2})$. Réponse : approximativement 0.036\dots
 
 #+BEGIN_SRC R 
   ## Prenons une fonction f particuliere :
   f <- function(x) sin(x)/sqrt(x**4 + 1)
 
   ## Calcul de la derivee premiere de f quelconque en un point x avec une precision de h
-  Deriv <- function(f,x,h) (f(x + h) - f(x)) / h          
+  Deriv <- function(f, x, h = 2**(-10)) (f(x + h) - f(x)) / h          
   ## formule vue au lycee...
 
-  paste('f\'(sqrt(2)) =',Deriv(f,sqrt(2),0.0001))
+  cat('f\'(sqrt(2)) =',Deriv(f,sqrt(2)), '\n')
 
   ## Probleme : pour exprimer que la derivee seconde est la derivee de la derivee, j'ai
   ## besoin d'obtenir la FONCTION DERIVEE f' et pas seulement sa valeur en un point f'(x).
-  ## Pour cela on peut utilise la notation lambda en python. 
-  ## En R, on définit une sous-fonction a l'interieur de deriv et en rendant en resultat cette sous-fonction.
+  ## En R, on définit une sous-fonction a l'interieur de Deriv et en rendant en resultat cette sous-fonction.
   ## C'est ce que les specialistes nomment une "fermeture" :
   ## http://fr.wikipedia.org/wiki/Fermeture_(informatique)
 
-  Deriv <- function(f,h) return (function(x) (f(x + h) - f(x)) / h)            
+  Deriv <- function(f, h = 2**(-10)) return (function(x) (f(x + h) - f(x)) / h)            
   ## Du coup, je peux exprimer mes maths sans etat d'ame :
-  df = Deriv(f,0.0001)
-  d2f = Deriv(df,0.0001)
-  paste('f"(sqrt(2)) =',d2f(sqrt(2)))    # et zou ! Intellectuel non ?...
+  df <- Deriv(f)
+  d2f <- Deriv(df)
+  cat('f"(sqrt(2)) =',d2f(sqrt(2)), '\n')    # et zou ! Intellectuel non ?...
+
+  ## Par contre, je vais rapidement avoir des problèmes de calcul numérique
+  df <- Deriv(f, h = 2**(-12))
+  d2f <- Deriv(df, h = 2**(-12))
+  cat('f"(sqrt(2)) =',d2f(sqrt(2)), '\n')    # et zou ! Problèmatique non ?...
+
+  ## Une solution est de dériver symboliquement 
+  df <- D(quote(sin(x) / sqrt(x^4 + 1)), 'x')
+  d2f <- D(df, 'x')
+  cat('la dérivée seconde de la fonction est\n')
+  print(d2f)
+  x <- sqrt(2)
+  cat('f"(sqrt(2)) =',eval(d2f), '\n')    # et zou ! Intriguant non ?...
 #+END_SRC
 
 #+RESULTS:
-: [1] "f'(sqrt(2)) = -0.430032458566543"
-: [1] "f\"(sqrt(2)) = 0.0367057773065227"
+#+begin_example
+f'(sqrt(2)) = -0.4300162
+f"(sqrt(2)) = 0.03795618
+f"(sqrt(2)) = 0.03691183
+la dérivée seconde de la fonction est
+-(sin(x)/sqrt(x^4 + 1) + cos(x) * (0.5 * (4 * x^3 * (x^4 + 1)^-0.5))/sqrt(x^4 + 
+    1)^2 + ((cos(x) * (0.5 * (4 * x^3 * (x^4 + 1)^-0.5)) + sin(x) * 
+    (0.5 * (4 * (3 * x^2) * (x^4 + 1)^-0.5 + 4 * x^3 * (-0.5 * 
+        (4 * x^3 * (x^4 + 1)^-1.5)))))/sqrt(x^4 + 1)^2 - sin(x) * 
+    (0.5 * (4 * x^3 * (x^4 + 1)^-0.5)) * (2 * (0.5 * (4 * x^3 * 
+    (x^4 + 1)^-0.5) * sqrt(x^4 + 1)))/(sqrt(x^4 + 1)^2)^2))
+f"(sqrt(2)) = 0.03656271
+#+end_example
 
 *Si cet exercice vous passe par-dessus la tete, ce n'est pas si grave que cela.*
 Vous y reviendrez plus tard ! simple question de maturité...
