@@ -66,7 +66,13 @@ if (a > 0) {
   \frametitle{Bloc et indentation}
   \begin{block}{Indentation}
     La bonne distance à la marge d'une ligne permet de structurer et de comprendre un programme.
-        \newcommand{\indentrule}{\color{DarkBlue}\vrule\hspace{2pt}}        
+  \end{block}
+  
+  \begin{block}{Bloc d'instructions}
+    Un bloc d'instructions est une suite d'instructions alignées à la verticale.
+  \end{block}
+  
+  \newcommand{\indentrule}{\color{BrickRed}\vrule width 1pt\hspace{2pt}}        
   \begin{lstlisting}[style=editor, escapechar=?]
 ?\indentrule?a <- -2
 ?\indentrule?if (a > 0) {
@@ -75,14 +81,10 @@ if (a > 0) {
 ?\indentrule?  ?\indentrule?paste(a,'est negatif ou nul')
 ?\indentrule?}    
 \end{lstlisting}
- \end{block}
 
- \begin{block}{Bloc d'instructions}
-   Un bloc d'instructions est une suite d'instructions alignées à la verticale.
-   Il est nécessaire d’ouvrir et fermer les paires d’accolades : \{\dots\}.
+\begin{block}{Une utilisation correcte des accolades est obligatoire en R}
    \begin{columns}[c]
      \begin{column}{0.58\textwidth}
-       \newcommand{\indentrule}{\color{DarkBlue}\vrule\hspace{2pt}}        
        \begin{lstlisting}[style=editor, escapechar=?]
 a <- -2
 if (a > 0) {
@@ -93,16 +95,56 @@ else {
 \end{lstlisting}
 \end{column}
 \begin{column}{0.42\textwidth}
+  Il est nécessaire d’ouvrir et fermer les paires d’accolades : \{\dots\}.
+       
 \RUN
 \alert{Erreur : 'else' inattendu(e) in "else"}
 \end{column}
 \end{columns} 
 \end{block}
-
-\begin{center}
-  \alert{Une utilisation correcte des accolades est obligatoire en R.}
-\end{center}
 \end{frame}
+
+% \begin{frame}[fragile]
+%   \frametitle{Bloc et indentation}
+%   \begin{block}{Indentation}
+%     La bonne distance à la marge d'une ligne permet de structurer et de comprendre un programme.
+%         \newcommand{\indentrule}{\color{BrickRed}\vrule width 1\hspace{2pt}}        
+%   \begin{lstlisting}[style=editor, escapechar=?]
+% ?\indentrule?a <- -2
+% ?\indentrule?if (a > 0) {
+% ?\indentrule?  ?\indentrule?cat(a,'est positif')
+% ?\indentrule?} else {
+% ?\indentrule?  ?\indentrule?cat(a,'est negatif ou nul')
+% ?\indentrule?}    
+% \end{lstlisting}
+%  \end{block}
+
+%  \begin{block}{Bloc d'instructions}
+%    Un bloc d'instructions est une suite d'instructions alignées à la verticale.
+%    Il est nécessaire d’ouvrir et fermer les paires d’accolades : \{\dots\}.
+%    \begin{columns}[c]
+%      \begin{column}{0.58\textwidth}
+%        \newcommand{\indentrule}{\color{DarkBlue}\vrule\hspace{2pt}}        
+%        \begin{lstlisting}[style=editor, escapechar=?]
+% a <- -2
+% if (a > 0) {
+%   cat(a,'est positif')
+% else { 
+%   cat(a,'est negatif ou nul')
+% }    
+% \end{lstlisting}
+% \end{column}
+% \begin{column}{0.42\textwidth}
+% \RUN
+% \alert{Erreur : 'else' inattendu(e) in "else"}
+% \end{column}
+% \end{columns} 
+% \end{block}
+
+% \begin{center}
+%   \alert{Une utilisation correcte des accolades est obligatoire en R.}
+% \end{center}
+% \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
@@ -212,7 +254,7 @@ nomFonction <- function(listeDeParamètres) {
 Le mot \alert{return} signifie "le résultat est \dots".
 \end{alertblock}
 
-\begin{exampleblock}{Définir la fonction $f(n) \rightarrow 2n + 1$}
+\begin{exampleblock}{Définir la fonction $f(n) \rightarrow 2n - 1$}
   \begin{lstlisting}[style=block]
 > f <- function(n) {return( 2*n - 1)}
 > f(5)
@@ -251,6 +293,7 @@ f <- function(x) {
   else {
     if( x > 1) return(1)
     else return(x)
+  }
 }
 \end{lstlisting}
 \end{column}
@@ -288,10 +331,11 @@ f <- function(x) {
 \begin{column}{0.38\textwidth}
   \begin{lstlisting}[style=edblock]
 Abs <- function(n) {
-if(n>0) {
-  return(n)
-} else {
-  return (-n)
+  if(n>0) {
+    return(n)
+  } else {
+    return (-n)
+  }
 }
 \end{lstlisting}
 \end{column}
@@ -309,10 +353,11 @@ if(n>0) {
 \begin{column}{0.38\textwidth}
   \begin{lstlisting}[style=edblock]
 Max <- function(n, m) {
-if(n > m) {
-  return(n)
-} else {
-  return (m)
+  if(n > m) {
+    return(n)
+  } else {
+    return (m)
+  }
 }
 \end{lstlisting}
 \end{column}
@@ -320,7 +365,7 @@ if(n > m) {
   \begin{lstlisting}
 > paste('max(-10, -5) vaut', Max(-10, -5))
 [1] "max(-10, -5) vaut 5"    
-  \end{lstlisting}
+\end{lstlisting}
 \end{column}
 \end{columns}
   \end{exampleblock}
@@ -349,9 +394,9 @@ if(n > m) {
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Composition de fonctions I}
-  Créons une fonction \texttt{premiersEntreEux(p,q)} basée sur la fonction \texttt{gcd}.
+  Créons une fonction \texttt{PremiersEntreEux(p,q)} basée sur la fonction \texttt{gcd}.
   \begin{lstlisting}[style=editor]
-premiersEntreEux <- function(p,q) {
+PremiersEntreEux <- function(p,q) {
   if (gcd(p,q) == 1) {
     return(TRUE)
   } else {
@@ -361,7 +406,7 @@ premiersEntreEux <- function(p,q) {
 \end{lstlisting}
 ou encore
 \begin{lstlisting}[style=editor]
-premiersEntreEux <- function (p,q) {
+PremiersEntreEux <- function (p,q) {
   if (gcd(p,q) == 1) {
     return(TRUE)
   }
@@ -380,20 +425,20 @@ Le reste du texte de la fonction est abandonné !
  
 Une version qui renvoie directement le résultat de l'évaluation de l'expression.
 \begin{lstlisting}[style=editor]
-premiersEntreEux <- function(p,q) {
+PremiersEntreEux <- function(p,q) {
   return(gcd(p,q) == 1)
 }  
 \end{lstlisting}
 
 Une version encore plus courte qui omet les accolades et \texttt{return}.
 \begin{lstlisting}[style=editor]
-premiersEntreEux <- function(p,q) gcd(p,q) == 1
+PremiersEntreEux <- function(p,q) gcd(p,q) == 1
 \end{lstlisting}
 
 \begin{lstlisting}
-> premiersEntreEux(21,6)
+> PremiersEntreEux(21,6)
 [1] FALSE
-> premiersEntreEux(21,8)
+> PremiersEntreEux(21,8)
 [1] TRUE  
 \end{lstlisting}
 
@@ -412,7 +457,7 @@ Elles se distinguent par leur \alert{efficacité}, mais aussi leur \alert{élég
   \end{block}
 
 \begin{lstlisting}
-premiersEntreEux <- function(p,q) {
+PremiersEntreEux <- function(p,q) {
   # Détermine si deux entiers p et q sont premiers entre eux par calcul du PGCD.
   #
   # Arguments:
