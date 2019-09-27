@@ -108,10 +108,15 @@
 
 * Génération aléatoire d'un nombre                                      :KEY:
 
-  Nous allons utiliser une fonction ~sample~ tirant au hasard des éléments dans une collection, on dit aussi aléatoires. Pour afficher un entier aléatoire entre [1,100], tapez l'instruction ci-dessous.
+  Nous allons utiliser une fonction ~sample~ tirant au hasard des éléments dans une collection, on dit aussi aléatoires. 
+  Voici 3 manières équivalentes de tirer un dé à 6 face, afficher un entier aléatoire entre [1,6].
+  Tapez les instructions ci-dessous.
 #+BEGIN_SRC R :exports code
-  sample(1:100, size=1)
+  sample(6, size=1)
+  sample(1:6, size=1)
+  sample(c(1, 2, 3, 4, 5, 6), size=1) 
 #+END_SRC
+
 Faites afficher un entier aléatoire de [100,200] avec un appel à ~sample~.
 #+BEGIN_SRC R 
   sample(100:200, size = 1)
@@ -143,7 +148,7 @@ Faites suivre la définition de votre fonction d'une instruction pour la tester.
 ** Dans un ensemble
    1. Définissez une fonction ~MonteCarlo()~ sans argument retournant au hasard 2, 3 ou 5. Testez-la plusieurs fois. /Indice/ : utilisez la fonction ~c~. 
    2. Définissez une fonction ~LasVegas()~ retournant 2, 3 ou 5 mais de manière truquée : 2 avec 1 chance sur 6, ou bien 3 avec 1 chance sur 3, ou bien 5 avec 1 chance sur 2. Testez-la une dizaine de fois\dots Les résultats sont-ils conformes à ce que l'on attend ?
-   3. Testez la commande ~table(replicate(10, LasVegas()))~ ? À quoi sert-elle ?
+   3. Testez la commande ~table(replicate(1000, LasVegas()))~ ? À quoi sert-elle ?
 
    Lisez la documentation ~help(sample)~ avant d'essayer de répondre aux questions.
 
@@ -382,7 +387,7 @@ Maintenant, programmez la fonction ~Circuit2(R1,R2,R3)~ retournant la résistanc
 
 
  Un autre avantage de l'évaluation paresseuse est que vous pouvez définir des arguments par défaut mutuellement récursif ce qui permet d'implémenter des interfaces adaptatives.
- Par exemple, voici une fonction (voir [[http://blog.moertel.com/posts/2006-01-20-wondrous-oddities-rs-function-call-semantics.html][ici]]) qui calcule la représentation d'un point en coordonnées poaires et cartesiennes.
+ Par exemple, voici une fonction (voir [[http://blog.moertel.com/posts/2006-01-20-wondrous-oddities-rs-function-call-semantics.html][ici]]) qui calcule la représentation d'un point en coordonnées polaires et cartesiennes.
  Vous pouvez spécifier le point dans l'un ou l'autre des systèmes de coordonnées.
 
 #+BEGIN_SRC R :exports both :output results
@@ -404,7 +409,6 @@ Maintenant, programmez la fonction ~Circuit2(R1,R2,R3)~ retournant la résistanc
 > polar(r=1)
   Error in atan2(y, x) : 
     la promesse est déjà en cours d'évaluation : référence récursive d'argument par défaut ou problème antérieur ?
-
 #+END_EXAMPLE
 
 

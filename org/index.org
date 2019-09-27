@@ -296,8 +296,6 @@ Ce cours est inspiré du cours de Python de Jean-Paul Roy et Bruno Martin que je
 ** Cours 
    Il y a 8 cours, chacun divisé en deux parties, accompagnés de leurs travaux pratiques. 
    Les corrigés des travaux pratiques seront publiés au fur et à mesure.
-   Des questionnaires de lecture de code au programme de l'examen sont accessibles sur [[https://lms.univ-cotedazur.fr/course/view.php?id=14552][moodle]].
- 
    - Portail Sciences de la Vie : les 6 premiers cours sont au programme.
    - Portail Sciences et Technologies : tous les cours sont au programme.
 
