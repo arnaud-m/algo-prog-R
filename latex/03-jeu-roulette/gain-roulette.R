@@ -28,14 +28,14 @@ GainManquePasse <- function(numero, gagnant) {
   else return(0)
 }
 
-GainRoulette <- function(mise, numero, gagnant) {
+GainRoulette <- function(type, numero, gagnant) {
   ## Le return est implicite !
-  if(mise == 1) GainPlein(numero, gagnant)
+  if(type == 1) GainPlein(numero, gagnant)
   else if(gagnant == 0) return(0) # merci Marie !
-  else if(mise == 2) GainTransversale(numero, gagnant)
-  else if(mise == 3) GainColonne(numero, gagnant)
-  else if(mise == 4) GainDouzaine(numero, gagnant)
-  else if(mise == 5) GainPairImpair(numero, gagnant)
-  else if(mise == 6) GainManquePasse(numero, gagnant)
+  else if(type == 2) GainTransversale(numero, gagnant)
+  else if(type == 3) GainColonne(numero, gagnant)
+  else if(type == 4) GainDouzaine(numero, gagnant)
+  else if(type == 5) GainPairImpair(numero, gagnant)
+  else if(type == 6) GainManquePasse(numero, gagnant)
   else return(0)
 }

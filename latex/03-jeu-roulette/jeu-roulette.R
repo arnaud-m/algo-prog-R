@@ -27,18 +27,18 @@ TirerNumeroGagnant <- function() {
 
 JouerRoulette <- function() {
   ## L'utilisateur saisit sa mise
-  mise <- LireType()
+  type <- LireType()
   numero <- LireNumero()
   montant <- LireMontant()
   ## Le joueur peut miser sur 0 uniquement pour Plein.
-  stopifnot( mise <= 1 || numero > 0)
+  stopifnot( type <= 1 || numero > 0)
   
   ## Le croupier tire le numéro gagnant
   gagnant <- TirerNumeroGagnant()
   cat("Le numéro gagnant est le ", gagnant, ".\n", sep = "")
   
   ## Le croupier détermine le montant du gain.
-  gain <- montant * GainRoulette(mise, numero, gagnant)
+  gain <- montant * GainRoulette(type, numero, gagnant)
   
   ## On affiche le montant du gain
   cat("Vous avez gagné ", gain, ".\n", sep = "")
