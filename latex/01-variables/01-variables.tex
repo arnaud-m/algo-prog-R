@@ -246,11 +246,11 @@ Attention, l’arithmétique flottante n’est pas exacte !
 
 \begin{exampleblock}{  L'écriture \texttt{2 + 3 = a} n'aura donc aucun sens !!}
 \begin{lstlisting}[style=block]
-> 2 + 3 = a
-Error in 2 + 3 = a : 
+> 2 + 3 <- a
+Error in 2 + 3 <- a : 
   la cible de l'assignation est un objet n'appartenant pas au langage
-> 2 + 3 = 5
-Error in 2 + 3 = 5 : ...
+> 2 + 3 <- 5
+Error in 2 + 3 <- 5 : ...
 \end{lstlisting}
 \end{exampleblock}
 \end{frame}
@@ -386,7 +386,7 @@ Error in 2 + 3 = 5 : ...
   \frametitle{Affichage de résultats avec \texttt{print}}
   La fonction print(...) permet d'afficher une expression :
   \begin{lstlisting}
-> a = 2
+> a <- 2
 > print(a * a)
 [1] 4
 >
@@ -444,6 +444,37 @@ La fonction \texttt{sprintf(\dots)} permet de concaténer et formater finement u
 [1] "le carre de 3.14159 vaut 09.86960"
 \end{lstlisting}
 \end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+\frametitle{Construction et affichage de résultats avec \texttt{cat}}
+La fonction \texttt{cat(\dots)} permet de concaténer une expression, puis de l'afficher :
+\begin{lstlisting}
+> cat('le carre de', a, 'vaut', a*a)
+le carre de 2 vaut 4> 
+\end{lstlisting}
+Remarquez l'espace automatique et l'absence de saut de ligne.
+
+\begin{itemize}
+\item Ce qui est affiché est l'\alert{effet} de la fonction \texttt{cat}.
+\item Comme \texttt{paste}, la fonction accepte des paramètres optionnels.
+\end{itemize}
+
+Pour ajouter un saut de ligne, il faut utiliser un \alert{caractère spécial}.
+\begin{lstlisting}
+> cat('le carre de', a, 'vaut', a*a, '\n')
+le carre de 2 vaut 4
+> 
+\end{lstlisting}
+
+Contrairement à \texttt{print}, la fonction ne renvoie pas de résultat.
+\begin{lstlisting}
+> cat(5)==5
+5logical(0) # l'effet de cat(5) collé au résultat du test 
+\end{lstlisting}
+\end{frame}
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
