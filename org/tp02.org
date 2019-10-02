@@ -230,12 +230,12 @@ Maintenant, programmez la fonction ~Circuit2(R1,R2,R3)~ retournant la résistanc
     return(Serie(r1,Parallele(r2,r3)))
   }
   ## \u03a9 : Unicode !
-  cat(paste('La resistance totale du circuit 1 est',circuit1(5,100,25),'\u03a9.\n'))
+  cat('La resistance totale du circuit 1 est',circuit1(5,100,25),'\u03a9.\n')
 
   circuit2 <- function(r1,r2,r3) {
     return(Serie(Parallele(r1,Parallele(r2,r3)), Parallele(r2,r3)))
   }
-  cat(paste('La resistance totale du circuit 2 est',circuit2(5,100,25),'\u03a9.\n'))
+  cat('La resistance totale du circuit 2 est',circuit2(5,100,25),'\u03a9.\n')
 #+END_SRC
 
 #+RESULTS:
@@ -315,17 +315,14 @@ Maintenant, programmez la fonction ~Circuit2(R1,R2,R3)~ retournant la résistanc
 * Calcul de l'hypoténuse
   1. Calculez l’hypoténuse d’un triangle connaissant les deux côtés de l’angle droit (~a~ et ~b~).
   2. Demander à l'utilisateur de saisir les valeurs ~a~ et ~b~ à l'aide de la fonction ~scan()~
-  3. Afficher et formatter le résultat avec les fonctions ~cat~ et ~paste~.
+  3. Afficher et formatter le résultat avec les fonctions ~cat~.
 
      #+BEGIN_SRC R
        cat("Veuillez entrer les longueurs des deux côtés de l’angle droit :\n")
-       ab <- scan( nmax=2)
-       if(length(ab) == 2) {
-         hypo <- sqrt(ab[1]**2 + ab[2]**2)
-         print(paste("Longueur de l'hypoténuse :", hypo))
-       } else {
-         print("Erreur de saisie")
-       }
+       a <- scan( n = 1)
+       b <- scan( n = 1)
+       hypo <- sqrt(a**2 + b)
+       cat("Longueur de l'hypoténuse :", hypo, '\n')
      #+END_SRC
      
 * Évaluation des arguments d'une fonction                              :HOME:
