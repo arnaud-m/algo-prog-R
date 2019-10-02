@@ -19,7 +19,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Conditionnelle : la prise de décisions \texttt{if}}
-  \alert{L'instruction conditionnelle if permet de prendre une décision.}
+  \alert{L'instruction conditionnelle \texttt{if} permet de prendre une décision.}
 
   \begin{block}{Dans l'éditeur}
     \begin{columns}[c]
@@ -27,9 +27,9 @@
   \begin{lstlisting}[style=editor]
 a <- -2
 if (a > 0) {
-  paste(a,'est positif')
+  cat(a,'est positif\n')
 } else {
-  paste(a,'est negatif ou nul')
+  cat(a,'est negatif ou nul\n')
 }    
 \end{lstlisting}
 
@@ -50,8 +50,8 @@ if (a > 0) {
 \begin{column}{0.65\textwidth}
   \begin{lstlisting}
 > a <- -2
-> if(a>0) {paste(a,'est positif') }
-> else {paste(a,'est negatif ou nul')}
+> if(a>0) {cat(a,'est positif\n') }
+> else {cat(a,'est negatif ou nul\n')}
   \end{lstlisting}
 \end{column}
 \begin{column}{0.35\textwidth}
@@ -64,44 +64,78 @@ if (a > 0) {
 
 \begin{frame}[fragile]
   \frametitle{Bloc et indentation}
-  \begin{block}{Indentation}
-    La bonne distance à la marge d'une ligne permet de structurer et de comprendre un programme.
-  \end{block}
+  \begin{alertblock}{Syntaxe pour une instruction conditionelle}
+    \begin{lstlisting}[style=edblock]
+if (condition) { 
+  blocInstructions
+} else { 
+  blocInstructions
+}
+\end{lstlisting}
+\end{alertblock}
+
+\begin{block}{Indentation}
+  La bonne distance à la marge d'une ligne permet de structurer et de comprendre un programme.
+\end{block}
   
-  \begin{block}{Bloc d'instructions}
-    Un bloc d'instructions est une suite d'instructions alignées à la verticale.
-  \end{block}
+\begin{block}{Bloc d'instructions}
+  C'est une suite d'instructions délimitée par des accolades.
+\end{block}
   
   \newcommand{\indentrule}{\color{BrickRed}\vrule width 1pt\hspace{2pt}}        
   \begin{lstlisting}[style=editor, escapechar=?]
 ?\indentrule?a <- -2
 ?\indentrule?if (a > 0) {
-?\indentrule?  ?\indentrule?paste(a,'est positif')
+?\indentrule?  ?\indentrule?cat(a,'est positif\n')
 ?\indentrule?} else {
-?\indentrule?  ?\indentrule?paste(a,'est negatif ou nul')
+?\indentrule?  ?\indentrule?cat(a,'est negatif ou nul\')
 ?\indentrule?}    
 \end{lstlisting}
 
-\begin{block}{Une utilisation correcte des accolades est obligatoire en R}
-   \begin{columns}[c]
-     \begin{column}{0.58\textwidth}
-       \begin{lstlisting}[style=editor, escapechar=?]
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Attention aux parenthèses et accolades !}
+  \begin{block}{Une utilisation correcte des accolades est obligatoire en R}
+    Il est nécessaire d’ouvrir et fermer les paires d’accolades : \{\dots\}.
+    \begin{columns}[c]
+      \begin{column}{0.55\textwidth}
+        \begin{lstlisting}[style=editor, escapechar=?]
 a <- -2
 if (a > 0) {
-  paste(a,'est positif')
+  cat(a,'est positif\n')
 else { 
-  paste(a,'est negatif ou nul')
+  cat(a,'est negatif ou nul\n')
 }    
 \end{lstlisting}
 \end{column}
-\begin{column}{0.42\textwidth}
-  Il est nécessaire d’ouvrir et fermer les paires d’accolades : \{\dots\}.
-       
+\begin{column}{0.45\textwidth}
 \RUN
 \alert{Erreur : 'else' inattendu(e) in "else"}
 \end{column}
 \end{columns} 
 \end{block}
+
+\begin{block}{Une utilisation correcte des parenthèses est obligatoire en R}
+    Une paire de parenthèses doit toujours délimiter la condition du \texttt{if} : (\dots).
+    \begin{columns}[c]
+      \begin{column}{0.55\textwidth}
+        \begin{lstlisting}[style=editor, escapechar=?]
+a <- -2
+if a > 0 {
+  cat(a,'est positif\n')
+} else { 
+  cat(a,'est negatif ou nul\n')
+}    
+\end{lstlisting}
+\end{column}
+\begin{column}{0.45\textwidth}
+\RUN
+\alert{Erreur : unexpected symbol in "if a"}
+\end{column}
+\end{columns} 
+\end{block}
+
 \end{frame}
 
 % \begin{frame}[fragile]
@@ -174,7 +208,7 @@ Erreur : objet 'x' introuvable
 L'expression \lstinline[columns=fixed]{x == 3} n'a pas été évaluée car \texttt{FALSE \&\& ? == FALSE}
 
 La priorité de \texttt{\&\&} étant plus faible que celle des opérations arithmétiques,
-on aurait pu écrire : \lstinline[columns=fixed]{a > 0 and x == 3} .
+on aurait pu écrire : \lstinline[columns=fixed]{a > 0 && x == 3} .
 
 \end{block}
 \end{frame}
@@ -317,10 +351,6 @@ f <- function(x) {
 \end{tikzpicture}
 \end{column}
 \end{columns}
-
-
-
-
 \end{frame}
 
 \begin{frame}[fragile]
@@ -328,7 +358,7 @@ f <- function(x) {
 
   \begin{exampleblock}{Comment (re)définir la valeur absolue ?}
 \begin{columns}[c]
-\begin{column}{0.38\textwidth}
+\begin{column}{0.4\textwidth}
   \begin{lstlisting}[style=edblock]
 Abs <- function(n) {
   if(n>0) {
@@ -339,10 +369,10 @@ Abs <- function(n) {
 }
 \end{lstlisting}
 \end{column}
-\begin{column}{0.62\textwidth}
+\begin{column}{0.6\textwidth}
   \begin{lstlisting}
-> paste('|-5| vaut', Abs(-5))
-[1] "|-5| vaut 5"    
+> cat('|-5| vaut', Abs(-5), '\n')
+|-5| vaut 5    
   \end{lstlisting}
 \end{column}
 \end{columns}
@@ -350,7 +380,7 @@ Abs <- function(n) {
 
   \begin{exampleblock}{Comment (re)définir le maximum ?}
 \begin{columns}[c]
-\begin{column}{0.38\textwidth}
+\begin{column}{0.4\textwidth}
   \begin{lstlisting}[style=edblock]
 Max <- function(n, m) {
   if(n > m) {
@@ -361,10 +391,10 @@ Max <- function(n, m) {
 }
 \end{lstlisting}
 \end{column}
-\begin{column}{0.62\textwidth}
+\begin{column}{0.6\textwidth}
   \begin{lstlisting}
-> paste('max(-10, -5) vaut', Max(-10, -5))
-[1] "max(-10, -5) vaut 5"    
+> cat('max(-10, -5) vaut', Max(-10, -5), '\n')
+max(-10, -5) vaut -5    
 \end{lstlisting}
 \end{column}
 \end{columns}
@@ -373,8 +403,32 @@ Max <- function(n, m) {
 
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Exemple : année bissextile}
+  Depuis l'ajustement du calendrier grégorien, l'année sera bissextile (elle aura 366 jours, et non 365) :
+  \begin{itemize}
+  \item si l'année est divisible par 4 et non divisible par 100, ou
+  \item si l'année est divisible par 400.
+  \end{itemize}
+  \begin{exampleblock}{Comment calculer le nombre de jours d'une année  ?}
+    
+ 
+  \begin{lstlisting}[style=edblock]
+EstBissextile <- function(n) {
+  if(((n %% 4 == 0) && (n %% 100 != 0)) || (n %% 400 == 0)){
+    return(366)
+  } else {
+    return(365)
+  }
+}
+\end{lstlisting}
+Remarquez l'utilisation correcte des parenthèses.
+\end{exampleblock}
+\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{frame}
   \frametitle{Notions élémentaires sur les nombres premiers}
   \begin{block}{Nombre premier}
