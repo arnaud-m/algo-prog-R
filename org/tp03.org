@@ -1,117 +1,45 @@
 ﻿#+SETUPFILE: base-template.org
 #+TITLE:     Travaux Pratiques #3
 #+SUBTITLE:     Algo & Prog avec R
+#+OPTIONS: num:1 toc:1
 #+PROPERTY: header-args :results output replace :exports none
 * Factorielles                                                          :KEY:
 Les choix algorithmiques que vous ferez influent sur la qualité du programme en terme de complexité et donc de vitesse d'exécution.
-** Petites factorielles
-Ecrivez un programme itératif faisant afficher toutes les factorielles des entiers de 0 à 20, une par ligne. 
-*** En utilisant la fonction factorial, combien votre programme fera-t-il de multiplications ?
-
-    
-#+BEGIN_SRC R 
-  print('Voici les factorielles des entiers de [1,20] :')
-  i = 1                 
-  while (i <= 20) {       
-    ## la boucle d'iteration effectue en tout 1+2+3+...+20 = 210 multiplications
-    print(paste(i,'! =', factorial(i)))
-    i = i + 1
-  }
-  ## Si l'on remplace 20 par N, on obtiendrait N(N+1)/2 multiplications, polynome du
-  ## second degre. On dit que l'algorithme a un cout QUADRATIQUE. Pas fameux...
-#+END_SRC
-
-#+RESULTS:
-#+begin_example
-[1] "Voici les factorielles des entiers de [1,20] :"
-[1] "1 ! = 1"
-[1] "2 ! = 2"
-[1] "3 ! = 6"
-[1] "4 ! = 24"
-[1] "5 ! = 120"
-[1] "6 ! = 720"
-[1] "7 ! = 5040"
-[1] "8 ! = 40320"
-[1] "9 ! = 362880"
-[1] "10 ! = 3628800"
-[1] "11 ! = 39916800"
-[1] "12 ! = 479001600"
-[1] "13 ! = 6227020800"
-[1] "14 ! = 87178291200"
-[1] "15 ! = 1307674368000"
-[1] "16 ! = 20922789888000"
-[1] "17 ! = 355687428096000"
-[1] "18 ! = 6402373705728000"
-[1] "19 ! = 121645100408832000"
-[1] "20 ! = 2432902008176640000"
-#+end_example
-
-*** Sans utiliser cette fonction. Tâchez de faire baisser le nombre de multiplications ! Combien votre programme fera-t-il de multiplications ?
-
-#+BEGIN_SRC R 
-  ## Si l'on veut faire tomber le nombre de multiplications, il ne FAUT PAS
-  ## utiliser une fonction factorielle qui repart chaque fois du debut, mais maintenir
-  ## dans une variable f la derniere factorielle calculee !
-  print('Voici les factorielles (rapides) des entiers de [1,5] :')
-  i = 1
-  f = 1
-  while (i <= 5) {
-    ## la boucle effectue en tout 5 multiplications !!!
-    print(paste(i,'! =', f))
-    i = i + 1
-    f = f * i
-  }
-  ## Le cout d'affichage des factorielles des entiers de [1,N] est donc maintenant de N, 
-  ## le cout est devenu LINEAIRE. Difficile de faire mieux dans le cas present...
-#+END_SRC
-
-#+RESULTS:
-: [1] "Voici les factorielles (rapides) des entiers de [1,5] :"
-: [1] "1 ! = 1"
-: [1] "2 ! = 2"
-: [1] "3 ! = 6"
-: [1] "4 ! = 24"
-: [1] "5 ! = 120"
-
 ** Fonctions factorielle
    Programmez plusieurs fonctions prenant un entier positif ~n~ et retournant la factorielle n! de n. Par exemple, 5! est égal à 120.
    
-*** Par récurrence, sous la forme d'une fonction ~FactRec(n)~, en supposant le problème résolu pour n-1. Vérifier ~FactRec(5)~ grâce à la fonction ~factorial~.
+*** Par récurrence, sous la forme d'une fonction ~FactRec(n)~, en supposant le problème résolu pour n-1. Vérifier ~FactRec(5)~ grâce à la fonction prédéfinie ~factorial~.
     #+BEGIN_SRC R :session fact 
       FactRec <- function(n) {
-        if(n > 1) return(n*FactRec(n-1))
+        if(n > 1) return(FactRec(n-1) * n)
         else return (1)
       }
-      paste('FactRec(-1) =',FactRec(-1))
-      paste('FactRec(0) =',FactRec(0))
-      paste('FactRec(5) =',FactRec(5))
+      cat('FactRec(0) =',FactRec(0), '\n')
+      cat('FactRec(5) =',FactRec(5), '\n')
 #+END_SRC
 
     #+RESULTS:
-    : [1] "FactRec(-1) = 1"
-    : [1] "FactRec(0) = 1"
-    : [1] "FactRec(5) = 120"
+    : FactRec(0) = 1
+    : FactRec(5) = 120
 
 *** Par une itération (boucle while) sous la forme d'une fonction ~Fact(n)~. 
 
 #+BEGIN_SRC R :session fact 
   Fact <- function(n) {
-    acc=1;
+    acc <- 1;
     while(n > 1) {
-      acc = acc * n
-        n = n - 1
+      acc <- acc * n
+        n <- n - 1
     }
     return(acc)
   }
-  paste('Fact(-1) =',Fact(-1))
-  paste('Fact(0) =',Fact(0))
-  paste('Fact(5) =',Fact(5))
+  cat('FactRec(0) =',FactRec(0), '\n')
+  cat('FactRec(5) =',FactRec(5), '\n')
 #+END_SRC
 
 #+RESULTS:
-: [1] "Fact(-1) = 1"
-: [1] "Fact(0) = 1"
-: [1] "Fact(5) = 120"
+: FactRec(0) = 1
+: FactRec(5) = 120
 
 
 *** R est-il capable de calculer 1000! ?
@@ -125,37 +53,99 @@ Ecrivez un programme itératif faisant afficher toutes les factorielles des enti
 *** Pour chronométrer un calcul en R, il suffit d'importer la fonction ~system.time~ : ~system.time(replicate(1000,factorial(100)))~. Qui est le plus rapide entre ~Fact(100)~ et ~FactRec(100)~ ?
 
 #+BEGIN_SRC R :session fact 
+  ## On apprendra plus tard à écrire une version vectorisée 
   FactVec <- function(n) {
     return(prod(1:n))
   }
-  for(i in c(50, 100)) {
-    print(paste('fact(', i, ') =', factorial(i)))
-    for(f in c(factorial, Fact, FactRec, FactVec)) {
-      print(system.time(replicate(2000,do.call(f,list(i)))))
-    }  
-  } 
+  cat('Test : FactRec(100)\n')
+  system.time(replicate(2000, FactRec(100)))
+  cat('Test : Fact(100)\n')
+  system.time(replicate(2000, Fact(100)))
+  cat('Test : FactVec(100)\n')
+  system.time(replicate(2000, FactVec(100)))
+  cat('Test : factorial(100)\n')
+  system.time(replicate(2000, factorial(100)))
 #+END_SRC
 
 #+RESULTS:
 #+begin_example
-[1] "fact( 50 ) = 3.0414093201713e+64"
+Test : FactRec(100)
 utilisateur     système      écoulé 
-      0.004       0.000       0.004 
+      0.166       0.000       0.165
+Test : Fact(100)
 utilisateur     système      écoulé 
-      0.057       0.000       0.057 
+      0.011       0.000       0.011
+Test : FactVec(100)
 utilisateur     système      écoulé 
-      0.080       0.000       0.081 
+      0.004       0.000       0.004
+Test : factorial(100)
 utilisateur     système      écoulé 
-      0.006       0.000       0.006 
-[1] "fact( 100 ) = 9.33262154439422e+157"
-utilisateur     système      écoulé 
-      0.005       0.001       0.005 
-utilisateur     système      écoulé 
-      0.108       0.000       0.109 
-utilisateur     système      écoulé 
-      0.159       0.000       0.160 
-utilisateur     système      écoulé 
-      0.008       0.000       0.007
+      0.001       0.000       0.001
+#+end_example
+** Petites factorielles
+   Ecrivez un programme itératif faisant afficher toutes les factorielles des entiers de 0 à 10, une par ligne. 
+*** En utilisant la fonction ~Fact~ ou ~FactRec~factorial, combien votre programme fera-t-il de multiplications ?
+
+    
+#+BEGIN_SRC R :session fact
+  cat('Voici les factorielles des entiers de [1,20] :\n')
+  i <- 1                 
+  while (i <= 10) {       
+    ## la boucle d'iteration effectue en tout 1+2+3+...+10 = 55 multiplications
+    cat(i,'! =', Fact(i), '\n')
+    i <- i + 1
+  }
+  ## Si l'on remplace 10 par N, on obtiendrait N(N+1)/2 multiplications, polynome du
+  ## second degre. On dit que l'algorithme a un cout QUADRATIQUE. Pas fameux...
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+Voici les factorielles des entiers de [1,20] :
+1 ! = 1 
+2 ! = 2 
+3 ! = 6 
+4 ! = 24 
+5 ! = 120 
+6 ! = 720 
+7 ! = 5040 
+8 ! = 40320 
+9 ! = 362880 
+10 ! = 3628800
+#+end_example
+
+*** Sans utiliser cette fonction. Tâchez de faire baisser le nombre de multiplications ! Combien votre programme fera-t-il de multiplications ?
+
+#+BEGIN_SRC R 
+  ## Si l'on veut faire tomber le nombre de multiplications, il ne FAUT PAS
+  ## utiliser une fonction factorielle qui repart chaque fois du debut, mais maintenir
+  ## dans une variable f la derniere factorielle calculee !
+  cat('Voici les factorielles (rapides) des entiers de [1,10] :\n')
+  i <- 1
+  acc <- 1
+  while (i <= 10) {
+    ## la boucle effectue en tout 10 multiplications !!!
+    cat(i,'! =', acc, '\n')
+    i <- i + 1
+    acc <- acc * i
+  }
+  ## Le cout d'affichage des factorielles des entiers de [1,N] est donc maintenant de N, 
+  ## le cout est devenu LINEAIRE. Difficile de faire mieux dans le cas present...
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+Voici les factorielles (rapides) des entiers de [1,10] :
+1 ! = 1 
+2 ! = 2 
+3 ! = 6 
+4 ! = 24 
+5 ! = 120 
+6 ! = 720 
+7 ! = 5040 
+8 ! = 40320 
+9 ! = 362880 
+10 ! = 3628800
 #+end_example
 
 * Quelques fonctions prédéfinies pour les conversions 
@@ -310,63 +300,49 @@ utilisateur     système      écoulé
       while(gain < 50) {
         gain <- gain + JeuHasard()
         partie <- partie + 1
-        cat(paste("Partie", partie, ":", gain,"\n"))
+        cat("Partie", partie, ":", gain, "\n")
       }
     #+END_SRC
 
     #+RESULTS:
     #+begin_example
-    Partie 1 : 0 
-    Partie 2 : 0 
+    Partie 1 : 5 
+    Partie 2 : 5 
     Partie 3 : 5 
-    Partie 4 : 5 
+    Partie 4 : 10 
     Partie 5 : 10 
     Partie 6 : 10 
-    Partie 7 : 15 
-    Partie 8 : 20 
-    Partie 9 : 25 
-    Partie 10 : 30 
+    Partie 7 : 10 
+    Partie 8 : 15 
+    Partie 9 : 20 
+    Partie 10 : 25 
     Partie 11 : 30 
-    Partie 12 : 35 
+    Partie 12 : 30 
     Partie 13 : 35 
     Partie 14 : 40 
-    Partie 15 : 40 
-    Partie 16 : 40 
-    Partie 17 : 45 
-    Partie 18 : 50
-#+end_example
+    Partie 15 : 45 
+    Partie 16 : 50
+    #+end_example
 
 
-
-
-  #+BEGIN_SRC R
-    tirages <- expand.grid(1:6, 1:6, 1:6)
-    sommes <- rowSums(tirages)
-    n5 <- sum( sommes >= 10) - 1
-    cat(paste("Esperance :", 50/6**3 + 5*n5/nrow(tirages))) 
-
-  #+END_SRC 
-
-  #+RESULTS:
-  : Esperance : 3.33333333333333
 *** Quelle est la probabilité de gagner 50 euros ? Quelle est l'espérance de gain ? Proposer un tarif pour jouer à ce jeu ? Justifier.
     
      #+BEGIN_SRC R :session jeuHasard
        ## Estimation de l'espérance par simulation
        n <- 10000
        gains <- replicate(n, JeuHasard())
-       cat(paste("Esperance simulée :", sum(gains)/n, "\n")) 
+       cat("Esperance simulée :", sum(gains)/n, "\n")
        ## Calcul théorique de l'espérance
        prob50 <- 1 / 6**3
        tirages <- expand.grid(1:6, 1:6, 1:6)
        sommes <- rowSums(tirages)
        prob5 <- (sum(sommes >= 10) - 1)/ nrow(tirages)
-       cat(paste("Esperance théorique", 50*prob50 + 5*prob5), '\n')
+       cat("Esperance théorique", 50*prob50 + 5*prob5, '\n')
      #+END_SRC 
 
      #+RESULTS:
-     : Esperance simulée : 3.3625
-     : Esperance théorique 3.33333333333333
+     : Esperance simulée : 3.3375
+     : Esperance théorique 3.333333
 * Algorithme d'Euclide
    L’algorithme d’Euclide pour calculer le PGCD de deux entiers a et b ≥ 0 consiste à appliquer les deux règles suivantes :
    - si b = 0, le PGCD de a et de b est a
@@ -416,12 +392,15 @@ utilisateur     système      écoulé
   gcd <- function(a,b) ifelse (b==0, a, gcd(b, a %% b))
   g = gcd(58,87)
   if (g == 1) {
-    print('La fraction 58/87 est irreductible !')
+    cat('La fraction 58/87 est irreductible !\n')
   } else {
-    paste("La fraction 58/87 n'est pas irreductible, on peut la simplifier par",g)
+    cat("La fraction 58/87 n'est pas irreductible, on peut la simplifier par",g,"\n")
   }
     
 #+END_SRC
+
+#+RESULTS:
+: La fraction 58/87 n'est pas irreductible, on peut la simplifier par 29
 
 * Représentation des nombres en machines
 ** Représentation d'un entier en machine
@@ -471,7 +450,7 @@ utilisateur     système      écoulé
     
     Même un entier "tout seul" est représenté par un vecteur \dots de une seule cellule.
     C'est comme ça : [[https://cran.r-project.org/doc/manuals/r-release/R-lang.html#Basic-types][basic types]] ; [[http://adv-r.had.co.nz/Expressions.html][expressions]].
-** Conversion binaire-décimal                                           :KEY:
+** Conversion binaire-décimal
 *** Comment l'entier 2015 s'écrit-il en binaire (base 2) ?
 
     Il est obligatoire de comprendre ce tutoriel sur les [[http://lehollandaisvolant.net/tuto/bin.php][systèmes binaire et l'hexadécimal]].
