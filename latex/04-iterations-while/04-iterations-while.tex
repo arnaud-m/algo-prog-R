@@ -79,8 +79,8 @@
   \begin{block}{En R}
   \begin{lstlisting}[style=block]
 > S <- function(n) {return(n*(n+1)/2)}
-> paste('S(1000)=', S(1000))
-[1] S(1000) = 500500   
+> cat('S(1000)=', S(1000), '\n')
+S(1000)= 500500
 \end{lstlisting}
 \begin{itemize}
 \item La taille du programme (longueur de son texte) ne dépend pas de \texttt{n}, qui ne sera fourni qu'à l'exécution.
@@ -113,7 +113,7 @@
     Une fonction récursive s‘appelle elle-même.
 \begin{lstlisting}[style=editor]
 S <- function(n) {
-  if( n <= 0) return(0)
+  if(n <= 0) return(0)
   else return( S(n-1) + n )
 }
 \end{lstlisting}    
@@ -202,7 +202,7 @@ Nous gérons donc deux variables $\mathtt{i}$ et $\mathtt{acc}$.
 }
 \begin{frame}[fragile]
   \frametitle{Visualiser une boucle}
-  \tikzstyle{block} = [draw, fill=blue!20, rectangle, minimum height=3em, minimum width=6em]
+  \tikzstyle{block} = [draw, fill=grey!5, rectangle, minimum height=3em, minimum width=6em]
 \tikzstyle{sum} = [draw, fill=red!20, circle]
 %\tikzstyle{input} = [coordinate]
 \tikzstyle{output} = [coordinate]
@@ -211,31 +211,27 @@ Nous gérons donc deux variables $\mathtt{i}$ et $\mathtt{acc}$.
 % The block diagram code is probably more verbose than necessary
 \begin{tikzpicture}[auto, node distance=2cm,>=latex']
     % We start by placing the blocks
-    \node [block, align = left] (INIT) {$\mathtt{i} = 0$\\$\mathtt{acc}=0$};
+    \node [block, align = left] (INIT) {\lstinline[basicstyle=\normal\ttfamily]{i <- 0}\\\lstinline[basicstyle=\normal\ttfamily]{acc <- 0}};
     \node [sum, right of=INIT, node distance=2cm] (INV) {INV};
-    \node [block, diamond, right of=INV, , node distance=2cm] (TERM) {$\mathtt{i} == n$ ?};
+    \node [block, diamond, right of=INV, , node distance=2cm] (TERM) {\lstinline[basicstyle=\normal\ttfamily]{i < n ?}};
     \node [block, right of=TERM, align = left, node distance=4cm] (END) {FIN\\Le résultat est $\mathtt{acc}$.};
     % We draw an edge between the TERM and END block to 
     % calculate the coordinate u. We need it to place the measurement block. 
     %\node [output, right of=END] (output) {};
-    \node [block, align = left, below of=TERM, node distance=2cm] (ITER) {$\mathtt{i} = \mathtt{i} + 1$\\$\mathtt{acc}=\mathtt{acc}+\mathtt{i}$};
+    \node [block, align = left, below of=TERM, node distance=2cm] (ITER) {\lstinline[basicstyle=\normal\ttfamily]{i <- i + 1}\\\lstinline[basicstyle=\normal\ttfamily]{acc <- acc + i}};% {$\mathtt{i} = \mathtt{i} + 1$\\$\mathtt{acc}=\mathtt{acc}+\mathtt{i}$};
 
     % Once the nodes are placed, connecting them is easy. 
     \draw [draw,->] (INIT) -- (INV);
     \draw [->, ultra thick] (INV) -- (TERM);
-    \draw [->, ultra thick] (TERM) -- node {\texttt{FALSE}} (ITER);
+    \draw [->, ultra thick] (TERM) -- node {\texttt{TRUE}} (ITER);
     \draw [->, ultra thick] (ITER) -| (INV);
-    \draw [->] (TERM) -- node {\texttt{TRUE}} (END);
+    \draw [->] (TERM) -- node {\texttt{FALSE}} (END);
 
       \end{tikzpicture}
 
     À chaque entrée dans la boucle, au point INV, la situation générale $\mathtt{acc} = 1 + 2 + \dots + \mathtt{i}$ est vérifiée !
 
 \begin{columns}[c]
-\begin{column}{0.48\textwidth}
-  On boucle tant que $\mathtt{i} < n$.
-  Une des manières d'exprimer une boucle consiste à utiliser le mot-clé \texttt{while} qui signifie "tant que".
-\end{column}
 \begin{column}{0.48\textwidth}
 \begin{lstlisting}[style=editor]
 S <- function(n) {
@@ -248,6 +244,10 @@ S <- function(n) {
   return(acc)
 }  
 \end{lstlisting}
+\end{column}
+\begin{column}{0.48\textwidth}
+  On boucle tant que $\mathtt{i} < n$.
+  Une des manières d'exprimer une boucle consiste à utiliser le mot-clé \texttt{while} qui signifie "tant que".
 \end{column}
 \end{columns}
 \end{frame}
@@ -333,7 +333,7 @@ Or ci-dessus, l'affectation de \texttt{i} modifie la valeur de \texttt{i} dans l
     On fait afficher les variables de boucle (les variables qui varient dans la boucle), ici \texttt{acc} et {i}. \alert{Observe-t-on une anomalie ?}   
   \begin{lstlisting}
 while (i < n) {
-  paste('i =',i,'acc =',acc)
+  cat('i =', i,'acc =', acc, '\n')
   ...
 \end{lstlisting}
 
@@ -388,10 +388,10 @@ EstPremier <- function(n) {
 \end{lstlisting}
 
 \begin{lstlisting}
-> paste('2001 est premier:', EstPremier(2001))
-[1] "2001 est premier: FALSE"  
-> paste('2003 est premier:', EstPremier(2003))
-[1] "2003 est premier: TRUE"
+> cat('2001 est premier:', EstPremier(2001), '\n')
+2001 est premier: FALSE
+> cat('2003 est premier:', EstPremier(2003), '\n')
+2003 est premier: TRUE
 \end{lstlisting}
 
 \begin{alertblock}{Quel est le nombre d'opérations de notre test de primalité ?}
@@ -552,7 +552,7 @@ Cette boucle est donc la plus générale mais elle suppose que l'on garantisse b
     \begin{lstlisting}[style=edblock]
 S <- function(n) {      
   if(n <=0) return(0)
-  else return(1/n + S(n-1))
+  else return(S(n-1) + 1/n)
 }  
 \end{lstlisting}
 \end{block}
@@ -595,7 +595,7 @@ S <- function(n) {
   \begin{block}{Combien faut-il de termes dans la somme pour que $S(n) > 8$ ?}
   
 \begin{columns}[t]
-\begin{column}{0.48\textwidth}
+\begin{column}{0.55\textwidth}
   \begin{block}{Avec la fonction \texttt{S}}
     \begin{lstlisting}[style=block]
 > n <- 1
@@ -605,14 +605,14 @@ S <- function(n) {
 \end{lstlisting}
   \end{block}
 \end{column}
-\begin{column}{0.48\textwidth}
+\begin{column}{0.45\textwidth}
   \begin{block}{Avec un code dédié}
     \begin{lstlisting}[style=block]
 > acc <- 1;
 > n <- 1;
 > while(acc < 8) {
 + n <- n + 1
-+ acc <- acc +1/n
++ acc <- acc + 1/n
 + }
 > n
 [1] 1674          

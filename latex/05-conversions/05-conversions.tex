@@ -51,8 +51,8 @@
 \begin{column}{0.62\textwidth}
 \begin{lstlisting}[style=editor]
 Eplucher <- function(n) {
-  while(n >0) {
-    print(paste(n,"j'enleve", n%%10))
+  while(n > 0) {
+    cat(n,"j enleve", n %% 10, "\n")
     n <- n %/% 10
   }
 }  
@@ -61,10 +61,10 @@ Eplucher <- function(n) {
 \begin{column}{0.38\textwidth}
 \begin{lstlisting}
 > Eplucher(3456)
-[1] "3456 j'enleve 6"
-[1] "345 j'enleve 5"
-[1] "34 j'enleve 4"
-[1] "3 j'enleve 3"  
+3456 j enleve 6 
+345 j enleve 5 
+34 j enleve 4 
+3 j enleve 3   
 \end{lstlisting}
 \end{column}
 \end{columns}
@@ -85,7 +85,7 @@ Eplucher <- function(n) {
   \begin{lstlisting}[style=editor]
 Eplucher <- function(n) {
   if(n > 0) {
-    print(paste(n,"j'enleve", n %% 10))
+    cat(n,"j enleve", n %% 10, "\n")
     Eplucher(n %/% 10)
   }
 }    
@@ -110,8 +110,8 @@ Eplucher <- function(n) {
 \begin{column}{0.62\textwidth}
 \begin{lstlisting}[style=editor]
 Eplucher <- function(n) {
-  while(n >0) {
-    print(n%%2)
+  while(n > 0) {
+    print(n %% 2)
     n <- n %/% 2
   }
 }  
@@ -162,7 +162,7 @@ MSB <- function(n) {
   while(msb <= n) {
     msb <- 2 * msb
   }
-  return(msb/2)
+  return(msb / 2)
 }  
 \end{lstlisting}
 \end{column}
@@ -221,10 +221,10 @@ MSB <- function(n) {
 \begin{column}{0.6\textwidth}
 \begin{lstlisting}[style=editor]
 Eplucher <- function(n) {
-  while(n >0) {
+  while(n > 0) {
     m <- 10 * n
     f <- floor(m)
-    print(paste(n,"j'enleve", f))
+    cat(n,"j enleve", f, "\n")
     n <- m - f
   }
 }  
@@ -233,11 +233,11 @@ Eplucher <- function(n) {
 \begin{column}{0.4\textwidth}
 \begin{lstlisting}
 > Eplucher(1/32)
-[1] "0.03125 j'enleve 0"
-[1] "0.3125 j'enleve 3"
-[1] "0.125 j'enleve 1"
-[1] "0.25 j'enleve 2"
-[1] "0.5 j'enleve 5"
+0.03125 j enleve 0 
+0.3125 j enleve 3 
+0.125 j enleve 1 
+0.25 j enleve 2 
+0.5 j enleve 5 
 \end{lstlisting}
 \end{column}
 \end{columns}
@@ -250,26 +250,22 @@ Eplucher <- function(n) {
   \frametitle{Surprise ! Le calcul fractionnaire n'est pas exact !}
 \begin{lstlisting}
 > Eplucher(0.3456)
-[1] "0.3456 j'enleve 3"
-[1] "0.456 j'enleve 4"
-[1] "0.560000000000004 j'enleve 5"
-[1] "0.600000000000041 j'enleve 6"
-[1] "4.05009359383257e-13 j'enleve 0"
-[1] "4.05009359383257e-12 j'enleve 0"
-[1] "4.05009359383257e-11 j'enleve 0"
-[1] "4.05009359383257e-10 j'enleve 0"
-[1] "4.05009359383257e-09 j'enleve 0"
-[1] "4.05009359383257e-08 j'enleve 0"
-[1] "4.05009359383257e-07 j'enleve 0"
-[1] "4.05009359383257e-06 j'enleve 0"
-[1] "4.05009359383257e-05 j'enleve 0"
-[1] "0.000405009359383257 j'enleve 0"
+0.3456 j enleve 3 
+0.456 j enleve 4 
+0.56 j enleve 5 
+0.6 j enleve 6 
+4.050094e-13 j enleve 0 
+4.050094e-12 j enleve 0 
+4.050094e-11 j enleve 0 
+4.050094e-10 j enleve 0 
+4.050094e-09 j enleve 0 
+4.050094e-08 j enleve 0 
+4.050094e-07 j enleve 0 
 ...
-[1] "0.53125 j'enleve 5"
-[1] "0.3125 j'enleve 3"
-[1] "0.125 j'enleve 1"
-[1] "0.25 j'enleve 2"
-[1] "0.5 j'enleve 5"  
+0.3125 j enleve 3 
+0.125 j enleve 1 
+0.25 j enleve 2 
+0.5 j enleve 5  
 \end{lstlisting}
 \end{frame}
 
