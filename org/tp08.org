@@ -1,6 +1,7 @@
 #+SETUPFILE: base-template.org
 #+TITLE:     Travaux Pratiques #8
 #+SUBTITLE:     Algo & Prog avec R
+#+OPTIONS: num:1 toc:1
 #+PROPERTY: header-args :results output replace :exports none
 * Memo-Fonctions
 ** Factorielle                                                     :noexport:
@@ -14,7 +15,7 @@
          for(i in m:n) {
            cache <<- append(cache, tail(cache,1)*i)
          }
-         print(paste("number of cached factorials", length(cache))) 
+         cat("number of cached factorials", length(cache), '\n') 
        }
        return(cache[n+1])
      }
@@ -27,9 +28,9 @@
    #+END_SRC
 
    #+RESULTS:
-   : [1] "number of cached factorials 6"
+   : number of cached factorials 6 
    : [1] 120
-   : [1] "number of cached factorials 21"
+   : number of cached factorials 21 
    : [1] 2.432902e+18
 
 ** Une récurrence simple
@@ -184,7 +185,6 @@ Nous nous proposons de programmer la fonction ~binomial(n,p)~ retournant $C_n^p$
     }
     #+END_SRC
 
-    #+RESULTS:
 
 *** N.B. Il existe une autre formule pour $C_n^p$, basée sur des factorielles et utilisée en combinatoire : 
     $$
@@ -371,7 +371,7 @@ On peut montrer que si le nombre initial d’allumettes n’est pas un nombre de
 : [1] 8
 : [1] 89  8  3
 
-#+BEGIN_SRC R :session game      
+#+BEGIN_SRC R :results silent :session game      
 
   play_game <- function(n, player1, player2, verbose=TRUE) {
     players <- c(player1, player2)
@@ -386,14 +386,14 @@ On peut montrer que si le nombre initial d’allumettes n’est pas un nombre de
         n <- n - take
         l <- take
         if(verbose) {
-          cat(paste("Player", pidx, "takes", take,"matche(s) :", n, "left.\n"))
+          cat("Player", pidx, "takes", take, "matche(s) :", n, "left.\n")
         }
         ## Termination condition 
         if(n <= 0) {
           break
         }
       } else {
-        cat(paste("Player", pidx, "takes", take,"matche(s) : ERROR!\n"))
+        cat("Player", pidx, "takes", take, "matche(s) : ERROR!\n")
         ## Swtich players
         pidx <- ifelse(pidx == 1, 2, 1) 
         break
@@ -403,7 +403,7 @@ On peut montrer que si le nombre initial d’allumettes n’est pas un nombre de
       pidx <- ifelse(pidx == 1, 2, 1) 
     }
     if(verbose) {
-      cat(paste("Player", pidx, "wins!\n"))
+      cat("Player", pidx, "wins!\n")
     }
     return(pidx)
   }

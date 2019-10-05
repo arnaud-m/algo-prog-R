@@ -252,7 +252,7 @@ Maintenant, programmez la fonction ~Circuit2(R1,R2,R3)~ retournant la résistanc
     h <- n %/% 60;
     m <- h %% 60;
     h <- h %/% 60;
-    print(sprintf("%d -> %02d:%02d:%02d",n,h,m,s))
+    cat(sprintf("%d -> %02d:%02d:%02d\n",n,h,m,s))
   }
 #+END_SRC
 
@@ -263,9 +263,9 @@ Maintenant, programmez la fonction ~Circuit2(R1,R2,R3)~ retournant la résistanc
 #+END_SRC
 
 #+RESULTS:
-: [1] "4567 -> 01:16:07"
-: [1] "3601 -> 01:00:01"
-: [1] "123456789 -> 34293:33:09"
+: 4567 -> 01:16:07
+: 3601 -> 01:00:01
+: 123456789 -> 34293:33:09
 
 * Impôt sur le revenu
   Supposons que l'impôt sur le revenu annuel soit calculé par tranches de la manière suivante. 

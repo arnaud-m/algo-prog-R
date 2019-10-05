@@ -1,25 +1,26 @@
 ﻿#+SETUPFILE: base-template.org
 #+TITLE:     Travaux Pratiques #4
 #+SUBTITLE:     Algo & Prog avec R
+#+OPTIONS: num:1 toc:1
 #+PROPERTY: header-args :results output replace :exports none
 * Calcul flottant
 
   Définissez en R la variable a dont la valeur est $\sqrt{3}$.
  1. Demandez si $a^2$ est bien égal à 3.
- 2. Expliquez. Indice : ~print(sprintf('%.17f',0.1))~ et sur [[http://stackoverflow.com/questions/21872854/floating-point-math-in-different-programming-languages][stackoverflow.]]
+ 2. Expliquez. Indice : ~cat(sprintf('%.17f\n', 0.1))~.
  
   #+BEGIN_SRC R 
     a <- sqrt(3)
     b <-  a**2
-    a == b
-    print(paste('Attention à l affichage de a**2', b))
-    print(sprintf('Voici la valeur de a**2 en interne : %.17f',b))
+    cat('Est-ce que racine de 3 au carré est égale à 3 ?', b == 3, '\n')
+    cat('Attention à l affichage de a**2 :', b, '\n')
+    cat(sprintf('Voici la valeur de a**2 en interne : %.17f\n',b))
   #+END_SRC
 
   #+RESULTS:
-  : [1] FALSE
-  : [1] "Attention à l affichage de a**2 3"
-  : [1] "Voici la valeur de a**2 en interne : 2.99999999999999956"
+  : Est-ce que racine de 3 au carré est égale à 3 ? FALSE
+  : Attention à l affichage de a**2 : 3
+  : Voici la valeur de a**2 en interne : 2.99999999999999956
 
 
  3. [@3] Programmer $100 \times 1.0$ par additions successives (à l'aide d'une boucle) : $100 \times 1.0 = 1.0 + 1.0 + \dots + 1.0 + 1.0$. Que constatez-vous ?
@@ -31,11 +32,11 @@
      i <- i + 1
      acc <- acc + 1.0
    }
-   print(sprintf("100 * 1.0 = %.16f",acc))
+   cat(sprintf("100 * 1.0 = %.16f\n", acc))
   #+END_SRC
 
   #+RESULTS:
-  : [1] "100 * 1.0 = 100.0000000000000000"
+  : 100 * 1.0 = 100.0000000000000000
 
  4. [@4] Même question pour $100 \times 0.1$.
 
@@ -46,11 +47,11 @@
       i <- i + 1
       acc <- acc + 0.1
     }
-    print(sprintf("100 * 0.1 = %.16f",acc))
+    cat(sprintf("100 * 0.1 = %.16f\n",acc))
   #+END_SRC
 
   #+RESULTS:
-  : [1] "100 * 0.1 = 9.9999999999999805"
+  : 100 * 0.1 = 9.9999999999999805
 * Formule d'Euler 
 Le cours de maths de seconde année vous démontrera peut-être la formule suivante : $\sum_{i=1}^{+\infty} \frac{1}{i^2}=\frac{\pi^2}{6}$. \\
 Écrire une fonction ~PiEuler(n)~ qui calcule une estimation de $\pi$ à partir de la somme partielle d'ordre ~n~ : $\sum_{i=1}^{n} \frac{1}{i^2}$.
@@ -134,15 +135,15 @@ On suppose que l'approximation courante est $a > 0$. Calculez l'équation de la 
 #+BEGIN_SRC R :session solve 
   g <-function(x) x**5 - 3 * x + 1
   sol = Solve(g,1,0.0001)
-  print('x**5-3x+1 = 0 admet au moins une racine reelle car le degre est impair, ok ?')
-  paste('Une solution de x**5-3x+1 = 0 :',sol)
-  paste('Verification : g(sol) =',g(sol),'où e-05 signifie *10**(-5)')
+  cat('x**5-3x+1 = 0 admet au moins une racine reelle car le degre est impair, ok ?\n')
+  cat('Une solution de x**5-3x+1 = 0 :', sol, "\n")
+  cat('Verification : g(sol) =',g(sol),'où e-05 signifie *10**(-5)\n')
 #+END_SRC
 
 #+RESULTS:
-: [1] "x**5-3x+1 = 0 admet au moins une racine reelle car le degre est impair, ok ?"
-: [1] "Une solution de x**5-3x+1 = 0 : 1.2146493830778"
-: [1] "Verification : g(sol) = 1.05670215906351e-05 où e-05 signifie *10**(-5)"
+: x**5-3x+1 = 0 admet au moins une racine reelle car le degre est impair, ok ?
+: Une solution de x**5-3x+1 = 0 : 1.214649
+: Verification : g(sol) = 1.056702e-05 où e-05 signifie *10**(-5)
 
 *** Solution : petites maths sur papier \dots                      :noexport:
     Meme technique, sauf que la fonction f reste abstraite et derivable :
@@ -160,22 +161,22 @@ On suppose que l'approximation courante est $a > 0$. Calculez l'équation de la 
     - et enfin du nombre $\pi$.
 
 #+BEGIN_SRC R :session solve 
-  paste('Approximation de la racine cubique de 2 :',Solve( function(x) x**3-2, 1, 0.0001))
-  paste('(la "vraie" valeur est ',2**(1/3),')')
-  paste('Approximation de pi comme solution de sin(x) = 0 :',Solve(sin,3,0.0001))
-  paste('(la "vraie" valeur est ',pi,')')
-  sol = Solve((function(x) x-cos(x)),1,0.0001)
-  paste('Solution de cos(x) = x :',sol)
-  paste('Verification de cos(',sol,') == ',cos(sol), ':', sol == cos(sol))
+  cat('Approximation de la racine cubique de 2 :',Solve( function(x) x**3-2, 1, 0.0001), "\n")
+  cat('(la "vraie" valeur est ',2**(1/3),')\n')
+  cat('Approximation de pi comme solution de sin(x) = 0 :',Solve(sin, 3, 0.0001), "\n")
+  cat('(la "vraie" valeur est ',pi,')\n')
+  sol <- Solve(function(x) x-cos(x), 1, 0.0001)
+  cat('Solution de cos(x) = x :', sol, "\n")
+  cat('Verification de cos(',sol,') == ', cos(sol), ':', sol == cos(sol), "\n")
 #+END_SRC
 
 #+RESULTS:
-: [1] "Approximation de la racine cubique de 2 : 1.25993381738363"
-: [1] "(la \"vraie\" valeur est  1.25992104989487 )"
-: [1] "Approximation de pi comme solution de sin(x) = 0 : 3.14159265325442"
-: [1] "(la \"vraie\" valeur est  3.14159265358979 )"
-: [1] "Solution de cos(x) = x : 0.739113153543173"
-: [1] "Verification de cos( 0.739113153543173 ) ==  0.73906625809501 : FALSE"
+: Approximation de la racine cubique de 2 : 1.259934
+: (la "vraie" valeur est  1.259921 )
+: Approximation de pi comme solution de sin(x) = 0 : 3.141593
+: (la "vraie" valeur est  3.141593 )
+: Solution de cos(x) = x : 0.7391132
+: Verification de cos( 0.7391132 ) ==  0.7390663 : FALSE
 
 
 N.B. Au moment d'utiliser la fonction ~Solve(f,a,h)~, il n'est pas nécessaire que la fonction f soit déjà définie. On peut *passer une "fonction anonyme" en paramètre de ~Solve~*. 
@@ -191,7 +192,6 @@ On pourra donc demander par exemple
     
 
 
-    
 * Racines d'un trinôme                                                 :HARD:
 
   Il est fortement conseillé de lire la page wikipedia sur les [[https://fr.wikipedia.org/wiki/%25C3%2589quation_du_second_degr%25C3%25A9][équations du second degré]] ou encore mieux [[https://www.scilab.org/sites/default/files/scilabisnotnaive.pdf][Scilab is not naive]]. 
@@ -253,25 +253,25 @@ On pourra donc demander par exemple
        li <- head(seq(0.0001,0,length.out=4),-1)
        for (epsilon in li) {
          e1 <- epsilon**2
-         #print(paste("Epsilon:", epsilon))
-         print(paste("Expected root:",e1))
+         #cat("Epsilon:", epsilon, "\n"))
+         cat("Expected root:",e1, "\n")
          r1 <- triroot(epsilon, 1/epsilon, -epsilon)[1]
-         print(paste("Naive method:",r1, "error=", format(abs(1-r1/e1), digits=3)))
+         cat("Naive method:",r1, "error=", format(abs(1-r1/e1), digits=3), "\n")
          r2 <-  Re(polyroot(c(-epsilon,1/epsilon,epsilon))[1])
-         print(paste("R method:",r2, "error=", format(abs(1-r2/e1),digits=3)))
+         cat("R method:",r2, "error=", format(abs(1-r2/e1),digits=3), "\n")
        }
      #+END_SRC
 
      #+RESULTS:
-     : [1] "Expected root: 1e-08"
-     : [1] "Naive method: 9.09494701772928e-09 error= 0.0905"
-     : [1] "R method: 1e-08 error= 0"
-     : [1] "Expected root: 4.44444444444445e-09"
-     : [1] "Naive method: 1.36424205265939e-08 error= 2.07"
-     : [1] "R method: 4.44444444444445e-09 error= 0"
-     : [1] "Expected root: 1.11111111111111e-09"
-     : [1] "Naive method: 0 error= 1"
-     : [1] "R method: 1.11111111111111e-09 error= 0"
+     : Expected root: 1e-08 
+     : Naive method: 9.094947e-09 error= 0.0905 
+     : R method: 1e-08 error= 0 
+     : Expected root: 4.444444e-09 
+     : Naive method: 1.364242e-08 error= 2.07 
+     : R method: 4.444444e-09 error= 0 
+     : Expected root: 1.111111e-09 
+     : Naive method: 0 error= 1 
+     : R method: 1.111111e-09 error= 0
 
 
     #+BEGIN_SRC R :results none :session triroot

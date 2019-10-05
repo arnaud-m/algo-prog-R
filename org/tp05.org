@@ -1,6 +1,7 @@
 ﻿#+SETUPFILE: base-template.org
 #+TITLE:     Travaux Pratiques #5
 #+SUBTITLE:     Algo & Prog avec R
+#+OPTIONS: num:1 toc:1
 #+PROPERTY: header-args :results output replace :exports none
 * Le tour de la boucle 
 #+BEGIN_SRC R :results output :exports both
@@ -153,7 +154,7 @@
     n <- abs(n);
     acc <- "";
     while(n > 0) {
-      acc <- paste(n %% 2, str, sep="");
+      acc <- paste(n %% 2, acc, sep="");
       n  <- n %/% 2;
     }
     return(acc)
@@ -165,14 +166,14 @@
 #+BEGIN_SRC R :exports both :session strbin
   n <- 3456  
   nbin <- IntToBin(3456)
-  paste(n, "->", nbin,  "->", strtoi(nbin, base = 2))
+  cat(n, "->", nbin,  "->", strtoi(nbin, base = 2), '\n')
 #+END_SRC
 
 #+RESULTS:
-: [1] "3456 -> 110110000000 -> 3456"
+: 3456 -> 110110000000 -> 3456
 
 *** La fonction inverse ~BinToInt(s)~ prenant une chaîne ~s~ contenant l'écriture binaire d'un entier ~n~, et retournant ~n~. 
-#+BEGIN_SRC R :session strbin
+#+BEGIN_SRC R :results silent :session strbin
   BinToInt <- function(s) {
     digits <- utf8ToInt(s)-utf8ToInt("0")
     pows <- seq(from = length(digits)-1, to = 0)
@@ -183,11 +184,11 @@
 #+BEGIN_SRC R :exports both :session strbin
   n <- 3456  
   nbin <- IntToBin(3456)
-  paste(n, "->", nbin,  "->", BinToInt(nbin))
+  cat(n, "->", nbin,  "->", BinToInt(nbin), '\n')
 #+END_SRC
 
 #+RESULTS:
-: [1] "3456 -> 110110000000 -> 3456"
+: 3456 -> 110110000000 -> 3456
 
 
 
@@ -231,7 +232,7 @@ Les autres caractères du message sont laissés intacts.
   TestCesar <- function(msg, k) {
     cod <- CodeCesar(msg,k)
     dcod <- DecodeCesar(cod,k)
-    cat(paste('k=', k, ":" , msg, '-->', cod,'-->', dcod, '\n'))
+    cat('k=', k, ":" , msg, '-->', cod,'-->', dcod, '\n')
   }
   TestCesar('envoyez 36 hommes !', 3)
   TestCesar('ENVOYEZ 36 HOMMES !', -23)

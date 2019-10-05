@@ -1,6 +1,7 @@
 #+SETUPFILE: base-template.org
 #+TITLE:     Travaux Pratiques #6
 #+SUBTITLE:     Algo & Prog avec R
+#+OPTIONS: num:1 toc:1
 #+PROPERTY: header-args :results output replace :exports none
 * Recherche d'éléments dans un vecteur
   
@@ -227,7 +228,7 @@
   } 
   n <- 10**5
   proba <- mean(replicate(n, can_pay(2, money, 100)))
-  cat(paste("Simulation probability :", round(proba,4)),"\n")
+  cat("Simulation probability :", round(proba,4),"\n")
 
   ## Theory : 
   ## Winning combinations : 
@@ -238,12 +239,12 @@
   ## 2 x 50.
   wins <- wins + choose(3,1) 
   total <- choose(length(money), 2)
-  cat(paste("Theoritical probability:", round(wins/total,4)),"\n")  
+  cat("Theoritical probability:", round(wins/total,4),"\n")  
 #+END_SRC
 
 #+RESULTS:
-: Simulation probability : 0.6673 
-: Theoritical probability: 0.6667 
+: Simulation probability : 0.6701
+: Theoritical probability: 0.6667
 * Flux d'élèves                                                         :KEY:
 
   En l’an 2000, le lycée A compte 2 000 élèves et le lycée B compte 8 000 élèves.
@@ -294,32 +295,32 @@ La fonction ~estPremier(n)~  retourne False si elle trouve un diviseur non trivi
     ## d == n dans le pire des cas, coût = au plus n operations
     return(d)                  
   }
-  paste('PlusPetitDiv(77) =',PlusPetitDiv(77))
-  paste('PlusPetitDiv(29) =',PlusPetitDiv(29))
+  cat('PlusPetitDiv(77) =',PlusPetitDiv(77), '\n')
+  cat('PlusPetitDiv(29) =',PlusPetitDiv(29), '\n')
 
   p <- 1000003
-  paste('PlusPetitDiv(',p,') Version O(n)')
+  cat('PlusPetitDiv(',p,') Version O(n)\n')
   system.time(replicate(5,PlusPetitDiv(p))) 
 #+END_SRC
 
 #+RESULTS:
-: [1] "PlusPetitDiv(77) = 7"
-: [1] "PlusPetitDiv(29) = 29"
-: [1] "PlusPetitDiv( 1000003 ) Version O(n)"
+: PlusPetitDiv(77) = 7
+: PlusPetitDiv(29) = 29
+: PlusPetitDiv( 1000003 ) Version O(n)
 : utilisateur     système      écoulé 
-:       1.231       0.001       1.234
+:       0.481       0.000       0.481
 
 *** En déduire une nouvelle version en une ligne de la fonction ~EstPremier(n)~.
 #+BEGIN_SRC R :session primes
-  EstPremier <- function(n) (n >= 2) && (PlusPetitDiv(n) == n)      
-    
-  paste('EstPremier(77) =',EstPremier(77))
-  paste('EstPremier(29) =',EstPremier(29))
+  EstPremier <- function(n) return((n >= 2) && (PlusPetitDiv(n) == n))      
+
+  cat('EstPremier(77) =',EstPremier(77), '\n')
+  cat('EstPremier(29) =',EstPremier(29), '\n')
 #+END_SRC
 
 #+RESULTS:
-: [1] "EstPremier(77) = FALSE"
-: [1] "EstPremier(29) = TRUE"
+: EstPremier(77) = FALSE
+: EstPremier(29) = TRUE
 
 *** Faites afficher tous les nombres premiers jusqu'à 100.
 #+BEGIN_SRC R :session primes
@@ -327,8 +328,7 @@ La fonction ~estPremier(n)~  retourne False si elle trouve un diviseur non trivi
   n <- 3
   while (n <= 100) {
     if (EstPremier(n)) {
-      cat(n)
-      cat(" ")
+      cat(n,"")
     }
     n <- n + 2
   }
@@ -338,6 +338,8 @@ La fonction ~estPremier(n)~  retourne False si elle trouve un diviseur non trivi
 #+RESULTS:
 : Voici les nombres premiers compris entre 3 et 100 :
 : 3 5 7 11 13 17 19 23 29 31 37 41 43 47 53 59 61 67 71 73 79 83 89 97 
+
+
 
 
 *** Il est souvent intéressant d'accélérer un algorithme. Accélérons donc ~PlusPetitDiv~. Montrez par un raisonnement mathématique très simple que s'il n'existe aucun diviseur de n dans $[2,\sqrt{n}]$ alors ~PlusPetitDiv(n) == n~, ce qui évite de chercher dans le gros intervalle $[\sqrt{n},n]$. Implémentez cette optimisation. Au passage, accélérez encore en évitant de considérer les nombres pairs qui à part 2, ne sont pas premiers. 
@@ -357,17 +359,17 @@ La fonction ~estPremier(n)~  retourne False si elle trouve un diviseur non trivi
     }
     return(d)
   }
-  paste('PlusPetitDiv(77) =',PlusPetitDiv(77))
-  paste('PlusPetitDiv(84201097) =',PlusPetitDiv(84201097),'donc il est premier !')
+  cat('PlusPetitDiv(77) =',PlusPetitDiv(77), '\n')
+  cat('PlusPetitDiv(84201097) =',PlusPetitDiv(84201097),'donc il est premier !\n')
   
-  paste('PlusPetitDiv(',p,') Version O(sqrt(n))')
+  cat('PlusPetitDiv(',p,') Version O(sqrt(n))\n')
   system.time(replicate(5,PlusPetitDiv(p)))        
 #+END_SRC
 
 #+RESULTS:
-: [1] "PlusPetitDiv(77) = 7"
-: [1] "PlusPetitDiv(84201097) = 84201097 donc il est premier !"
-: [1] "PlusPetitDiv( 1000003 ) Version O(sqrt(n))"
+: PlusPetitDiv(77) = 7
+: PlusPetitDiv(84201097) = 84201097 donc il est premier !
+: PlusPetitDiv( 1000003 ) Version O(sqrt(n))
 : utilisateur     système      écoulé 
 :       0.003       0.000       0.003
 * Vectorisation ou fonction prédéfinie ~Filter~
@@ -631,24 +633,24 @@ Nous allons donc remplacer le produit des nombres premiers par la *somme* $S_n$ 
       }
       return(essai)
   }
-  paste('Suivant(13) =',Suivant(13))
+  cat('Suivant(13) =',Suivant(13), '\n')
   
-  print('Je regarde si S(n)/n tend bien vers 1 :')
+  cat('Je regarde si S(n)/n tend bien vers 1 :\n')
    for (i in 1:5) {
         n = 10**i
         somme = S(n)
-        print(paste('n =',n,':',somme/n))
+        cat('n =',n,':',somme/n, '\n')
     }
-    print('Mmmm. Oui, on dirait bien que la limite vaut 1.')
+    cat('Mmmm. Oui, on dirait bien que la limite vaut 1.\n')
 #+END_SRC  
 
 #+RESULTS:
-: [1] "Suivant(13) = 17"
-: [1] "Je regarde si S(n)/n tend bien vers 1 :"
-: [1] "n = 10 : 0.534710753071747"
-: [1] "n = 100 : 0.837283903990639"
-: [1] "n = 1000 : 0.956245265120059"
-: [1] "n = 10000 : 0.989599137915698"
-: [1] "n = 1e+05 : 0.996853892686125"
-: [1] "Mmmm. Oui, on dirait bien que la limite vaut 1."
+: Suivant(13) = 17
+: Je regarde si S(n)/n tend bien vers 1 :
+: n = 10 : 0.5347108 
+: n = 100 : 0.8372839 
+: n = 1000 : 0.9562453 
+: n = 10000 : 0.9895991 
+: n = 1e+05 : 0.9968539
+: Mmmm. Oui, on dirait bien que la limite vaut 1.
 
