@@ -84,7 +84,7 @@ utilisateur     système      écoulé
 #+end_example
 ** Petites factorielles
    Ecrivez un programme itératif faisant afficher toutes les factorielles des entiers de 0 à 10, une par ligne. 
-*** En utilisant la fonction ~Fact~ ou ~FactRec~factorial, combien votre programme fera-t-il de multiplications ?
+*** En utilisant la fonction ~Fact~ ou ~FactRec~, combien votre programme fera-t-il de multiplications ?
 
     
 #+BEGIN_SRC R :session fact
@@ -238,7 +238,7 @@ Voici les factorielles (rapides) des entiers de [1,10] :
 
 ** Renversement d'un nombre
 
-#+BEGIN_SRC R :output none :session renverser
+#+BEGIN_SRC R :results silent :session renverser
   Renverser <- function(n, base = 10) {
     n <- abs(n);
     acc <- 0;
@@ -253,10 +253,12 @@ Voici les factorielles (rapides) des entiers de [1,10] :
 
 *** La fonction ~Renverser(n)~ prenant un entier positif ~n~ et retournant l'entier obtenu en prenant les chiffres de ~n~ en sens inverse. 
 #+BEGIN_SRC R :exports both :session renverser
+  Renverser(3456)
   Renverser(34560)
 #+END_SRC
 
 #+RESULTS:
+: [1] 6543
 : [1] 6543
 
 *** La fonction ~Renverser(n, base)~ prenant un entier positif ~n~ et retournant l'entier obtenu en prenant les chiffres de ~n~ en base ~b~ en sens inverse. 
@@ -403,7 +405,6 @@ Voici les factorielles (rapides) des entiers de [1,10] :
 : La fraction 58/87 n'est pas irreductible, on peut la simplifier par 29
 
 * Représentation des nombres en machines
-** Représentation d'un entier en machine
    La fonction ~typeof~ renvoie le type d'un objet.
    #+BEGIN_SRC R :exports both
      typeof(2105)
@@ -450,46 +451,4 @@ Voici les factorielles (rapides) des entiers de [1,10] :
     
     Même un entier "tout seul" est représenté par un vecteur \dots de une seule cellule.
     C'est comme ça : [[https://cran.r-project.org/doc/manuals/r-release/R-lang.html#Basic-types][basic types]] ; [[http://adv-r.had.co.nz/Expressions.html][expressions]].
-** Conversion binaire-décimal
-*** Comment l'entier 2015 s'écrit-il en binaire (base 2) ?
-
-    Il est obligatoire de comprendre ce tutoriel sur les [[http://lehollandaisvolant.net/tuto/bin.php][systèmes binaire et l'hexadécimal]].
-    On procede par une suite de divisions par 2 jusqu'a tomber sur un quotient nul.
-    On "remonte" alors tous les restes des divisions. 
-    Soit a convertir 123 en binaire.
-#+BEGIN_EXAMPLE
-123 | 2
-  1   61 | 2
-       1   30 | 2
-            0   15 | 2
-                 1   7 | 2
-                     1   3 | 2
-                         1   1 | 2
-                             1   0=STOP
-#+END_EXAMPLE
-Donc en binaire 123 s'ecrit '1111011'.
-
-#+BEGIN_SRC R
-  rev(intToBits(2015))
-#+END_SRC
-
-#+RESULTS:
-:  [1] 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 01 01 01
-: [26] 01 00 01 01 01 01 01
-
-*** Quel est l'entier dont l'écriture binaire est 1101110 ? On verifie ?
-    On n'utilise pas obligatoirement les puissances de 2, mais le "schema de Horner" qui consiste
-    à eplucher l'ecriture binaire de gauche a droite en appliquant la question d. 
-    On part d'un accumulateur acc=0. 
-    Chaque fois que l'on rencontre un 0 on fait acc = 2*acc et si l'on rencontre un 1 on fait acc=2*acc+1. 
-    Exemple sur 1001101 : 0, 1, 2, 4, 9, 19, 38, 77. Facile ? 
-
-#+BEGIN_SRC R
-  bits <- strsplit('1001101','')[[1]]=="1"
-  pows <- 2**((length(bits)-1):0)
-  sum(pows*bits)
-#+END_SRC
-
-#+RESULTS:
-: [1] 77
 

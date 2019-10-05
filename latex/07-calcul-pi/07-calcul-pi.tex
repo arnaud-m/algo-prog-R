@@ -81,7 +81,7 @@ acc <- 1
 \begin{frame}[fragile]
   \frametitle{Programme d'approximation de $\pi$}
   \begin{lstlisting}[style=editor]
-LeibnizPi <- function(n = 10**4, h = 2^(-20)) {
+LeibnizPi <- function(n = 10**4, h = 2**(-20)) {
   i <- 0
   term <- 1
   acc <- 1
@@ -207,16 +207,16 @@ utilisateur     système      écoulé
   \end{alertblock}
 
   \begin{lstlisting}
-LeibnizPi2 <- function(n = 10**4, h = 2^(-20)) {
+LeibnizPi2 <- function(n = 10**4, h = 2**(-20)) {
   i <- 0
   term <- 1
   acc <- 1
   h <- h / 4 ## éviter la multiplication du test
-  sign <- 1 ## mémoriser le signe du terme 
+  signe <- 1 ## mémoriser le signe du terme 
   denom <- 1 ## mémoriser le dénominateur du terme
   while( (i <=n) && abs(term) > h) {
     i <- i + 1
-    sign <- -1 * sign # éviter une puissance
+    signe <- -1 * signe # éviter une puissance
     denom <- denom + 2 # éviter une multiplication
     term <- sign / denom
     acc <- acc + term

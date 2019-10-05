@@ -2,7 +2,7 @@
 #+TITLE:     Travaux Pratiques #2
 #+SUBTITLE:     Algo & Prog avec R
 #+OPTIONS: num:1 toc:1
-#+PROPERTY: header-args :results output replace :exports none
+#+PROPERTY: header-args :results output replace :exports both
 * Travail au CRIPS (Petit Valrose)
    Vous allez travailler sur des ordinateurs sous le système d'exploitation Windows (2ème étage) ou Linux (3ème étage).
    Peut-être utilisez-vous un ordinateur MacOS-X (basé sur UNIX comme Linux) ?
@@ -100,9 +100,6 @@
  #+END_SRC
 
  #+RESULTS:
- : [1] "Somme2Max( 3 , 5 , 7 ) -->  12"
- : [1] "Somme2Max( 3 , 5 , 7 ) -->  12"
- : [1] "Somme2Max( 3 , 5 , 7 ) -->  12"
  : Somme2Max(x, y, z)
  : [1] 12
 
@@ -346,8 +343,8 @@ Maintenant, programmez la fonction ~Circuit2(R1,R2,R3)~ retournant la résistanc
 : [1] "closure"
 
 ** Les opérateurs sont des fonctions.
-    En R, même les opérateurs sont des fonction !
-    Par exemple, + est un operateur, mais c'est ausssi une fonction. 
+    En R, même les opérateurs sont des fonctions !
+    Par exemple, + est un opérateur, mais c'est aussi une fonction. 
 
 
  #+BEGIN_SRC R :exports code
@@ -362,7 +359,7 @@ Maintenant, programmez la fonction ~Circuit2(R1,R2,R3)~ retournant la résistanc
 
 ** Évaluation paresseuse des arguments d'une fonction
    
-   Par exemple, si ~f~ est une fonction, au moment du calcul de ~f(a,b)~, l'évaluation des paramètre ~a~ et ~b~ de la fonction ne se fait pas avant que les résultats de cette évaluation ne soient réellement nécessaires. 
+   Par exemple, si ~f~ est une fonction, au moment du calcul de ~f(a,b)~, l'évaluation des paramètres ~a~ et ~b~ de la fonction ne se fait pas avant que les résultats de cette évaluation ne soient réellement nécessaires. 
    Ce mécanisme s'appelle l'évaluation paresseuse.
 
 

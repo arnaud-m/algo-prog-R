@@ -144,7 +144,7 @@
  4 x 10 =  40
 #+end_example
 
-* WAITING Épluchages de chaînes                                         :KEY:
+* Épluchages de chaînes                                         :KEY:
   En utilisant l'idée d'épluchage d'un entier, programmez les fonctions suivantes d'écriture et de lecture d'un nombre binaire.
 
 *** La fonction ~IntToBin(n)~ prenant un entier n et retournant la chaîne contenant l'écriture binaire de n. 
