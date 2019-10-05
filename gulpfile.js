@@ -10,6 +10,7 @@ $.task('clean', clean);
 $.task('publish', publish);
 $.task('minimize', pages);
 $.task('build', $.series('clean', 'publish', 'minimize'));
+$.task('rebuild', $.series('publish', 'minimize'));
 $.task('default', $.series('build', $.parallel(serve, watch)));
 
 function clean() {

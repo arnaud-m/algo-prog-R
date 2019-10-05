@@ -256,19 +256,14 @@ Ce cours est inspiré du cours de Python de Jean-Paul Roy et Bruno Martin que je
 *** Vendredi (SITE)
   | 09h00-12h00 |          | 13h00-16h00 |          |
   |-------------+----------+-------------+----------|
-  | *Groupe 1*  | 215 (AM) | *Groupe 4*  | 314 (SR) |
+  | *Groupe 1*  | 215 (AM) | *Groupe 4*  | 316 (SR) |
   | *Groupe 2*  | 214 (SR) | *Groupe 5*  | 317 (EF) |
   | *Groupe 3*  | 202 (MP) |             |          |
-
-# |             | +304+    |             | +214+    |
-
-
 
 * Contenu
  #+BEGIN_EXPORT html 
  <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Licence Creative Commons" style="border-width:0;margin-left:0%" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br/>Ce cours  est mis à disposition dans ce <a rel="github repository" href="https://github.com/arnaud-m/algo-prog-R">dépôt github</a> selon les termes de la <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Licence Creative Commons Attribution - Pas d’Utilisation Commerciale 4.0 International</a>.
  #+END_EXPORT 
-
 
 ** Organisation
 
@@ -286,8 +281,8 @@ Ce cours est inspiré du cours de Python de Jean-Paul Roy et Bruno Martin que je
    - [[file:pdf/F1-nombres.pdf][Cours sur la représentation des nombres]] 
    
    L'autoformation est au programme du contrôle continu et de l'examen.
-   Pour le contrôle continu, elle est évaluée individuellement par des questionnaires sur [[https://lms.univ-cotedazur.fr/course/view.php?id=14552][moodle]] accessible pendant tout le semestre.
-
+   Pour le contrôle continu, une note indivduelle est obtenu en répondant aux quatre questionnaires sur [[https://lms.univ-cotedazur.fr/course/view.php?id=14552][moodle]] accessible pendant tout le semestre.
+   Chaque questionnaire rapporte 3 points et la note maximale possible est donc 12.  
 ** Carte de référence
    
    Nous vous avons préparé une superbe [[file:pdf/base-r.pdf][carte de référence]] en couleurs.
@@ -329,7 +324,7 @@ Ce cours est inspiré du cours de Python de Jean-Paul Roy et Bruno Martin que je
      1. Citer vos sources
      2. Le partage de code est interdit sauf avec votre binôme.
 
-  Le barème des activités est différent selon votre portail : Sciences de la Vie ; Sciences et Technologies.
+  Le barème des activités est différent selon votre portail : Sciences de la Vie (ST) ; Sciences et Technologies (SITE).
 
 *** Exercices UCAnCODE
 
@@ -342,20 +337,31 @@ Ce cours est inspiré du cours de Python de Jean-Paul Roy et Bruno Martin que je
     - [[file:pdf/A0-ucancode.pdf][Cours d'introduction à la programmation compétitive]]
 
     Les activités seront publiés ici au fur et à mesure à partir 3 octobre 2019.
- 
+    Avant de commencer les activités, suivez le [[http://i3s.unice.fr/master-info/ucancode/tutoriel/][tutoriel UCAnCODE]]. 
+    Vous pouvez vous arrêter après avoir résolu le problème ECHO si vous n'avez jamais programmé auparavant.
+    
+    Les nombres dans les colonnes SITE et SV indiquent la note maximale possible pour une activité selon votre portail.
+
+ | Problème | SITE | SV |
+ |----------+------+----|
+ | [[https://51364960.widgets.sphere-engine.com/lp?hash=xQiNQQm3RT][ROULETTE]] |   12 | 14 |
+
+
 *** Mini-projets
     Les mini-projets complètent et étendent des notions abordées en cours et vous font découvrir différentes applications.  
     Vous devez déposer le projet sur moodle et faire une démonstration du projet pendant les travaux pratiques.
 
-    | #. | Activité                                         | Cours | Niveau      |
-    |----+--------------------------------------------------+-------+-------------|
-    | 1. | [[file:act01.org][Graphisme tortue]]                                 | [[file:pdf/A1-Tortue.pdf][A1]]    | Tout niveau |
-    | 2. | Graphisme tortue 3D                              | A2    | Difficile   |
-    | 3. | [[file:act03.org][Convertisseur de base (shiny)]]                    | [[http://www.hanselsolutions.com/blog/surf-talk/shiny-surf.html#/][A3]]    | Facile      |
-    | 4. | [[file:act04.org][Coefficient de Gini (shiny)]]                      | [[http://www.hanselsolutions.com/blog/surf-talk/shiny-surf.html#][A3]]    | Facile      |
-    | 5. | [[file:act05.org][Estimation de la moyenne  (shiny)]]                | [[http://www.hanselsolutions.com/blog/surf-talk/shiny-surf.html#/][A3]]    | Facile      |
-    | 6. | [[file:act06.org][Manipulation de polynômes]]                        | [[file:pdf/A4-Polynomes.pdf][A4]]    | Difficile   |
-    | 7. | [[file:act07.org][Estimation d'aires par la méthode de Monte Carlo]] | A5    | Difficile   |
+    Les nombres dans les colonnes SITE et SV indiquent la note maximale possible pour une activité selon votre portail.
+
+    | #. | Activité                                         | Cours | Niveau      | SITE | SV |
+    |----+--------------------------------------------------+-------+-------------+------+----|
+    | 1. | [[file:act01.org][Graphisme tortue]]                                 | [[file:pdf/A1-Tortue.pdf][A1]]    | Tout niveau |   20 | 20 |
+    | 2. | Graphisme tortue 3D                              | A2    | Difficile   |   20 | 20 |
+    | 3. | [[file:act03.org][Convertisseur de base (shiny)]]                    | [[http://www.hanselsolutions.com/blog/surf-talk/shiny-surf.html#/][A3]]    | Facile      |   12 | 14 |
+    | 4. | [[file:act04.org][Coefficient de Gini (shiny)]]                      | [[http://www.hanselsolutions.com/blog/surf-talk/shiny-surf.html#][A3]]    | Facile      |   12 | 14 |
+    | 5. | [[file:act05.org][Estimation de la moyenne (shiny)]]                 | [[http://www.hanselsolutions.com/blog/surf-talk/shiny-surf.html#/][A3]]    | Facile      |   12 | 14 |
+    | 6. | [[file:act06.org][Manipulation de polynômes]]                        | [[file:pdf/A4-Polynomes.pdf][A4]]    | Difficile   |   20 | 20 |
+    | 7. | [[file:act07.org][Estimation d'aires par la méthode de Monte Carlo]] | A5    | Difficile   |   20 | 20 |
 
     Vous devez déposer sur moodle un seul fichier de code source commenté dont l'entête est donnée ci-dessous.
     Les commentaires doivent indiquer clairement comment lancer une démonstration du projet s'éxécutant sans erreur. 
@@ -375,6 +381,9 @@ Ce cours est inspiré du cours de Python de Jean-Paul Roy et Bruno Martin que je
     Pour soumettre une contribution, vous devez 
      - rendre un devoir à l'activité /Bug Bounty/  sur moodle, ou
      - poster une [[https://github.com/arnaud-m/algo-prog-R/issues][issue]] sur github.
+       
+     La note sera intégrée comme un bonus ou comme une note de contrôle continu selon l'importance de la contribution.
+
 
 * Contrôle des connaissances
 ** Contrôle continu (60%)
@@ -388,7 +397,7 @@ Ce cours est inspiré du cours de Python de Jean-Paul Roy et Bruno Martin que je
    Le barême de l'examen est sur 23, mais nous conserverons votre note sur 20.
     - 2 points sur les conversions de base (c.f. quizz) ;
     - 3 points sur la lecture de code (c.f. quizz) ;
-    - 18 points sur des exercices de programmation dérivés des travaux pratiques du cours.
+    - 18 points sur des exercices de programmation dérivés des travaux pratiques du cours, dont au moins 5 points sur les trois premiers cours.
 
 ** Seconde session
    
