@@ -9,11 +9,6 @@ Cette séance de travaux pratiques doit être réalisée en distanciel.
 * Installation de R et RStudio                                :HOME:KEY:
   Nous allons vous expliquer comment installer R et RStudio sur votre machine personnelle.
 
-
-  #+BEGIN_SRC emacs-lisp
-(require 'ox-bibtex)
-  #+END_SRC
-
 ** Installer l'interpréteur R 
  1. Allez sur le site du projet R : http://www.r-project.org/
  2. Télécharger la version de R correspondant à votre système d'exploitation (Linux, Windows, Mac OS)
