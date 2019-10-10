@@ -121,7 +121,7 @@
     turtle_do(fleur(100, 35))
 #+END_SRC
 * Prélude
-Nous allons utiliser le package [[http://www.rexamine.com/resources/TurtleGraphics/][TurtleGraphics]] pour dessiner nos premiers graphiques en R.
+Nous allons utiliser le package [[http://www.gagolewski.com/software/TurtleGraphics/][TurtleGraphics]] pour dessiner nos premiers graphiques en R.
 #+BEGIN_SRC R :exports code
 install.packages("TurtleGraphics")
 #+END_SRC

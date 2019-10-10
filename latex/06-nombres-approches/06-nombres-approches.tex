@@ -70,7 +70,7 @@ Mais, $\pi = 3.141592653589793\mathbf{23}\ldots$
 
 \begin{frame}[fragile]
   \frametitle{Nombres rationnels}
-  Les nombres rationnels peuvent être représenté sous la forme d'une fraction, par exemple $\frac{1}{10}$.
+  Les nombres rationnels peuvent être représentés sous la forme d'une fraction, par exemple $\frac{1}{10}$.
   \begin{itemize}
   \item Le nombre $\frac{1}{10} = (0.1)_{10}$, par exemple, est simple dans le système décimal.
   \item Mais, il possède une infinité de chiffres après la virgule dans le système binaire !
@@ -99,9 +99,10 @@ La fonction \texttt{print} ou \texttt{printf} permet de voir (en décimal) la v�
 
   \begin{alertblock}{Problèmes et limitations}
     \begin{itemize}
-    \item les nombres et les calculs sont nécessairement arrondis.
-    \item il y a des erreurs d’arrondi et de précision
-    \item On ne peut plus faire les opérations de façon transparente
+    \item Les nombres et les calculs sont nécessairement arrondis.
+    \item Il y a des erreurs d’arrondi et de précision.
+    \item On ne peut plus faire les opérations de façon transparente.
+    \item L'ordre des opérations peut changer les résultats.
   \end{itemize}
 \end{alertblock}
 
@@ -144,13 +145,11 @@ a == b # BAD !
 \end{column}
 \begin{column}{0.48\textwidth}
   \begin{lstlisting}[style=editor]
-(a - b) < h # GOOD !    
+abs(a - b) < h # GOOD !    
   \end{lstlisting}
 \end{column}
 \end{columns}
-  
 \end{block}
-
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -183,6 +182,8 @@ Est-ce que cette boucle s'arrête ? En math ? En info ?
 
 \end{frame}
 
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
   \frametitle{Exemple : approximation de $\sqrt{r}$}
@@ -195,7 +196,7 @@ Est-ce que cette boucle s'arrête ? En math ? En info ?
   \[
     b = \frac{1}{2}(a + \frac{r}{a})
   \]
-  est une exception encore meilleure ! Pourquoi ? Cf TD.    
+  est une approximation encore meilleure ! Pourquoi ? Cf TD.    
   \end{block}
   Nous allons développer cet algorithme en répondant à trois questions : 
   \begin{description}
@@ -298,6 +299,31 @@ Racine <- function(r, h = 2**(-10)) {
  \appendix
  \backupSlides
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Répartition de flottants 6 bits sur la droite réelle}                                                                                                                
+  
+\begin{columns}[t]
+  \begin{column}{0.48\textwidth}
+    \begin{block}{Flottant $\sim$ Notation scientifique}
+      \includegraphics[width=\textwidth]{float-encoding}
+    \end{block}
+  \end{column}
+  \begin{column}{0.48\textwidth}
+    \begin{block}{Flottants sur 6 bits}
+      Soit $2^6$ valeurs distinctes.
+      \includegraphics[width=3cm]{float-6bits-encoding}
+    \end{block}
+  \end{column}
+\end{columns}
+
+\begin{figure}[b]
+  \centering
+  \includegraphics[width=0.9\textwidth]{float-6bits-distribution}
+\end{figure}
+
+\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \begin{frame}[fragile]{Backup slides}

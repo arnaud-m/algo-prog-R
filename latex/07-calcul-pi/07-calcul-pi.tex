@@ -135,7 +135,7 @@ ErreurRelativeLeibnizPi <- function(n) {
 
 \end{column}
 \begin{column}{0.48\textwidth}
-  \begin{exampleblock}{Représentation décimale}
+  \begin{exampleblock}{Approximation rationnelle}
     \begin{tabular}{lr}
     \toprule
     Fraction               & Erreur          \\
@@ -175,7 +175,7 @@ utilisateur     système      écoulé
   \item Le temps d’exécution et le nombre d'itérations augmentent linéairement avec la précision.
   \item La recherche d’une estimation très précise de $\pi$ demande un temps de calcul important.
   
-  \item En extrapolant ces résultats, il faudrait  $5 \times 10^8 secondes$ ($\geq$ 15 ans) pour obtenir une estimation de $\pi$ à la précision machine (approximativement 15 décimales).
+  \item En extrapolant ces résultats, il faudrait  $5 \times 10^8\ secondes$ ($\geq$ 15 ans) pour obtenir une estimation de $\pi$ à la précision machine (approximativement 15 décimales).
   \item<alert@1> Certaines formules convergent beaucoup plus rapidement.
   \end{itemize}
 \end{column}
@@ -218,7 +218,7 @@ LeibnizPi2 <- function(n = 10**4, h = 2**(-20)) {
     i <- i + 1
     signe <- -1 * signe # éviter une puissance
     denom <- denom + 2 # éviter une multiplication
-    term <- sign / denom
+    term <- signe / denom
     acc <- acc + term
   }
   return(4*acc)
