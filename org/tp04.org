@@ -161,10 +161,10 @@ On part de la situation suivante: $p_0 = 0.1$, $w_A=1$, $w_B=0.9$. L'allèle A a
      EvolutionFrequence(100, 0.1, 1, 1- 10**(-12))
    #+END_SRC
 
-
-
-
-   Mathématiquement, on peut montrer que si $p_t<1$, alors $p_{t+1}<1$ également, et que la fixation ne peux avoir lieu qu'au bout d'une infinité de générations (dans une population infinie, ca semble raisonnable); on montre également que si $w_A > w_B$, alors $p_{t+1} > p_t$. Obtenez-vous la même chose avec votre simulation ? Pourquoi?
+*** Résultats mathématiques
+ Mathématiquement, on peut montrer que si $1 > p_t$, alors $1 > p_{t+1}$ également, et que la fixation ne peux avoir lieu qu'au bout d'une infinité de générations (dans une population infinie, ca semble raisonnable).
+On montre également que si $w_A > w_B$, alors $p_{t+1} > p_t$. 
+Obtenez-vous la même chose avec votre simulation ? Pourquoi?
 * Méthode des tangentes de Newton                              :HARD:
 ** Formule de Newton
   La formule de Newton vu en [[file:pdf/06-nombres-approches.pdf][cours]] pour améliorer une approximation $a$ de $\sqrt{r}$ est obtenue de la manière suivante.  On trace la courbe d'équation  $y = f(x) = x^2-r$ qui coupe Ox précisément en $\sqrt{r}$.
