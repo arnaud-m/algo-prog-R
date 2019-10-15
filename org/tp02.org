@@ -318,7 +318,7 @@ Maintenant, programmez la fonction ~Circuit2(R1,R2,R3)~ retournant la résistanc
        cat("Veuillez entrer les longueurs des deux côtés de l’angle droit :\n")
        a <- scan( n = 1)
        b <- scan( n = 1)
-       hypo <- sqrt(a**2 + b)
+       hypo <- sqrt(a**2 + b**2)
        cat("Longueur de l'hypoténuse :", hypo, '\n')
      #+END_SRC
      

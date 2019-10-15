@@ -282,7 +282,7 @@ Voici les factorielles (rapides) des entiers de [1,10] :
 
 
 *** Écrivez une fonction ~JeuHasard~ utilisant la fonction ~sample~ pour simuler un lancer de dés, puis renvoyant le gain.
-
+    Pour faire la somme des valeurs renvoyées par ~sample~, utilisez la fonction ~sum~ ainsi : ~sum(sample(...))~. 
  #+BEGIN_SRC R :session jeuHasard
    JeuHasard <- function() {
      somme <- sum(sample(1:6, 3, replace=TRUE))

@@ -336,17 +336,17 @@ Ce cours est inspiré du cours de Python de Jean-Paul Roy et Bruno Martin que je
     
     - [[file:pdf/A0-ucancode.pdf][Cours d'introduction à la programmation compétitive]]
 
-    Les activités seront publiés ici au fur et à mesure à partir 3 octobre 2019.
-    Avant de commencer les activités, suivez le [[http://i3s.unice.fr/master-info/ucancode/tutoriel/][tutoriel UCAnCODE]]. 
+    Avant de commencer les activités, suivez le [[http://i3s.unice.fr/master-info/ucancode/tutoriel/][Tutoriel UCAnCODE]] 
     Vous pouvez vous arrêter après avoir résolu le problème ECHO si vous n'avez jamais programmé auparavant.
     
     Les nombres dans les colonnes SITE et SV indiquent la note maximale possible pour une activité selon votre portail.
-    *Attention, entrez votre adresse étudiante dans le formulaire d'accueil.* 
-    Sinon, votre note ne sera pas prise en compte.
 
- | Problème | SITE | SV |
- |----------+------+----|
- | [[https://51364960.widgets.sphere-engine.com/lp?hash=xQiNQQm3RT][ROULETTE]] |   12 | 14 |
+    *Attention, entrez votre adresse étudiante @etu.univ-cotedazur.fr dans le formulaire d'accueil. Sinon, votre note ne sera pas comptabilisée.*
+
+ | Problème          | SITE | SV |
+ |-------------------+------+----|
+ | [[http://i3s.unice.fr/master-info/ucancode/tutoriel/][Tutoriel UCAnCODE]] | -    | -  |
+ | [[https://51364960.widgets.sphere-engine.com/lp?hash=xQiNQQm3RT][ROULETTE]]          | 12   | 14 |
 
 
 *** Mini-projets
