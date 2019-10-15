@@ -91,10 +91,83 @@ Le code ci-dessous sert à TESTER la fonction ~PiEuler~.
 : PiEuler(100000) --> 3.1415831043
 : PiEuler(1000000) --> 3.1415916987
 : PiEuler(10000000) --> 3.1415925581
+* Génétique des populations
+ 
+Un gène donné peut exister en plusieurs allèles, avec des conséquences phénotypiques différentes: un exemple assez simple est celui des groupes sanguins, où le même gène existe en plusieurs allèles et dont le résultat observable est le groupe A,B, AB ou O. En génétique des populations, on s'intéresse à l'évolution temporelle de la fréquence des allèles dans une population.
 
+On prend ici l'exemple d'une population haploïde (chaque gène n'existe qu'en une version, comme chez les bactéries), infinie, panmictique et à générations non chevauchantes. Si on prend un gène présent en 2 allèles A et B, on va  noter $p_t$ la fréquence de l'allèle A à une génération $t$ (donc la fréquence de B à la même génération  est $1-p_t$). Pour mesurer la transmission des deux allèles, on leur attribue des valeurs de sélection $w_A$ et $w_B$. Le cours de génétique des populations nous dit que la fréquence de l'allèle A à la génération $t+1$ est alors:
+
+$$ p_{t+1} = \frac{p_tw_A}{p_tw_A + (1-p_t)w_B} $$
+
+On part de la situation suivante: $p_0 = 0.1$, $w_A=1$, $w_B=0.9$. L'allèle A a une valeur sélective plus élevée que l'allèle B.
+*** Écrivez une fonction ~ProchaineFrequence(p, wA, wB)~ qui prend en arguments $p_t$, $w_A$ et $w_B$, et qui renvoie $p_{t+1}$.
+
+  #+BEGIN_SRC R :results silent :session genpop
+    ProchaineFrequence <- function(p, wA, wB) {
+      pwa <- p * wA # une variable auxiliaire qui éconimise une multiplication
+      return(pwa / (pwa + (1-p)*wB))
+    }
+  #+END_SRC
+
+  #+BEGIN_SRC R :exports both :session genpop
+    ProchaineFrequence(0.1, 1, 0.9)
+  #+END_SRC
+
+  #+RESULTS:
+  : [1] 0.1098901
+
+*** Écrivez une fonction ~EvolutionFrequence(n, p, wA, wB))~ sans résultat dont l'effet est d'afficher l'évolution de la fréquence  $p_t$ sur ~n~ générations.
+
+   #+BEGIN_SRC R :results silent :session genpop
+     EvolutionFrequence <- function(n, p, wA, wB) {
+       i <- 0
+       while(i <= n) {
+         cat(sprintf('Fŕequence à la génération %d : %f\n', i,  p))
+         i <- i + 1
+         if( p == 0 || p == 1) {
+           cat('Fixation : arrêt de la simulation.\n')
+           break
+         }
+         p <- ProchaineFrequence(p, wA, wB) 
+       }
+       return(p)
+     }
+   #+END_SRC
+
+**** La fréquence de A atteint-elle 1 (on parle de fixation) en 100 générations ?  En 200 ?
+   #+BEGIN_SRC R  :exports both :session genpop
+     EvolutionFrequence(3, 0.1, 1, 0.9) # avec 3 générations
+   #+END_SRC
+
+   #+RESULTS:
+   : Fŕequence à la génération 0 : 0.100000
+   : Fŕequence à la génération 1 : 0.109890
+   : Fŕequence à la génération 2 : 0.120627
+   : Fŕequence à la génération 3 : 0.132258
+
+**** Modifier la fonction pour arréter la simulation si la fixation est atteinte.
+   #+BEGIN_SRC R  :exports both :session genpop
+     EvolutionFrequence(3, 1, 1, 0.9)
+   #+END_SRC
+
+   #+RESULTS: 
+   : Fŕequence à la génération 0 : 1.000000
+   : Fixation : arrêt de la simulation.
+      
+**** On veut poser la même question mais pour un avantage sélectif bien moindre; on prend $w_B=1-10^{-12}$. D'après votre programme, $p$ augmente-t-il au fur et à mesure des générations?
+
+
+   #+BEGIN_SRC R :exports code :results silent both :session genpop
+     EvolutionFrequence(100, 0.1, 1, 1- 10**(-12))
+   #+END_SRC
+
+
+
+
+   Mathématiquement, on peut montrer que si $p_t<1$, alors $p_{t+1}<1$ également, et que la fixation ne peux avoir lieu qu'au bout d'une infinité de générations (dans une population infinie, ca semble raisonnable); on montre également que si $w_A > w_B$, alors $p_{t+1} > p_t$. Obtenez-vous la même chose avec votre simulation ? Pourquoi?
 * Méthode des tangentes de Newton                              :HARD:
 ** Formule de Newton
-  La formule de Newton [cours 2 page 16] pour améliorer une approximation $a$ de $\sqrt{r}$ est obtenue de la manière suivante.  On trace la courbe d'équation  $y = f(x) = x^2-r$ qui coupe Ox précisément en $\sqrt{r}$.
+  La formule de Newton vu en [[file:pdf/06-nombres-approches.pdf][cours]] pour améliorer une approximation $a$ de $\sqrt{r}$ est obtenue de la manière suivante.  On trace la courbe d'équation  $y = f(x) = x^2-r$ qui coupe Ox précisément en $\sqrt{r}$.
   [[file:tp04/formule_newton.png]]
   1. Quelle est l'équation de la tangente (T) à la courbe au point d'abscisse $a$ ?
   2. La tangente n'étant pas horizontale, calculez l'abscisse b du point d'intersection de (T) avec Ox. Vous devez retrouver la formule de Newton !
