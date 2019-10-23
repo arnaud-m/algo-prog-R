@@ -158,13 +158,131 @@ On part de la situation suivante: $p_0 = 0.1$, $w_A=1$, $w_B=0.9$. L'allèle A a
 
 
    #+BEGIN_SRC R :exports code :results silent both :session genpop
-     EvolutionFrequence(100, 0.1, 1, 1- 10**(-12))
+     EvolutionFrequence(100, 0.1, 1, 1 - 10**(-12))
    #+END_SRC
 
 *** Résultats mathématiques
  Mathématiquement, on peut montrer que si $1 > p_t$, alors $1 > p_{t+1}$ également, et que la fixation ne peux avoir lieu qu'au bout d'une infinité de générations (dans une population infinie, ca semble raisonnable).
 On montre également que si $w_A > w_B$, alors $p_{t+1} > p_t$. 
 Obtenez-vous la même chose avec votre simulation ? Pourquoi?
+
+* Dynamique des populations
+  Il existe en biologie de nombreux modèles de dynamique des populations, permettant de modéliser une variété de dynamiques différentes. 
+  Si vous avez fait une L1 SV à Nice, vous les avez étudiés en version continue, sous forme d'équations différentielles; on les donne ici en version discrète, où on calcule l'évolution d'une population génération après génération.
+
+** Modèle de Malthus 
+ Le [[https://fr.wikipedia.org/wiki/Thomas_Malthus][Modèle de Malthus]], dont le nom a donné naissance au malthusianisme, suppose une croissance constante avec un taux $r$ : 
+   $$ N_{t+1} = (1+r)N_t$$
+  
+   $r$ représente la différence entre natalité et mortalité: $r > 0$ indique un surplus de natalité ; $r \lt 0$ un surplus de mortalité.
+
+*** Écrivez une fonction ~Malthus(nT, r)~ qui prend en arguments $N_t$ et $r$ et renvoie $N_{t+1}$.
+  #+BEGIN_SRC R :results silent :session dynpop
+    Malthus <- function(nT, r) {
+      return(nT*(1+r))
+    }
+  #+END_SRC
+
+  #+BEGIN_SRC R :exports both :session dynpop
+    Malthus(100, 0.1)
+  #+END_SRC
+
+  #+RESULTS:
+  : [1] 110
+
+*** Écrivez une fonction ~EvolutionMalthus(n, n0, r)~  qui affiche l'évolution de la population $N_0$ sur ~n~ générations, puis renvoie la population finale. Ajoutez un paramètre optionnel ~verbose~ pour activer ou désactiver l'affichage.
+  #+BEGIN_SRC R :results silent :session dynpop
+    EvolutionMalthus <- function(n, n0, r, verbose = TRUE) {
+       i <- 0;
+       nT <- n0
+       if(verbose) {cat(sprintf('Population à la génération %d : %f\n', 0,  nT))}
+       while(i < n) {
+         nT <- Malthus(nT, r)
+         i <- i + 1
+         if(verbose) {cat(sprintf('Population à la génération %d : %f\n', i,  nT))}
+       }
+       return(nT)
+    }
+  #+END_SRC
+
+  #+BEGIN_SRC R :exports both :session dynpop
+    EvolutionMalthus(5, 100, 0.1)
+  #+END_SRC
+
+  #+RESULTS:
+  : Population à la génération 0 : 100.000000
+  : Population à la génération 1 : 110.000000
+  : Population à la génération 2 : 121.000000
+  : Population à la génération 3 : 133.100000
+  : Population à la génération 4 : 146.410000
+  : Population à la génération 5 : 161.051000
+  : [1] 161.051
+
+**** On part de la situation suivante: $N_0 = 100$ et $r=0.1$. Quel phénomène a lieu au bout de 100 générations ?
+
+**** Et si $r=-0.1$ ? La population parvient-elle à 0 ? Au bout de combien de générations ?
+  
+
+*** Écrivez une fonction ~PopulationMalthus(n, n0, r)~ qui renvoie la population finale après ~n~ générations en partant d'une population $N_0$ par un calcul direct (sans utiliser ni boucle ni récurrence).  
+** Modèle de Verhulst
+ Le [[https://fr.wikipedia.org/wiki/Pierre_Fran%25C3%25A7ois_Verhulst][modèle de Verhulst]] donnera naissance aux courbes "logistiques" que les biologistes voient si souvent. 
+ Il s'écrit comme ceci:
+ $$ N_{t+1} = \left(1 +r\left(1-\frac{N_t}{K}\right)\right)N_t$$
+ 
+ $r$ a le même sens que précédemment; l'évolution de la population est multipliée par rapport au modèle précédent par $\left(1-\frac{N_t}{K}\right)$, avec $K$ la capacité logistique; ce terme tend à devenir faible quand $N_t$ s'approche de $K$. 
+
+
+*** Écrivez une fonction ~Verhulst(nT, r, k)~ qui prend en arguments $N_t$, $r$, et $K$ et renvoie $N_{t+1}$.
+ #+BEGIN_SRC R :results silent :session dynpop
+    Verhulst <- function(nT, r, k) {
+      return(nT*(1+r*(1 - nT/k)))
+    }
+  #+END_SRC
+
+  #+BEGIN_SRC R :exports both :session dynpop
+    Verhulst(100, 0.1, 1000)
+  #+END_SRC
+
+  #+RESULTS:
+  : [1] 109
+
+*** Écrivez une fonction ~EvolutionVerhulst(n, n0, r, k)~ qui affiche l'évolution de la population $N_0$ sur ~n~ générations, puis renvoie la population finale. Ajoutez un paramètre optionnel ~verbose~ pour activer ou désactiver l'affichage.
+
+ #+BEGIN_SRC R :results silent :session dynpop
+    EvolutionVerhulst <- function(n, n0, r, k, verbose = TRUE) {
+       i <- 0;
+       nT <- n0
+       if(verbose) {cat(sprintf('Population à la génération %d : %f\n', 0,  nT))}
+       while(i < n) {
+         nT <- Verhulst(nT, r, k)
+         i <- i + 1
+         if(verbose) {cat(sprintf('Population à la génération %d : %f\n', i,  nT))}
+       }
+       return(nT)
+    }
+
+  ##  Note : pour $r>2$, on entre dans un régime chaotique avec non convergence vers $K$ mais oscillation entre plusieurs valeurs... 
+  #+END_SRC
+
+  #+BEGIN_SRC R :exports both :session dynpop
+    EvolutionVerhulst(5, 100, -0.1, 1000)
+  #+END_SRC
+
+  #+RESULTS:
+  : Population à la génération 0 : 100.000000
+  : Population à la génération 1 : 91.000000
+  : Population à la génération 2 : 82.728100
+  : Population à la génération 3 : 75.139684
+  : Population à la génération 4 : 68.190313
+  : Population à la génération 5 : 61.836273
+  : [1] 61.83627
+
+
+**** Que se passe-t'il au bout de 100 générations avec la situation suivante: $N_0=100$, $K=1000$, $r=-0.1$ ? 
+**** Et si $r=0.1$ ? Quelle est la limite atteinte par la population au bout d'un grand nombre de générations ? Cette limite est-elle atteinte ou simplement approchée ?
+**** Que se passe-t-il si $r=2.5$ ? 
+  
+ 
 * Méthode des tangentes de Newton                              :HARD:
 ** Formule de Newton
   La formule de Newton vu en [[file:pdf/06-nombres-approches.pdf][cours]] pour améliorer une approximation $a$ de $\sqrt{r}$ est obtenue de la manière suivante.  On trace la courbe d'équation  $y = f(x) = x^2-r$ qui coupe Ox précisément en $\sqrt{r}$.
@@ -264,7 +382,6 @@ On pourra donc demander par exemple
 
     
 
-
 * Racines d'un trinôme                                                 :HARD:
 
   Il est fortement conseillé de lire la page wikipedia sur les [[https://fr.wikipedia.org/wiki/%25C3%2589quation_du_second_degr%25C3%25A9][équations du second degré]] ou encore mieux [[https://www.scilab.org/sites/default/files/scilabisnotnaive.pdf][Scilab is not naive]]. 
@@ -305,7 +422,7 @@ On pourra donc demander par exemple
 
 ** Autour de la validité de la comparaison à 0
    Tester votre programme avec le code ci-dessous. Quelle conclusion en tirez-vous?
-    #+BEGIN_SRC R :session triroot 
+    #+BEGIN_SRC R :exports code :session triroot 
       triroot(0.01,0.2,1)
       polyroot(c(1,0.2,0.01))
       triroot(0.011025,0.21,1)
