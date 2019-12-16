@@ -167,7 +167,7 @@ as.integer(42))
     \end{lstlisting}
   \end{block}
 
-  \begin{exampleblock}{Inclusion $A \in B \Leftrightarrow \left((\forall x \in A) \Rightarrow (x \in B)\right)$}
+  \begin{exampleblock}{Inclusion $A \subseteq B \Leftrightarrow \left((\forall x \in A) \Rightarrow (x \in B)\right)$}
     \begin{lstlisting}[aboveskip = \bigskipamount]
 > Inclusion <- function(x, y) setequal(x, intersect(x, y))
 > Inclusions(5:6, 4:6)
@@ -353,13 +353,13 @@ Error in -"pommes" : invalid argument to unary operator
   On va devoir trouver le rang de la clé, puis la supprimer par rang.
   Pour cela, on définir une fonction \texttt{remove(key)} qui renvoie le dictionnaire après suppression du couple key:val du dictionnaire.
   \begin{lstlisting}
-remove <- function(dict, key) {
+Remove <- function(dict, key) {
  dict[ names(dict) != key]
 }
 \end{lstlisting}
 
 \begin{lstlisting}
-> remove(stock, "pommes")
+> Remove(stock, "pommes")
 poires fraises
 51 25  
 \end{lstlisting}  

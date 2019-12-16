@@ -192,7 +192,6 @@ unlist(strsplit(txt,' +',fixed=FALSE))
    : [1] "do" "la"
 
 
-
 * Algorithme de Bezout
 L’[[http://fr.wikipedia.org/wiki/Algorithme_d%2527Euclide_%25C3%25A9tendu][algorithme de Bezout]] prolonge l’algorithme d’Euclide. 
 Il dit qu’il est possible d’écrire le PGCD g de a et b comme combinaison linéaire de a et b à coefficients entiers : il existe u et v (non uniques) tels que g = a*u + b*v. 

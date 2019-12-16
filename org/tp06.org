@@ -34,9 +34,6 @@
 2. Programmez la fonction ~Max3(a, b, c)~ renvoyant le maximum de trois nombres ~a~ et ~b~, et ~c~.
 3. Programmez la fonction ~MaxF(x)~ prenant un vecteur numérique ~x~ et retournant le maximum de ~x~.
 
-
-*** de trois éléments
-*** dans un vecteur
 ** Recherche à partir d'une position
    Programmez la fonction ~MaxFrom(x,i)~ prenant un vecteur numérique ~x~ et retournant le maximum de ~x~ à partir de l’indice ~i~ inclus. 
 *** Avec une boucle.

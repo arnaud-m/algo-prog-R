@@ -80,9 +80,9 @@ EstPremier <- function(n) { # version I
 \begin{columns}[t]
 \begin{column}{0.4\textwidth}
   \begin{lstlisting}
-> estPremier(1003)
+> EstPremier(1003)
 [1] FALSE
-> estPremier(2003)
+> EstPremier(2003)
 [1] TRUE    
   \end{lstlisting}
 \end{column}
@@ -157,7 +157,7 @@ utilisateur     système      écoulé
 
 \begin{lstlisting}[style=editor]
 Premiers <- function(n) { # Version I
-  if(n < 2) return(numeric(0));
+  if(n < 2) return(numeric(0))
   prems <- c(2)
   for(i in seq(3, n, 2)) {
     if(EstPremier(i)) prems <- append(prems, i)

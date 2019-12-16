@@ -184,6 +184,7 @@
 #+BEGIN_SRC R :exports both :session strbin
   n <- 3456  
   nbin <- IntToBin(3456)
+  ## On utilise maintenant la fonction inverse
   cat(n, "->", nbin,  "->", BinToInt(nbin), '\n')
 #+END_SRC
 

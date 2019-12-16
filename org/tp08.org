@@ -318,7 +318,7 @@ Nous nous proposons de programmer la fonction ~binomial(n,p)~ retournant $C_n^p$
 
 * Jeu de Nim (Fibonacci)                                               :HARD:
   La [[http://jean-paul.davalan.pagesperso-orange.fr/jeux/nim/fibonacci/][page de Jean-Paul Dalavan]] peut vous aider.
-** Décomposition de Zeckendorf                                          :KEY:
+** Décomposition de Zeckendorf
 Étant donné un entier naturel $n$, déterminer la liste des facteurs de la décomposition de Zeckendorf de $n$, c’est-à-dire les uniques nombres de Fibonacci deux à deux distincts et non consécutifs de somme égale à $n$
 ** Jeu de Nim
 Deux joueurs tirent à tour de rôle des allumettes d’une boîte, avec les règles suivantes :

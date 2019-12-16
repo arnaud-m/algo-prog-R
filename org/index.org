@@ -229,7 +229,11 @@ Ce cours vous aidera à mieux appréhender les logiques et limites des systèmes
 \\
 Ce cours est inspiré du cours de Python de Jean-Paul Roy et Bruno Martin que je remercie pour le partage.
 
+http://phdcomics.com/comics/archive/phd051013s.gif
+\\
+
 [fn:1] Un logiciel libre est un logiciel dont l'utilisation, l'étude, la modification et la duplication par autrui en vue de sa diffusion sont permises, techniquement et légalement, ceci afin de garantir certaines libertés induites, dont le contrôle du programme par l'utilisateur et la possibilité de partage entre individus.
+
 
 * Calendrier  
 
@@ -281,7 +285,8 @@ Ce cours est inspiré du cours de Python de Jean-Paul Roy et Bruno Martin que je
    - [[file:pdf/F1-nombres.pdf][Cours sur la représentation des nombres]] 
    
    L'autoformation est au programme du contrôle continu et de l'examen.
-   Pour le contrôle continu, une note indivduelle est obtenu en répondant aux quatre questionnaires sur [[https://lms.univ-cotedazur.fr/course/view.php?id=14552][moodle]] accessible pendant tout le semestre.
+
+   Une note indivduelle de contrôle continu est obtenue en répondant aux quatre questionnaires sur [[https://lms.univ-cotedazur.fr/course/view.php?id=14552][moodle]] accessible pendant tout le semestre.
    Chaque questionnaire rapporte 3 points et la note maximale possible est donc 12.  
 ** Carte de référence
    
@@ -299,8 +304,8 @@ Ce cours est inspiré du cours de Python de Jean-Paul Roy et Bruno Martin que je
 |----+--------------------------+-----------------------------------------+-------------------|
 | 1. | Présentation du syllabus | [[file:pdf/01-variables.pdf][Expressions, instructions, et variables]] | [[file:tp01.org][TP 1 (corrigé)]]    |
 | 2. | [[file:pdf/02-fonctions.pdf][Conditions et fonctions]]  | [[file:pdf/03-jeu-roulette.pdf][Jeu de roulette]]                         | [[file:tp02.org][TP 2 (corrigé)]]    |
-| 3. | [[file:pdf/04-iterations-while.pdf][Itérations (while)]]       | [[file:pdf/05-conversions.pdf][Conversions]]                             | [[file:tp03.org][TP 3]]              |
-| 4. | [[file:pdf/06-nombres-approches.pdf][Nombres réels approchés]]  | [[file:pdf/07-calcul-pi.pdf][Approximation du nombre \pi]]             | [[file:tp04.org][TP 4]]              |
+| 3. | [[file:pdf/04-iterations-while.pdf][Itérations (while)]]       | [[file:pdf/05-conversions.pdf][Conversions]]                             | [[file:tp03.org][TP 3 (corrigé)]]    |
+| 4. | [[file:pdf/06-nombres-approches.pdf][Nombres réels approchés]]  | [[file:pdf/07-calcul-pi.pdf][Approximation du nombre \pi]]             | [[file:tp04.org][TP 4 (corrigé)]]    |
 | 5. | [[file:pdf/08-iterations-for.pdf][Itérations (for)]]         | [[file:pdf/09-chaines.pdf][Chaînes de caractères]]                   | [[file:tp05.org][TP 5]]              |
 | 6. | [[file:pdf/10-vecteurs.pdf][Les séquences : vecteurs]] | [[file:pdf/11-premiers.pdf][Nombres premiers]]                        | [[file:tp06.org][TP 6]]              |
 | 7. | [[file:pdf/12-listes.pdf][Les séquences : listes]]   | [[file:pdf/13-dictionnaires.pdf][Ensembles et dictionnaires]]              | [[file:tp07.org][TP 7]]              |
@@ -345,9 +350,10 @@ Ce cours est inspiré du cours de Python de Jean-Paul Roy et Bruno Martin que je
 
  | Problème          | SITE | SV |
  |-------------------+------+----|
- | [[http://i3s.unice.fr/master-info/ucancode/tutoriel/][Tutoriel UCAnCODE]] | -    | -  |
- | [[https://51364960.widgets.sphere-engine.com/lp?hash=xQiNQQm3RT][ROULETTE]]          | 12   | 14 |
-
+ | [[http://i3s.unice.fr/master-info/ucancode/tutoriel/][Tutoriel UCAnCODE]] |    - |  - |
+ | [[https://51364960.widgets.sphere-engine.com/lp?hash=xQiNQQm3RT][ROULETTE]]          |   12 | 14 |
+ | [[https://51364960.widgets.sphere-engine.com/lp?hash=bBhh3mP0zF][ADDREV]]            |   12 | 14 |
+ | [[https://51364960.widgets.sphere-engine.com/lp?hash=29a2Nkat4J][SABLE]]             |   16 | 18 |
 
 *** Mini-projets
     Les mini-projets complètent et étendent des notions abordées en cours et vous font découvrir différentes applications.  
@@ -388,9 +394,9 @@ Ce cours est inspiré du cours de Python de Jean-Paul Roy et Bruno Martin que je
 
 
 * Contrôle des connaissances
-** Contrôle continu (60%)
+** Contrôle continu
    La note de contrôle continu est la moyenne des 3 meilleures notes obtenues à des activités ou en autoformation.
-** Examen terminal (40%)
+** Examen terminal
    L'examen terminal est une épreuve écrite de 2h.
    Le seul document autorisé est la carte de référence.
    L'autoformation et le cours sont au programme de l'examen, mais pas les activités.
@@ -400,11 +406,14 @@ Ce cours est inspiré du cours de Python de Jean-Paul Roy et Bruno Martin que je
     - 2 points sur les conversions de base (c.f. quizz) ;
     - 3 points sur la lecture de code (c.f. quizz) ;
     - 18 points sur des exercices de programmation dérivés des travaux pratiques du cours, dont au moins 5 points sur les trois premiers cours.
+** Note finale (1ère session) 
+   Notons $N_c$ votre note de contrôle continu et $N_t$ votre note à l'examen terminal.
+   La note de première session est calculée ainsi : $\max(0.6 \times N_c + 0.4 \times N_t, N_t)$.
 
-** Seconde session
-   
-   Les modalités sont les mêmes que celles de l'examen terminal.
-   La note de seconde session annule et remplace la note de première session.
+** Seconde chance
+   Les modalités de l'examen de seconde chance sont les mêmes que celles de l'examen terminal.
+   \\
+   Votre note finale est le maximum entre la note de première session et la note obtenue à l'examen de seconde chance.
    
 * Communication
 Sauf urgence absolue, notre mode de communication est le *forum sur moodle* dont les règles sont simples : 
