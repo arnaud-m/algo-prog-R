@@ -10,7 +10,7 @@
 * Building From Source
 
 - The slides are written in LaTeX with the beamer package. 
-- The website is made with emacs and org-mode, and built by gulp. The required configuration is decribed [[http://www.i3s.unice.fr/~malapert/emacs_orgmode.html][here]].
+- The website is made with emacs and org-mode, and built by gulp. My configuration is decribed [[http://www.i3s.unice.fr/~malapert/emacs_orgmode.html][here]].
 
 * Support and Issues
 
