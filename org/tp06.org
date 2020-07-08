@@ -2,7 +2,7 @@
 #+TITLE:     Travaux Pratiques #6
 #+SUBTITLE:     Algo & Prog avec R
 #+OPTIONS: num:1 toc:1
-#+PROPERTY: header-args :results output replace :exports none
+#+PROPERTY: header-args :results output replace :exports both
 * Recherche d'éléments dans un vecteur
   
   1. Déterminez le nombre de 0 présent dans un vecteur.

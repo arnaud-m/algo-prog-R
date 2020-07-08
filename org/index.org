@@ -306,9 +306,9 @@ http://phdcomics.com/comics/archive/phd051013s.gif
 | 2. | [[file:pdf/02-fonctions.pdf][Conditions et fonctions]]  | [[file:pdf/03-jeu-roulette.pdf][Jeu de roulette]]                         | [[file:tp02.org][TP 2 (corrigé)]]    |
 | 3. | [[file:pdf/04-iterations-while.pdf][Itérations (while)]]       | [[file:pdf/05-conversions.pdf][Conversions]]                             | [[file:tp03.org][TP 3 (corrigé)]]    |
 | 4. | [[file:pdf/06-nombres-approches.pdf][Nombres réels approchés]]  | [[file:pdf/07-calcul-pi.pdf][Approximation du nombre \pi]]             | [[file:tp04.org][TP 4 (corrigé)]]    |
-| 5. | [[file:pdf/08-iterations-for.pdf][Itérations (for)]]         | [[file:pdf/09-chaines.pdf][Chaînes de caractères]]                   | [[file:tp05.org][TP 5]]              |
-| 6. | [[file:pdf/10-vecteurs.pdf][Les séquences : vecteurs]] | [[file:pdf/11-premiers.pdf][Nombres premiers]]                        | [[file:tp06.org][TP 6]]              |
-| 7. | [[file:pdf/12-listes.pdf][Les séquences : listes]]   | [[file:pdf/13-dictionnaires.pdf][Ensembles et dictionnaires]]              | [[file:tp07.org][TP 7]]              |
+| 5. | [[file:pdf/08-iterations-for.pdf][Itérations (for)]]         | [[file:pdf/09-chaines.pdf][Chaînes de caractères]]                   | [[file:tp05.org][TP 5 (corrigé)]]    |
+| 6. | [[file:pdf/10-vecteurs.pdf][Les séquences : vecteurs]] | [[file:pdf/11-premiers.pdf][Nombres premiers]]                        | [[file:tp06.org][TP 6 (corrigé)]]    |
+| 7. | [[file:pdf/12-listes.pdf][Les séquences : listes]]   | [[file:pdf/13-dictionnaires.pdf][Ensembles et dictionnaires]]              | [[file:tp07.org][TP 7 (corrigé)]]    |
 | 8. | [[file:pdf/14-fibonacci.pdf][Suite de Fibonacci]]       |                                         | [[file:tp08.org][TP 8]]              |
 
 
@@ -348,19 +348,23 @@ http://phdcomics.com/comics/archive/phd051013s.gif
 
     *Attention, entrez votre adresse étudiante @etu.univ-cotedazur.fr dans le formulaire d'accueil. Sinon, votre note ne sera pas comptabilisée.*
 
+    #+NAME: exercices
  | Problème          | SITE | SV |
  |-------------------+------+----|
  | [[http://i3s.unice.fr/master-info/ucancode/tutoriel/][Tutoriel UCAnCODE]] |    - |  - |
  | [[https://51364960.widgets.sphere-engine.com/lp?hash=xQiNQQm3RT][ROULETTE]]          |   12 | 14 |
  | [[https://51364960.widgets.sphere-engine.com/lp?hash=bBhh3mP0zF][ADDREV]]            |   12 | 14 |
  | [[https://51364960.widgets.sphere-engine.com/lp?hash=29a2Nkat4J][SABLE]]             |   16 | 18 |
+ | [[https://51364960.widgets.sphere-engine.com/lp?hash=wCIhnuEBms][TRADN]]             |   20 | 20 |
+ | [[https://51364960.widgets.sphere-engine.com/lp?hash=yM4ZNsKuVX][TRADN0]]            |   20 | 20 |
+
 
 *** Mini-projets
     Les mini-projets complètent et étendent des notions abordées en cours et vous font découvrir différentes applications.  
     Vous devez déposer le projet sur moodle et faire une démonstration du projet pendant les travaux pratiques.
 
     Les nombres dans les colonnes SITE et SV indiquent la note maximale possible pour une activité selon votre portail.
-
+    #+NAME: projets
     | #. | Activité                                         | Cours | Niveau      | SITE | SV |
     |----+--------------------------------------------------+-------+-------------+------+----|
     | 1. | [[file:act01.org][Graphisme tortue]]                                 | [[file:pdf/A1-Tortue.pdf][A1]]    | Tout niveau |   20 | 20 |
@@ -409,7 +413,131 @@ http://phdcomics.com/comics/archive/phd051013s.gif
 ** Note finale (1ère session) 
    Notons $N_c$ votre note de contrôle continu et $N_t$ votre note à l'examen terminal.
    La note de première session est calculée ainsi : $\max(0.6 \times N_c + 0.4 \times N_t, N_t)$.
+*** Script de calcul des notes                                     :noexport:
 
+#+BEGIN_SRC R :var exercices=exercices :var projets=projets :session grade
+
+
+  ## Load activities from the website
+  UnLink <-function(x) gsub("\\[\\[.*\\]\\[(.*)\\]\\]", '\\1', x)
+
+  activities <- data.frame( 
+    name = make.names(c(UnLink(c(exercices$Problème, projets$Activité)), "QCM")),
+    SITE = c(exercices$SITE, projets$SITE, 12),
+    SV = c(exercices$SV, projets$SV, 12)
+  )
+
+  ## Load grades from moodle
+  file <- '~/downloads/UCAnCODE Notes-20200122_1207-comma_separated.csv'
+  df <- read.csv(file, stringsAsFactors = FALSE, na.strings = c("-", "NA"), header = TRUE)
+
+  ## Compute the final QCM grades
+  ComputeGradeQCM <- function() {
+      qcm <- grep('Test\\..*', colnames(df))
+      rowSums(df[ , qcm], na.rm = TRUE) * 10 / length(qcm)
+    }
+  df$QCM <- ComputeGradeQCM()
+
+  ## Finalize the activities table
+  cols <-  sapply(activities$name, function(x) grep(x, colnames(df)))
+  ind <- sapply(cols, function(x) length(x) == 1)
+
+  activities <- data.frame(
+    column = unlist(cols),
+    activities[ind, ]
+  )
+
+  ## Change the project scales
+  scale20 <- colnames(df)[activities$column][grep("Devoir.", colnames(df)[activities$column])]
+  df[, scale20] <- 5 * df[, scale20]
+#+END_SRC
+
+#+RESULTS:
+| 23 | ROULETTE                                         | 12 | 14 |
+| 24 | ADDREV                                           | 12 | 14 |
+| 25 | SABLE                                            | 16 | 18 |
+| 27 | TRADN                                            | 20 | 20 |
+|  7 | Graphisme.tortue                                 | 20 | 20 |
+|  8 | Convertisseur.de.base..shiny.                    | 12 | 14 |
+|  9 | Coefficient.de.Gini..shiny.                      | 12 | 14 |
+| 10 | Estimation.de.la.moyenne..shiny.                 | 12 | 14 |
+| 11 | Manipulation.de.polynômes                        | 20 | 20 |
+| 12 | Estimation.d.aires.par.la.méthode.de.Monte.Carlo | 20 | 20 |
+| 34 | QCM                                              | 12 | 12 |
+
+
+#+BEGIN_SRC R :session grade
+
+  id <- "Adresse.de.courriel"
+
+  ComputeCC <- function(grades, coefs) {
+    ComputeAverage <- function(x) {
+      x[ is.na(x) ] <- 0
+      x <- x * coefs / 100
+      return(mean(head( sort(x, decreasing = TRUE), 3)))
+    }
+    round(apply( grades, 1, ComputeAverage), 1)
+  }
+
+  df$CC.SV <- ComputeCC(df[ , activities$column], activities$SV)
+  df$CC.SITE <- ComputeCC(df[ , activities$column], activities$SITE)
+
+  ComputeBB <- function(bugBounties) {
+    scale <- c("☆☆☆☆☆" = 0, "★☆☆☆☆" = 0.25, "★★☆☆☆" = 0.25, "★★★☆☆" = 0.5, "★★★★☆" = 0.5, "★★★★★" = 1)
+    GetScoreBB <- function(stars) {
+      if(is.na(stars)) return(0)
+      else return(scale[stars])
+    }
+    unname(sapply(bugBounties, GetScoreBB))
+  }
+  df$BB <- ComputeBB(df$Devoir.Bug.Bounty..Brut.)
+
+  ComputeGrades <- function(df, id, cc, ct, bb = 'BB') {
+    ind <- !is.na(df[ , ct])
+    grades <- unname(df[ind, c(id, cc, ct, bb)])
+    colnames(grades) <- c('id', 'CC', 'CT', 'BB')
+    ## compute grades
+    grades$NOTE <- pmax(grades$CT, 0.6 * grades$CC + 0.4 * grades$CT) + grades$BB 
+    ## round grades to the upper quarter
+    grades$NOTE <- ceiling(4 * grades$NOTE)/4
+    return(grades)
+  }
+  ## ComputeFinalGrades <- function(grades) ceiling(4 * (0.6 * grades$CC + 0.4 * grades$CT))/4
+
+   gradesSV <- ComputeGrades(df, id, 'CC.SV', "CT.SV..Brut.")
+   gradesSITE <- ComputeGrades(df, id, 'CC.SITE', "CT.SITE..Brut.")
+   
+   gradesAll <- rbind(gradesSV, gradesSITE)
+   write.csv(gradesAll, 'notes-R.csv', row.names = FALSE)
+
+  PlotGrades <- function(grades) {
+    require(ggplot2)
+    require(ggthemes)
+    require(gridExtra)
+    p1 <- ggplot(grades, aes(x=NOTE)) + geom_histogram(binwidth=1) + theme_gdocs() + theme(text = element_text(size=30))
+    p2 <- ggplot(grades, aes(x=CT)) + geom_histogram(binwidth=1) + theme_gdocs() + theme(text = element_text(size=30))
+    p3 <- ggplot(grades, aes(x=CC)) + geom_histogram(binwidth=1) + theme_gdocs() + theme(text = element_text(size=30))
+    grid.arrange(p1, p2, p3, nrow = 1)
+  }
+  p <- PlotGrades(gradesSV)
+  ggsave('frequencies-R-SV.pdf', plot = p, device = "pdf", width = 40, height = 15) 
+
+  p <- PlotGrades(gradesSITE)
+  ggsave('frequencies-R-SITE.pdf', plot = p, device = "pdf", width = 40, height = 15) 
+
+  SummaryGrades <- function(grades) {
+   summary(grades[ , c('CC', 'CT', 'NOTE')])
+  }
+
+  sink('summary-R.txt')
+  cat('########\n## SV\n')
+  SummaryGrades(gradesSV)
+  cat('########\n## SITE\n')
+  SummaryGrades(gradesSITE)
+  sink()
+#+END_SRC
+
+#+RESULTS:
 ** Seconde chance
    Les modalités de l'examen de seconde chance sont les mêmes que celles de l'examen terminal.
    \\
@@ -459,6 +587,7 @@ Sauf urgence absolue, notre mode de communication est le *forum sur moodle* dont
 
 
 http://www.phdcomics.com/comics/archive/phd031714s.gif
+
 
 
 
