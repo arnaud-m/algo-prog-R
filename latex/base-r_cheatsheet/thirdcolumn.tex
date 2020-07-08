@@ -36,9 +36,9 @@ if (condition) {
         \begin{exampleblock}{Example}
           \begin{Rbg}
 if (i > 3) {
-    printf('Yes')
+    print('Yes')
 } else {
-    printf('No')
+    print('No')
 } 
           \end{Rbg}
         \end{exampleblock}
@@ -101,7 +101,7 @@ square <- function(x) {
         \inl{df <- read.csv('file.csv')} & \inl{write.csv(df, 'file.csv')} & Read and write a comma separated value file. This is a special case of \inl{read.table/write.table}.\\\hline
         \rowcolor{secondary} \inl{load('file.RData')} & \inl{save(df, file = 'file.RData')} & Read and write a n R data file, a file type special for R.\\\hline
       \end{tableau}
-      \vskip-1ex
+      \vskip-2ex
     \end{seesubblock}
     
     \vskip1ex
@@ -115,6 +115,7 @@ square <- function(x) {
       \hline
       \inl{a == b} & Are equal & \inl{a > b} & Greater than & \inl{a >= b} & Greater than or equal to & \inl{is.na(a)} & Is missing\\\hline
       \inl{a \!=  b} & Not equal & \inl{a < b} & Less than & \inl{a <= b} & Less than or equal to & \inl{is.null(a)} & Is null\\\hline
+      \inl{c ||  e} & \texttt{c} or \texttt{e} & \inl{c \&\&   y} & \texttt{c} and \texttt{y} & \multicolumn{4}{c}{} \\\cline{1-4}
     \end{tableau}
     \vskip-1ex
   \end{subblock}
