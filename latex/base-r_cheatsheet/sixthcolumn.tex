@@ -2,9 +2,9 @@
 
 \begin{seeblock}{Strings}{stringr}
   \small\renewcommand{\arraystretch}{1.5}
-  \begin{tabular}{c >{\footnotesize} p{0.45\linewidth}}
-    \inline{paste(x, y, sep = ' ')} & Join multiple vectors together.\\
-    \inline{paste(x, collapse = ' ')} & Join elements of a vector together.\\
+  \begin{tabular}{c >{\footnotesize} >{\hspace{-0.05\linewidth}}p{0.5\linewidth}}
+    \inline{cat(x, y, sep = ' ')} & Join and print multiple vectors together.\\
+    \inline{cat(x, collapse = ' ')} & Join and print elements of a vector together.\\
     \inline{grep(pattern, x)} & Find regular expression matches in \inl{x}.\\
     \inline{gsub(pattern, replace, x)} & Replace matches in \inl{x} with a string.\\
     \inline{toupper(x)} & Convert to uppercase.\\
