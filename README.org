@@ -6,7 +6,7 @@
 * About
 
   This repository hosts the source files of the website and the lectures given in the course [[http://www.i3s.unice.fr/~malapert/R][Algorithmique & Programmation avec R]].
-  The course is an introduction to R programming targeted for non-programmers.
+  The course is an introduction to R programming targeted for beginners.
 * Building From Source
 
 - The slides are written in LaTeX with the beamer package. 
