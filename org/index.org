@@ -237,27 +237,24 @@ http://phdcomics.com/comics/archive/phd051013s.gif
 
 * Calendrier  
 
-#+BEGIN_EXPORT html
-<iframe src="https://calendar.google.com/calendar/embed?showCalendars=0&amp;mode=AGENDA&amp;height=600&amp;wkst=2&amp;bgcolor=%23FFFFFF&amp;src=g27lg2fr2i3kbmu91cn43jtdn4%40group.calendar.google.com&amp;color=%235229A3&amp;ctz=Europe%2FBrussels" style="border-width:0" width="800" height="300" frameborder="0" scrolling="no"></iframe>
-#+END_EXPORT
+** Semainier
+ # # <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRkXT89mTlc0YmNspJUF0-A8NL7ML-btloyNjWXybJOyRksMnD58qeXG_XvL28IUQ/pubhtml?gid=1769489020&amp;range=a1:q11&amp;single=true&amp;widget=true&amp;headers=false" style="border-width:0" width="900" height="360" frameborder="0" scrolling="no"></iframe>
+ # # https://wp-glogin.com/2014/08/embedding-google-spreadsheets-with-more-control-over-appearance/
+ #+BEGIN_EXPORT html
+ <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRkXT89mTlc0YmNspJUF0-A8NL7ML-btloyNjWXybJOyRksMnD58qeXG_XvL28IUQ/pubhtml?gid=1769489020&amp;range=a1:q11&amp;single=true&amp;widget=false&amp;chrome=false&amp;headers=false" style="border-width:0" width="900" height="360" frameborder="0" scrolling="no"></iframe>
+ #+END_EXPORT
 
-** Salles
+** Agenda
+
+ #+BEGIN_EXPORT html
+ <iframe src="https://calendar.google.com/calendar/embed?showCalendars=0&amp;mode=AGENDA&amp;height=600&amp;wkst=2&amp;bgcolor=%23FFFFFF&amp;src=g27lg2fr2i3kbmu91cn43jtdn4%40group.calendar.google.com&amp;color=%235229A3&amp;ctz=Europe%2FBrussels" style="border-width:0" width="900" height="300" frameborder="0" scrolling="no"></iframe>
+ #+END_EXPORT
+
+** Salles et intervenants
    Toutes les salles sont au 2ème et 3ème étage du Petit Valrose, sauf les salles 306 et 315 qui sont dans le bâtiment de sciences naturelles. 
-   Vos groupes de TD sont divisés en deux pour les TP. Répartissez-vous comme vous voulez dans les deux salles.
-*** Jeudi (SV)
+   #  Vos groupes de TD sont divisés en deux pour les TP. Répartissez-vous comme vous voulez dans les deux salles.
 
-  | 13h00-15h00 |           |          | 15h15-17h15 |           |          |
-  |-------------+-----------+----------+-------------+-----------+----------|
-  | *Groupe 4*  | 304 (LT)  | 314 (FG) | *Groupe 1*  | 304 (LT)  | vendredi |
-  | *Groupe 5*  | 201 (AM)  | 214 (AP) | *Groupe 2*  | 201 (AM)  | 214 (AP) |
-  | *Groupe 6*  | 316 (MBB) | 317 (ZR) | *Groupe 3*  | 316 (MBB) | 317 (ZR) |
-  |             |           |          | *Groupe 8*  | 202 (OB) | 314 (FG) |
-
-  - Les travaux pratiques des étudiants du *groupe 1* inscrits en SV-ST auront lieu le vendredi de 13h à 15h en salle 315 (AM).
-  - À partir du 1er novembre, les groupes 6 et 3 seront dans les salles 306 et 315 du bâtiment de sciences naturelles.
-
-
-*** Vendredi (SITE)
+*** Vendredi (SITE)                                                :noexport:
   | 09h00-12h00 |          | 13h00-16h00 |          |
   |-------------+----------+-------------+----------|
   | *Groupe 1*  | 215 (AM) | *Groupe 4*  | 316 (SR) |
