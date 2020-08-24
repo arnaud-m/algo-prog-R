@@ -2,7 +2,7 @@
 #+TITLE:     Travaux Pratiques #3
 #+SUBTITLE:     Algo & Prog avec R
 #+OPTIONS: num:1 toc:1
-#+PROPERTY: header-args :results output replace :exports both
+#+PROPERTY: header-args :results output replace :exports none
 * Factorielles                                                          :KEY:
 Les choix algorithmiques que vous ferez influent sur la qualité du programme en terme de complexité et donc de vitesse d'exécution.
 ** Fonctions factorielle

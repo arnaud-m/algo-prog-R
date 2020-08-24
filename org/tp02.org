@@ -2,7 +2,7 @@
 #+TITLE:     Travaux Pratiques #2
 #+SUBTITLE:     Algo & Prog avec R
 #+OPTIONS: num:1 toc:1
-#+PROPERTY: header-args :results output replace :exports both
+#+PROPERTY: header-args :results output replace :exports none
 * Travail au CRIPS (Petit Valrose)
    Vous allez travailler sur des ordinateurs sous le système d'exploitation Windows (2ème étage) ou Linux (3ème étage).
    Peut-être utilisez-vous un ordinateur MacOS-X (basé sur UNIX comme Linux) ?
@@ -273,20 +273,22 @@ Maintenant, programmez la fonction ~Circuit2(R1,R2,R3)~ retournant la résistanc
 
   1. Définissez la fonction ~Tranche(s,b,h,p)~ retournant l'impôt dû pour un salaire annuel ~s~ dans la tranche ~[b,h]~ dont le pourcentage est ~p~ %.
   2. Définissez la fonction ~Impot(s)~ retournant l'impôt total dû pour un salaire annuel ~s~.
+  3. Modifiez la fonction ~Impot(s)~ pour arrondir le montant de l'impôt au centime inférieur.
 
 #+BEGIN_SRC R :session impot 
-  Tranche <- function(s,b,h,p) {
+  Tranche <- function(s, b, h, p) {
     if(s < b) return(0)   # rien                    
     else if (s <= h) return( (s - b) * p / 100) # une portion de la tranche
     else return((h - b) * p / 100)     # toute la tranche
   }
-  Impot <- function(s) Tranche(s,8000,25000,10)+Tranche(s,25000,s, 20)
+  ArrondiCentime <- function(x) floor(100 * x) / 100
+  Impot <- function(s) ArrondiCentime(Tranche(s,8000,25000,10)+Tranche(s,25000,s, 20))
 
   Tranche(1500,2000,3000,10)    
   Tranche(2500,2000,3000,10)    
   Tranche(4000,2000,3000,10)                             
   Impot(40000)
-  Tranche <- function(s,b,h,p) min(h-b, max(s-b, 0))*p/100 
+  Tranche <- function(s,b,h,p) max( min(s, h) - b, 0) * p / 100 
 #+END_SRC
 
 #+RESULTS:
