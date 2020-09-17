@@ -6,17 +6,17 @@
 * Travail au CRIPS (Petit Valrose)
    Vous allez travailler sur des ordinateurs sous le système d'exploitation Windows (2ème étage) ou Linux (3ème étage).
    Peut-être utilisez-vous un ordinateur MacOS-X (basé sur UNIX comme Linux) ?
-   Aucune importance puisque les logiciels qui nous serviront à programmer en R fonctionnent sur tous ces systèmes quasiment à l'identique. 
+   Aucune importance puisque les logiciels qui nous serviront à programmer en R fonctionnent sur tous ces systèmes quasiment à l'identique.
    Nous supposons que vous savez utiliser votre ordinateur pour copier/déplacer des fichiers et lancer un logiciel ou un navigateur Web (Firefox, Chrome, etc).
 
    Vous êtes donc devant votre machine. Vos notes de cours sont à portée de main et vos neurones commencent leurs échanges électro-chimiques, bravo !
 
-   En principe la machine est allumée, et en veille. 
-   En pressant une touche, elle devrait se réveiller et l'écran s'allumer. 
+   En principe la machine est allumée, et en veille.
+   En pressant une touche, elle devrait se réveiller et l'écran s'allumer.
    Appelez votre enseignant si ce n'est pas le cas, ou regardez comment font vos voisins \dots
-   Vous arrivez sur une petite "fenêtre de dialogue" qui vous demande un nom d'utilisateur et un mot de passe (le vôtre). 
-   
-   Le bureau de Windows sert à abriter (le temps d'une séance de TP seulement) les fichiers des étudiants. 
+   Vous arrivez sur une petite "fenêtre de dialogue" qui vous demande un nom d'utilisateur et un mot de passe (le vôtre).
+
+   Le bureau de Windows sert à abriter (le temps d'une séance de TP seulement) les fichiers des étudiants.
    Le bureau de Linux est sauvegardé d'une session à l'autre.
 
    Nous vous demandons d'acheter une "clé USB" ou d'apprendre à utiliser un espace de stockage dans les nuages.
@@ -24,7 +24,7 @@
     - Votre espace de stockage est accessible grâce à votre navigateur : télécharger votre code source /depuis/ cet espace au début de chaque séance et n'oubliez pas de le télécharger /dans/ cet espace à la fin.
 
 ** Passons dans l'éditeur
-   À partir de maintenant, le travail se fait dans l'éditeur, et non plus dans le top level comme au premier TP. 
+   À partir de maintenant, le travail se fait dans l'éditeur, et non plus dans le top level comme au premier TP.
 
    Lorsque l'on vous demandera de sauver le contenu de votre éditeur, vous opterez pour un fichier avec un nom explicite, par exemple tp01.R.
 
@@ -32,12 +32,12 @@
    Vous risquez sinon, d'avoir de désagréables surprises \dots
 * Maximum d'une somme
 ** Calcul du résultat par une fonction
-   Définissez la fonction ~Somme2Max(x,y,z)~ prenant trois entiers x, y, z et retournant la somme des deux plus grands. 
+   Définissez la fonction ~Somme2Max(x,y,z)~ prenant trois entiers x, y, z et retournant la somme des deux plus grands.
      1. Écrivez une première version en emboîtant des ~if~,
      2. Écrivez une seconde version utilisant les fonctions prédéfinies ~max~ ou ~min~.
 
    #+BEGIN_SRC R :results silent :session maxsom
-     ## Avec des if 
+     ## Avec des if
      Somme2Max <- function(x,y,z) {
        if(x > y) {
          if(y > z) {return(x+y)}
@@ -72,7 +72,7 @@
    : [1] 5
 
 
-** Affichage du résultat à l'écran 
+** Affichage du résultat à l'écran
    Définissez la fonction ~PrintSomme2Max(x,y,z)~ faisant afficher la somme des deux plus grands des entiers ~x~, ~y~, ~z~. Cette fonction n'aura aucun résultat (ne confondez pas l'effet et le résultat d'une fonction !).
 
  #+BEGIN_SRC R :results silent :session maxsom
@@ -105,17 +105,17 @@
 
 * Génération aléatoire d'un nombre                                      :KEY:
 
-  Nous allons utiliser une fonction ~sample~ tirant au hasard des éléments dans une collection, on dit aussi aléatoires. 
+  Nous allons utiliser une fonction ~sample~ tirant au hasard des éléments dans une collection, on dit aussi aléatoires.
   Voici 3 manières équivalentes de tirer un dé à 6 face, afficher un entier aléatoire entre [1,6].
   Tapez les instructions ci-dessous.
 #+BEGIN_SRC R :exports code
   sample(6, size=1)
   sample(1:6, size=1)
-  sample(c(1, 2, 3, 4, 5, 6), size=1) 
+  sample(c(1, 2, 3, 4, 5, 6), size=1)
 #+END_SRC
 
 Faites afficher un entier aléatoire de [100,200] avec un appel à ~sample~.
-#+BEGIN_SRC R 
+#+BEGIN_SRC R
   sample(100:200, size = 1)
 #+END_SRC
 
@@ -126,16 +126,16 @@ Faites afficher un entier aléatoire de [100,200] avec un appel à ~sample~.
     return(2*sample(n%/%2, size = 1))
   }
 #+END_SRC
-Malheureusement, cette fonction est buggée : elle ne respecte sa spécification. 
+Malheureusement, cette fonction est buggée : elle ne respecte sa spécification.
 Votre tâche consiste à corriger cette fonction.
 Faites suivre la définition de votre fonction d'une instruction pour la tester.
 
- #+BEGIN_SRC R 
+ #+BEGIN_SRC R
    RandPair <- function(n) 2*sample(0:(n%/%2), size = 1) ## Attention, les parenthèses sont importantes!
    cat('Comportement défini pour n = 0 : ',RandPair(0), '\n')
    cat('Voici un entier pair aleatoire de [0,2] :',RandPair(2), '\n')
    cat('Voici un entier pair aleatoire de [0,20] :',RandPair(20), '\n')
- #+END_SRC   
+ #+END_SRC
 
  #+RESULTS:
  : Comportement défini pour n = 0 :  0
@@ -143,13 +143,13 @@ Faites suivre la définition de votre fonction d'une instruction pour la tester.
  : Voici un entier pair aleatoire de [0,20] : 12
 
 ** Dans un ensemble
-   1. Définissez une fonction ~MonteCarlo()~ sans argument retournant au hasard 2, 3 ou 5. Testez-la plusieurs fois. /Indice/ : utilisez la fonction ~c~. 
+   1. Définissez une fonction ~MonteCarlo()~ sans argument retournant au hasard 2, 3 ou 5. Testez-la plusieurs fois. /Indice/ : utilisez la fonction ~c~.
    2. Définissez une fonction ~LasVegas()~ retournant 2, 3 ou 5 mais de manière truquée : 2 avec 1 chance sur 6, ou bien 3 avec 1 chance sur 3, ou bien 5 avec 1 chance sur 2. Testez-la une dizaine de fois\dots Les résultats sont-ils conformes à ce que l'on attend ?
    3. Testez la commande ~table(replicate(1000, LasVegas()))~ ? À quoi sert-elle ?
 
    Lisez la documentation ~help(sample)~ avant d'essayer de répondre aux questions.
 
-#+BEGIN_SRC R 
+#+BEGIN_SRC R
   MonteCarlo <- function() sample(c(2, 3, 5), size = 1)
   cat('MonteCarlo() --> ',MonteCarlo(), '\n')
 
@@ -166,14 +166,14 @@ Faites suivre la définition de votre fonction d'une instruction pour la tester.
  #+RESULTS:
  : MonteCarlo() -->  5
  : LasVegas() -->  3
- : 
- :  2  3  5 
+ :
+ :  2  3  5
  : 18 36 46
 
 ** Avec un nombre de chiffres fixé
    Définissez une fonction ~RandChiffres(n)~ prenant un entier n \geq 1 et retournant un entier aléatoire non nul contenant exactement ~n~ chiffres. Testez-la plusieurs fois \dots
 
-   #+BEGIN_SRC R 
+   #+BEGIN_SRC R
    ## les entiers non nuls ayant n chiffres sont les elements de [10**(n-1),10**n-1]
    RandChiffres <- function(n) sample(10**(n-1):10**n-1, 1)
    replicate(5, RandChiffres(4))
@@ -186,44 +186,44 @@ Faites suivre la définition de votre fonction d'une instruction pour la tester.
 Dans le cours d'électricité du lycée, vous avez sans doute vu que :
   - la résistance équivalente de deux résistors R_1 et R_2 en série vaut R = R_1 + R_2,
   - tandis que si les résistors sont placés en parallèle, leur résistance globale vérifie 1/R=1/R_1+1/R_2.
- 
-Un électronicien travaille avec la portion de circuit suivante contenant trois résistors. 
+
+Un électronicien travaille avec la portion de circuit suivante contenant trois résistors.
 Programmez la fonction ~Circuit1(r1,r2,r3)~ retournant la résistance équivalente de ce circuit. \\
 A.N. Pour r1=5 Ω, r2=100 Ω et r3=25 Ω, le résultat est 25 Ω.
 
 #+BEGIN_EXAMPLE
-       +----------+               +----------+           
+       +----------+               +----------+
 +------+    R1    +-------+-------+    R2    +------+---+
-       +----------+       |       +----------+      |    
-                          |                         |    
-                          |       +----------+      |    
-                          +-------+    R3    +------+    
-                                  +----------+           
+       +----------+       |       +----------+      |
+                          |                         |
+                          |       +----------+      |
+                          +-------+    R3    +------+
+                                  +----------+
 #+END_EXAMPLE
 
 
-Maintenant, programmez la fonction ~Circuit2(R1,R2,R3)~ retournant la résistance équivalente de ce circuit. 
+Maintenant, programmez la fonction ~Circuit2(R1,R2,R3)~ retournant la résistance équivalente de ce circuit.
 #+BEGIN_EXAMPLE
-         +----------+                    +----------+           
+         +----------+                    +----------+
 -+-------+    R1    +------+---+-+-------+    R2    +------+---+
- |       +----------+      |     |       +----------+      |    
- |                         |     |                         |    
- |       +----------+      |     |       +----------+      |    
- +-------+    R2    +------+     +-------+    R3    +------+    
- |       +----------+      |             +----------+          
- |                         |  
- |       +----------+      |  
- +-------+    R3    +------+  
-         +----------+         
+ |       +----------+      |     |       +----------+      |
+ |                         |     |                         |
+ |       +----------+      |     |       +----------+      |
+ +-------+    R2    +------+     +-------+    R3    +------+
+ |       +----------+      |             +----------+
+ |                         |
+ |       +----------+      |
+ +-------+    R3    +------+
+         +----------+
 #+END_EXAMPLE
 
 /Indice/ : définir une fonction auxiliaire ~Serie(r1, r2)~ (respectivement ~Parallele(r1, r2)~) qui calcule la résistance globale de deux résistors en série (respectivement en parallèle).
 
-#+BEGIN_SRC R 
+#+BEGIN_SRC R
   Serie <- function(r1,r2) {r1+r2}
   Parallele <- function(r1,r2) {return(r1 * r2 / (r1 + r2))}
   # Le circuit est vue comme une composition de sous-circuits
-  circuit1 <- function(r1,r2,r3) { 
+  circuit1 <- function(r1,r2,r3) {
     return(Serie(r1,Parallele(r2,r3)))
   }
   ## \u03a9 : Unicode !
@@ -239,11 +239,11 @@ Maintenant, programmez la fonction ~Circuit2(R1,R2,R3)~ retournant la résistanc
 : La resistance totale du circuit 1 est 25 Ω.
 : La resistance totale du circuit 2 est 24 Ω.
 
-* Conversion du temps   
-   Programmez une fonction ~hconv(n)~ prenant un entier ~n~ > 0 représentant un nombre de secondes. 
-   L'effet de cette fonction est l'affichage d'une ligne exprimant la conversion de ~n~ secondes en heures-minutes-secondes. 
+* Conversion du temps
+   Programmez une fonction ~hconv(n)~ prenant un entier ~n~ > 0 représentant un nombre de secondes.
+   L'effet de cette fonction est l'affichage d'une ligne exprimant la conversion de ~n~ secondes en heures-minutes-secondes.
 
-#+BEGIN_SRC R :session hconv 
+#+BEGIN_SRC R :session hconv
   hconv <- function(n) {
     s <- n %% 60;
     h <- n %/% 60;
@@ -253,7 +253,7 @@ Maintenant, programmez la fonction ~Circuit2(R1,R2,R3)~ retournant la résistanc
   }
 #+END_SRC
 
-#+BEGIN_SRC R :exports both :session hconv 
+#+BEGIN_SRC R :exports both :session hconv
   hconv(4567)
   hconv(3601)
   hconv(123456789)
@@ -264,8 +264,8 @@ Maintenant, programmez la fonction ~Circuit2(R1,R2,R3)~ retournant la résistanc
 : 3601 -> 01:00:01
 : 123456789 -> 34293:33:09
 
-* Impôt sur le revenu
-  Supposons que l'impôt sur le revenu annuel soit calculé par tranches de la manière suivante. 
+* Impôt sur le revenu                                              :UCANCODE:
+  Supposons que l'impôt sur le revenu annuel soit calculé par tranches de la manière suivante.
   - Un salarié ne paye rien pour les 8000 premiers euros qu'il gagne.
   - Il paye 10% sur chaque euro gagné entre 8000 € et 25000 €,
   - et enfin 20% sur chaque euro gagné au-dessus de 25000 €.
@@ -274,21 +274,22 @@ Maintenant, programmez la fonction ~Circuit2(R1,R2,R3)~ retournant la résistanc
   1. Définissez la fonction ~Tranche(s,b,h,p)~ retournant l'impôt dû pour un salaire annuel ~s~ dans la tranche ~[b,h]~ dont le pourcentage est ~p~ %.
   2. Définissez la fonction ~Impot(s)~ retournant l'impôt total dû pour un salaire annuel ~s~.
   3. Modifiez la fonction ~Impot(s)~ pour arrondir le montant de l'impôt au centime inférieur.
+  4. Testez plus finement votre fonction grâce à l'[[https://51364960.widgets.sphere-engine.com/lp?hash=Rq4J0J9E1g][exercice UCAnCODE]].
 
-#+BEGIN_SRC R :session impot 
+#+BEGIN_SRC R :session impot
   Tranche <- function(s, b, h, p) {
-    if(s < b) return(0)   # rien                    
+    if(s < b) return(0)   # rien
     else if (s <= h) return( (s - b) * p / 100) # une portion de la tranche
     else return((h - b) * p / 100)     # toute la tranche
   }
   ArrondiCentime <- function(x) floor(100 * x) / 100
   Impot <- function(s) ArrondiCentime(Tranche(s,8000,25000,10)+Tranche(s,25000,s, 20))
 
-  Tranche(1500,2000,3000,10)    
-  Tranche(2500,2000,3000,10)    
-  Tranche(4000,2000,3000,10)                             
+  Tranche(1500,2000,3000,10)
+  Tranche(2500,2000,3000,10)
+  Tranche(4000,2000,3000,10)
   Impot(40000)
-  Tranche <- function(s,b,h,p) max( min(s, h) - b, 0) * p / 100 
+  Tranche <- function(s,b,h,p) max( min(s, h) - b, 0) * p / 100
 #+END_SRC
 
 #+RESULTS:
@@ -297,10 +298,10 @@ Maintenant, programmez la fonction ~Circuit2(R1,R2,R3)~ retournant la résistanc
 : [1] 100
 : [1] 4700
 
-#+BEGIN_SRC R :exports both :session impot 
-  Tranche(1500,2000,3000,10)    
-  Tranche(2500,2000,3000,10)    
-  Tranche(4000,2000,3000,10)                             
+#+BEGIN_SRC R :exports both :session impot
+  Tranche(1500,2000,3000,10)
+  Tranche(2500,2000,3000,10)
+  Tranche(4000,2000,3000,10)
   Impot(40000)
 #+END_SRC
 
@@ -323,7 +324,7 @@ Maintenant, programmez la fonction ~Circuit2(R1,R2,R3)~ retournant la résistanc
        hypo <- sqrt(a**2 + b**2)
        cat("Longueur de l'hypoténuse :", hypo, '\n')
      #+END_SRC
-     
+
 * Évaluation des arguments d'une fonction                              :HOME:
 ** Il y a deux sortes de fonctions en R.
 *** Les fonctions prédéfinies
@@ -346,7 +347,7 @@ Maintenant, programmez la fonction ~Circuit2(R1,R2,R3)~ retournant la résistanc
 
 ** Les opérateurs sont des fonctions.
     En R, même les opérateurs sont des fonctions !
-    Par exemple, + est un opérateur, mais c'est aussi une fonction. 
+    Par exemple, + est un opérateur, mais c'est aussi une fonction.
 
 
  #+BEGIN_SRC R :exports code
@@ -354,31 +355,31 @@ Maintenant, programmez la fonction ~Circuit2(R1,R2,R3)~ retournant la résistanc
  '+'(2,2)
  2 == 3
  '=='(2,3)
- 0 || 1 
+ 0 || 1
  '||'(0,1)
  #+END_SRC
 
 
 ** Évaluation paresseuse des arguments d'une fonction
-   
-   Par exemple, si ~f~ est une fonction, au moment du calcul de ~f(a,b)~, l'évaluation des paramètres ~a~ et ~b~ de la fonction ne se fait pas avant que les résultats de cette évaluation ne soient réellement nécessaires. 
+
+   Par exemple, si ~f~ est une fonction, au moment du calcul de ~f(a,b)~, l'évaluation des paramètres ~a~ et ~b~ de la fonction ne se fait pas avant que les résultats de cette évaluation ne soient réellement nécessaires.
    Ce mécanisme s'appelle l'évaluation paresseuse.
 
 
 *** Exemple simple
-    
+
     Si je définis f sous la forme :
 #+BEGIN_SRC R :exports code
   foo <- function(x,y) {x}
 #+END_SRC
-    
-    quelle sera le résultat de ~foo(0,factorial(10000))~ ? 
+
+    quelle sera le résultat de ~foo(0,factorial(10000))~ ?
     Comment R va-t-il obtenir ce résultat, vite ou lentement ?
-    
+
     Une fonction n'évalue ses arguments qu'en cas de besoin quand elle exécute son corps.
     ~foo(0,factorial(1000)))~ ne calcule pas inutilement 1000! en R.
     Par contre, cela serait le cas en Python.
- 
+
 *** Utilisation d'arguments par défaut
 
 
@@ -392,7 +393,7 @@ Maintenant, programmez la fonction ~Circuit2(R1,R2,R3)~ retournant la résistanc
   ## provide (x,y) pair
   polar(1,1)
   ## provide (r, theta) pair
-  polar(r=sqrt(2), theta=pi/4)  
+  polar(r=sqrt(2), theta=pi/4)
 #+END_SRC
 
 #+RESULTS:
@@ -403,23 +404,23 @@ Maintenant, programmez la fonction ~Circuit2(R1,R2,R3)~ retournant la résistanc
 
 #+BEGIN_EXAMPLE
 > polar(r=1)
-  Error in atan2(y, x) : 
+  Error in atan2(y, x) :
     la promesse est déjà en cours d'évaluation : référence récursive d'argument par défaut ou problème antérieur ?
 #+END_EXAMPLE
 
 
 
-    
+
 * Fonction "Lambda"                               :HARD:HOME:
    1. Définissez en R la fonction $f(x)=\frac{sin(x)}{\sqrt{x^4+1}}$.
    2. Calculez une valeur approchée de la dérivée seconde $f^{\prime\prime}(\sqrt{2})$. Réponse : approximativement 0.036\dots
 
-#+BEGIN_SRC R 
+#+BEGIN_SRC R
   ## Prenons une fonction f particuliere :
   f <- function(x) sin(x)/sqrt(x**4 + 1)
 
   ## Calcul de la derivee premiere de f quelconque en un point x avec une precision de h
-  Deriv <- function(f, x, h = 2**(-10)) (f(x + h) - f(x)) / h          
+  Deriv <- function(f, x, h = 2**(-10)) (f(x + h) - f(x)) / h
   ## formule vue au lycee...
 
   cat('f\'(sqrt(2)) =',Deriv(f,sqrt(2)), '\n')
@@ -430,7 +431,7 @@ Maintenant, programmez la fonction ~Circuit2(R1,R2,R3)~ retournant la résistanc
   ## C'est ce que les specialistes nomment une "fermeture" :
   ## http://fr.wikipedia.org/wiki/Fermeture_(informatique)
 
-  Deriv <- function(f, h = 2**(-10)) return (function(x) (f(x + h) - f(x)) / h)            
+  Deriv <- function(f, h = 2**(-10)) return (function(x) (f(x + h) - f(x)) / h)
   ## Du coup, je peux exprimer mes maths sans etat d'ame :
   df <- Deriv(f)
   d2f <- Deriv(df)
@@ -441,7 +442,7 @@ Maintenant, programmez la fonction ~Circuit2(R1,R2,R3)~ retournant la résistanc
   d2f <- Deriv(df, h = 2**(-12))
   cat('f"(sqrt(2)) =',d2f(sqrt(2)), '\n')    # et zou ! Problèmatique non ?...
 
-  ## Une solution est de dériver symboliquement 
+  ## Une solution est de dériver symboliquement
   df <- D(quote(sin(x) / sqrt(x^4 + 1)), 'x')
   d2f <- D(df, 'x')
   cat('la dérivée seconde de la fonction est\n')
@@ -456,16 +457,14 @@ f'(sqrt(2)) = -0.4300162
 f"(sqrt(2)) = 0.03795618
 f"(sqrt(2)) = 0.03691183
 la dérivée seconde de la fonction est
--(sin(x)/sqrt(x^4 + 1) + cos(x) * (0.5 * (4 * x^3 * (x^4 + 1)^-0.5))/sqrt(x^4 + 
-    1)^2 + ((cos(x) * (0.5 * (4 * x^3 * (x^4 + 1)^-0.5)) + sin(x) * 
-    (0.5 * (4 * (3 * x^2) * (x^4 + 1)^-0.5 + 4 * x^3 * (-0.5 * 
-        (4 * x^3 * (x^4 + 1)^-1.5)))))/sqrt(x^4 + 1)^2 - sin(x) * 
-    (0.5 * (4 * x^3 * (x^4 + 1)^-0.5)) * (2 * (0.5 * (4 * x^3 * 
+-(sin(x)/sqrt(x^4 + 1) + cos(x) * (0.5 * (4 * x^3 * (x^4 + 1)^-0.5))/sqrt(x^4 +
+    1)^2 + ((cos(x) * (0.5 * (4 * x^3 * (x^4 + 1)^-0.5)) + sin(x) *
+    (0.5 * (4 * (3 * x^2) * (x^4 + 1)^-0.5 + 4 * x^3 * (-0.5 *
+        (4 * x^3 * (x^4 + 1)^-1.5)))))/sqrt(x^4 + 1)^2 - sin(x) *
+    (0.5 * (4 * x^3 * (x^4 + 1)^-0.5)) * (2 * (0.5 * (4 * x^3 *
     (x^4 + 1)^-0.5) * sqrt(x^4 + 1)))/(sqrt(x^4 + 1)^2)^2))
 f"(sqrt(2)) = 0.03656271
 #+end_example
 
 *Si cet exercice vous passe par-dessus la tete, ce n'est pas si grave que cela.*
 Vous y reviendrez plus tard ! simple question de maturité...
-
-

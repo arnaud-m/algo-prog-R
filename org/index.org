@@ -207,7 +207,7 @@ http://www.dcode.fr/compte-est-bon
    - http://www.java-online.ch/lego/legoEnglish/index.php?inhalt_links=turtle/nav_turtle.inc.php&inhalt_mitte=turtle/aufgaben/aufgaben.inc.php
 ** TODO http://socserv.socsci.mcmaster.ca/jfox/Courses/R-programming/
 * Intervenants
- - Arnaud Malapert (responsable), Marie Pelleau.
+ - Arnaud Malapert (responsable), Giulia Rocco, Oussama Sabri.
 
 * Introduction
 
@@ -250,14 +250,12 @@ http://phdcomics.com/comics/archive/phd051013s.gif
 
 ** Salles
    Toutes les salles sont au 2ème et 3ème étage du Petit Valrose.
-   #  Vos groupes de TD sont divisés en deux pour les TP. Répartissez-vous comme vous voulez dans les deux salles.
 
-*** Vendredi (SITE)                                                :noexport:
-  | 09h00-12h00 |          | 13h00-16h00 |          |
+  | 09h15-12h00 |          | 13h15-16h00 |          |
   |-------------+----------+-------------+----------|
-  | *Groupe 1*  | 215 (AM) | *Groupe 4*  | 316 (SR) |
-  | *Groupe 2*  | 214 (SR) | *Groupe 5*  | 317 (EF) |
-  | *Groupe 3*  | 202 (MP) |             |          |
+  | *Groupe 1*  | 317 (AM) | *Groupe 4*  | 215 (AM) |
+  | *Groupe 2*  | 316 (GR) | *Groupe 5*  | 215 (AM) |
+  | *Groupe 3*  | 315 (OS) |             |          |
 
 * Contenu
  #+BEGIN_EXPORT html
@@ -335,12 +333,8 @@ http://phdcomics.com/comics/archive/phd051013s.gif
     #+NAME: exercices
  | Problème          | Barème |
  |-------------------+--------|
- | [[http://i3s.unice.fr/master-info/ucancode/tutoriel/][Tutoriel UCAnCODE]] |      - |
- | [[https://51364960.widgets.sphere-engine.com/lp?hash=xQiNQQm3RT][ROULETTE]]          |     12 |
- | [[https://51364960.widgets.sphere-engine.com/lp?hash=bBhh3mP0zF][ADDREV]]            |     12 |
- | [[https://51364960.widgets.sphere-engine.com/lp?hash=29a2Nkat4J][SABLE]]             |     16 |
- | [[https://51364960.widgets.sphere-engine.com/lp?hash=wCIhnuEBms][TRADN]]             |     20 |
- | [[https://51364960.widgets.sphere-engine.com/lp?hash=yM4ZNsKuVX][TRADN0]]            |     20 |
+ | [[http://i3s.unice.fr/master-info/ucancode/tutoriel/][Tutoriel UCAnCODE]] | -      |
+ | [[https://51364960.widgets.sphere-engine.com/lp?hash=WYq1xQzKu7][ROULETTE]]          | Bonus  |
 
 
 *** Mini-projets
