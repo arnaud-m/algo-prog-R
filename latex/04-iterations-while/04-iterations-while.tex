@@ -20,7 +20,7 @@
 \begin{frame}
   \frametitle{Problème $\rightarrow$ Algorithme $\rightarrow$ Programme}
 
-  
+
   \begin{itemize}
   \item Partons d'un \alert{problème}.
   \item Soit à faire calculer la somme des entiers de $[1,n]$, avec $n$ entier $\geq 1$.
@@ -45,13 +45,13 @@
   \begin{block}{Je veux calculer $S(1000)$}
     Faire le calcul à la main est facile, long et prodigieusement ennuyeux : $1 + 2 + 3 + 4 + 5 + 6 +7 + \ldots + 1000$. Ouf.
   \end{block}
-  
+
   \begin{block}{Je ne veux pas FAIRE le calcul}
     je veux le FAIRE FAIRE par un ordinateur (computer). \\
-    Il me faut donc écrire un programme court qui explique à la machine par quelles étapes passer. 
+    Il me faut donc écrire un programme court qui explique à la machine par quelles étapes passer.
     La taille du programme ne dépendra pas de $n$, mais le temps de calcul probablement.
   \end{block}
-  
+
   \begin{alertblock}{Trois méthodes classiques pour construire un algorithme}
     \begin{itemize}
     \item Le \alert{\textbf{calcul direct}}.
@@ -71,11 +71,11 @@
       $S(n)$          & $1$     & $2$     & $3$     & $\ldots$ & $n-1$   & $n$ \\
       $S(n)$          & $n$     & $n-1$   & $n-2$   & $\ldots$ & $2$     & $1$ \\
       \midrule
-      $2 \times S(n)$ & $n + 1$ & $n + 1$ & $n + 1$ & $\ldots$ & $n + 1$ & $n + 1$ 
-                                                                                  
+      $2 \times S(n)$ & $n + 1$ & $n + 1$ & $n + 1$ & $\ldots$ & $n + 1$ & $n + 1$
+
     \end{tabular}
   \end{table}
-  
+
   \begin{block}{En R}
   \begin{lstlisting}[style=block]
 > S <- function(n) {return(n*(n+1)/2)}
@@ -105,7 +105,7 @@ S(1000)= 500500
   Si l'on sait calculer $S(n-1)$, on sait donc calculer $S(n)$.
   Or on sait calculer $S(1) = 1$, d'où un calcul de proche en proche :
   \[
-    S(2) = S(1) + 2 = 3 \qquad     S(3) = S(2) + 3 = 6 \qquad S(4) = S(3) + 4 = 10      
+    S(2) = S(1) + 2 = 3 \qquad     S(3) = S(2) + 3 = 6 \qquad S(4) = S(3) + 4 = 10
   \]
   }
 
@@ -116,22 +116,22 @@ S <- function(n) {
   if(n <= 0) return(0)
   else return( S(n-1) + n )
 }
-\end{lstlisting}    
-   
+\end{lstlisting}
+
   \end{block}
- 
+
 \only<2>{
 \begin{itemize}
 \item La taille du programme ne dépend toujours pas de \texttt{n}, qui ne sera fourni qu'à l'exécution.
 \item Le \alert{temps} d'exécution du calcul de \texttt{S(1000)} est \alert{linéaire}. \\
-  Il coûte n-1 opérations.
+  Il coûte n opérations.
 \end{itemize}
 }
 
 \begin{block}<2>{R n'encourage pas la récurrence et ne l'optimise pas !}
   \begin{lstlisting}[style=block]
 > S(1000)
-Erreur : évaluations trop profondément imbriquées : récursion infinie / ...    
+Erreur : évaluations trop profondément imbriquées : récursion infinie / ...
   \end{lstlisting}
 \end{block}
 
@@ -143,7 +143,7 @@ Erreur : évaluations trop profondément imbriquées : récursion infinie / ...
   Plus populaire chez les programmeurs, elle tâche de présenter le calcul comme une succession d'étapes identiques portant sur des variables qui changent de valeur à chaque étape.
 
   \begin{alertblock}{L'important est la situation et non l'action.}
-    
+
 \begin{columns}[t]
 \begin{column}{0.43\textwidth}
   \begin{itemize}
@@ -169,7 +169,7 @@ Nous gérons donc deux variables $\mathtt{i}$ et $\mathtt{acc}$.
 \end{itemize}
 
   \begin{tikzpicture}
-    \begin{scope}[start chain,node distance=0.5mm, every node/.style={on chain, draw=none, shape=signal, align=center, fill=blue!20, text height =1.3cm}] 
+    \begin{scope}[start chain,node distance=0.5mm, every node/.style={on chain, draw=none, shape=signal, align=center, fill=blue!20, text height =1.3cm}]
   \node(INI)  {\textbf{INITIALISATION}\\Trouver les valeurs\\initiales des variables.};
   \node(ITER) [signal from=west]  {\textbf{ITÉRATION}\\Passer à\\l’étape suivante.};
   \node(TERM) [signal from=west] {\textbf{TERMINAISON}\\Détecter si\\le calcul est terminé.};
@@ -183,7 +183,7 @@ Nous gérons donc deux variables $\mathtt{i}$ et $\mathtt{acc}$.
 \begin{frame}{Construire une itération}
   Une fois la situation générale trouvée, voici les trois temps de la construction d'une itération :
   \begin{block}{Passer à l'étape suivante (\alert{ITÉRATION})}
-    Étant en possession de $\mathtt{acc} = 1 + 2 + \dots + \mathtt{i}$, on voudra obtenir la valeur de $1 + 2 + \ldots + \mathtt{i} + (\mathtt{i}+1)$. Il suffira donc d'ajouter $\mathtt{i}+1$ à $acc$ et d'ajouter 1 à $\mathtt{i}$.    
+    Étant en possession de $\mathtt{acc} = 1 + 2 + \dots + \mathtt{i}$, on voudra obtenir la valeur de $1 + 2 + \ldots + \mathtt{i} + (\mathtt{i}+1)$. Il suffira donc d'ajouter $\mathtt{i}+1$ à $acc$ et d'ajouter 1 à $\mathtt{i}$.
   \end{block}
   \begin{block}{Détecter si le calcul est terminé (\alert{TERMINAISON})}
     On aura terminé lorsque $\mathtt{i}$ sera égal à $n$ puisqu'alors $\mathtt{acc}$ vaudra $S(n)$.
@@ -202,7 +202,7 @@ Nous gérons donc deux variables $\mathtt{i}$ et $\mathtt{acc}$.
 }
 \begin{frame}[fragile]
   \frametitle{Visualiser une boucle}
-  \tikzstyle{block} = [draw, fill=grey!5, rectangle, minimum height=3em, minimum width=6em]
+  \tikzstyle{block} = [draw, fill=gray!10, rectangle, minimum height=3em, minimum width=6em]
 \tikzstyle{sum} = [draw, fill=red!20, circle]
 %\tikzstyle{input} = [coordinate]
 \tikzstyle{output} = [coordinate]
@@ -211,16 +211,16 @@ Nous gérons donc deux variables $\mathtt{i}$ et $\mathtt{acc}$.
 % The block diagram code is probably more verbose than necessary
 \begin{tikzpicture}[auto, node distance=2cm,>=latex']
     % We start by placing the blocks
-    \node [block, align = left] (INIT) {\lstinline[basicstyle=\normal\ttfamily]{i <- 0}\\\lstinline[basicstyle=\normal\ttfamily]{acc <- 0}};
+    \node [block, align = left] (INIT) {\lstinline[basicstyle=\ttfamily]{i <- 0}\\\lstinline[basicstyle=\ttfamily]{acc <- 0}};
     \node [sum, right of=INIT, node distance=2cm] (INV) {INV};
-    \node [block, diamond, right of=INV, , node distance=2cm] (TERM) {\lstinline[basicstyle=\normal\ttfamily]{i < n ?}};
+    \node [block, diamond, right of=INV, , node distance=2cm] (TERM) {\lstinline[basicstyle=\ttfamily]{i < n ?}};
     \node [block, right of=TERM, align = left, node distance=4cm] (END) {FIN\\Le résultat est $\mathtt{acc}$.};
-    % We draw an edge between the TERM and END block to 
-    % calculate the coordinate u. We need it to place the measurement block. 
+    % We draw an edge between the TERM and END block to
+    % calculate the coordinate u. We need it to place the measurement block.
     %\node [output, right of=END] (output) {};
-    \node [block, align = left, below of=TERM, node distance=2cm] (ITER) {\lstinline[basicstyle=\normal\ttfamily]{i <- i + 1}\\\lstinline[basicstyle=\normal\ttfamily]{acc <- acc + i}};% {$\mathtt{i} = \mathtt{i} + 1$\\$\mathtt{acc}=\mathtt{acc}+\mathtt{i}$};
+    \node [block, align = left, below of=TERM, node distance=2cm] (ITER) {\lstinline[basicstyle=\ttfamily]{i <- i + 1}\\\lstinline[basicstyle=\ttfamily]{acc <- acc + i}};% {$\mathtt{i} = \mathtt{i} + 1$\\$\mathtt{acc}=\mathtt{acc}+\mathtt{i}$};
 
-    % Once the nodes are placed, connecting them is easy. 
+    % Once the nodes are placed, connecting them is easy.
     \draw [draw,->] (INIT) -- (INV);
     \draw [->, ultra thick] (INV) -- (TERM);
     \draw [->, ultra thick] (TERM) -- node {\texttt{TRUE}} (ITER);
@@ -242,7 +242,7 @@ S <- function(n) {
     acc <- acc + i
   }
   return(acc)
-}  
+}
 \end{lstlisting}
 \end{column}
 \begin{column}{0.48\textwidth}
@@ -255,15 +255,15 @@ S <- function(n) {
 \begin{frame}[fragile]
   \frametitle{Commutation d'instructions}
 \begin{alertblock}{MISE EN GARDE : deux instructions ne commutent pas en général.}
-  Les deux suites d’instructions ci-dessous ne sont PAS équivalentes. 
+  Les deux suites d’instructions ci-dessous ne sont PAS équivalentes.
 \end{alertblock}
 
-  
+
 \begin{columns}[c]
   \begin{column}{0.25\textwidth}
   \begin{lstlisting}[style=editor]
-i <- i + 1 
-acc <- acc + i 
+i <- i + 1
+acc <- acc + i
   \end{lstlisting}
 \end{column}
 \begin{column}{0.25\textwidth}
@@ -287,7 +287,7 @@ Cette suite d'instruction serait fausse.
 \begin{columns}[c]
   \begin{column}{0.25\textwidth}
   \begin{lstlisting}[style=editor]
-acc <- acc + i 
+acc <- acc + i
 i <- i + 1
 \end{lstlisting}
 \end{column}
@@ -330,7 +330,7 @@ Or ci-dessus, l'affectation de \texttt{i} modifie la valeur de \texttt{i} dans l
   \end{alertblock}
 
   \begin{block}{La méthode classique du \texttt{printf}}
-    On fait afficher les variables de boucle (les variables qui varient dans la boucle), ici \texttt{acc} et {i}. \alert{Observe-t-on une anomalie ?}   
+    On fait afficher les variables de boucle (les variables qui varient dans la boucle), ici \texttt{acc} et {i}. \alert{Observe-t-on une anomalie ?}
   \begin{lstlisting}
 while (i < n) {
   cat('i =', i,'acc =', acc, '\n')
@@ -364,13 +364,13 @@ Par exemple 13 est premier, mais pas 12.
   Pour savoir si un nombre $n \geq 2$ est premier, il suffit donc d'examiner les nombres entiers $d$ de $[2,n-1]$ à la recherche d'un diviseur de $n$.
   \begin{itemize}
   \item Si l'on en trouve un, on s'arrête au premier avec le résultat \texttt{FALSE}.
-  \item Sinon, le résultat sera \texttt{TRUE}.  
+  \item Sinon, le résultat sera \texttt{TRUE}.
 
   \end{itemize}
 \end{block}
 
 \begin{block}{Quelle est la situation générale ?}
- J'en suis au nombre $d$ que je n'ai pas encore examiné, et je n'ai toujours pas trouvé de diviseur.  
+ J'en suis au nombre $d$ que je n'ai pas encore examiné, et je n'ai toujours pas trouvé de diviseur.
 \end{block}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -384,7 +384,7 @@ EstPremier <- function(n) {
     d <- d + 1
   }
   return(TRUE)
-}    
+}
 \end{lstlisting}
 
 \begin{lstlisting}
@@ -396,7 +396,7 @@ EstPremier <- function(n) {
 
 \begin{alertblock}{Quel est le nombre d'opérations de notre test de primalité ?}
   \begin{lstlisting}[style=edblock]
-> EstPremier(2**31 -1)   
+> EstPremier(2**31 -1)
 \end{lstlisting}
 % $ % for auctex
 Ctrl-D ou Ctrl-C (Keyboard interrupt)
@@ -406,7 +406,7 @@ Ctrl-D ou Ctrl-C (Keyboard interrupt)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Les boucles infinies et l'instruction break}
-  
+
   \begin{block}{Boucle \texttt{while}}
 \begin{columns}[c]
 \begin{column}{0.68\textwidth}
@@ -420,7 +420,7 @@ while (<test>) {
 <instruction>
 <instruction>
 ...
-}    
+}
   \end{lstlisting}
 \end{column}
 \end{columns}
@@ -437,7 +437,7 @@ repeat {
   <instruction>
   <instruction>
   ...
-}    
+}
   \end{lstlisting}
 \end{column}
 \end{columns}
@@ -449,7 +449,7 @@ repeat {
 x <- 1
 while(x <= 5) {
   x <- x +1
-}    
+}
 \end{lstlisting}
 \end{column}
 \begin{column}{0.08\textwidth}
@@ -461,7 +461,7 @@ x <- 1
 repeat {
   if(x > 5) break
   x <- x +1
-}  
+}
 \end{lstlisting}
 
 \end{column}
@@ -483,7 +483,7 @@ repeat {
   if (x > 5) break
   <instr>
 }
-# reprise ici 
+# reprise ici
 \end{lstlisting}
 \end{column}
 \end{columns}
@@ -502,7 +502,7 @@ repeat {
   if(x %% 17 == 0) break
   x <- 2 * x +1
   print(x)
-}  
+}
 \end{lstlisting}
 
 \end{column}
@@ -518,7 +518,7 @@ repeat {
 [1] 31
 [1] 63
 [1] 127
-[1] 255    
+[1] 255
   \end{lstlisting}
 \end{column}
 \end{columns}
@@ -533,7 +533,7 @@ Cette boucle est donc la plus générale mais elle suppose que l'on garantisse b
  \backupSlides
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
- 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]{Calcul de la somme harmonique}
 
@@ -545,15 +545,15 @@ Cette boucle est donc la plus générale mais elle suppose que l'on garantisse b
     Oresme (1360) savait déjà que $S(n)$ tend vers $+\infty$ lorsque $n \rightarrow +\infty$, les matheux disent que la série harmonique diverge.
   \end{block}
 
-  
+
 \begin{columns}[t]
 \begin{column}{0.48\textwidth}
   \begin{block}{Récurrence}
     \begin{lstlisting}[style=edblock]
-S <- function(n) {      
+S <- function(n) {
   if(n <=0) return(0)
   else return(S(n-1) + 1/n)
-}  
+}
 \end{lstlisting}
 \end{block}
 \begin{block}{Vectorisation (plus tard)}
@@ -561,7 +561,7 @@ S <- function(n) {
 S <- function(n) {
   if(n <=0) return(0)
   else return(sum(1 / (1:n))
-}  
+}
 \end{lstlisting}
   \end{block}
 
@@ -569,7 +569,7 @@ S <- function(n) {
 \begin{column}{0.48\textwidth}
   \begin{block}{Itération}
     \begin{lstlisting}[style=edblock]
-S <- function(n) {      
+S <- function(n) {
   if(n <=0) return(0)
   acc <- 1
   i <- 1
@@ -578,7 +578,7 @@ S <- function(n) {
     acc <- acc + 1/i
   }
   return(acc)
-}  
+}
 \end{lstlisting}
   \end{block}
 \end{column}
@@ -593,7 +593,7 @@ S <- function(n) {
   \frametitle{la série harmonique diverge lentement \dots}
 
   \begin{block}{Combien faut-il de termes dans la somme pour que $S(n) > 8$ ?}
-  
+
 \begin{columns}[t]
 \begin{column}{0.55\textwidth}
   \begin{block}{Avec la fonction \texttt{S}}
@@ -601,7 +601,7 @@ S <- function(n) {
 > n <- 1
 > while(S(n) < 8) {n <- n + 1}
 > n
-[1] 1674      
+[1] 1674
 \end{lstlisting}
   \end{block}
 \end{column}
@@ -615,7 +615,7 @@ S <- function(n) {
 + acc <- acc + 1/n
 + }
 > n
-[1] 1674          
+[1] 1674
 \end{lstlisting}
 \end{block}
 \end{column}
@@ -629,9 +629,9 @@ Quelle est l'approche la plus sûre ? La plus efficace ?
 > while(acc < 16) {
 + n <- n + 1
 + acc <- acc +1/n
-+ }  
++ }
 > n
-[1] 4989191  
+[1] 4989191
 \end{lstlisting}
 \end{block}
 \end{frame}
