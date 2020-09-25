@@ -4,12 +4,12 @@
 #+OPTIONS: num:1 toc:1
 #+PROPERTY: header-args :results output replace :exports none
 * Factorielles                                                          :KEY:
-Les choix algorithmiques que vous ferez influent sur la qualité du programme en terme de complexité et donc de vitesse d'exécution.
+Les choix algorithmiques et d'implémentation que vous ferez influent sur la qualité du programme en terme de complexité et donc de vitesse d'exécution.
 ** Fonctions factorielle
    Programmez plusieurs fonctions prenant un entier positif ~n~ et retournant la factorielle n! de n. Par exemple, 5! est égal à 120.
-   
+
 *** Par récurrence, sous la forme d'une fonction ~FactRec(n)~, en supposant le problème résolu pour n-1. Vérifier ~FactRec(5)~ grâce à la fonction prédéfinie ~factorial~.
-    #+BEGIN_SRC R :session fact 
+    #+BEGIN_SRC R :session fact
       FactRec <- function(n) {
         if(n > 1) return(FactRec(n-1) * n)
         else return (1)
@@ -22,9 +22,9 @@ Les choix algorithmiques que vous ferez influent sur la qualité du programme en
     : FactRec(0) = 1
     : FactRec(5) = 120
 
-*** Par une itération (boucle while) sous la forme d'une fonction ~Fact(n)~. 
+*** Par une itération (boucle while) sous la forme d'une fonction ~Fact(n)~.
 
-#+BEGIN_SRC R :session fact 
+#+BEGIN_SRC R :session fact
   Fact <- function(n) {
     acc <- 1;
     while(n > 1) {
@@ -43,7 +43,7 @@ Les choix algorithmiques que vous ferez influent sur la qualité du programme en
 
 
 *** R est-il capable de calculer 1000! ?
-#+BEGIN_SRC R 
+#+BEGIN_SRC R
   factorial(1000)
 #+END_SRC
 
@@ -52,8 +52,8 @@ Les choix algorithmiques que vous ferez influent sur la qualité du programme en
 
 *** Pour chronométrer un calcul en R, il suffit d'importer la fonction ~system.time~ : ~system.time(replicate(1000,factorial(100)))~. Qui est le plus rapide entre ~Fact(100)~ et ~FactRec(100)~ ?
 
-#+BEGIN_SRC R :session fact 
-  ## On apprendra plus tard à écrire une version vectorisée 
+#+BEGIN_SRC R :session fact
+  ## On apprendra plus tard à écrire une version vectorisée
   FactVec <- function(n) {
     return(prod(1:n))
   }
@@ -70,27 +70,27 @@ Les choix algorithmiques que vous ferez influent sur la qualité du programme en
 #+RESULTS:
 #+begin_example
 Test : FactRec(100)
-utilisateur     système      écoulé 
+utilisateur     système      écoulé
       0.166       0.000       0.165
 Test : Fact(100)
-utilisateur     système      écoulé 
+utilisateur     système      écoulé
       0.011       0.000       0.011
 Test : FactVec(100)
-utilisateur     système      écoulé 
+utilisateur     système      écoulé
       0.004       0.000       0.004
 Test : factorial(100)
-utilisateur     système      écoulé 
+utilisateur     système      écoulé
       0.001       0.000       0.001
 #+end_example
 ** Petites factorielles
-   Ecrivez un programme itératif faisant afficher toutes les factorielles des entiers de 0 à 10, une par ligne. 
+   Ecrivez un programme itératif faisant afficher toutes les factorielles des entiers de 0 à 10, une par ligne.
 *** En utilisant la fonction ~Fact~ ou ~FactRec~, combien votre programme fera-t-il de multiplications ?
 
-    
+
 #+BEGIN_SRC R :session fact
   cat('Voici les factorielles des entiers de [1,20] :\n')
-  i <- 1                 
-  while (i <= 10) {       
+  i <- 1
+  while (i <= 10) {
     ## la boucle d'iteration effectue en tout 1+2+3+...+10 = 55 multiplications
     cat(i,'! =', Fact(i), '\n')
     i <- i + 1
@@ -102,21 +102,21 @@ utilisateur     système      écoulé
 #+RESULTS:
 #+begin_example
 Voici les factorielles des entiers de [1,20] :
-1 ! = 1 
-2 ! = 2 
-3 ! = 6 
-4 ! = 24 
-5 ! = 120 
-6 ! = 720 
-7 ! = 5040 
-8 ! = 40320 
-9 ! = 362880 
+1 ! = 1
+2 ! = 2
+3 ! = 6
+4 ! = 24
+5 ! = 120
+6 ! = 720
+7 ! = 5040
+8 ! = 40320
+9 ! = 362880
 10 ! = 3628800
 #+end_example
 
 *** Sans utiliser cette fonction. Tâchez de faire baisser le nombre de multiplications ! Combien votre programme fera-t-il de multiplications ?
 
-#+BEGIN_SRC R 
+#+BEGIN_SRC R
   ## Si l'on veut faire tomber le nombre de multiplications, il ne FAUT PAS
   ## utiliser une fonction factorielle qui repart chaque fois du debut, mais maintenir
   ## dans une variable f la derniere factorielle calculee !
@@ -129,27 +129,27 @@ Voici les factorielles des entiers de [1,20] :
     i <- i + 1
     acc <- acc * i
   }
-  ## Le cout d'affichage des factorielles des entiers de [1,N] est donc maintenant de N, 
+  ## Le cout d'affichage des factorielles des entiers de [1,N] est donc maintenant de N,
   ## le cout est devenu LINEAIRE. Difficile de faire mieux dans le cas present...
 #+END_SRC
 
 #+RESULTS:
 #+begin_example
 Voici les factorielles (rapides) des entiers de [1,10] :
-1 ! = 1 
-2 ! = 2 
-3 ! = 6 
-4 ! = 24 
-5 ! = 120 
-6 ! = 720 
-7 ! = 5040 
-8 ! = 40320 
-9 ! = 362880 
+1 ! = 1
+2 ! = 2
+3 ! = 6
+4 ! = 24
+5 ! = 120
+6 ! = 720
+7 ! = 5040
+8 ! = 40320
+9 ! = 362880
 10 ! = 3628800
 #+end_example
 
-* Quelques fonctions prédéfinies pour les conversions 
-  L'exercice suivant est un complément de cours. 
+* Quelques fonctions prédéfinies pour les conversions
+  L'exercice suivant est un complément de cours.
   Cherchez la documentation sur les fonctions ~intToBits~, ~utf8ToInt~, ~strtoi~, et ~as.hexmode~.
 
  1. Comment demande-t-on au toplevel R de voir l'écriture binaire (base 2) de 233 ? Que remarquez-vous ?
@@ -165,7 +165,7 @@ Voici les factorielles (rapides) des entiers de [1,10] :
  2. [@2] Sur papier, quel est le résultat de l'addition 11010 + 10111 en binaire ? Vérifiez votre réponse au toplevel.
 #+BEGIN_SRC R  :exports code
   strtoi("11010", base = 2) + strtoi("10111", base = 2)
-#+END_SRC 
+#+END_SRC
 
 #+RESULTS:
 : [1] 49
@@ -179,9 +179,9 @@ Voici les factorielles (rapides) des entiers de [1,10] :
 #+RESULTS:
 : [1] "a4"
 
- 4. [@4] Sur papier, quel est le résultat de l'addition 3F + A2 en hexadécimal ? En binaire ? Vérifiez votre réponse au toplevel. 
+ 4. [@4] Sur papier, quel est le résultat de l'addition 3F + A2 en hexadécimal ? En binaire ? Vérifiez votre réponse au toplevel.
 
-#+BEGIN_SRC R :exports code  
+#+BEGIN_SRC R :exports code
   as.hexmode("3F") + as.hexmode("A2")
   as.integer(as.hexmode("3F") + as.hexmode("A2"))
 #+END_SRC
@@ -204,7 +204,7 @@ Voici les factorielles (rapides) des entiers de [1,10] :
     }
     return(acc)
   }
- 
+
   SomChBin <- function(n) SomCh(n, base = 2)
 #+END_SRC
 
@@ -251,7 +251,7 @@ Voici les factorielles (rapides) des entiers de [1,10] :
 #+END_SRC
 
 
-*** La fonction ~Renverser(n)~ prenant un entier positif ~n~ et retournant l'entier obtenu en prenant les chiffres de ~n~ en sens inverse. 
+*** La fonction ~Renverser(n)~ prenant un entier positif ~n~ et retournant l'entier obtenu en prenant les chiffres de ~n~ en sens inverse.
 #+BEGIN_SRC R :exports both :session renverser
   Renverser(3456)
   Renverser(34560)
@@ -261,12 +261,12 @@ Voici les factorielles (rapides) des entiers de [1,10] :
 : [1] 6543
 : [1] 6543
 
-*** La fonction ~Renverser(n, base)~ prenant un entier positif ~n~ et retournant l'entier obtenu en prenant les chiffres de ~n~ en base ~b~ en sens inverse. 
+*** La fonction ~Renverser(n, base)~ prenant un entier positif ~n~ et retournant l'entier obtenu en prenant les chiffres de ~n~ en base ~b~ en sens inverse.
 
 #+BEGIN_SRC R :exports both :session renverser
-  ## 3456 en décimal devient 110110000000 en binaire 
+  ## 3456 en décimal devient 110110000000 en binaire
   ## qui se renverse en (0000000)11011 en binaire soit 27 en décimal
-  Renverser(3456, base = 2) 
+  Renverser(3456, base = 2)
   Renverser(as.hexmode("ABC"), base = 16)
 #+END_SRC
 
@@ -282,7 +282,7 @@ Voici les factorielles (rapides) des entiers de [1,10] :
 
 
 *** Écrivez une fonction ~JeuHasard~ utilisant la fonction ~sample~ pour simuler un lancer de dés, puis renvoyant le gain.
-    Pour faire la somme des valeurs renvoyées par ~sample~, utilisez la fonction ~sum~ ainsi : ~sum(sample(...))~. 
+    Pour faire la somme des valeurs renvoyées par ~sample~, utilisez la fonction ~sum~ ainsi : ~sum(sample(...))~.
  #+BEGIN_SRC R :session jeuHasard
    JeuHasard <- function() {
      somme <- sum(sample(1:6, 3, replace=TRUE))
@@ -290,12 +290,12 @@ Voici les factorielles (rapides) des entiers de [1,10] :
      else if(somme <18) {return(5)}
      else {return(50)}
    }
-  #+END_SRC 
+  #+END_SRC
 
  #+RESULTS:
 
-*** Écrire une simulation où Virginie joue jusqu'à ce que son gain dépasse 50. 
-    
+*** Écrire une simulation où Virginie joue jusqu'à ce que son gain dépasse 50.
+
     #+BEGIN_SRC R :session jeuHasard
       gain <- 0
       partie <- 0
@@ -308,27 +308,27 @@ Voici les factorielles (rapides) des entiers de [1,10] :
 
     #+RESULTS:
     #+begin_example
-    Partie 1 : 5 
-    Partie 2 : 5 
-    Partie 3 : 5 
-    Partie 4 : 10 
-    Partie 5 : 10 
-    Partie 6 : 10 
-    Partie 7 : 10 
-    Partie 8 : 15 
-    Partie 9 : 20 
-    Partie 10 : 25 
-    Partie 11 : 30 
-    Partie 12 : 30 
-    Partie 13 : 35 
-    Partie 14 : 40 
-    Partie 15 : 45 
+    Partie 1 : 5
+    Partie 2 : 5
+    Partie 3 : 5
+    Partie 4 : 10
+    Partie 5 : 10
+    Partie 6 : 10
+    Partie 7 : 10
+    Partie 8 : 15
+    Partie 9 : 20
+    Partie 10 : 25
+    Partie 11 : 30
+    Partie 12 : 30
+    Partie 13 : 35
+    Partie 14 : 40
+    Partie 15 : 45
     Partie 16 : 50
     #+end_example
 
 
 *** Quelle est la probabilité de gagner 50 euros ? Quelle est l'espérance de gain ? Proposer un tarif pour jouer à ce jeu ? Justifier.
-    
+
      #+BEGIN_SRC R :session jeuHasard
        ## Estimation de l'espérance par simulation
        n <- 10000
@@ -340,7 +340,7 @@ Voici les factorielles (rapides) des entiers de [1,10] :
        sommes <- rowSums(tirages)
        prob5 <- (sum(sommes >= 10) - 1)/ nrow(tirages)
        cat("Esperance théorique", 50*prob50 + 5*prob5, '\n')
-     #+END_SRC 
+     #+END_SRC
 
      #+RESULTS:
      : Esperance simulée : 3.3375
@@ -352,11 +352,11 @@ Voici les factorielles (rapides) des entiers de [1,10] :
 *** Calculez le PGCD de 8 et 12 par cette méthode.
 
 *** Programmez une fonction récursive ~pgcd(a,b)~.
-     #+BEGIN_SRC R 
+     #+BEGIN_SRC R
        pgcd <- function(a,b) ifelse(b == 0, a, pgcd(b, a %% b))
        pgcd(12,8)
        pgcd(8,12)
-       pgcd(87,116)   
+       pgcd(87,116)
      #+END_SRC
 
      #+RESULTS:
@@ -364,9 +364,9 @@ Voici les factorielles (rapides) des entiers de [1,10] :
      : [1] 4
      : [1] 29
 
-*** Programmez cette fonction de manière itérative. 
+*** Programmez cette fonction de manière itérative.
 
-  #+BEGIN_SRC R 
+  #+BEGIN_SRC R
     pgcd <- function(a,b) {
       while ( b != 0 ) {
         tmp = a %% b
@@ -377,7 +377,7 @@ Voici les factorielles (rapides) des entiers de [1,10] :
     }
     pgcd(12,8)
     pgcd(8,12)
-    pgcd(87,116)  
+    pgcd(87,116)
   #+END_SRC
 
   #+RESULTS:
@@ -385,12 +385,12 @@ Voici les factorielles (rapides) des entiers de [1,10] :
   : [1] 4
   : [1] 29
 * Fraction irréductible
-  Comment feriez-vous pour savoir si la fraction 51/85 est irréductible ? 
+  Comment feriez-vous pour savoir si la fraction 51/85 est irréductible ?
   En d'autres termes, peut-on la simplifier ? Par combien ?
-  
+
   /Indice/ : calcul du [[https://fr.wikipedia.org/wiki/Plus_grand_commun_diviseur][pgcd]] par la [[https://fr.wikipedia.org/wiki/Plus_grand_commun_diviseur#M.C3.A9thode_soustractive][méthode soustractive]] ou encore mieux avec l'[[https://fr.wikipedia.org/wiki/PGCD_de_nombres_entiers#Algorithme_d.27Euclide][algorithme d'euclide]].
-#+BEGIN_SRC R 
-      
+#+BEGIN_SRC R
+
   gcd <- function(a,b) ifelse (b==0, a, gcd(b, a %% b))
   g = gcd(58,87)
   if (g == 1) {
@@ -398,7 +398,7 @@ Voici les factorielles (rapides) des entiers de [1,10] :
   } else {
     cat("La fraction 58/87 n'est pas irreductible, on peut la simplifier par",g,"\n")
   }
-    
+
 #+END_SRC
 
 #+RESULTS:
@@ -409,20 +409,20 @@ Voici les factorielles (rapides) des entiers de [1,10] :
    #+BEGIN_SRC R :exports both
      typeof(2105)
    #+END_SRC
-   
+
    #+RESULTS:
    : [1] "double"
 
    la reponse du "top level" est interessante.
-  
+
 *** Qu'est ce qu'un double en R ?
-    
+
     double fait partie des  6 [[https://cran.r-project.org/doc/manuals/r-release/R-lang.html#Basic-types][basic atomic vector types]] de R.
     donc 2015 est un vector (des cellules contigues) d'une seule cellule.
 
-*** Pourquoi ca rend double ? 
+*** Pourquoi ca rend double ?
     Voir la réponse [[https://cran.r-project.org/doc/manuals/r-release/R-lang.html#Constants][ici.]]
-*** Comment travailler avec un entier ? 
+*** Comment travailler avec un entier ?
 
 #+BEGIN_SRC R :exports both
   typeof(2015L)
@@ -444,11 +444,10 @@ Voici les factorielles (rapides) des entiers de [1,10] :
     :  [1] 01 01 01 01 01 00 01 01 01 01 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00
     : [26] 00 00 00 00 00 00 00
 
-    
+
     Les entiers sont représentés dans un [[https://fr.wikipedia.org/wiki/Syst%25C3%25A8me_binaire][système binaire]] (base 2).
     Le système binaire le plus courant est l'équivalent en base deux de la [[https://fr.wikipedia.org/wiki/Notation_positionnelle][numération de position]] que nous utilisons en base dix dans la vie courante.
 *** les objets de base de R sont les vecteurs.
-    
+
     Même un entier "tout seul" est représenté par un vecteur \dots de une seule cellule.
     C'est comme ça : [[https://cran.r-project.org/doc/manuals/r-release/R-lang.html#Basic-types][basic types]] ; [[http://adv-r.had.co.nz/Expressions.html][expressions]].
-

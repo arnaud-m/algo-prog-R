@@ -365,51 +365,49 @@ Maintenant, programmez la fonction ~Circuit2(R1,R2,R3)~ retournant la résistanc
    Par exemple, si ~f~ est une fonction, au moment du calcul de ~f(a,b)~, l'évaluation des paramètres ~a~ et ~b~ de la fonction ne se fait pas avant que les résultats de cette évaluation ne soient réellement nécessaires.
    Ce mécanisme s'appelle l'évaluation paresseuse.
 
-
-*** Exemple simple
-
     Si je définis f sous la forme :
 #+BEGIN_SRC R :exports code
   foo <- function(x,y) {x}
 #+END_SRC
 
-    quelle sera le résultat de ~foo(0,factorial(10000))~ ?
+    quelle sera le résultat de ~foo(0, Sys.sleep(5))~ ? ~foo(Sys.sleep(5), 0)~ ?
     Comment R va-t-il obtenir ce résultat, vite ou lentement ?
 
     Une fonction n'évalue ses arguments qu'en cas de besoin quand elle exécute son corps.
-    ~foo(0,factorial(1000)))~ ne calcule pas inutilement 1000! en R.
+    ~foo(0,Sys.sleep(5))~ ne dort pas inutilement pendant 5 secondes en R.
     Par contre, cela serait le cas en Python.
 
-*** Utilisation d'arguments par défaut
+    Par ailleurs, remarquez que la *procédure* ~Sys.sleep~ renvoie une valeur spéciale : Invisible ~NULL~.
 
+** Utilisation d'arguments par défaut
 
  Un autre avantage de l'évaluation paresseuse est que vous pouvez définir des arguments par défaut mutuellement récursif ce qui permet d'implémenter des interfaces adaptatives.
- Par exemple, voici une fonction (voir [[http://blog.moertel.com/posts/2006-01-20-wondrous-oddities-rs-function-call-semantics.html][ici]]) qui calcule la représentation d'un point en coordonnées polaires et cartesiennes.
+ Par exemple, voici une fonction (voir [[http://blog.moertel.com/posts/2006-01-20-wondrous-oddities-rs-function-call-semantics.html][ici]]) qui calcule la représentation d'un point en coordonnées polaires et cartésiennes.
  Vous pouvez spécifier le point dans l'un ou l'autre des systèmes de coordonnées.
 
 #+BEGIN_SRC R :exports both :output results
   polar <- function(x = r * cos(theta), y = r * sin(theta),
-                    r = sqrt(x*x + y*y), theta = atan2(y, x)) c(x, y, r, theta)
-  ## provide (x,y) pair
+                    r = sqrt(x*x + y*y), theta = atan2(y, x)) return(c(x, y, r, theta))
+
+  ## Calcule la paire (x,y)
   polar(1,1)
-  ## provide (r, theta) pair
+  ## Calcule la paire (r, theta)
   polar(r=sqrt(2), theta=pi/4)
+  ## Attention, l'appel déclenche une erreur si le calcul des coordonnées est impossible.
+  polar(r=1)
 #+END_SRC
 
 #+RESULTS:
+:
 : [1] 1.0000000 1.0000000 1.4142136 0.7853982
+:
 : [1] 1.0000000 1.0000000 1.4142136 0.7853982
+:
+: Error in atan2(y, x) :
+:   la promesse est déjà en cours d'évaluation : référence récursive d'argument par défaut ou problème antérieur ?
 
-
-
-#+BEGIN_EXAMPLE
-> polar(r=1)
-  Error in atan2(y, x) :
-    la promesse est déjà en cours d'évaluation : référence récursive d'argument par défaut ou problème antérieur ?
-#+END_EXAMPLE
-
-
-
+C'est donc un mécanisme puissant, mais dont il faut se méfier.
+En pratique, la définition des arguments par défaut doit rester simple.
 
 * Fonction "Lambda"                               :HARD:HOME:
    1. Définissez en R la fonction $f(x)=\frac{sin(x)}{\sqrt{x^4+1}}$.
