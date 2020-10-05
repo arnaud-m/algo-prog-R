@@ -26,17 +26,17 @@ Utiliser ce module pour vérifier vos résultats.
   ## Surcharge des opérateurs
   print(p1+p2)
   print(p1-p2)
-  ## Évaluations d'un polynome en un point 
+  ## Évaluations d'un polynome en un point
   predict(p1,-5:5)
   ## Visualisation d'un polynome
   plot(p1, xlim = c(-10,10))
 #+END_SRC
 
 #+RESULTS:
-: 1 - x + x^2 
-: -1 + x^2 
-: -x + 2*x^2 
-: 2 - x 
+: 1 - x + x^2
+: -1 + x^2
+: -x + 2*x^2
+: 2 - x
 :  [1] 31 21 13  7  3  1  1  3  7 13 21
 
 * Polynômes creux
@@ -45,20 +45,20 @@ Utiliser ce module pour vérifier vos résultats.
 
   Un polynôme creux est représenté sous la forme d'une liste de monômes.
   Un monôme est un vecteur à 2 éléments : (coefficient, degré).
-  
-  On reprends les deux polynômes ~p~ et ~q~ utilisés en cours. 
+
+  On reprends les deux polynômes ~p~ et ~q~ utilisés en cours.
   #+BEGIN_SRC R :exports code :session sparse
     p <- list(c(2,5), c(-1,4),c(-2,1))
     q <- list(c(1,4), c(7,2),c(-1,0))
   #+END_SRC
-  
+
   #+RESULTS:
 
 
 ** Fonctions utilitaires
 *** Définir la fonction ~is_poly0(p)~ indiquant si le polynôme est nul.
     #+BEGIN_SRC R :session sparse
-      is_poly0 <- function(p) length(p) == 0     
+      is_poly0 <- function(p) length(p) == 0
     #+END_SRC
 
     #+RESULTS:
@@ -114,7 +114,7 @@ Utiliser ce module pour vérifier vos résultats.
     : [1] ""
     : [1] "2*X^5 + -1*X^4 + -2*X^1"
 
-    
+
 *** Programmez la fonction ~mult_ext(p,k)~ de multiplication par un scalaire ~k~ d'un polynôme.
     #+BEGIN_SRC R :session sparse
       mult_ext <- function(p, k)  lapply(p, function (x) {c(k*x[1], x[2])})
@@ -138,7 +138,7 @@ Utiliser ce module pour vérifier vos résultats.
         ## Compute non-nil terms
         degs <- rev(which( x != 0))
         ## Build monoms
-        lapply(degs, function(i) {c(x[i], i-1)})            
+        lapply(degs, function(i) {c(x[i], i-1)})
       }
     #+END_SRC
 
@@ -172,10 +172,10 @@ Utiliser ce module pour vérifier vos résultats.
 
 ** Addition et soustraction                                             :KEY:
 *** Programmez la fonction ~add(p,q)~ d'addition de deux polynômes.
-    Nous allons nous appuyer sur deux fonctions auxiliaires : 
+    Nous allons nous appuyer sur deux fonctions auxiliaires :
     - la fonction ~sort_monoms(p)~ qui trie une liste de monômes par degré décroissant ;
     - la fonction ~merge_monoms(p)~ somme les termes de même degré, et supprime les termes dont le coefficient est nul.
-    
+
     #+BEGIN_SRC R :results none :session sparse
       sort_monoms <- function(p) {
         ## Sort the terms into decreasing order of exponent.
@@ -186,7 +186,7 @@ Utiliser ce module pour vérifier vos résultats.
         ## Sort the terms into decreasing order of exponent.
         coef <- function(x) p[[x]][1]
         deg <- function(x) return(p[[x]][2])
-        ##  Make a pass through the sorted terms 
+        ##  Make a pass through the sorted terms
         i <- 1
         while(i < length(p)) {
           ## Sum consecutive terms with the same degree
@@ -198,7 +198,7 @@ Utiliser ce module pour vérifier vos résultats.
           }
           if(coef(i) == 0) {
             p <- p[-i]
-            ## Remove nil term 
+            ## Remove nil term
           } else {
             ## Examine next term
             i <- i + 1
@@ -210,14 +210,14 @@ Utiliser ce module pour vérifier vos résultats.
       add <- function(p,q) {
         merge_monoms(
           sort_monoms(append(p,q))
-        )    
-      }  
+        )
+      }
     #+END_SRC
 
     #+RESULTS:
 
-    
-    
+
+
     #+BEGIN_SRC R :exports both :results output :session sparse
       poly2str(add(p, list()))
       poly2str(add(list(), q))
@@ -234,7 +234,7 @@ Utiliser ce module pour vérifier vos résultats.
     #+BEGIN_SRC R :results none :session sparse
       sub <- function(p,q) {
         add(p,mult_ext(q,-1))
-      }      
+      }
     #+END_SRC
 
     #+RESULTS:
@@ -253,24 +253,24 @@ Utiliser ce module pour vérifier vos résultats.
 
 
     #+BEGIN_SRC R :exports both :results output :session sparse
-      ## Random list of monoms      
+      ## Random list of monoms
       li <- replicate(10, sample(0:3, 2, replace=TRUE), simplify = FALSE)
-      paste(li)      
+      paste(li)
       ## Test auxiliary functions
       p1 <- sort_monoms(li)
       paste(p1)
       p1 <- merge_monoms(li)
       poly2str(p1)
-      
-      
+
+
       p1 <- merge_monoms(append(li, mult_ext(li,-1)))
       poly2str(p1)
-      
-      
+
+
     #+END_SRC
 
     #+RESULTS:
-    :  [1] "c(1, 0)" "c(0, 0)" "2:3"     "c(0, 0)" "1:2"     "c(0, 0)" "2:3"    
+    :  [1] "c(1, 0)" "c(0, 0)" "2:3"     "c(0, 0)" "1:2"     "c(0, 0)" "2:3"
     :  [8] "c(0, 0)" "c(2, 0)" "c(1, 1)"
     :  [1] "2:3"     "2:3"     "1:2"     "c(1, 1)" "c(2, 0)" "c(0, 0)" "c(0, 0)"
     :  [8] "c(0, 0)" "c(0, 0)" "c(1, 0)"
@@ -278,7 +278,7 @@ Utiliser ce module pour vérifier vos résultats.
     : [1] ""
 
 ** Intégration et dérivation
-*** Programmez la fonction ~integ(p)~ retournant une primitive du polynôme p. 
+*** Programmez la fonction ~integ(p)~ retournant une primitive du polynôme p.
     #+BEGIN_SRC R :results none :session sparse
       integ <- function(p)  {
         r <- lapply(p, function (x) {c(x[1]/(x[2]+1),x[2]+1)})
@@ -298,11 +298,11 @@ Utiliser ce module pour vérifier vos résultats.
     : [1] "0.2*X^5 + 2.33333333333333*X^3 + -1*X^1"
 
 
-*** Programmez la fonction ~deriv(p)~ retournant le polynôme dérivé du polynôme p. 
+*** Programmez la fonction ~deriv(p)~ retournant le polynôme dérivé du polynôme p.
     #+BEGIN_SRC R :results none :session sparse
       deriv <- function(p)  {
         if(length(p) > 0 && tail(p,1)[[1]][2] == 0) {
-          ## Remove constant (last monom) 
+          ## Remove constant (last monom)
           p <- head(p,-1)
         }
         r <- lapply(p, function (x) {c(x[1]*x[2],x[2]-1)})
@@ -311,7 +311,7 @@ Utiliser ce module pour vérifier vos résultats.
 
     #+RESULTS:
 
-    
+
     #+BEGIN_SRC R :exports both :results output :session sparse
       poly2str(deriv(p))
       poly2str(deriv(q))
@@ -323,7 +323,7 @@ Utiliser ce module pour vérifier vos résultats.
 
 ** Multiplication interne                                              :HARD:
    Programmez la fonction ~mult(p,q)~ de multiplication de deux polynômes.
-   Nous allons nous appuyer sur deux fonctions internes auxiliaires : 
+   Nous allons nous appuyer sur deux fonctions internes auxiliaires :
     - la fonction ~mult_monoms(m1, m2)~ qui multiplie deux monômes.
     - la fonction ~mult_poly_mono(p, m)~ qui multiplie un polynôme par un monôme.
     #+BEGIN_SRC R :results none :session sparse
@@ -343,19 +343,19 @@ Utiliser ce module pour vérifier vos résultats.
         return(r)
       }
     #+END_SRC
-    
+
     #+RESULTS:
 
 
   #+BEGIN_SRC R :exports both :results output :session sparse
     p1 <- make_poly(c(1,1))
     p2 <- make_poly(c(-1,1))
-    
+
     poly2str(p1)
     poly2str(p2)
     poly2str(mult(p1,p2))
     print("")
-    
+
     p3 <- make_poly(c(1,-1,1))
     poly2str(p3)
     poly2str(p3)
@@ -392,11 +392,11 @@ Utiliser ce module pour vérifier vos résultats.
 
     #+BEGIN_SRC R :exports both :results output :session sparse
       poly2str(p)
-      for(i in -1:1) {      
+      for(i in -1:1) {
         print(paste("p(",i,") = ",polyval(p,i), sep=""))
       }
       poly2str(q)
-      for(i in -1:1) {      
+      for(i in -1:1) {
         print(paste("q(",i,") = ",polyval(q,i), sep=""))
       }
     #+END_SRC
@@ -422,7 +422,7 @@ Utiliser ce module pour vérifier vos résultats.
            deg <- m[2]
          }
          if(deg > 0) {
-           ## P = Q * X^deg 
+           ## P = Q * X^deg
            acc <- acc * (x**deg)
          }
          return(acc)
@@ -434,11 +434,11 @@ Utiliser ce module pour vérifier vos résultats.
 
     #+BEGIN_SRC R :exports both :results output :session sparse
       poly2str(p)
-      for(i in -1:1) {      
+      for(i in -1:1) {
         print(paste("p(",i,") = ",polyhorn(p,i), sep=""))
       }
       poly2str(q)
-      for(i in -1:1) {      
+      for(i in -1:1) {
         print(paste("q(",i,") = ",polyhorn(q,i), sep=""))
       }
     #+END_SRC
@@ -457,34 +457,34 @@ Utiliser ce module pour vérifier vos résultats.
     #+BEGIN_SRC R :exports both :results output graphics :file act06/comp_eval.jpg :width 500 :height 300  :session sparse
       x <- seq(2-0.02,2.02,length.out=1001)
       vec <- c(-2,0,1)
-      ## p(x) = (x^2-2)^16      
+      ## p(x) = (x^2-2)^16
       p1 <- make_poly(vec)
       for(i in 1:4) {
         p1 <- mult(p1,p1)
       }
-      ## Evaluate p using our methods (observed)     
+      ## Evaluate p using our methods (observed)
       vn <- sapply(x, polyval, p=p1)
       vh <- sapply(x, polyhorn, p=p1)
-      
-      
+
+
       library("polynom")
       ## Evaluate p using R package (expected)
       pr <-as.polynomial(c(-2,0,1))
-      ## p is an R object ! I directly used the power operator.       
+      ## p is an R object ! I directly used the power operator.
       pr <- pr ** 16
       ## I also use a generic function
       vr <- predict(pr,x)
-      
+
       ## Last, visualize the results
       cols <- c("red", "gold")
       matplot(x, cbind(vn-vr,vh-vr),t="l", lwd=2, lty=1,col=cols, xlab="x",ylab="P(x)-P^R(x)")
       legend("topleft", inset=.05, legend=c("Naive", "Horner"), horiz=TRUE, lwd=2, lty=1, col=cols)
      #+END_SRC
-    
+
      #+RESULTS:
      [[file:act06/comp_eval.jpg]]
 
-** Visualisation 
+** Visualisation
    Programmez une fonction ~dessiner(p,x)~ sans résultat, chargée de dessiner la courbe du polynôme p (en bleu), ainsi que celles de sa dérivée (en rouge) et de sa primitive (en vert), sur l’intervalle passé en argument.
 
 
@@ -512,7 +512,7 @@ Utiliser ce module pour vérifier vos résultats.
 
 * Exercice optionnel un peu long, mais intéressant, et ô combien gratifiant !
 
-  Reprogrammez complètement le module dans lequel vous opterez pour une représentation dense des polynômes : un polynôme de degré ~d~ sera représenté par un vecteur ~p~ de longueur ~d+1~ telle que $a_k=$ ~p[k+1]~. 
+  Reprogrammez complètement le module dans lequel vous opterez pour une représentation dense des polynômes : un polynôme de degré ~d~ sera représenté par un vecteur ~p~ de longueur ~d+1~ telle que $a_k=$ ~p[k+1]~.
 L’exercice est long, ne vous pressez pas, mais j’ai entendu dans le couloir qu’il vaudrait mieux le faire avant l’examen, allez savoir pourquoi \dots
 
 #+BEGIN_SRC R :exports none
@@ -524,7 +524,7 @@ L’exercice est long, ne vous pressez pas, mais j’ai entendu dans le couloir 
       p <- head(p, -1)
     }
     return(p)
-  }   
+  }
   add <- function(p , q) {
     if(length(p) <= length(q)) {
       p <- c(p , numeric(length(q)-length(p)))
@@ -545,22 +545,22 @@ L’exercice est long, ne vous pressez pas, mais j’ai entendu dans le couloir 
     return(rm0(r))
   }
 
-  deriv <- function(p) tail(p*deg(p), -1) 
+  deriv <- function(p) tail(p*deg(p), -1)
 
   integ <- function(p) c( 0, p / (deg(p)+1))
 
-  polyval <- function(p, x) sum ( p * x**deg(p) )  
+  polyval <- function(p, x) sum ( p * x**deg(p) )
 
   p <- c(0, -2, 0, 0, -1, 2)
   q <- c(-1, 0, 7, 0, 1)
-  add(p, q)  
+  add(p, q)
   sub(p, q)
   sub(p, p)
   mult(p, q)
   deriv(p)
   integ(p)
-  polyval(p, 0)  
-  polyval(p, -1)  
+  polyval(p, 0)
+  polyval(p, -1)
 
   #+END_SRC
 
@@ -573,5 +573,3 @@ L’exercice est long, ne vous pressez pas, mais j’ai entendu dans le couloir 
 : [1]  0.0000000  0.0000000 -1.0000000  0.0000000  0.0000000 -0.2000000  0.3333333
 : [1] 0
 : [1] -1
-
-  

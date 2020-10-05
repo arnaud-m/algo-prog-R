@@ -6,32 +6,32 @@
   [[file:act05/cm-PSI-R-Chabot.pdf][Traitement de données avec R : initiation aux méthodes exploratoires]]. Simon Chabot.
 * Application web shiny
 ** Installer les extensions
-   Installez d'abord l'extension requise. 
-   #+BEGIN_SRC R :exports code :results output silent 
+   Installez d'abord l'extension requise.
+   #+BEGIN_SRC R :exports code :results output silent
      install.packages("shiny") ## pour l'application web
-   #+END_SRC   
+   #+END_SRC
    N'hésitez pas à parcourir l'[[http://shiny.rstudio.com/tutorial/written-tutorial/lesson1/][introduction]] à shiny.
-  
-   Installez ensuite l'extension suggérée. Continuez même si l'installation échoue. 
-   #+BEGIN_SRC R :exports code :results output silent 
+
+   Installez ensuite l'extension suggérée. Continuez même si l'installation échoue.
+   #+BEGIN_SRC R :exports code :results output silent
      install.packages("ggplot2") ## pour les graphiques
-   #+END_SRC   
+   #+END_SRC
 
 ** Obtenir le code de l'application
 
-   Ensuite, téléchargez le fichier [[file:act05/app-PSI.R][app-PSI.R]] contenant le code de l'application, et exécutez le. 
+   Ensuite, téléchargez le fichier [[file:act05/app-PSI.R][app-PSI.R]] contenant le code de l'application, et exécutez le.
    #+BEGIN_SRC R :exports code
     app <- source('app-PSI.R') ## construire l'application web
     app ## lancer l'application web dans un navigateur
    #+END_SRC
    Pour l'instant, l'application fonctionne mais n'affiche rien d'intéressant.
-  
+
 
 ** Compléter le code de l'application
    Votre mission consiste à écrire les quatre fonctions ci-dessous.
    La spécification des fonctions est précisée dans les sections suivantes.
 
-   #+BEGIN_SRC R :exports code :tangle act05/app-PSI.R 
+   #+BEGIN_SRC R :exports code :tangle act05/app-PSI.R
      #' SummaryPSI est une fonction calculant des statistiques a partir d'une série d'observations.
      #' @param x le vecteur numérique d'observations
      #' @return un vecteur numérique nommé contenant des indicateurs statistiques.
@@ -44,12 +44,12 @@
      #' @param x le vecteur numérique d'observations
      #' @return un histogramme construit avec ggplot2
      HistPSI <- function(x, main, binwidth=0.5) {
-       ## TODO 
+       ## TODO
        if(require("ggplot2")) {
          ## ggplot est installé.
          qplot(c(), geom="histogram")
        } else {
-         ## ggplot n'est pas installé. 
+         ## ggplot n'est pas installé.
          ## On utilise les graphes de 'base'.
          hist(0:10)
        }
@@ -60,7 +60,7 @@
      #' @param size le nombre d'observations du sous-échantillon
      #' @return la moyenne du sous-échantillon
      SampleMean <- function(x, size) {
-       ## TODO 
+       ## TODO
        return(0)
      }
 
@@ -75,11 +75,11 @@
      }
    #+END_SRC
 
-   #+BEGIN_SRC R :tangle act05/app-PSI.R 
-     library(shiny) 
+   #+BEGIN_SRC R :tangle act05/app-PSI.R
+     library(shiny)
      #' La fonction server d'une application shiny réalise le traitement des données et la génération des graphiques/tableaux.
      server <- function(input, output) {
-       ## Vecteur réactif des observations qui dépend du fichier de données. 
+       ## Vecteur réactif des observations qui dépend du fichier de données.
        rtemp <- reactive({
          ## Validation du fichier de données
          validate(
@@ -90,7 +90,7 @@
        })
 
 
-       ## Vecteur réactif des moyennes des sous-échantillons qui dépend du fichier de données et des entrées dans l'application. 
+       ## Vecteur réactif des moyennes des sous-échantillons qui dépend du fichier de données et des entrées dans l'application.
        rmean <- reactive({
          ## Validation des entrées saisies dans l'application.
          validate(
@@ -99,7 +99,7 @@
          )
          ## Calcul des moyennes des sous-échantillons
          SampleMeans(rtemp(), input$sampleCount, input$sampleSize)
-       }) 
+       })
 
        ## Une petite fonction utilitaire pour construire un tableau
        renderTablePSI <- function(x) {
@@ -111,16 +111,16 @@
          )
        }
 
-       ## Tableau récapitulatif des températures 
+       ## Tableau récapitulatif des températures
        output$summaryTemp <- renderTablePSI(rtemp)
-       ## Histogramme des températures 
+       ## Histogramme des températures
        output$histTemp <- renderPlot(
          HistPSI(rtemp(), "Histogramme des températures")
        )
 
-       ## Tableau récapitulatif des moyennes estimées 
+       ## Tableau récapitulatif des moyennes estimées
        output$summaryMean <- renderTablePSI(rmean)
-       ## Histogramme des moyennes estimées 
+       ## Histogramme des moyennes estimées
        output$histMean <- renderPlot(
          HistPSI(rmean(), "Histogramme des moyennes estimées", binwidth=0.125)
        )
@@ -154,19 +154,19 @@
      ## Construit un objet représentant l'application
      shinyApp(ui = ui, server = server)
    #+END_SRC
-  
+
 * Description de données
-Cet exercice a pour but d'introduire aux outils de statistiques descriptives d'une seule variable (moyenne, quartiles, histogramme, etc.). 
+Cet exercice a pour but d'introduire aux outils de statistiques descriptives d'une seule variable (moyenne, quartiles, histogramme, etc.).
 Les étapes proposées dans cet exercice sont nécessaires pour décrire un ensemble de données impliquant une seule variable.
-3 fichiers sont disponibles : [[file:act05/temp1.csv][temp1.csv]], [[file:act05/temp2.csv][temp2.csv]] et [[file:act05/temp3.csv][temp3.csv]]. 
-Chaque fichier contient les mesures de température de centaines de thermomètres au même instant. 
+3 fichiers sont disponibles : [[file:act05/temp1.csv][temp1.csv]], [[file:act05/temp2.csv][temp2.csv]] et [[file:act05/temp3.csv][temp3.csv]].
+Chaque fichier contient les mesures de température de centaines de thermomètres au même instant.
 Les observations peuvent donc être considérées comme indépendantes.
 
   1. Calculer le nombre de données, la moyenne, la variance, l'écart-type et les quartiles.
   2. Décrire qualitativement la distribution des températures mesurées à l'aide d'un histogramme.
 
 
-  #+BEGIN_SRC R 
+  #+BEGIN_SRC R
 
     SummaryPSI <- function(x) {
       c(
@@ -183,25 +183,25 @@ Les observations peuvent donc être considérées comme indépendantes.
         qplot(
           x,
           geom="histogram",
-          binwidth = binwidth,  
-          main = main, 
+          binwidth = binwidth,
+          main = main,
           xlab = "Temperature", ylab="Fréquence"
         )
       } else {
         hist(
           x,
           include.lowest = FALSE,
-          breaks = (diff(range(x)) / binwidth) + 1,  
-          main = main, 
+          breaks = (diff(range(x)) / binwidth) + 1,
+          main = main,
           xlab = "Temperature", ylab="Fréquence"
         )
       }
     }
-  #+END_SRC 
+  #+END_SRC
 
 * Influence de la taille d'un échantillon
-  Cet exercice a pour but de montrer comment l'estimation de la moyenne dépend de la taille de l'échantillon (nombre d'observations) sur lequel repose l'estimation. 
-  Nous allons extraire des sous-échantillons (aléatoires) de différentes tailles et montrer que la dispersion des moyennes observées dépend de cette taille. 
+  Cet exercice a pour but de montrer comment l'estimation de la moyenne dépend de la taille de l'échantillon (nombre d'observations) sur lequel repose l'estimation.
+  Nous allons extraire des sous-échantillons (aléatoires) de différentes tailles et montrer que la dispersion des moyennes observées dépend de cette taille.
   Cet exercice est une illustration de la loi faible des grands nombres.
 
  1. Ecrire une fonction ~SampleMean~ qui calcule la moyenne d'un sous-échantillon de taille ~size~ d'un vecteur ~x~.
@@ -215,9 +215,7 @@ Les observations peuvent donc être considérées comme indépendantes.
 
 * Comparaison de moyenne
   Cet exercice a pour but d'illustrer les outils de comparaison de moyennes à l'aide de tests statistiques.
-  
+
   1. Les mesures de températures suivent-elles une distribution normale ? Quel(s) test(s) peut-on utiliser pour comparer les moyennes de ces distributions ?
   2. Comparer les moyennes estimées sur les 1000 observations des 3 séries de données à l'aide d'un test statistique adéquat.
   3. Comparer de nouveau, à l'aide d'un test statistique, les moyennes des 3 séries de données à partir de sous-échantillons aléatoires de taille 30.
- 
-

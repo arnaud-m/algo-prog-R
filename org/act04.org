@@ -1,51 +1,50 @@
 ﻿#+SETUPFILE: base-template.org
-#+TITLE:    Coefficient de Gini 
+#+TITLE:    Coefficient de Gini
 #+SUBTITLE:     Activités #4
 #+PROPERTY: header-args :results output replace :exports none
-
-* Saisie des données 
+* Saisie des données
 *** Entrer les données ci-dessous dans R grâce à la fonction ~scan~.
     Nous considérons trois échantillons aléatoires d'une population :
 **** le nombre d'heures de charge pour différents modèles de téléphone mobile ;
      #+BEGIN_EXAMPLE
-     45.8   41.1   55.9   46.6   57.0   45.0   58.5   46.7   49.3   52.7   
-     54.9   48.5   40.4   44.4   51.0   44.2   59.1   46.9   50.7   43.7   
-     41.7   52.8   60.5   38.5   60.4   53.8   47.3   50.2   58.8   50.7 
+     45.8   41.1   55.9   46.6   57.0   45.0   58.5   46.7   49.3   52.7
+     54.9   48.5   40.4   44.4   51.0   44.2   59.1   46.9   50.7   43.7
+     41.7   52.8   60.5   38.5   60.4   53.8   47.3   50.2   58.8   50.7
      #+END_EXAMPLE
-  
+
 **** le nombre d'heures passées devant la télévision pour 34 foyers ;
      #+BEGIN_EXAMPLE
-     23.1   15.9   21.0   26.0   25.1   14.7   24.2   16.6   18.2   16.5   
-     20.7   15.3   17.7   19.1   22.7   21.9   14.6   26.3   25.8    9.4   
-     17.0   21.2   17.9   24.7   21.1   17.2   19.1   22.7   24.0   24.7   
-     22.5    8.3   2.5    30.4 
+     23.1   15.9   21.0   26.0   25.1   14.7   24.2   16.6   18.2   16.5
+     20.7   15.3   17.7   19.1   22.7   21.9   14.6   26.3   25.8    9.4
+     17.0   21.2   17.9   24.7   21.1   17.2   19.1   22.7   24.0   24.7
+     22.5    8.3   2.5    30.4
      #+END_EXAMPLE
 **** le nombre de km pour aller et revenir du travail de 12 employés.
      #+BEGIN_EXAMPLE
-     3.7    14.3   11.0   26.5    5.2    4.8   24.2   16.9   8.2    26.5   
-     40.7   5.3       
+     3.7    14.3   11.0   26.5    5.2    4.8   24.2   16.9   8.2    26.5
+     40.7   5.3
      #+END_EXAMPLE
 * Calcul du coefficient de Gini
-*** Le [[https://fr.wikipedia.org/wiki/Coefficient_de_Gini][coefficient de Gini]] est donné par la formule ($x_i \leq x_{i+1}$): 
+*** Le [[https://fr.wikipedia.org/wiki/Coefficient_de_Gini][coefficient de Gini]] est donné par la formule ($x_i \leq x_{i+1}$):
    $$
    \frac{2}{n} \frac{ \sum_1^n i \times x_i}{\sum_1^n x_i} - \frac{n+1}{n}.
    $$
-   Écrire une fonction ~GiniIndex~ qui calcule le coefficient de Gini. 
+   Écrire une fonction ~GiniIndex~ qui calcule le coefficient de Gini.
    Calculer les coefficients de Gini pour les trois échantillons ci-dessus. Qu'en concluez-vous ?
-   
-    #+BEGIN_SRC R :session gini :results output silent 
-      phones <- scan(text = "45.8   41.1   55.9   46.6   57.0   45.0   58.5   46.7   49.3   52.7   
-              54.9   48.5   40.4   44.4   51.0   44.2   59.1   46.9   50.7   43.7   
-              41.7   52.8   60.5   38.5   60.4   53.8   47.3   50.2   58.8   50.7 
+
+    #+BEGIN_SRC R :session gini :results output silent
+      phones <- scan(text = "45.8   41.1   55.9   46.6   57.0   45.0   58.5   46.7   49.3   52.7
+              54.9   48.5   40.4   44.4   51.0   44.2   59.1   46.9   50.7   43.7
+              41.7   52.8   60.5   38.5   60.4   53.8   47.3   50.2   58.8   50.7
           ")
 
 
-      tv <- scan(text ="  23.1   15.9   21.0   26.0   25.1   14.7   24.2   16.6   18.2   16.5   
-         20.7   15.3   17.7   19.1   22.7   21.9   14.6   26.3   25.8    9.4   
-         17.0   21.2   17.9   24.7   21.1   17.2   19.1   22.7   24.0   24.7   
+      tv <- scan(text ="  23.1   15.9   21.0   26.0   25.1   14.7   24.2   16.6   18.2   16.5
+         20.7   15.3   17.7   19.1   22.7   21.9   14.6   26.3   25.8    9.4
+         17.0   21.2   17.9   24.7   21.1   17.2   19.1   22.7   24.0   24.7
          22.5    8.3   2.5    30.4 ")
 
-      dist <- scan(text = "  3.7    14.3   11.0   26.5    5.2    4.8   24.2   16.9   8.2    26.5   
+      dist <- scan(text = "  3.7    14.3   11.0   26.5    5.2    4.8   24.2   16.9   8.2    26.5
         40.7   5.3     ")
 
       GiniIndex <- function(x) {
@@ -53,7 +52,7 @@
         n <- length(x)
         return( (2/n)*(sum( (1:n)*x )/sum(x)) - (n+1)/n )
       }
-      #+END_SRC   
+      #+END_SRC
 
 
 
@@ -61,26 +60,26 @@
       GiniIndex(phones)
       GiniIndex(tv)
       GiniIndex(dist)
-    #+END_SRC   
-    
+    #+END_SRC
+
     #+RESULTS:
     : [1] 0.07121991
     : [1] 0.1539792
     : [1] 0.3894376
-* Courbe de Lorenz 
-*** Implémenter les fonctions ~LorenzCurve(data)~ renvoyant une matrice (ou dataframe) contenant les coordonnées des points de la courbe de Lorenz pour l'échantillon ~data~. 
-    
+* Courbe de Lorenz
+*** Implémenter les fonctions ~LorenzCurve(data)~ renvoyant une matrice (ou dataframe) contenant les coordonnées des points de la courbe de Lorenz pour l'échantillon ~data~.
+
     #+BEGIN_SRC R :results output silent :session gini
       LorenzCurve <- function(data) {
         y <- c(0, cumsum(sort(data)))
         return(data.frame( x= 0:length(data)/length(data), y = y / tail(y,1)))
       }
-    #+END_SRC   
+    #+END_SRC
 
-  
+
     #+BEGIN_SRC R :session gini :exports both
       LorenzCurve(dist)
-    #+END_SRC   
+    #+END_SRC
 
 
     #+RESULTS:
@@ -103,26 +102,26 @@
 
 
 *** Utiliser l'extension [[http://ggplot2.org/][~ggplot2~]] pour produire des graphiques de la courbe de Lorenz.
-    
+
     Tout d'abord, il faut installer quelques extensions.
      #+BEGIN_SRC R :exports code :results output silent :session gini
        install.packages(c("ggplot2", "ggthemes", "Rmisc"))
-     #+END_SRC   
-     
+     #+END_SRC
+
      Ensuite, définir les fonctions construisant les graphiques à partir d'un jeu de données.
-     #+BEGIN_SRC R :exports code :results output silent :session gini 
+     #+BEGIN_SRC R :exports code :results output silent :session gini
         library(ggplot2)
         library(ggthemes)
         PlotLorenz <- function(lorenzCurve, giniIndex, dataName) {
-          ggplot() + 
+          ggplot() +
             geom_line(aes(y = y, x = x),
-                      data = as.data.frame(lorenzCurve), stat="identity", 
+                      data = as.data.frame(lorenzCurve), stat="identity",
                       color =  ptol_pal()(1), size = 2) +
             geom_segment(aes(x = 0, y = 0, xend = 1, yend = 1),linetype="dotted", size = 1.5) +
             theme_gdocs() + scale_colour_ptol() +
-            ggtitle(paste("Courbe de Lorenz - Gini Index =", format(giniIndex, digits=2)), 
+            ggtitle(paste("Courbe de Lorenz - Gini Index =", format(giniIndex, digits=2)),
                     sub = dataName) +
-            labs(x="Part cumulée de la population", y=paste("Part cumulée :", dataName)) +  
+            labs(x="Part cumulée de la population", y=paste("Part cumulée :", dataName)) +
             theme(text = element_text(size=14), plot.title = element_text(size=14))
         }
 
@@ -133,40 +132,40 @@
         phonesName <- "temps de charge"
         tvName <- "temps passé devant la TV"
         distName <- "distance du lieu de travail"
-     #+END_SRC   
+     #+END_SRC
 
 
-     Ensuite, exécuter le code ci-dessous pour afficher les courbes de Lorenz des trois échantillons. 
-    #+BEGIN_SRC R :exports both :results output graphics :file act04/lorenz.jpg :width 1000 :height 300 :session gini 
+     Ensuite, exécuter le code ci-dessous pour afficher les courbes de Lorenz des trois échantillons.
+    #+BEGIN_SRC R :exports both :results output graphics :file act04/lorenz.jpg :width 1000 :height 300 :session gini
         library(Rmisc)
         multiplot(
           PlotLorenzFromSample(phones, phonesName),
           PlotLorenzFromSample(tv, tvName),
           PlotLorenzFromSample(dist, distName), cols =3
         )
-    #+END_SRC   
-    
+    #+END_SRC
+
     #+RESULTS:
      [[file:act04/lorenz.jpg]]
 
 
-* Application shiny 
+* Application shiny
 *** Utiliser l'extension [[http://shiny.rstudio.com/][~shiny~]] pour produire une application web interactive.
 
      Installer d'abord l'extension.
      #+BEGIN_SRC R :exports code :results output silent :session gini
        install.packages("shiny")
-     #+END_SRC   
+     #+END_SRC
 
      Ensuite, rassembler le code définissant les nécessaire dans un fichier et exécuter le.
      N'hésitez pas à lire l'[[http://shiny.rstudio.com/tutorial/written-tutorial/lesson1/][introduction]] à shiny.
-    
+
      #+BEGIN_SRC R :exports code :results output silent :session gini
        library(shiny)
        if (interactive()) {
          ## Only run examples in interactive R sessions
          choices <- c("phones", "tv", "dist")
-         names(choices) <-c(phonesName, tvName, distName) 
+         names(choices) <-c(phonesName, tvName, distName)
 
          ## user interface object
          ui <- fluidPage(
@@ -203,4 +202,3 @@
          shinyApp(ui, server)
        }
     #+END_SRC
-

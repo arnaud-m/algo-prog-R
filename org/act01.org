@@ -4,7 +4,7 @@
 #+PROPERTY: header-args :results output graphics :exports none
 * Cours                                                            :noexport:
 
-#+BEGIN_SRC R :export results :results output graphics :file trirect.jpg :width 300 :height 300 
+#+BEGIN_SRC R :export results :results output graphics :file trirect.jpg :width 300 :height 300
   library("TurtleGraphics")
   trirect <- function(a, b) {
     turtle_up()
@@ -18,7 +18,7 @@
   turtle_do(trirect(100, 50))
 #+END_SRC
 
-#+BEGIN_SRC R :export results :results output graphics :file cos.jpg :width 300 :height 300 
+#+BEGIN_SRC R :export results :results output graphics :file cos.jpg :width 300 :height 300
   library("TurtleGraphics")
   trace_function <- function(f, a, b, n=100) {
     turtle_up()
@@ -35,7 +35,7 @@
 
 
 
-#+BEGIN_SRC R :export results :results output graphics :file cercle.jpg :width 300 :height 300 
+#+BEGIN_SRC R :export results :results output graphics :file cercle.jpg :width 300 :height 300
   library("TurtleGraphics")
   anim_cercle <- function(r, n=50) {
     turtle_up()
@@ -51,7 +51,7 @@
 ** Polygone
 #+BEGIN_SRC R
   Polygone <- function(n, c) {
-    ## renvoie les coordonnées des sommets d'un polygone 
+    ## renvoie les coordonnées des sommets d'un polygone
     ## à n sommets de côté c centré en (0,0).
     rayon <- c/(2 * sin(pi/n))
     x <- numeric(n);
@@ -63,25 +63,25 @@
     }
     return(list(x = x, y = y));
   }
-  ## carré passant en théorie par (1,0), (0,1), (-1, 0), (0,1) 
+  ## carré passant en théorie par (1,0), (0,1), (-1, 0), (0,1)
   polygone(4,sqrt(2))
   ## Que remarquez vous ? permier sommet dupliqué
   pol <- polygone(6,1)
-  plot(pol$x[1:4], pol$y[1:4], ## sélection des sommets 
+  plot(pol$x[1:4], pol$y[1:4], ## sélection des sommets
        xlim = c(-1,1), ylim = c(0,1), ## dimensions des axes
        type='l', lwd = 2, col = "red" ## type de courbe
        )
   h <- pol$y[2]
   lines(c(pol$x[2],1),c(pol$y[2],pol$y[2]))
 #+END_SRC
-   
+
 #+RESULTS:
 
 ** Fleur
 
-#+BEGIN_SRC R :export results :results output graphics :file fleur_BW.jpg :width 300 :height 300 :session fleur 
+#+BEGIN_SRC R :export results :results output graphics :file fleur_BW.jpg :width 300 :height 300 :session fleur
   library("TurtleGraphics")
-  
+
   polygone <- function(n, c) {
     a <- 360 / n
     for(i in seq(n)) {
@@ -89,23 +89,23 @@
       turtle_left(a)
     }
   }
-  
+
   carre <- function(c) polygone(4,c)
-  
+
   fleur <- function(n, c) {
     a <- 360 / n
     for(i in seq(n)) {
       carre(c)
       turtle_left(a)
-    } 
+    }
   }
-          
+
   turtle_init()
   turtle_do(fleur(5, 35))
 #+END_SRC
 
 
-#+BEGIN_SRC R :export results :results output graphics :file fleur_CL.jpg :width 300 :height 300 :session fleur 
+#+BEGIN_SRC R :export results :results output graphics :file fleur_CL.jpg :width 300 :height 300 :session fleur
   fleur <- function(n, c) {
     carre <- function() {polygone(4,c)}
     a <- 360 / n
@@ -114,9 +114,9 @@
       turtle_col(cl)
       carre()
       turtle_left(a)
-    }  
+    }
   }
-  
+
     turtle_init()
     turtle_do(fleur(100, 35))
 #+END_SRC
@@ -129,35 +129,35 @@ install.packages("TurtleGraphics")
  - Quelles sont les différences entre la graphisme cartésien et le graphisme polaire ?
  - Quelles sont les primitives essentielles ~TurtleGraphics~ pour chacun d’eux ?
 
- Lorsque vous écrivez plusieurs programmes graphiques dans l’éditeur, vous voudrez sans doute faire une pause d’une ou deux secondes entre chaque dessin. 
- Pour cela, il existe une fonction primitive ~Sys.sleep(dt)~ qui prend un nombre réel ~dt~ et suspend l’exécution du programme pendant ~dt~ secondes. 
- Par exemple, ~Sys.sleep(2)~ réalise une pause de 2 secondes. 
+ Lorsque vous écrivez plusieurs programmes graphiques dans l’éditeur, vous voudrez sans doute faire une pause d’une ou deux secondes entre chaque dessin.
+ Pour cela, il existe une fonction primitive ~Sys.sleep(dt)~ qui prend un nombre réel ~dt~ et suspend l’exécution du programme pendant ~dt~ secondes.
+ Par exemple, ~Sys.sleep(2)~ réalise une pause de 2 secondes.
  Cherchez l'aide de la fonction ~Sys.sleep~.
  Vérifiez son fonctionnement en exécutant le code ci-dessous.
-     
+
 #+BEGIN_SRC R :exports code
   library("TurtleGraphics")
   turtle_init()
-  ## pour ne pas le recalculer 5 fois  
-  angle = 360 / 5            
-  for (i in 1:5) {         
+  ## pour ne pas le recalculer 5 fois
+  angle = 360 / 5
+  for (i in 1:5) {
     ## dessin d’un pentagone régulier
     turtle_forward(10)
-    Sys.sleep(0.5)            
+    Sys.sleep(0.5)
     turtle_right(angle)
     Sys.sleep(0.5)
   }
 #+END_SRC
 
 * Oursin
-  Programmez une fonction ~Oursin(n,c)~ modélisant un oursin ayant ~n~ épines, chaque épine étant d'une couleur différente et de longueur aléatoire dans [0,c]. 
+  Programmez une fonction ~Oursin(n,c)~ modélisant un oursin ayant ~n~ épines, chaque épine étant d'une couleur différente et de longueur aléatoire dans [0,c].
   Vous utiliserez les fonctions ~runif~ et ~rainbow~ dont vous trouverez l’explication dans les docs \dots
 #+BEGIN_SRC R :results none :session oursin
   Oursin <- function(n, c) {
     angle <- 360/n;
     cols  <- rainbow(n)
     epines=runif(n,max=c)
-    for (i in 1:n) { 
+    for (i in 1:n) {
       turtle_col(cols[i])
       turtle_forward(epines[i])
       turtle_up()
@@ -172,19 +172,19 @@ install.packages("TurtleGraphics")
   library("TurtleGraphics")
   turtle_init()
   turtle_hide()
-  Oursin(100,50); 
+  Oursin(100,50);
 #+END_SRC
 
 #+RESULTS:
 [[file:act01/oursin.jpg]]
 
-* Bissectrices d'un triangle 
-Programmez une fonction ~Equi(c)~ dessinant un triangle équilatéral de côté ~c~ dans la direction du cap courant de la tortue, sur sa gauche. 
+* Bissectrices d'un triangle
+Programmez une fonction ~Equi(c)~ dessinant un triangle équilatéral de côté ~c~ dans la direction du cap courant de la tortue, sur sa gauche.
 Mais vous tracerez aussi dans une autre couleur une portion des bissectrices intérieures du triangle, de même longueur que le côté.
 
-#+BEGIN_SRC R :results none :session triangle 
+#+BEGIN_SRC R :results none :session triangle
   Equi <- function(c) {
-    for (i in 1:3) {         
+    for (i in 1:3) {
       ## cote du triangle equilateral
       turtle_forward(c)
       ## bissectrice
@@ -201,10 +201,10 @@ Mais vous tracerez aussi dans une autre couleur une portion des bissectrices int
 #+END_SRC
 
 
-#+BEGIN_SRC R :exports both :file act01/triangle.jpg :width 300 :height 300 :session triangle 
+#+BEGIN_SRC R :exports both :file act01/triangle.jpg :width 300 :height 300 :session triangle
   library("TurtleGraphics")
   turtle_init()
-  Equi(40); 
+  Equi(40);
 #+END_SRC
 
 #+RESULTS:
@@ -213,8 +213,8 @@ Mais vous tracerez aussi dans une autre couleur une portion des bissectrices int
 N.B. Vous trouverez des informations sur les courbes fractales avec Google.
 Un petit livre de Benoit Mandelbrot, l’inventeur de cette théorie, est à la B.U. : Les Objets Fractals.
 *** Nous avons vu en cours (page 19) une fonction traçant une courbe de Von Koch.
-#+BEGIN_SRC R :exports code :results none :session von_kosch 
-  VK <- function(n,T) {        
+#+BEGIN_SRC R :exports code :results none :session von_kosch
+  VK <- function(n,T) {
     ## approximant de niveau n et de base T
     if (n == 0) turtle_forward(T)
     else {
@@ -229,7 +229,7 @@ Un petit livre de Benoit Mandelbrot, l’inventeur de cette théorie, est à la 
   }
 #+END_SRC
 
-#+BEGIN_SRC R :exports both :file act01/courbe_von_koch.jpg :width 300 :height 300 :session von_kosch 
+#+BEGIN_SRC R :exports both :file act01/courbe_von_koch.jpg :width 300 :height 300 :session von_kosch
   library("TurtleGraphics")
   n <- 5
   T <- 100
@@ -248,19 +248,19 @@ Un petit livre de Benoit Mandelbrot, l’inventeur de cette théorie, est à la 
 
 
 *** Programmer le flocon de Von Koch, obtenu en greffant une courbe de Von Koch sur chaque côté d’un triangle équilatéral.
-#+BEGIN_SRC R :results none :session von_kosch 
+#+BEGIN_SRC R :results none :session von_kosch
   Flocon <- function(n, T, turn) {
     ## le flocon de Von Koch, tourne vers l'interieur ou l'exterieur
     for (i in 1:3) {
       VK(n,t)
       ## turn = left ou right, je passe une fonction en argument !
-      turn(120)         
+      turn(120)
     }
   }
 #+END_SRC
 
 
-#+BEGIN_SRC R :file act01/flocon_von_koch.jpg :width 300 :height 300 :session von_kosch 
+#+BEGIN_SRC R :file act01/flocon_von_koch.jpg :width 300 :height 300 :session von_kosch
   library("TurtleGraphics")
   turtle_init(115,140)
   turtle_hide()
@@ -277,7 +277,7 @@ Un petit livre de Benoit Mandelbrot, l’inventeur de cette théorie, est à la 
 
 *** Expérimenter l’alternative de placer la courbe de Von Koch à l’intérieur plutôt qu’à l’extérieur du flocon. Vous obtiendrez l’anti-flocon cristallin \dots
 
-#+BEGIN_SRC R :file act01/antiflocon_von_koch.jpg :width 300 :height 300 :session von_kosch 
+#+BEGIN_SRC R :file act01/antiflocon_von_koch.jpg :width 300 :height 300 :session von_kosch
   library("TurtleGraphics")
   turtle_init(110,100)
   turtle_hide()
@@ -322,7 +322,7 @@ Un petit livre de Benoit Mandelbrot, l’inventeur de cette théorie, est à la 
 [[file:act01/ex_fils_tendus_1.jpg]]
 
 #+BEGIN_SRC R :file act01/fils_tendus_1.jpg :width 300 :height 300 :session fils
-  FilsTendus <- function(length=100, step=10) {    
+  FilsTendus <- function(length=100, step=10) {
     ## http://jlsigrist.com/images/fils2.jpg
     for (i in seq(step,length-step,step)) {
       turtle_col("gold");
@@ -339,20 +339,20 @@ Un petit livre de Benoit Mandelbrot, l’inventeur de cette théorie, est à la 
 
 #+RESULTS:
 [[file:act01/fils_tendus_1.jpg]]
-* Courbes du Dragon 
+* Courbes du Dragon
 ** Courbe de Levy
-   Programmez l’approximant de niveau ~n~ et de taille ~T~ de la célèbre [[http://fr.wikipedia.org/wiki/Courbe_de_L%25C3%25A9vy][courbe fractale de Levy]]. 
+   Programmez l’approximant de niveau ~n~ et de taille ~T~ de la célèbre [[http://fr.wikipedia.org/wiki/Courbe_de_L%25C3%25A9vy][courbe fractale de Levy]].
 
-   Elle est construite de la manière suivante. 
-   La courbe de niveau 0 est un segment AB de longueur ~T~. La courbe de niveau 1 est la ligne brisée ACB, toujours avec   AB = ~T~. 
-   Le triangle isocèle ACB est rectangle en C. 
-   Cette transformation est itérée sur chacun des sous-segments AC et CB, et ainsi de suite. 
+   Elle est construite de la manière suivante.
+   La courbe de niveau 0 est un segment AB de longueur ~T~. La courbe de niveau 1 est la ligne brisée ACB, toujours avec   AB = ~T~.
+   Le triangle isocèle ACB est rectangle en C.
+   Cette transformation est itérée sur chacun des sous-segments AC et CB, et ainsi de suite.
     1. Dessinez à la main les niveaux 3, 4 et 5.
-    2. Programmez la fonction ~Levy(n,T)~, en traduisant la description ci-dessus en récurrence sur n. 
-     
+    2. Programmez la fonction ~Levy(n,T)~, en traduisant la description ci-dessus en récurrence sur n.
+
     L’argument ~T~ [la taille] représente la distance entre le point de départ A et le point d’arrivée B.
-    
-#+BEGIN_SRC R :file act01/dragon_1.jpg :width 300 :height 450 
+
+#+BEGIN_SRC R :file act01/dragon_1.jpg :width 300 :height 450
   Levy <- function(n,T) {
     if (n == 0) turtle_forward(T)
     else {
@@ -363,7 +363,7 @@ Un petit livre de Benoit Mandelbrot, l’inventeur de cette théorie, est à la 
       Dragon(n-1,Ts)
       turtle_left(45)
     }
-  }    
+  }
   library("TurtleGraphics")
   n <- 13
   T <- 120
@@ -381,9 +381,9 @@ Un petit livre de Benoit Mandelbrot, l’inventeur de cette théorie, est à la 
 
 ** Courbe du dragon
 
-Programmez l’approximant de niveau ~n~ et de taille ~T~ de la célèbre [[http://fr.wikipedia.org/wiki/Courbe_du_dragon][courbe fractale du dragon]]. 
+Programmez l’approximant de niveau ~n~ et de taille ~T~ de la célèbre [[http://fr.wikipedia.org/wiki/Courbe_du_dragon][courbe fractale du dragon]].
 
-#+BEGIN_SRC R :file act01/dragon_2.jpg :width 500 :height 250 
+#+BEGIN_SRC R :file act01/dragon_2.jpg :width 500 :height 250
   Dragon <- function(n,T) {
     if (n == 0) turtle_forward(T)
     else {
@@ -418,8 +418,8 @@ Programmez l’approximant de niveau ~n~ et de taille ~T~ de la célèbre [[http
 [[file:act01/dragon_2.jpg]]
 
 * Le Jeu du Chaos
-   Il s’agit d’un programme célèbre montrant la possible émergence d’une figure régulière à partir de l’aléatoire. 
-   On considère les sommets A(0, T), B(-T, -T) et C(T, -T) d’un triangle isocèle, et le processus suivant. 
+   Il s’agit d’un programme célèbre montrant la possible émergence d’une figure régulière à partir de l’aléatoire.
+   On considère les sommets A(0, T), B(-T, -T) et C(T, -T) d’un triangle isocèle, et le processus suivant.
    On part d’un point quelconque du canevas M(x0 ; y0) et :
      1. Soit H l’un des sommets A, B, ou C au hasard.
      2. Soit I le milieu du segment MH. On dessine le point I.
@@ -427,11 +427,11 @@ Programmez l’approximant de niveau ~n~ et de taille ~T~ de la célèbre [[http
 
  Écrire un programme répétant ~n~ fois l’affichage du point I décrite ci-dessus.
  Pour ~n~ grand, on voit une figure bien connue des chaoticiens émerger du brouillard !
- 
+
 
  N.B. Pour afficher un point, vous vous documenterez sur les fonctions ~sample~ et ~plot~.
- 
-#+BEGIN_SRC R :file act01/jeu_chaos.jpg :width 300 :height 300 
+
+#+BEGIN_SRC R :file act01/jeu_chaos.jpg :width 300 :height 300
   JeuChaos <- function(n, T) {
     ## trianle ABC
     xABC <- c(0, -T,  T);
@@ -441,11 +441,11 @@ Programmez l’approximant de niveau ~n~ et de taille ~T~ de la célèbre [[http
     y <- numeric(n+1);
     ## tirage des sommets H
     abc<-sample(1:3,n+1, replace = TRUE)
-    ## point de départ M quelquonque 
-    x[1] <- 0; 
-    y[1] <- 0; 
+    ## point de départ M quelquonque
+    x[1] <- 0;
+    y[1] <- 0;
     for (i in 2:(n+1)) {
-      ## calcul du milieu I du segment MH 
+      ## calcul du milieu I du segment MH
       x[i] <- (xABC[abc[i]] + x[i-1])/2
       y[i] <- (yABC[abc[i]] + y[i-1])/2
     }
@@ -457,17 +457,17 @@ Programmez l’approximant de niveau ~n~ et de taille ~T~ de la célèbre [[http
     plot(x, y, pch='.', xlab = NA, ylab = NA, labels = FALSE)
   }
   n <- 20000;
-  T <- 500  
+  T <- 500
   JeuChaos(n,T)
 #+END_SRC
- 
+
 #+RESULTS:
 [[file:act01/jeu_chaos.jpg]]
 
 * Fils tendus II
 *** Prolongez l’exercice des fils tendus avec cette [[file:act01/ex_fils_tendus_2.png][image]].
-    
-#+BEGIN_SRC R :file act01/fils_tendus_2.jpg :width 300 :height 300 :session fils 
+
+#+BEGIN_SRC R :file act01/fils_tendus_2.jpg :width 300 :height 300 :session fils
   FilsTendusII <- function(n, x0, y0, radius) {
     for (i in 1:(n-1)) {
       angle <- (i*2*pi)/n
@@ -486,7 +486,7 @@ Programmez l’approximant de niveau ~n~ et de taille ~T~ de la célèbre [[http
   radius <- 50
   FilsTendusII(n, 50, 50, radius)
 #+END_SRC
-    
+
 #+RESULTS:
 [[file:act01/fils_tendus_2.jpg]]
 
@@ -494,7 +494,7 @@ Programmez l’approximant de niveau ~n~ et de taille ~T~ de la célèbre [[http
 * Fleur II
   Programmer une fonction ~Fleur~ dont chacun des ~n~ pétales est dessinée avec la fonction ~fleur~ vue en cours.
   Étendez la fonction pour choisir le nombre ~nc~ de côtés du polygone utilisé pour les pétales.
-   
+
 #+BEGIN_SRC R :results value :session fleur2
   Polygone <- function(n, c) {
     a <- 360 / n
@@ -503,7 +503,7 @@ Programmez l’approximant de niveau ~n~ et de taille ~T~ de la célèbre [[http
       turtle_left(a)
     }
   }
-  
+
   Fleur <- function(n, np, nc, c) {
      a1 <- 360 / n
      a2 <- 360 / np
@@ -511,7 +511,7 @@ Programmez l’approximant de niveau ~n~ et de taille ~T~ de la célèbre [[http
        for(j in seq_len(np)) {
          Polygone(nc,c)
          turtle_left(a2)
-       }  
+       }
        turtle_left(a1)
        turtle_forward(3*c)
      }
@@ -521,10 +521,10 @@ Programmez l’approximant de niveau ~n~ et de taille ~T~ de la célèbre [[http
 #+RESULTS:
 
 
-#+BEGIN_SRC R :exports both :file act01/fleur_demo.jpg :width 300 :height 300 :session fleur2     
-  library("TurtleGraphics") 
+#+BEGIN_SRC R :exports both :file act01/fleur_demo.jpg :width 300 :height 300 :session fleur2
+  library("TurtleGraphics")
   turtle_init()
-  turtle_hide()  
+  turtle_hide()
   turtle_up()
   turtle_forward(30)
   turtle_left(90)
@@ -537,10 +537,10 @@ Programmez l’approximant de niveau ~n~ et de taille ~T~ de la célèbre [[http
 [[file:act01/fleur_demo.jpg]]
 
 
-#+BEGIN_SRC R :file act01/fleur_penta.jpg :width 300 :height 300 :session fleur2     
-  library("TurtleGraphics") 
+#+BEGIN_SRC R :file act01/fleur_penta.jpg :width 300 :height 300 :session fleur2
+  library("TurtleGraphics")
   turtle_init()
-  turtle_hide()  
+  turtle_hide()
   turtle_up()
   turtle_forward(40)
   turtle_left(90)
@@ -553,10 +553,10 @@ Programmez l’approximant de niveau ~n~ et de taille ~T~ de la célèbre [[http
 [[file:act01/fleur_penta.jpg]]
 
 
-#+BEGIN_SRC R :file act01/fleur_carre.jpg :width 300 :height 300 :session fleur2     
-  library("TurtleGraphics") 
+#+BEGIN_SRC R :file act01/fleur_carre.jpg :width 300 :height 300 :session fleur2
+  library("TurtleGraphics")
   turtle_init()
-  turtle_hide()  
+  turtle_hide()
   turtle_up()
   turtle_forward(40)
   turtle_left(90)
@@ -571,8 +571,8 @@ Programmez l’approximant de niveau ~n~ et de taille ~T~ de la célèbre [[http
 * Spirale
   Programmez le dessin sur cette [[http://commons.wikimedia.org/wiki/File%3ATurtle-Graphics_Polyspiral.svg][page]] en vous aidant du pseudo-code.
 
-#+BEGIN_SRC R :file act01/polyspiral.jpg :width 300 :height 300 
-  PolySpiral <- function(dist, angle, incr, segs, width) 
+#+BEGIN_SRC R :file act01/polyspiral.jpg :width 300 :height 300
+  PolySpiral <- function(dist, angle, incr, segs, width)
   {
     ## start in the center of a square, facing east
     for (i in 1:segs) {
@@ -590,5 +590,3 @@ Programmez l’approximant de niveau ~n~ et de taille ~T~ de la célèbre [[http
 
 #+RESULTS:
 [[file:act01/polyspiral.jpg]]
-
-

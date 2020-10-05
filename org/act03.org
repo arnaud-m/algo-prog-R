@@ -8,21 +8,21 @@
 #+END_abstract
 * Application web shiny
 ** Installer les extensions
-   Installez d'abord l'extension requise. 
-   #+BEGIN_SRC R :exports code :results output silent 
+   Installez d'abord l'extension requise.
+   #+BEGIN_SRC R :exports code :results output silent
      install.packages("shiny") ## pour l'application web
-   #+END_SRC   
+   #+END_SRC
    N'hésitez pas à parcourir l'[[http://shiny.rstudio.com/tutorial/written-tutorial/lesson1/][introduction]] à shiny.
-  
+
 ** Obtenir le code de l'application
 
-   Ensuite, téléchargez le fichier [[file:act03/app-base-converter.R][app-base-converter.R]] contenant le code de l'application, et exécutez le. 
+   Ensuite, téléchargez le fichier [[file:act03/app-base-converter.R][app-base-converter.R]] contenant le code de l'application, et exécutez le.
    #+BEGIN_SRC R :exports code
     app <- source('app-base-converter.R') ## construire l'application web
     app ## lancer l'application web dans un navigateur
    #+END_SRC
    Pour l'instant, l'application fonctionne mais n'affiche rien d'intéressant.
-  
+
 ** Compléter le code de l'application
    Votre mission consiste compléter le code de l'application.
    La spécification des fonctions est précisée dans les sections suivantes.
@@ -34,15 +34,15 @@
 
 
 * Code source des conversions                                      :noexport:
-  #+NAME: common 
+  #+NAME: common
   #+BEGIN_SRC R :exports none :results none :session convert
     DecodeDigits <- function(word, alphabet = c(0:9, LETTERS)) {
-      digits <- unlist(strsplit(toupper(word), NULL)) 
+      digits <- unlist(strsplit(toupper(word), NULL))
       return(match(digits, alphabet)-1)
     }
  #+END_SRC
 
-  #+NAME: demo 
+  #+NAME: demo
   #+BEGIN_SRC R :exports none :results none :session convert
     DecodeNumber <- function(word, base) {
       digits <- DecodeDigits(word)
@@ -68,7 +68,7 @@
         }
       }
       return(EncodeDigits(digits, alphabet))
-    } 
+    }
 
     AlphabetBibi <- function() {
       x <- expand.grid(c('O','A','E','I'),c('H','B','K','D'))
@@ -88,7 +88,7 @@
 
 #+NAME: template1
 #+BEGIN_SRC R :exports code
-  #' Décode une chaîne de caractère word représentant un nombre n écrit dans une base comprise entre 2 et 36. 
+  #' Décode une chaîne de caractère word représentant un nombre n écrit dans une base comprise entre 2 et 36.
   #'
   #' @param word la chaîne de caractère représentant le nombre ne contenant que des caractères alphanumériques.
   #' @param base la base dans laquelle est écrite le nombre
@@ -111,7 +111,7 @@ Voici le résultat de la fonction avec des nombres correctement formatés.
  : [1] 10
  : [1] 26
  : [1] 1691
- 
+
  Le format du nombre est incorrect lorsqu'au moins un chiffre est supérieur ou égal à la base.
  #+BEGIN_SRC R :exports both :session convert
    DecodeNumber("121A", 10);
@@ -120,8 +120,8 @@ Voici le résultat de la fonction avec des nombres correctement formatés.
  #+RESULTS:
  : [1] NA
 
- Pour vous aider, la fonction ~DecodeDigit~ prend en paramètre une chaîne de caractères et renvoie le vecteur des chiffres du nombre.  
- 
+ Pour vous aider, la fonction ~DecodeDigit~ prend en paramètre une chaîne de caractères et renvoie le vecteur des chiffres du nombre.
+
  #+BEGIN_SRC R :exports both :session convert
    alphabet <- c(0:9, LETTERS)
    alphabet
@@ -144,7 +144,7 @@ Voici le résultat de la fonction avec des nombres correctement formatés.
   #' @return la chaîne de caractère contenant le nombre n écrit dans la base
   EncodeNumber <- function(n, base) {
     return(NA)
-  } 
+  }
 #+END_SRC
 
 Quelques exemples d'appels.
@@ -184,7 +184,7 @@ Quelques exemples d'appels.
  : [1] "BIDEHE"
 
 * Code source shiny app                                            :noexport:
-  
+
   #+NAME: shinyapp
   #+BEGIN_SRC R :exports none
     library(shiny)
@@ -201,8 +201,8 @@ Quelques exemples d'appels.
       number <- reactive( {
         number <- trimws(input$number)
         validate(
-          need(nchar(number) > 0, "Pas de nombre en entrée."), 
-          need(!grepl("[^a-zA-Z0-9]", number), "Format de nombre incorrect") 
+          need(nchar(number) > 0, "Pas de nombre en entrée."),
+          need(!grepl("[^a-zA-Z0-9]", number), "Format de nombre incorrect")
         )
         number <- DecodeNumber(number, fromBase())
         validate(
@@ -237,15 +237,15 @@ Quelques exemples d'appels.
         ),
         ## Panneau principal contenant les sorties de l'application
         mainPanel(
-          column(4, 
+          column(4,
                  numericInput("toBase1", "Vers la base:", "10"),
                  verbatimTextOutput("toBase1")
                  ),
-          column(4, 
+          column(4,
                  numericInput("toBase2", "Vers la base:", "2"),
                  verbatimTextOutput("toBase2")
                  ),
-        column(4, 
+        column(4,
                numericInput("toBase3", "Vers la base:", "16"),
                verbatimTextOutput("toBase3")
                )
@@ -257,8 +257,8 @@ Quelques exemples d'appels.
     shinyApp(ui = ui, server = server)
   #+END_SRC
 
-  
-  #+BEGIN_SRC R :exports none :noweb yes :tangle act03/app-base-converter.R 
+
+  #+BEGIN_SRC R :exports none :noweb yes :tangle act03/app-base-converter.R
   <<common>>
 
   <<template1>>
@@ -270,7 +270,7 @@ Quelques exemples d'appels.
   <<shinyapp>>
   #+END_SRC
 
-   #+BEGIN_SRC R :exports none :noweb yes :tangle act03/app-base-converter-demo.R 
+   #+BEGIN_SRC R :exports none :noweb yes :tangle act03/app-base-converter-demo.R
    <<common>>
 
    <<demo>>
