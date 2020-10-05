@@ -175,7 +175,7 @@ Faites suivre la définition de votre fonction d'une instruction pour la tester.
 
    #+BEGIN_SRC R
    ## les entiers non nuls ayant n chiffres sont les elements de [10**(n-1),10**n-1]
-   RandChiffres <- function(n) sample(10**(n-1):10**n-1, 1)
+   RandChiffres <- function(n) sample(seq(10**(n-1), 10**n-1), 1)
    replicate(5, RandChiffres(4))
    #+END_SRC
 
