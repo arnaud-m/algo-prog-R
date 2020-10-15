@@ -369,9 +369,9 @@ Voici les factorielles (rapides) des entiers de [1,10] :
   #+BEGIN_SRC R
     pgcd <- function(a,b) {
       while ( b != 0 ) {
-        tmp = a %% b
-        a = b
-        b = tmp
+        tmp <- a %% b
+        a <- b
+        b <- tmp
       }
       return(a);
     }
