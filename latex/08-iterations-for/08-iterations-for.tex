@@ -18,11 +18,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{La boucle \texttt{for}}
-  
+
   En théorie, la boucle \texttt{while} permet de réaliser toutes les boucles que l'on veut.
   Toutefois, les boucles \texttt{for} sont très utilisées.
 
-  
+
 \begin{columns}[t]
 \begin{column}{0.48\textwidth}
   \begin{lstlisting}[style=editor]
@@ -45,7 +45,7 @@ S <- function(n) {
     acc <- acc +i
   }
   return(acc)
-}  
+}
 \end{lstlisting}
 \end{column}
 \end{columns}
@@ -75,7 +75,7 @@ geq <- function(x, values) {
     if(x < v) return(FALSE)
   }
   return(TRUE)
-}         
+}
   \end{lstlisting}
 \end{column}
 \begin{column}{0.48\textwidth}
@@ -125,11 +125,11 @@ geq <- function(x, values) {
 [1] 0.00 1.25 2.50 3.75 5.00
 \end{lstlisting}
 
-En version courte pour générer des entiers consécutifs :   
+En version courte pour générer des entiers consécutifs :
 \begin{lstlisting}
 > 1:5
 [1] 1 2 3 4 5
-> 1:0 # /!\ ATTENTION ! 
+> 1:0 # /!\ ATTENTION !
 [1] 1 0
 \end{lstlisting}
 \end{frame}
@@ -148,7 +148,7 @@ En version courte pour générer des entiers consécutifs :
 for(i in seq(1,10**7, by=2)) {
   print(i)
   if(i > 10) break
-}    
+}
   \end{lstlisting}
 \end{column}
 \begin{column}{0.38\textwidth}
@@ -165,14 +165,14 @@ for(i in seq(1,10**7, by=2)) {
 
 Les séquences (vector, list) sont des objets itérables .
 \begin{block}{Syntaxe}
-  
+
 \end{block}{Syntaxe de la boucle \texttt{for}}
 \begin{lstlisting}[style=edblock]
 for (x in sequence) {
   ...
-}  
+}
 \end{lstlisting}
-  
+
 \end{frame}
 
 
@@ -186,16 +186,16 @@ for (x in sequence) {
     \alert{\texttt{sample(x, size, replace = FALSE, prob = NULL)}}
   \end{center}
 
- 
+
   \begin{block}{Tirage sans remise (\texttt{replace=FALSE})}
-La variante \texttt{sample.int} est un raccourci pour choisir dans \texttt{1:n}    
+La variante \texttt{sample.int} est un raccourci pour choisir dans \texttt{1:n}
     \begin{lstlisting}
 > sample.int(10) # permutation aléatoire de [1, 10]
 [1]  8  6 10  7  5  4  3  1  2  9
 > sample.int(n = 90,  size = 6) # tirage du loto
 [1]  5 26 11 77 70 32
 > sample.int(n = 10,  size = 11) # Choisir 11 parmi 10
-Error in sample.int(10, 11) : 
+Error in sample.int(10, 11) :
   impossible de prendre un échantillon plus grand que la population lorsque 'replace = FALSE'
 \end{lstlisting}
 \end{block}
@@ -212,7 +212,7 @@ Error in sample.int(10, 11) :
 
 \begin{block}{Tirage avec remise (\texttt{replace=TRUE})}
     \begin{lstlisting}[style=block]
->  sample(c('pile', 'face'),  size = 5, replace = TRUE) 
+>  sample(c('pile', 'face'),  size = 5, replace = TRUE)
 [1] "face" "pile" "pile" "pile" "pile"
 \end{lstlisting}
 \end{block}
@@ -220,7 +220,7 @@ Error in sample.int(10, 11) :
 
 \begin{block}{Tirage biaisé avec remise (\texttt{prob})}
     \begin{lstlisting}[style=block]
-> sample(c('pile', 'face'),  size = 10, replace = TRUE, prob = c(5, 1)) 
+> sample(c('pile', 'face'),  size = 10, replace = TRUE, prob = c(5, 1))
  [1] "pile" "pile" "pile" "face" "face" "pile" "pile" "pile" "pile" "pile"
 \end{lstlisting}
 \end{block}
@@ -245,7 +245,7 @@ Error in sample.int(10, 11) :
 
 
 \begin{block}{Autres distributions}
-  \texttt{rnorm}, \texttt{rpois}, \texttt{rgamma} \dots 
+  \texttt{rnorm}, \texttt{rpois}, \texttt{rgamma} \dots
 \end{block}
 \end{frame}
 
@@ -263,8 +263,8 @@ Error in sample.int(10, 11) :
 SP <- function(n) {
   if(n <= 0) return(0)
   return(sum(1:n))
-}    
-\end{lstlisting}  
+}
+\end{lstlisting}
 \end{column}
 \begin{column}{0.48\textwidth}
   \begin{lstlisting}[style=editor]
@@ -273,7 +273,7 @@ SR <- function(n) {
     return(n+SR(n-1))
   }
   else return(0)
-}    
+}
   \end{lstlisting}
 \end{column}
 \end{columns}
@@ -316,8 +316,8 @@ SF <- function(n) {
 
 \begin{lstlisting}
 > system.time(replicate(10**4, invisible(SP(10**6))))
-utilisateur     système      écoulé 
-      0.041       0.000       0.042 
+utilisateur     système      écoulé
+      0.041       0.000       0.042
 \end{lstlisting}
 
 

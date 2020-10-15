@@ -382,11 +382,11 @@ http://phdcomics.com/comics/archive/phd051013s.gif
 
 ** Contrôle continu
    La note de contrôle continu est la moyenne :
-     - de la note de partiel, une épreuve écrite de 1h (barème - 7pts / 8pts / 8pts);
+     - de la note de partiel, une épreuve écrite de 1h (barème indicatif - 6pts / 7pts / 10pts);
      - et des 2 meilleures notes obtenues aux activités.
 
 ** Examen terminal
-   L'examen terminal est une épreuve écrite de 3h (barème - 3pts / 4pts / 16pts).
+   L'examen terminal est une épreuve écrite de 3h (barème indicatif - 3pts / 4pts / 16pts).
 
 ** Note finale
    - Soit $N_c$ votre note de contrôle continu,
