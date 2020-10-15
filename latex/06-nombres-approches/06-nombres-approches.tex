@@ -20,21 +20,21 @@
   \begin{alertblock}{Calcul entier et réel en précision finie}
     Ils n'ont qu'un nombre limité de chiffres avant et après la ”virgule” (le point décimal).
   \end{alertblock}
-  
-%   %Rappel : le calcul \alert{entier} est exact, 
+
+%   %Rappel : le calcul \alert{entier} est exact,
 %   \begin{lstlisting}
 % > 1 %/% 2
 % [1] 0
 % > 1 / 2
 % [1] 0.5
 % > 2 / 3
-% [1] 0.6666666666666666    
+% [1] 0.6666666666666666
 %   \end{lstlisting}
 
   \begin{center}
     \alert{\textbf{Donc aucun nombre irrationnel !}}
   \end{center}
-    
+
 \begin{columns}[t]
 \begin{column}{0.45\textwidth}
   \begin{exampleblock}{Approximation de $\pi$}
@@ -54,7 +54,7 @@ Mais, $\pi = 3.141592653589793\mathbf{23}\ldots$
   \begin{exampleblock}{Approximation de $\sqrt 2$}
     \begin{lstlisting}[style=block]
 > sqrt(2)
-[1] 1.414214      
+[1] 1.414214
 > sprintf('%.17f',sqrt(2) ** 2)
 [1] "2.00000000000000044"
 > sqrt(2) ** 2 == 2
@@ -79,7 +79,7 @@ Mais, $\pi = 3.141592653589793\mathbf{23}\ldots$
   Lorsque R affiche une valeur approchée, ce n'est qu'une approximation de la véritable valeur interne de la machine :
   \begin{lstlisting}
 > 0.1 # quelle est la valeur de 0.1 ?
-[1] 0.1 # ceci est une illusion !    
+[1] 0.1 # ceci est une illusion !
 \end{lstlisting}
 
 La fonction \texttt{print} ou \texttt{printf} permet de voir (en décimal) la véritable représentation en machine de 0.1 qui n'est pas 0.1 mais :
@@ -90,7 +90,7 @@ La fonction \texttt{print} ou \texttt{printf} permet de voir (en décimal) la v�
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]{Représentation des nombres réels}                                                                                                                
+\begin{frame}[fragile]{Représentation des nombres réels}
   \begin{itemize}
   \item Les ressources d'un ordinateur étant limitées, on représente seulement un \alert{sous-ensemble des réels de cardinal fini}.
   \item Ces éléments sont appelés \alert{nombres à virgule flottante}.
@@ -109,9 +109,9 @@ La fonction \texttt{print} ou \texttt{printf} permet de voir (en décimal) la v�
 
 \begin{exampleblock}{Le zéro n'est plus unique !}
 \begin{lstlisting}[style=block]
-> 10^20 + 1 == 10^20 
+> 10^20 + 1 == 10^20
 [1] TRUE
-> 10^20 + 2 == 10^20 
+> 10^20 + 2 == 10^20
 [1] TRUE
 \end{lstlisting}
 En math, il existe un unique nombre $y$ tel que $x + y = x$, le zéro !
@@ -131,7 +131,7 @@ En math, il existe un unique nombre $y$ tel que $x + y = x$, le zéro !
 > 0.1 + 0.1 + 0.1 == 0.3
 [1] FALSE
 > 0.1 * 3 == 0.3
-[1] FALSE    
+[1] FALSE
 \end{lstlisting}
 
 Le domaine du calcul approché est TRÈS difficile, et prévoir à l'avance le nombre exact de décimales correctes lors d'un résultat de calcul reste réservé aux spécialistes d'analyse Numérique (brrr) \dots
@@ -145,7 +145,7 @@ a == b # BAD !
 \end{column}
 \begin{column}{0.48\textwidth}
   \begin{lstlisting}[style=editor]
-abs(a - b) < h # GOOD !    
+abs(a - b) < h # GOOD !
   \end{lstlisting}
 \end{column}
 \end{columns}
@@ -165,7 +165,7 @@ while( x > 0 ) {
   x <- x / 2
 }
 \end{lstlisting}
-Est-ce que cette boucle s'arrête ? En math ? En info ? 
+Est-ce que cette boucle s'arrête ? En math ? En info ?
 \end{exampleblock}
 
 
@@ -176,7 +176,7 @@ Est-ce que cette boucle s'arrête ? En math ? En info ?
 > z1 <- x**2 - y**2 # appliquer directement la formule
 > z2 <- (x - y)*(x + y) # appliquer une identité remarquable
 > z2 - z1 # Est-ce que les résultats sont identiques ?
-[1] 1    
+[1] 1
   \end{lstlisting}
 \end{exampleblock}
 
@@ -196,36 +196,37 @@ Est-ce que cette boucle s'arrête ? En math ? En info ?
   \[
     b = \frac{1}{2}(a + \frac{r}{a})
   \]
-  est une approximation encore meilleure ! Pourquoi ? Cf TD.    
+  est une approximation encore meilleure ! Pourquoi ? Cf TD.
   \end{block}
-  Nous allons développer cet algorithme en répondant à trois questions : 
+  Nous allons développer cet algorithme en répondant à trois questions :
   \begin{description}
   \item[ITÉRATION] Comment améliorer l'approximation courante ?
   \item[TERMINAISON] Mon approximation courante $\mathtt{a}$ est-elle assez bonne ?
-  \item[INITIALISATION] Comment initialiser la première approximation ? 
+  \item[INITIALISATION] Comment initialiser la première approximation ?
   \end{description}
 \end{frame}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Algorithme d'approximation de $\sqrt{r}$}
   \begin{block}{ITÉRATION}
     Pour \alert{améliorer} l'approximation, il suffit d'appliquer la formule de Newton, qui fait approcher $\mathtt{a}$ de $\sqrt{r}$ :
     \begin{lstlisting}[style=editor]
-a = 0.5 * (a + r / a)       
-    \end{lstlisting}    
+a = 0.5 * (a + r / a)
+    \end{lstlisting}
   \end{block}
 
   \begin{block}{TERMINAISON}
   Mon approximation courante a est-elle \alert{assez bonne} ? Elle est assez bonne lorsque $\mathtt{a}$ est très proche de $\sqrt{r}$.
 Notons $\mathtt{h}$ la variable dénotant la précision, par exemple $\mathtt{h} = 2^{-20}$.
 \begin{lstlisting}[style=editor]
-abs(a*a - r) < h    
+abs(a*a - r) < h
 \end{lstlisting}
 \end{block}
 \begin{block}{INITIALISATION}
   Comment \alert{initialiser} l'approximation ? En fait, les maths sous-jacentes à la technique de Newton montrent que n'importe quel réel $\mathtt{a} > 0$ convient :
   \begin{lstlisting}[style=editor]
-a = 1      
+a = 1
   \end{lstlisting}
 \end{block}
 \end{frame}
@@ -241,7 +242,7 @@ Racine <- function(r, h = 2**(-10)) {
     a <- 0.5 * (a + r/a)
   }
   return(a)
-}    
+}
 \end{lstlisting}
 
 \begin{lstlisting}
@@ -265,24 +266,24 @@ Racine <- function(r, h = 2**(-10)) {
 \begin{frame}
   \frametitle{Mais d'où vient la formule de Newton  $b = \frac{1}{2}(a + \frac{r}{a})$ ?}
 
-  D'un simple calcul de tangentes (cf TD) \dots
-  
+  D'un simple calcul de tangentes (cf TD ou \href{https://fr.wikipedia.org/wiki/M\%C3\%A9thode\_de\_Newton}{wikipedia}) \dots
+
   \begin{center}
     \begin{tikzpicture}[xscale=3, yscale=2]
       \clip (0.5, -1.1) rectangle (3.1, 2.1);
       \draw[red,thick] (0,-2)  parabola (2,2);
       \draw[loosely dotted] (1, -1) grid (2,2);
-      
+
       \node[red, thick, right] at (1, -1) {$y=x^2 - 2$};
-      
-      \draw[->] (1,0) -- (2.1, 0); 
+
+      \draw[->] (1,0) -- (2.1, 0);
       \foreach \x in {1, 2}
       \draw (\x,1pt) -- (\x,-3pt)  node[anchor=north, right] {$\x$};
-      
-      \draw[->] (1,-2) -- (1,2.1); 
+
+      \draw[->] (1,-2) -- (1,2.1);
       \foreach \y/\ytext in {-2, -1, 0, 1, 2}
       \draw (1,\y) -- (0.95,\y) node[anchor=east] {$\ytext$};
-      
+
       \draw[thick] (2,2) -- (1.5, 0) node[above right] {$y=4x - 6$};;
       \fill (2,2) circle[radius=1.5pt, xscale=2/3];
       \fill (1.5,0) circle[radius=1.5pt,xscale=2/3];
@@ -302,8 +303,8 @@ Racine <- function(r, h = 2**(-10)) {
 
 
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Répartition de flottants 6 bits sur la droite réelle}                                                                                                                
-  
+\begin{frame}{Répartition de flottants 6 bits sur la droite réelle}
+
 \begin{columns}[t]
   \begin{column}{0.48\textwidth}
     \begin{block}{Flottant $\sim$ Notation scientifique}
