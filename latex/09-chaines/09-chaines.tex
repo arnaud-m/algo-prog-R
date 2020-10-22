@@ -24,7 +24,7 @@
   \begin{lstlisting}[style=edblock]
 > texte <- '1984 : Orwell !'
 > texte
-[1] "1984 : Orwell !"    
+[1] "1984 : Orwell !"
   \end{lstlisting}
 \end{block}
 
@@ -36,7 +36,7 @@
 > typeof(1984)
 [1] "double"
 > typeof('1984')
-[1] "character"            
+[1] "character"
       \end{lstlisting}
 \end{column}
 \begin{column}{0.48\textwidth}
@@ -44,7 +44,7 @@
 > as.integer('1984')
 [1] 1984
 > as.character(1984)
-[1] "1984"    
+[1] "1984"
   \end{lstlisting}
 \end{column}
 \end{columns}
@@ -65,14 +65,14 @@
 \begin{exampleblock}{Comment inclure une apostrophe dans une chaîne ?}
   \begin{lstlisting}[style=block]
 > 'Mais j'ai froid'
-Erreur : unexpected symbol in "'Mais j'ai"    
+Erreur : unexpected symbol in "'Mais j'ai"
 \end{lstlisting}
 \begin{columns}[t]
   \begin{column}{0.48\textwidth}
     Délimiter avec des guillemets.
   \begin{lstlisting}
 > "Mais j'ai froid"
-[1] "Mais j'ai froid"    
+[1] "Mais j'ai froid"
 \end{lstlisting}
 \end{column}
 \begin{column}{0.48\textwidth}
@@ -95,7 +95,7 @@ Erreur : unexpected symbol in "'Mais j'ai"
     \begin{lstlisting}[style=block]
 > texte <- '1984 : Orwell !'
 > nchar(texte)
-[1] 15      
+[1] 15
     \end{lstlisting}
   \end{block}
 
@@ -111,7 +111,7 @@ Erreur : unexpected symbol in "'Mais j'ai"
 > substr(texte,nchar(texte)+1,nchar(texte)+1)
 [1] ""
     \end{lstlisting}
-    En fait, R n’est pas conçu pour ce genre de manipulation.    
+    En fait, R n’est pas conçu pour ce genre de manipulation.
   \end{block}
 \end{frame}
 
@@ -133,7 +133,7 @@ En fait, la fonction paste fonctionne aussi sur les vecteurs/listes comme presqu
 > paste(mots, mots, collapse="|")
 [1] "pomme pomme|banane banane|raisin raisin"
 > paste(mots, mots, sep="-",collapse="|")
-[1] "pomme-pomme|banane-banane|raisin-raisin"  
+[1] "pomme-pomme|banane-banane|raisin-raisin"
 \end{lstlisting}
 La fonction \alert{\texttt{sprintf}} formatte une chaîne à la C.
 \begin{lstlisting}
@@ -151,11 +151,11 @@ La fonction \alert{\texttt{sprintf}} formatte une chaîne à la C.
 > substring(texte,first=12)
 [1] "le monde"
 > substring(texte,first=1,last=11)
-[1] "salut tout "    
+[1] "salut tout "
 \end{lstlisting}
 
 \begin{alertblock}{Puis-je modifier le k-ème caractère d'une chaîne ?}
-  \alert{NON} : une chaîne est un objet non mutable. 
+  \alert{NON} : une chaîne est un objet non mutable.
 \end{alertblock}
 
 \begin{exampleblock}{Mais, on peut quand même \dots}
@@ -163,7 +163,7 @@ La fonction \alert{\texttt{sprintf}} formatte une chaîne à la C.
   \begin{lstlisting}
 > substr(texte,1,5) <- 'Hello'
 > texte
-[1] "Hello tout le monde"    
+[1] "Hello tout le monde"
   \end{lstlisting}
 \end{exampleblock}
 \end{frame}
@@ -172,7 +172,7 @@ La fonction \alert{\texttt{sprintf}} formatte une chaîne à la C.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Éclatement d’une chaîne}
-La fonction \alert{\texttt{strsplit}} sépare une chaîne de caractères en une liste de sous-chaînes en utilisant un séparateur.  
+La fonction \alert{\texttt{strsplit}} sépare une chaîne de caractères en une liste de sous-chaînes en utilisant un séparateur.
 \begin{lstlisting}
 > word <- "apple|banana|grape"
 > v <- strsplit(word,split="|",fixed=TRUE)
@@ -180,7 +180,7 @@ La fonction \alert{\texttt{strsplit}} sépare une chaîne de caractères en une 
 [[1]]
 [1] "apple" "banana" "grape"
 > v[[1]][1]
-[1] "apple"  
+[1] "apple"
 \end{lstlisting}
 
 \begin{itemize}
@@ -196,7 +196,7 @@ La fonction \alert{\texttt{strsplit}} sépare une chaîne de caractères en une 
 \end{alertblock}
 \begin{itemize}
 \item Une regexp est donc une "instruction" donnée à une fonction définissant la recherche (match) et les remplacements (replace) dans une chaîne de caractères.
-\item R propose une famille de fonctions similaires aux commandes shell \texttt{grep} pour la recherche et \texttt{sed} pour le remplacement.  
+\item R propose une famille de fonctions similaires aux commandes shell \texttt{grep} pour la recherche et \texttt{sed} pour le remplacement.
 \end{itemize}
 \begin{lstlisting}
 > l <- c("apple","banana","grape","10","green.pepper")
@@ -205,7 +205,7 @@ La fonction \alert{\texttt{strsplit}} sépare une chaîne de caractères en une 
 > sub("a","$",l)
 [1] "$pple" "b$nana" "gr$pe" "10" "green.pepper"
 > gsub("a","$",l)
-[1] "$pple" "b$n$n$" "gr$pe" "10" "green.pepper"  
+[1] "$pple" "b$n$n$" "gr$pe" "10" "green.pepper"
 \end{lstlisting}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -217,7 +217,7 @@ La fonction \alert{\texttt{strsplit}} sépare une chaîne de caractères en une 
 
   \begin{block}{\dots mais certaines ont une drôle de tête !}
     Quasiment toutes les fonctions sur les chaînes prennent en argument et renvoient des VECTEURS ou LISTES.
-    Pour l'instant, nous garderons une idée naïve de ce qu'est un vecteur ou une liste, une séquence d’éléments.    
+    Pour l'instant, nous garderons une idée naïve de ce qu'est un vecteur ou une liste, une séquence d’éléments.
   \end{block}
 
 \end{frame}
@@ -234,12 +234,12 @@ La fonction \alert{\texttt{strsplit}} sépare une chaîne de caractères en une 
 > grepl("^[[:alpha:]]+$", l) # que des lettres?
 [1] FALSE TRUE FALSE TRUE
 > grepl("^[[:alnum:]]+$", l) # que des chiffres ou des lettres?
-[1] FALSE TRUE TRUE TRUE 
+[1] FALSE TRUE TRUE TRUE
 > tolower(l) # mettre en minuscules
 [1] "" "pommes" "12" "cerises"
 > toupper(l) # mettre en majuscules
 [1] "" "POMMES" "12" "CERISES"
-> chartr("oei", "OEI", l) #remplacement (c.f. tr en shell) 
+> chartr("oei", "OEI", l) #remplacement (c.f. tr en shell)
 [1] "" "pOmmEs" "12" "CERISES"
   \end{lstlisting}
 \end{frame}
@@ -252,12 +252,12 @@ La fonction \alert{\texttt{strsplit}} sépare une chaîne de caractères en une 
   \frametitle{Le code ASCII}
   Les \alert{caractères américains (dits internationaux)} sont numérotés de 0 à 127, c'est le code ASCII (American Standard Code for Information Interchange).
   Par exemple le code ASCII de 'A' est égal à 65 mais on n'a pas besoin de le mémoriser :
-  
+
 \begin{columns}[t]
 \begin{column}{0.33\textwidth}
   \begin{lstlisting}
 > utf8ToInt('A')
-[1] 65    
+[1] 65
 > utf8ToInt('a')
 [1] 97
   \end{lstlisting}
@@ -267,7 +267,7 @@ La fonction \alert{\texttt{strsplit}} sépare une chaîne de caractères en une 
 > utf8ToInt('?')
 [1] 63
 > utf8ToInt('!')
-[1] 33    
+[1] 33
   \end{lstlisting}
 \end{column}
 \begin{column}{0.33\textwidth}
@@ -275,7 +275,7 @@ La fonction \alert{\texttt{strsplit}} sépare une chaîne de caractères en une 
 > intToUtf8(65)
 [1] "A"
 > intToUtf8(63)
-[1] "?"    
+[1] "?"
   \end{lstlisting}
 \end{column}
 \end{columns}
@@ -307,15 +307,15 @@ Ce sont les \alert{caractères de contrôle} nommés symboliquement NUL , LF , B
     \footnotesize
 \begin{verbatim}
 > Ascii()
- [1]  32:    33:!   34:"   35:#   36:$   37:%   38:&   39:'   40:(   41:) 
-[11]  42:*   43:+   44:,   45:-   46:.   47:/   48:0   49:1   50:2   51:3 
-[21]  52:4   53:5   54:6   55:7   56:8   57:9   58::   59:;   60:<   61:= 
-[31]  62:>   63:?   64:@   65:A   66:B   67:C   68:D   69:E   70:F   71:G 
-[41]  72:H   73:I   74:J   75:K   76:L   77:M   78:N   79:O   80:P   81:Q 
-[51]  82:R   83:S   84:T   85:U   86:V   87:W   88:X   89:Y   90:Z   91:[ 
-[61]  92:\\  93:]   94:^   95:_   96:`   97:a   98:b   99:c  100:d  101:e 
-[71] 102:f  103:g  104:h  105:i  106:j  107:k  108:l  109:m  110:n  111:o 
-[81] 112:p  113:q  114:r  115:s  116:t  117:u  118:v  119:w  120:x  121:y 
+ [1]  32:    33:!   34:"   35:#   36:$   37:%   38:&   39:'   40:(   41:)
+[11]  42:*   43:+   44:,   45:-   46:.   47:/   48:0   49:1   50:2   51:3
+[21]  52:4   53:5   54:6   55:7   56:8   57:9   58::   59:;   60:<   61:=
+[31]  62:>   63:?   64:@   65:A   66:B   67:C   68:D   69:E   70:F   71:G
+[41]  72:H   73:I   74:J   75:K   76:L   77:M   78:N   79:O   80:P   81:Q
+[51]  82:R   83:S   84:T   85:U   86:V   87:W   88:X   89:Y   90:Z   91:[
+[61]  92:\\  93:]   94:^   95:_   96:`   97:a   98:b   99:c  100:d  101:e
+[71] 102:f  103:g  104:h  105:i  106:j  107:k  108:l  109:m  110:n  111:o
+[81] 112:p  113:q  114:r  115:s  116:t  117:u  118:v  119:w  120:x  121:y
 [91] 122:z  123:{  124:|  125:}  126:~
 \end{verbatim}
   }
@@ -346,7 +346,7 @@ Avec la fiabilité des transmissions, le 8ème bit fut finalement utilisé pour 
 
 \begin{tabular}{|*{8}{c|}r}
   \cline{1-8}
-  1 & 1 & 1& 0 & 1 & 0 & 0 & 1 & é\\ 
+  1 & 1 & 1& 0 & 1 & 0 & 0 & 1 & é\\
   \cline{1-8}
 \end{tabular}
 \end{block}
@@ -361,7 +361,7 @@ langues du monde (plus de 65000 caractères !) \dots
     \begin{itemize}
     \item \alert{Unicode} donne à tout caractère de n’importe quel système d'écriture un nom et un identifiant numérique, et ce de manière unifiée, quelle que soit la plate-forme informatique ou le logiciel.
     \item Le jeu de caractères est la liste des caractères, leur nom et leur index, le point de code.
-    \item<alert@1> Unicode sépare la définition du jeu de caractères de celle du codage.   
+    \item<alert@1> Unicode sépare la définition du jeu de caractères de celle du codage.
     \end{itemize}
 
   \begin{block}{UTF-8}
@@ -380,7 +380,7 @@ langues du monde (plus de 65000 caractères !) \dots
   Les caractères Unicode sont numérotés en hexadécimal (base 16).
   Par exemple, le symbole euro a pour numéro '20AC' en hexa :
   \begin{lstlisting}
-> '\u20ac' # symbole euro 
+> '\u20ac' # symbole euro
 > '\u6211\u662F\u6cd5\u56fd\u4eba' # je suis français
 > for(i in 1633:1642) print(intToUtf8(i)) # ?
 \end{lstlisting}
@@ -392,7 +392,7 @@ langues du monde (plus de 65000 caractères !) \dots
 [1] "20ac"
 > x <- as.integer(x)
 > x
-[1] 8364  
+[1] 8364
 \end{lstlisting}
 \end{exampleblock}
 \end{frame}
@@ -406,14 +406,14 @@ langues du monde (plus de 65000 caractères !) \dots
 
   \begin{block}{Pour coder un message}
     \begin{itemize}
-    \item Choisir une clé de codage \texttt{k} dans [1,25]. 
+    \item Choisir une clé de codage \texttt{k} dans [1,25].
     \item Initialiser la chaîne résultat à la chaîne vide.
     \item Pour chaque caractère \texttt{c} du message à coder :
       \begin{itemize}
       \item Si le caractère c est une lettre majuscule : coder le caractère c en le décalant de k positions à droite insérer le nouveau caractère dans la chaîne résultat.
       \item sinon : insérer c dans la chaîne résultat
       \end{itemize}
-    \item Rendre en résultat la chaîne résultat    
+    \item Rendre en résultat la chaîne résultat
 
     \end{itemize}
   \end{block}
@@ -427,7 +427,7 @@ langues du monde (plus de 65000 caractères !) \dots
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \questionSlide
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  \appendix
  \backupSlides
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -447,9 +447,9 @@ langues du monde (plus de 65000 caractères !) \dots
 
 \begin{frame}[fragile]{Backup slides}
   Les diapositives suivantes, issues du cours 7, doivent probablement être déplacées dans un autre cours. \\
-  En effet, on utilise les vecteurs à bloc ! 
+  En effet, on utilise les vecteurs à bloc !
 \end{frame}
- 
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]{Codage d'un entier en binaire I}
@@ -463,12 +463,12 @@ langues du monde (plus de 65000 caractères !) \dots
 
   \begin{block}{Par récurrence}
     \begin{lstlisting}[style=edblock]
-codebin <- function(n) {
+Codebin <- function(n) {
   if(n < 2) {
     return(as.character(n))
   } else {
     return(paste(codebin(n%/%2),n %% 2,sep=''))
-  }}      
+  }}
     \end{lstlisting}
   \end{block}
 
@@ -487,22 +487,22 @@ codebin <- function(n) {
 \begin{frame}[fragile]{Codage d'un entier en binaire II}
   \begin{block}{Par itération}
     \begin{lstlisting}[style=edblock]
-codebin <- function(n) {
+Codebin <- function(n) {
   res <- c()
   while( n > 0) {
     res <- append(n %% 2, res)
     n <- n %/%2
   }
   return(paste(res,collapse=''))
-}      
+}
     \end{lstlisting}
   \end{block}
 
   \begin{exampleblock}{Questions}
     \begin{itemize}
-    \item Que renvoie l'appel \texttt{codebin(13)} ?
-    \item Que renvoie l'appel \texttt{codebin(0)} ?
-    \item Comment peut-on corriger la fonction \texttt{codebin} ?
+    \item Que renvoie l'appel \texttt{Codebin(13)} ?
+    \item Que renvoie l'appel \texttt{Codebin(0)} ?
+    \item Comment peut-on corriger la fonction \texttt{Codebin} ?
     \end{itemize}
   \end{exampleblock}
 
@@ -515,19 +515,19 @@ codebin <- function(n) {
   Le \alert{mauvais algorithme} consiste à calculer des puissances de 2.
   $$(1101)_2 = 1*2^3 + 1*2^2 + 0*2^1 + 1*2^0$$
   \begin{lstlisting}[style=editor]
-decodebin <- function(n) {
+Decodebin <- function(n) {
   digits <- utf8ToInt(n)- utf8ToInt('0')
   res <- 0
   for(i in seq_along(digits)) {
     res <- res + digits[i]* 2**(length(digits)-i)
   }
   return(res)
-}    
+}
 \end{lstlisting}
 
 \begin{lstlisting}
-> decodebin('1101')
-[1] 13  
+> Decodebin('1101')
+[1] 13
 \end{lstlisting}
 \end{frame}
 
@@ -538,7 +538,7 @@ decodebin <- function(n) {
   la valeur d’un polynôme en un point sans calculs de puissances.
   $$(1101)_2 = (1 \times 2 + 1) \times 2 + 0) \times 2 + 1$$
   \begin{lstlisting}[style=editor]
-decodebin <- function(n) {
+Decodebin <- function(n) {
   horner <- function(digits) {
     res <- 0
     if(length(digits) > 0) {
@@ -552,8 +552,8 @@ decodebin <- function(n) {
 \end{lstlisting}
 
 \begin{lstlisting}
-> decodebin('1101')
-[1] 13  
+> Decodebin('1101')
+[1] 13
 \end{lstlisting}
 \end{frame}
 
@@ -562,11 +562,11 @@ decodebin <- function(n) {
   \frametitle{Traitement des vecteurs}
   Une chaîne de caractères n’est pas mutable, mais on peut la transformer en un vecteur de code de caractères, et un vecteur est mutable \dots
   \begin{exampleblock}{Transformation des chiffres en '?'}
-    
+
 \begin{columns}[c]
 \begin{column}{0.66\textwidth}
     \begin{lstlisting}[style=edblock]
-cacher <- function(str) {
+Cacher <- function(str) {
   chars <- utf8ToInt(str)
   c0 <- utf8ToInt('0')
   c9 <- utf8ToInt('9')
@@ -579,14 +579,14 @@ cacher <- function(str) {
     }
   }
   return(intToUtf8(res))
-}      
+}
 \end{lstlisting}
 
 \end{column}
 \begin{column}{0.34\textwidth}
   \begin{lstlisting}
-> cacher('324DAC75')
-[1] '???DAC??'    
+> Cacher('324DAC75')
+[1] '???DAC??'
 \end{lstlisting}
 
 
@@ -603,22 +603,22 @@ cacher <- function(str) {
   La solution consiste à basculer la chaîne dans un vecteur en un vecteur de code de caractères, puis à effectuer un \alert{traitement de vecteur mutable}, puis à rebasculer le vecteur liste en une chaîne. Intellectuel non ?
 
   \begin{lstlisting}[style=editor]
-cacher <- function(str) {
+Cacher <- function(str) {
   chars <- utf8ToInt(str)
   c0 <- utf8ToInt('0')
   c9 <- utf8ToInt('9')
   numbers <- which( chars >= c0 & chars <= c9)
   chars[numbers] <- utf8ToInt('?')
   return(intToUtf8(chars))
-}    
+}
 \end{lstlisting}
 
 \begin{exampleblock}{concaténer un vecteur de chaînes : une opération fréquente}
 \begin{lstlisting}[style=block]
 > paste(c('a','bb','c'),collapse='')
-[1] "abbc"  
+[1] "abbc"
 \end{lstlisting}
-  
+
 \end{exampleblock}
 \end{frame}
 
