@@ -3,7 +3,7 @@
 #+SUBTITLE:     Algo & Prog avec R
 #+OPTIONS: num:1 toc:1
 #+PROPERTY: header-args :results output replace :exports none
-* Le tour de la boucle 
+* Le tour de la boucle
 #+BEGIN_SRC R :results output :exports both
   Foo <- function(x,a,b) {
     for (i in a:b) {
@@ -12,7 +12,7 @@
     return(x)
   }
   Foo(10,15,20)
-  Foo(10,20,15)  
+  Foo(10,20,15)
 #+END_SRC
 
 #+RESULTS:
@@ -24,15 +24,15 @@
 
 *** Reprogrammez la fonction précédente en remplaçant la boucle for par une boucle while.
 
-#+BEGIN_SRC R   
+#+BEGIN_SRC R
   Foo <- function(x,a,b) {
     while(a <= b) {
       x <- x + a
-      a <- a + 1             
+      a <- a + 1
     }
     return(x)
   }
-  Foo(10,15,20)   
+  Foo(10,15,20)
 #+END_SRC
 
 #+RESULTS:
@@ -40,15 +40,15 @@
 
 *** Reprogrammez cette même fonction sans utiliser aucune boucle !
 
-#+BEGIN_SRC R   
+#+BEGIN_SRC R
   # Calcul Direct
   Foo <- function(x,a,b) {
     return( x + (b-a+1)* ((a+b) / 2) )
-  }  
-  Foo(10,15,20)   
+  }
+  Foo(10,15,20)
   # Vectorisation
   Foo <- function(x,a,b) x + sum(a:b)
-  Foo(10,15,20)   
+  Foo(10,15,20)
 #+END_SRC
 
 #+RESULTS:
@@ -95,15 +95,15 @@
 
 #+RESULTS:
 #+begin_example
- [1]  32:    33:!   34:"   35:#   36:$   37:%   38:&   39:'   40:(   41:) 
-[11]  42:*   43:+   44:,   45:-   46:.   47:/   48:0   49:1   50:2   51:3 
-[21]  52:4   53:5   54:6   55:7   56:8   57:9   58::   59:;   60:<   61:= 
-[31]  62:>   63:?   64:@   65:A   66:B   67:C   68:D   69:E   70:F   71:G 
-[41]  72:H   73:I   74:J   75:K   76:L   77:M   78:N   79:O   80:P   81:Q 
-[51]  82:R   83:S   84:T   85:U   86:V   87:W   88:X   89:Y   90:Z   91:[ 
-[61]  92:\\  93:]   94:^   95:_   96:`   97:a   98:b   99:c  100:d  101:e 
-[71] 102:f  103:g  104:h  105:i  106:j  107:k  108:l  109:m  110:n  111:o 
-[81] 112:p  113:q  114:r  115:s  116:t  117:u  118:v  119:w  120:x  121:y 
+ [1]  32:    33:!   34:"   35:#   36:$   37:%   38:&   39:'   40:(   41:)
+[11]  42:*   43:+   44:,   45:-   46:.   47:/   48:0   49:1   50:2   51:3
+[21]  52:4   53:5   54:6   55:7   56:8   57:9   58::   59:;   60:<   61:=
+[31]  62:>   63:?   64:@   65:A   66:B   67:C   68:D   69:E   70:F   71:G
+[41]  72:H   73:I   74:J   75:K   76:L   77:M   78:N   79:O   80:P   81:Q
+[51]  82:R   83:S   84:T   85:U   86:V   87:W   88:X   89:Y   90:Z   91:[
+[61]  92:\\  93:]   94:^   95:_   96:`   97:a   98:b   99:c  100:d  101:e
+[71] 102:f  103:g  104:h  105:i  106:j  107:k  108:l  109:m  110:n  111:o
+[81] 112:p  113:q  114:r  115:s  116:t  117:u  118:v  119:w  120:x  121:y
 [91] 122:z  123:{  124:|  125:}  126:~
 #+end_example
 
@@ -124,7 +124,7 @@
 #+RESULTS:
 
 
-#+BEGIN_SRC R :exports both :session tables 
+#+BEGIN_SRC R :exports both :session tables
   ## TableMult(0) ## error !
   ## TableMult(1.5) ## error !
   TableMult(4)
@@ -147,8 +147,8 @@
 * Épluchages de chaînes                                         :KEY:
   En utilisant l'idée d'épluchage d'un entier, programmez les fonctions suivantes d'écriture et de lecture d'un nombre binaire.
 
-*** La fonction ~IntToBin(n)~ prenant un entier n et retournant la chaîne contenant l'écriture binaire de n. 
-    
+*** La fonction ~IntToBin(n)~ prenant un entier n et retournant la chaîne contenant l'écriture binaire de n.
+
 #+BEGIN_SRC R :session strbin
   IntToBin <- function(n) {
     n <- abs(n);
@@ -164,7 +164,7 @@
 #+RESULTS:
 
 #+BEGIN_SRC R :exports both :session strbin
-  n <- 3456  
+  n <- 3456
   nbin <- IntToBin(3456)
   cat(n, "->", nbin,  "->", strtoi(nbin, base = 2), '\n')
 #+END_SRC
@@ -172,7 +172,7 @@
 #+RESULTS:
 : 3456 -> 110110000000 -> 3456
 
-*** La fonction inverse ~BinToInt(s)~ prenant une chaîne ~s~ contenant l'écriture binaire d'un entier ~n~, et retournant ~n~. 
+*** La fonction inverse ~BinToInt(s)~ prenant une chaîne ~s~ contenant l'écriture binaire d'un entier ~n~, et retournant ~n~.
 #+BEGIN_SRC R :results silent :session strbin
   BinToInt <- function(s) {
     digits <- utf8ToInt(s)-utf8ToInt("0")
@@ -182,7 +182,7 @@
 #+END_SRC
 
 #+BEGIN_SRC R :exports both :session strbin
-  n <- 3456  
+  n <- 3456
   nbin <- IntToBin(3456)
   ## On utilise maintenant la fonction inverse
   cat(n, "->", nbin,  "->", BinToInt(nbin), '\n')
@@ -195,12 +195,12 @@
 
 *** TODO Schéma de Horner ?
 * Code de César                                                        :HARD:
-  Le codage des messages secrets selon Jules César consistait à choisir une clé entière ~k~ dans [1,25] pour fabriquer à partir d'un message ~msg~ un nouveau message codé avec la technique suivante. 
-Chaque lettre majuscule de ~msg~ est décalée de ~k~ positions vers la droite (l'alphabet est circulaire : après 'Z' on revient sur 'A'). 
+  Le codage des messages secrets selon Jules César consistait à choisir une clé entière ~k~ dans [1,25] pour fabriquer à partir d'un message ~msg~ un nouveau message codé avec la technique suivante.
+Chaque lettre majuscule de ~msg~ est décalée de ~k~ positions vers la droite (l'alphabet est circulaire : après 'Z' on revient sur 'A').
 Les autres caractères du message sont laissés intacts.
 
  1. Programmez la fonction ~CodeCesar(msg,k)~ qui retourne le message codé avec un décalage ~k~.
- 2. Programmez la fonction ~DecodeCesar(msg,k)~ qui prend un message codé par et retourne le message en clair. 
+ 2. Programmez la fonction ~DecodeCesar(msg,k)~ qui prend un message codé par et retourne le message en clair.
  3. Défi urgent : décodez le message 'JLGVI XRJFZC' dont Jules a perdu la clef !
  4. Modifiez la fonction ~CodeCesar(msg,k)~ pour qu'elle code les majuscules et les minuscules.
 
@@ -246,11 +246,11 @@ Les autres caractères du message sont laissés intacts.
 : k= 5 : ENVOyez 36 homMES ! --> JSATdje 36 mtrRJX ! --> ENVOyez 36 homMES !
 
 * Recherche de chaînes : une perspective biologique                    :HARD:
-  D'après le cours Python du MIT. 
+  D'après le cours Python du MIT.
 
   La recherche de chaînes (string matching) est intéressante dans plusieurs disciplines, comme la biologie, dont un problème courant consiste à comprendre la structure des molécules d'ADN, et le rôle de structures spécifiques dans le fonctionnement de la molécule. Une séquence ADN est représentée par une suite  de caractères choisis parmi les quatre nucléotides : adenine (A), cytosine (C), guanine (G) et thymine (T). Par exemple, la chaîne de caractères 'AAACAACTTCGTAAGTATA' représente un brin d'ADN.
-  Une manière de comprendre la fonction d'un brin d'ADN consiste à y rechercher une séquence précise, avec l'idée qu'une structure identique induira des effets identiques. Nous allons pénétrer un tout petit peu dans cette idée. 
-  
+  Une manière de comprendre la fonction d'un brin d'ADN consiste à y rechercher une séquence précise, avec l'idée qu'une structure identique induira des effets identiques. Nous allons pénétrer un tout petit peu dans cette idée.
+
   Programmez une fonction ~CountSubstringMatch(s1,s2)~ qui prend deux chaînes en argument et retourne le nombre de fois que ~s2~ apparaît comme sous-chaîne de ~s1~. \\
   /Indice/ : utiliser la fonction ~regexpr~.
 
@@ -270,9 +270,9 @@ Les autres caractères du message sont laissés intacts.
 
 
 #+BEGIN_SRC R :exports both :session biology
-  CountSubstringMatch('atatata','ata') 
-  CountSubstringMatch('atgacatgcacaagtatgcat','atgc') 
-  CountSubstringMatch('atatata','atc') 
+  CountSubstringMatch('atatata','ata')
+  CountSubstringMatch('atgacatgcacaagtatgcat','atgc')
+  CountSubstringMatch('atatata','atc')
 #+END_SRC
 
 #+RESULTS:
@@ -287,20 +287,20 @@ Les autres caractères du message sont laissés intacts.
     echo "foobar" | tr a-z A-Z
     echo "foobar" | tr -d oa
   #+END_SRC
-  
+
   #+RESULTS:
   : FOOBAR
   : fbr
-  
-  
+
+
   Programmer une fonction ~tr(text, str1, str2)~ similaire à la commande shell ~tr~.
-  La fonction retourne une copie de la chaîne de caractère ~text~ en effectuant l'une des manipulations suivantes : 
+  La fonction retourne une copie de la chaîne de caractère ~text~ en effectuant l'une des manipulations suivantes :
    - si la chaîne ~str2~ est vide, elle supprime les caractères de ~str1~ ;
    - si la chaîne ~str2~ n'est pas vide, elle transpose les caractères de ~str1~ par ceux de ~str2~.
-  
+
    #+BEGIN_SRC R :results none :session tr
      tr <- function(text, str1, str2) {
-       stopifnot(is.character(text), is.character(str1), 
+       stopifnot(is.character(text), is.character(str1),
                  length(text) == 1,length(str1) == 1)
        ## transposer ou éliminer des caractères
        textL <- utf8ToInt(text)
@@ -326,7 +326,7 @@ Les autres caractères du message sont laissés intacts.
 
 
    #+BEGIN_SRC R :exports both :session tr
-     tr("foobar","oo") 
+     tr("foobar","oo")
      tr("foobar","oa", "eu")
      tr("foobar","oo", "eu")
      tr("foobar","foar", "eu")
@@ -351,12 +351,12 @@ Les autres caractères du message sont laissés intacts.
        cleL <- utf8ToInt(tolower(cle)) - utf8ToInt('a') %% 26
        textL <- utf8ToInt(texte)
        for( i in seq_along(cleL)) {
-         k <-  
-           
+         k <-
+
        }
        return (intToUtf8(textL))
      }
      return (intToUtf8(textL))
-     
+
      code_vigenere("toto","tA");
    #+END_SRC
