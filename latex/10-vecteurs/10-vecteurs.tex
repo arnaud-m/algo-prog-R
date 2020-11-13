@@ -27,16 +27,16 @@ Diviseurs <- function(n) {
     if( n %% d == 0) res <- append(res, d);
   }
   return(res)
-}    
+}
 \end{lstlisting}
 
 \begin{description}[\texttt{numeric}]
-\item[\texttt{numeric}] crée un vecteur numérique. 
+\item[\texttt{numeric}] crée un vecteur numérique.
 \item[\texttt{append}] ajoute un élément en queue d'un vecteur.
 \end{description}
 \begin{lstlisting}
 > Diviseurs(1000)
- [1]   2   4   5   8  10  20  25  40  50 100 125 200 250 500  
+ [1]   2   4   5   8  10  20  25  40  50 100 125 200 250 500
 \end{lstlisting}
 \end{frame}
 
@@ -50,7 +50,7 @@ Diviseurs <- function(n) {
   \item R vérifie la validité des arguments.
   \end{itemize}
 
-  
+
   \begin{lstlisting}
 > vec <- 1:5
 > vec[1] # Les indices commencent à 1.
@@ -64,7 +64,7 @@ Diviseurs <- function(n) {
 > vec[0] # Les indices commencent à 1 !
 integer(0)
 > vec[6] # valeur spéciale pour les éléments manquants.
-[1] NA   
+[1] NA
 \end{lstlisting}
 \end{frame}
 
@@ -73,11 +73,11 @@ integer(0)
   \frametitle{Accès par contenu}
   Dans de nombreux langages, la fonction \alert{\texttt{index}} permet de connaître le rang d'un élément dans une séquence donnée. \\
   Elle n'existe pas en R et nous allons donc la programmer !
-  
+
 \begin{columns}[t]
 \begin{column}{0.50\textwidth}
 \begin{lstlisting}[style=editor]
-index <- function(x, vec) {
+Index <- function(x, vec) {
   for(i in seq_along(vec)) {
     if( vec[i] == x) return(i)
   }
@@ -87,11 +87,11 @@ index <- function(x, vec) {
 \end{column}
 \begin{column}{0.5\textwidth}
 \begin{lstlisting}
-> index(2, 1:5)
+> Index(2, 1:5)
 [1] 2
-> index(6, 1:5)
+> Index(6, 1:5)
 [1] NA
->index("foo",c("foo","bar")))
+>Index("foo",c("foo","bar")))
 [1] 1
 \end{lstlisting}
 \end{column}
@@ -165,7 +165,7 @@ In 1:5 + 1:2 :
     La longueur d’un vecteur est retournée par la fonction \texttt{length}.
     \begin{lstlisting}
 > length(c("aa", "bb", "cc", "dd", "ee"))
-[1] 5      
+[1] 5
     \end{lstlisting}
   \end{block}
 
@@ -174,7 +174,7 @@ In 1:5 + 1:2 :
     Le vecteur numérique a été transformé (\alert{coerced}) en chaînes de caractères pour la cohésion de type.
     \begin{lstlisting}
 > c(1:3, c("foo", "bar"))
-[1] "1"   "2"   "3"   "foo" "bar"      
+[1] "1"   "2"   "3"   "foo" "bar"
 \end{lstlisting}
   \end{block}
 \end{frame}
@@ -185,14 +185,14 @@ La notation des tranches (\alert{slices}) est valide pour toute séquence. \\
 Elle permet d’extraire une sous-séquence à partir d’un \alert{vecteur numérique d’indices}.
 \begin{itemize}
 \item Les indices peuvent être dupliqués.
-\item Les indices peuvent être dans n'importe quel ordre.  
+\item Les indices peuvent être dans n'importe quel ordre.
 \end{itemize}
 \begin{lstlisting}
 > vec <- 1:5
 > vec[c(1,3,5)]
 [1] 1 3 5
 > vec[c(5,1,5)]
-[1] 5 1 5  
+[1] 5 1 5
 \end{lstlisting}
 \end{frame}
 
@@ -203,7 +203,7 @@ Elle permet d’extraire une sous-séquence à partir d’un \alert{vecteur num�
   Le booléen au rang \texttt{k} indique si le \texttt{k}-ème élément appartient à la sous-séquence.
   \begin{itemize}
   \item Les indices ne peuvent pas être dupliqués.
-  \item Les indices ne peuvent pas être dans n'importe quel ordre.  
+  \item Les indices ne peuvent pas être dans n'importe quel ordre.
   \end{itemize}
   \begin{lstlisting}
 > vec <- c("a", "b", "c", "d", "e")
@@ -215,12 +215,12 @@ Elle permet d’extraire une sous-séquence à partir d’un \alert{vecteur num�
 \begin{block}{Recyclage du vecteur logique}
   \begin{lstlisting}[style=block]
 > vec[c(TRUE,FALSE)]
-[1] "a" "c" "e"    
+[1] "a" "c" "e"
   \end{lstlisting}
 \end{block}
-\begin{block}{Extraction d'entêtes et de queues : \texttt{head} et \texttt{tail}}
+\begin{block}{Extraction d'entête et de queue : \texttt{head} et \texttt{tail}}
 
-  
+
 \begin{columns}[t]
 \begin{column}{0.33\textwidth}
   \begin{lstlisting}
@@ -256,7 +256,7 @@ Elle permet d’extraire une sous-séquence à partir d’un \alert{vecteur num�
 \begin{column}{0.48\textwidth}
   \begin{lstlisting}[style=editor]
 Seq1 <- function(n) {
-  vec <- c() # sans
+  vec <- numeric(0) # sans
   for(i in seq(n)) {
     vec <- append(vec, i)
   }
@@ -279,14 +279,14 @@ Seq2 <- function(n) {
 \smallskip
 \begin{lstlisting}
 > system.time(replicate(5, Seq1(20000)))
-utilisateur     système      écoulé 
-      1.373       0.017       1.393   
+utilisateur     système      écoulé
+      1.373       0.017       1.393
   > system.time(replicate(5, Seq2(20000)))
-utilisateur     système      écoulé 
-      0.013       0.000       0.012   
+utilisateur     système      écoulé
+      0.013       0.000       0.012
 \end{lstlisting}
 \end{exampleblock}
-  
+
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -300,7 +300,7 @@ utilisateur     système      écoulé
 > v <- 1:5
 > v[1] <- 5
 > v
-[1] 5 2 3 4 5      
+[1] 5 2 3 4 5
 \end{lstlisting}
 \end{column}
 \begin{column}{0.33\textwidth}
@@ -308,15 +308,15 @@ utilisateur     système      écoulé
 > append(v,6)
 [1] 5 2 3 4 5 6
 > append(v,c(6,7))
-[1] 5 2 3 4 5 6 7    
+[1] 5 2 3 4 5 6 7
   \end{lstlisting}
 \end{column}
 \begin{column}{0.34\textwidth}
   \begin{lstlisting}
-> append(v,6,2) 
+> append(v,6,2)
 [1] 5 2 6 3 4 5
 > append(v,c(6,7),2)
-[1] 5 2 6 7 3 4 5  
+[1] 5 2 6 7 3 4 5
 \end{lstlisting}
 \end{column}
 
@@ -332,7 +332,7 @@ utilisateur     système      écoulé
 [1] 1 2 4 5
 > v[c(-2, -3)]
 [1] 1 4 5
-\end{lstlisting}  
+\end{lstlisting}
 \end{exampleblock}
 \end{column}
 \begin{column}{0.53\textwidth}
@@ -358,7 +358,7 @@ utilisateur     système      écoulé
 \begin{frame}[fragile]
   \frametitle{Conditions et tests vectorisés !}
   \begin{block}{Opérations de comparaison vectorisées}
-    Tous les opérateurs de comparaison sont vectorisés.  
+    Tous les opérateurs de comparaison sont vectorisés.
   \begin{lstlisting}
 > vec <- 1:5
 > vec == 2
@@ -374,7 +374,7 @@ utilisateur     système      écoulé
 > vec %% 2 == 0 & vec > 2
 [1] FALSE FALSE FALSE  TRUE FALSE
 > vec %% 2 == 0 && vec > 2
-[1] FALSE    
+[1] FALSE
 \end{lstlisting}
 
 les opérateurs \texttt{|} et \texttt{||} sont tout aussi différents
@@ -384,22 +384,6 @@ les opérateurs \texttt{|} et \texttt{||} sont tout aussi différents
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Recherche des bornes d'un vecteur}
-  \begin{block}{Recherche du rang du plus petit/grand élément}
-    \begin{columns}[t]
-      \begin{column}{0.49\textwidth}
-  \begin{lstlisting}
-> which.min(c(2, 3, 1, 5, 4))
-[1] 3
-  \end{lstlisting}
-\end{column}
-\begin{column}{0.49\textwidth}
-  \begin{lstlisting}
-> which.max(c(2, 3, 1, 5, 4))
-[1] 4    
-\end{lstlisting}
-\end{column}
-\end{columns}
-\end{block}
 
 \begin{block}{Recherche du plus petit/grand élément}
   \begin{columns}[t]
@@ -412,24 +396,41 @@ les opérateurs \texttt{|} et \texttt{||} sont tout aussi différents
 \begin{column}{0.49\textwidth}
   \begin{lstlisting}
 > max(c(2, 3, 1, 5, 4))
-[1] 5    
+[1] 5
 \end{lstlisting}
 \end{column}
-\end{columns}    
+\end{columns}
   \end{block}
+
+    \begin{block}{Recherche du rang du plus petit/grand élément}
+    \begin{columns}[t]
+      \begin{column}{0.49\textwidth}
+  \begin{lstlisting}
+> which.min(c(2, 3, 1, 5, 4))
+[1] 3
+  \end{lstlisting}
+\end{column}
+\begin{column}{0.49\textwidth}
+  \begin{lstlisting}
+> which.max(c(2, 3, 1, 5, 4))
+[1] 4
+\end{lstlisting}
+\end{column}
+\end{columns}
+\end{block}
 
   \begin{block}{Recherche du plus petit et du plus grand élément}
    \begin{lstlisting}[style=block]
 > range(c(2, 3, 1, 5, 4))
-[1] 1 5    
+[1] 1 5
   \end{lstlisting}
-\end{block} 
+\end{block}
 \begin{block}{Le cas du \texttt{NA} : cela ne marche plus, supprimons-les}
   \begin{lstlisting}[style=block]
-> range(c(2, 3, 1, 5, 4, NA))
-[1] NA NA
-> range(c(2, 3, 1, 5, 4, NA), na.rm = TRUE)
-[1] 1 5
+> min(c(2, 3, 1, 5, 4, NA))
+[1] NA
+> min(c(2, 3, 1, 5, 4, NA), na.rm = TRUE)
+[1] 1
   \end{lstlisting}
 \end{block}
 \end{frame}
@@ -452,7 +453,7 @@ les opérateurs \texttt{|} et \texttt{||} sont tout aussi différents
 > which(vec %% 2 == 0 & vec > 2)
 [1] 4
 > which(vec %% 2 == 0 && vec > 2)
-integer(0)    
+integer(0)
 \end{lstlisting}
 \end{frame}
 
@@ -527,26 +528,26 @@ integer(0)
  [1]  1  2  3  4  5  6  7  8  9 10
 > sort(x, decreasing=TRUE)
  [1] 10  9  8  7  6  5  4  3  2  1
-\end{lstlisting}    
+\end{lstlisting}
 \end{block}
 
 \begin{block}{En retournant éventuellement les indices}
 \begin{lstlisting}[style=block]
 > x
- [1]  9  3 10  1  4  8  5  7  6  2  
+ [1]  9  3 10  1  4  8  5  7  6  2
 > sort(x, index.return = TRUE)
 $x
  [1]  1  2  3  4  5  6  7  8  9 10
 $ix
  [1]  4 10  2  5  7  9  8  6  1  3
-\end{lstlisting}    
+\end{lstlisting}
 \end{block}
 
 \begin{block}{De n'importe quel type}
 \begin{lstlisting}[style=block]
 > sort(head(letters, 10), decreasing=TRUE)
- [1] "j" "i" "h" "g" "f" "e" "d" "c" "b" "a"  
-\end{lstlisting}    
+ [1] "j" "i" "h" "g" "f" "e" "d" "c" "b" "a"
+\end{lstlisting}
 \end{block}
 
 
@@ -576,7 +577,7 @@ ExtractionNombresPairs <- function(x) {
     if( v %% 2 == 0) res <- append(res, v);
   }
   return(res)
-}      
+}
 \end{lstlisting}
 \begin{lstlisting}
 > x <- 1:10
@@ -591,7 +592,7 @@ ExtractionNombresPairs <- function(x) {
 > x[ which(x %% 2 == 0)]
 > Filter(function(n) n %% 2 == 0, x)
 \end{lstlisting}
-    
+
   \end{block}
 \end{frame}
 
