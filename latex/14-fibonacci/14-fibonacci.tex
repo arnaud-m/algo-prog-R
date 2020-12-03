@@ -52,9 +52,11 @@
   \end{exampleblock}
   \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.42\textwidth]{nuages-parfaits}
+    \includegraphics[width=0.34\textwidth]{nuages-parfaits}
     \hfill
-    \includegraphics[width=0.42\textwidth]{chats-parfaits}
+    \includegraphics[height=0.23\textheight]{chats-parfaits}
+    \hfill
+    \includegraphics[height=0.23\textheight]{fibonacci-blocks}
   \end{figure}
   \href{https://archzine.fr/lifestyle/art/suite-de-fibonacci-harmonieuse/}{D'autres d'images de suites de Fibonacci harmonieuses.}
 
@@ -155,7 +157,7 @@ F <- function(n) {
 
   \begin{block}{Comment ?}
     \begin{itemize}
-    \item Nous allons gérer un dictionnaire privé à la fonction qui va contenir tous les couples $(n, v)$ tels que \F{n} == v ait déjà été calculé !
+    \item Nous allons gérer un dictionnaire privé à la fonction qui va contenir tous les couples $(n, v)$ tels que $\F{n} = v$ ait déjà été calculé !
     \item Ici, le dictionnaire est un vecteur tel que \F{n} est à la position $n+1$.
       \begin{itemize}
       \item les indices de la suite commencent à 0.
@@ -264,28 +266,6 @@ F <- function(n) {
 \begin{alertblock}{Sauvé ! Les complexités temporelles et spatiales sont linéaires !}
   Le calcul de F(35) est immédiat.
 \end{alertblock}
-
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]{Limites de la mémo-fonction de Fibonacci}
-
-  \begin{exampleblock}{En mettant de côté les dépassements de capacité,}
-    \begin{lstlisting}[style=block]
-> F(1000)
-[1] 4.346656e+208
-> F(2000)
-[1] Inf
-\end{lstlisting}
-\end{exampleblock}
-
-\begin{alertblock}{La récursivité pose toujours problème !}
-    \begin{lstlisting}[style=block]
-> F(10000)
-Erreur : C stack usage  7969716 is too close to the limit
-    \end{lstlisting}
-  \end{alertblock}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -330,6 +310,27 @@ MakeF <- function() {
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Limites de la mémo-fonction de Fibonacci}
+
+  \begin{exampleblock}{En mettant de côté les dépassements de capacité,}
+    \begin{lstlisting}[style=block]
+> F(1000)
+[1] 4.346656e+208
+> F(2000)
+[1] Inf
+\end{lstlisting}
+\end{exampleblock}
+
+\begin{alertblock}{La récursivité pose toujours problème !}
+    \begin{lstlisting}[style=block]
+> F(10000)
+Erreur : C stack usage  7969716 is too close to the limit
+    \end{lstlisting}
+  \end{alertblock}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]{Suppression de la récursivité (bottom-up)}
   Il faut construire une itération calculant les termes par ordre croissant.
   \begin{alertblock}{Suppression de la récursivité}
@@ -360,6 +361,20 @@ F <- function(n) {
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]{Réduction de la complexité spatiale}
 
+  %\begin{block}{Principe du plateau}
+    \begin{center}
+    \begin{tikzpicture}[scale=0.95]
+    \draw[(-), very thick] (0,0) node[above right] {\F{0}} -- (2,0) node[above left] {\F{1}};
+    \draw[(-), very thick] (1, 0.65) node[above right] {\F{1}} -- (3, 0.65) node[above left] {\F{2}};
+    \draw[(-), very thick] (2, 1.3) node[above right] {\dots} -- (4, 1.3) node[above left] {\dots};
+    \draw[(-), very thick] (3, 1.95) node[above right] {\F{n-2}} -- (5, 1.95) node[above left] {\F{n-1}};
+    \draw[(-), very thick] (4, 2.6) node[above right] {\F{n-1}} -- (6, 2.6) node[above left] {\F{n}};
+  \end{tikzpicture}
+\end{center}
+%\end{block}
+\begin{alertblock}{La complexité spatiale est maintenant constante !}
+
+
     \begin{lstlisting}[style=edblock]
 F <- function(n) {
   if(n < 2) return(n)
@@ -372,18 +387,7 @@ F <- function(n) {
   return(x[2])
 }
 \end{lstlisting}
-%
-\begin{alertblock}{La complexité spatiale est maintenant constante !}
-
-  \begin{tikzpicture}
-    \draw[(-), very thick] (0,0) node[above right] {\F{0}} -- (2,0) node[above left] {\F{1}};
-    \draw[(-), very thick] (1, 0.65) node[above right] {\F{1}} -- (3, 0.65) node[above left] {\F{2}};
-    \draw[(-), very thick] (2, 1.3) node[above right] {\dots} -- (4, 1.3) node[above left] {\dots};
-    \draw[(-), very thick] (3, 1.95) node[above right] {\F{n-2}} -- (5, 1.95) node[above left] {\F{n-1}};
-    \draw[(-), very thick] (4, 2.6) node[above right] {\F{n-1}} -- (6, 2.6) node[above left] {\F{n}};
-  \end{tikzpicture}
-
-\end{alertblock}
+\end{alertblock}%
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -429,6 +433,28 @@ F <- function(n) {
 \end{block}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Formule de Binet}
+  En 1834, Jacques Binet (1786-1856) publie une formule qui donne le énième nombre de la suite de Fibonacci sans avoir à calculer tous les précédents.
+  Elle était connue d'Abraham de Moivre (1718), Daniel Bernoulli, et démontrée par Leonhard Euler (1765).
+  $$
+  \F{n} = \frac{(1 + \sqrt{5})^n - (1 - \sqrt{5})^n}{2^n \sqrt{5}}
+  $$
+  Voir les \href{http://villemin.gerard.free.fr/Wwwgvmm/Iteration/Binet.htm}{explications}.
+\begin{lstlisting}[style=edblock]
+F <- function(n) {
+  x <- sqrt(5)
+  return( ( (1+x)**n - (1-x)**n ) / (2**n * x) )
+}
+\end{lstlisting}
+
+\begin{lstlisting}
+> sapply(seq(0, 12), F)
+ [1]   0   1   1   2   3   5   8  13  21  34  55  89 144
+\end{lstlisting}
+\alert{La complexité temporelle reste logarithmique}, car on calcule des puissances (comme pour la matrice).
+\end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \questionSlide
 
