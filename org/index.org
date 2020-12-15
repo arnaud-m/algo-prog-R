@@ -265,11 +265,11 @@ http://phdcomics.com/comics/archive/phd051013s.gif
 ** Organisation
 
  1. Le matériel pédagogique est ici,
- 2. Les évaluations et le carnet de notes sont sur [[https://lms.univ-cotedazur.frcourse/view.php?id=15555][Moodle]] et [[https://sphere-engine.com/][Sphere Engine]],
+ 2. Les évaluations et le carnet de notes sont sur [[https://lms.univ-cotedazur.fr/course/view.php?id=15555][Moodle]] et [[https://sphere-engine.com/][Sphere Engine]],
  3. Le code source est sur [[https://github.com/arnaud-m/algo-prog-R][github]] !
  4. On communique sur [[https://discord.gg/mjtRTSb][discord]].
 
-**** Inscrivez-vous au [[https://lms.univ-cotedazur.fr/course/view.php?id=14555][cours]] sur moodle !
+**** Inscrivez-vous au [[https://lms.univ-cotedazur.fr/course/view.php?id=15555][cours]] sur moodle !
 
 ** Autoformation
 
@@ -294,10 +294,10 @@ http://phdcomics.com/comics/archive/phd051013s.gif
 | 1. | Présentation du syllabus | [[file:pdf/01-variables.pdf][Expressions, instructions, et variables]] | [[file:tp01.org][TP 1 (corrigé)]]    |
 | 2. | [[file:pdf/02-fonctions.pdf][Conditions et fonctions]]  | [[file:pdf/03-jeu-roulette.pdf][Jeu de roulette]]                         | [[file:tp02.org][TP 2 (corrigé)]]    |
 | 3. | [[file:pdf/04-iterations-while.pdf][Itérations (while)]]       | [[file:pdf/05-conversions.pdf][Conversions]]                             | [[file:tp03.org][TP 3 (corrigé)]]    |
-| 4. | [[file:pdf/06-nombres-approches.pdf][Nombres réels approchés]]  | [[file:pdf/07-calcul-pi.pdf][Approximation du nombre \pi]]             | [[file:tp04.org][TP 4]]              |
-| 5. | [[file:pdf/08-iterations-for.pdf][Itérations (for)]]         | [[file:pdf/09-chaines.pdf][Chaînes de caractères]]                   | [[file:tp05.org][TP 5]]              |
-| 6. | [[file:pdf/10-vecteurs.pdf][Les séquences : vecteurs]] | [[file:pdf/11-premiers.pdf][Nombres premiers]]                        | [[file:tp06.org][TP 6]]              |
-| 7. | [[file:pdf/12-listes.pdf][Les séquences : listes]]   | [[file:pdf/13-dictionnaires.pdf][Ensembles et dictionnaires]]              | [[file:tp07.org][TP 7]]              |
+| 4. | [[file:pdf/06-nombres-approches.pdf][Nombres réels approchés]]  | [[file:pdf/07-calcul-pi.pdf][Approximation du nombre \pi]]             | [[file:tp04.org][TP 4 (corrigé)]]    |
+| 5. | [[file:pdf/08-iterations-for.pdf][Itérations (for)]]         | [[file:pdf/09-chaines.pdf][Chaînes de caractères]]                   | [[file:tp05.org][TP 5 (corrigé)]]    |
+| 6. | [[file:pdf/10-vecteurs.pdf][Les séquences : vecteurs]] | [[file:pdf/11-premiers.pdf][Nombres premiers]]                        | [[file:tp06.org][TP 6 (corrigé)]]    |
+| 7. | [[file:pdf/12-listes.pdf][Les séquences : listes]]   | [[file:pdf/13-dictionnaires.pdf][Ensembles et dictionnaires]]              | [[file:tp07.org][TP 7 (corrigé)]]    |
 | 8. | [[file:pdf/14-fibonacci.pdf][Suite de Fibonacci]]       |                                         | [[file:tp08.org][TP 8]]              |
 
 
@@ -335,7 +335,13 @@ http://phdcomics.com/comics/archive/phd051013s.gif
  |-------------------+--------|
  | [[http://i3s.unice.fr/master-info/ucancode/tutoriel/][Tutoriel UCAnCODE]] | -      |
  | [[https://51364960.widgets.sphere-engine.com/lp?hash=WYq1xQzKu7][ROULETTE]]          | Bonus  |
+ | [[https://51364960.widgets.sphere-engine.com/lp?hash=3rfsqIJytU][ARITHMA]]           | 14     |
+ | INET              | 16     |
 
+    L'activité INET est composé de 3 exercices chacun évalué par deux widgets avec les barèmes suivants :
+    - INET1 [[https://51364960.widgets.sphere-engine.com/lp?hash=iSIx4W7W3s][1A]] et [[https://51364960.widgets.sphere-engine.com/lp?hash=azJlSS05YX][1B]] : 3 + 3 = 6
+    - INET2 [[https://51364960.widgets.sphere-engine.com/lp?hash=GXxDFwwjpu][2A]] et [[https://51364960.widgets.sphere-engine.com/lp?hash=YClIPEzABG][2B]] : 3 + 3 = 6
+    - INET3 [[https://51364960.widgets.sphere-engine.com/lp?hash=QeZUubGmTV][3A]] et [[https://51364960.widgets.sphere-engine.com/lp?hash=HZPqgWGCnr][3B]] : 2 + 2 = 4
 
 *** Mini-projets
     Les mini-projets complètent et étendent des notions abordées en cours et vous font découvrir différentes applications.
@@ -393,130 +399,178 @@ http://phdcomics.com/comics/archive/phd051013s.gif
    - et $N_t$ votre note à l'examen terminal.
    - La note finale est calculée ainsi : $N_1 = \max(0.6 \times N_c + 0.4 \times N_t, N_t)$.
 *** Script de calcul des notes                                     :noexport:
+**** Calcul de la note de contrôle continu
 
-#+BEGIN_SRC R :var exercices=exercices :var projets=projets :session grade
+  #+BEGIN_SRC R :var exercices=exercices :var projets=projets :session grade
 
+    ## Load activities from the website
+    UnLink <-function(x) gsub("\\[\\[.*\\]\\[(.*)\\]\\]", '\\1', x)
 
-  ## Load activities from the website
-  UnLink <-function(x) gsub("\\[\\[.*\\]\\[(.*)\\]\\]", '\\1', x)
+    ## Load grades from moodle
+    file <- '~/downloads/SPUA31 Notes-20201207_1603-comma_separated.csv'
+    df <- read.csv(file, stringsAsFactors = FALSE, na.strings = c("-", "NA"), header = TRUE)
 
-  activities <- data.frame(
-    name = make.names(c(UnLink(c(exercices$Problème, projets$Activité)), "QCM")),
-    SITE = c(exercices$SITE, projets$SITE, 12),
-    SV = c(exercices$SV, projets$SV, 12)
-  )
-
-  ## Load grades from moodle
-  file <- '~/downloads/UCAnCODE Notes-20200122_1207-comma_separated.csv'
-  df <- read.csv(file, stringsAsFactors = FALSE, na.strings = c("-", "NA"), header = TRUE)
-
-  ## Compute the final QCM grades
-  ComputeGradeQCM <- function() {
-      qcm <- grep('Test\\..*', colnames(df))
-      rowSums(df[ , qcm], na.rm = TRUE) * 10 / length(qcm)
+    FindColumns <-function(df, patterns) sapply(patterns, function(x) grep(x, colnames(df)))
     }
-  df$QCM <- ComputeGradeQCM()
+  #+END_SRC
+**** Analyse des notes
 
-  ## Finalize the activities table
-  cols <-  sapply(activities$name, function(x) grep(x, colnames(df)))
-  ind <- sapply(cols, function(x) length(x) == 1)
+  #+BEGIN_SRC R :session grade
+     grades <- df[ , c("CC..Brut.", "CT..Brut.", "NOTE..Brut." ]
+     colnames(grades) <- c("CC", "CT", "NOTE")
 
-  activities <- data.frame(
-    column = unlist(cols),
-    activities[ind, ]
-  )
-
-  ## Change the project scales
-  scale20 <- colnames(df)[activities$column][grep("Devoir.", colnames(df)[activities$column])]
-  df[, scale20] <- 5 * df[, scale20]
-#+END_SRC
-
-#+RESULTS:
-| 23 | ROULETTE                                         | 12 | 14 |
-| 24 | ADDREV                                           | 12 | 14 |
-| 25 | SABLE                                            | 16 | 18 |
-| 27 | TRADN                                            | 20 | 20 |
-|  7 | Graphisme.tortue                                 | 20 | 20 |
-|  8 | Convertisseur.de.base..shiny.                    | 12 | 14 |
-|  9 | Coefficient.de.Gini..shiny.                      | 12 | 14 |
-| 10 | Estimation.de.la.moyenne..shiny.                 | 12 | 14 |
-| 11 | Manipulation.de.polynômes                        | 20 | 20 |
-| 12 | Estimation.d.aires.par.la.méthode.de.Monte.Carlo | 20 | 20 |
-| 34 | QCM                                              | 12 | 12 |
-
-
-#+BEGIN_SRC R :session grade
-
-  id <- "Adresse.de.courriel"
-
-  ComputeCC <- function(grades, coefs) {
-    ComputeAverage <- function(x) {
-      x[ is.na(x) ] <- 0
-      x <- x * coefs / 100
-      return(mean(head( sort(x, decreasing = TRUE), 3)))
+     PlotGrades <- function(grades) {
+      require(ggplot2)
+      require(ggthemes)
+      require(gridExtra)
+      require(xtable)
+      p1 <- ggplot(grades, aes(x=NOTE)) + geom_histogram(binwidth=1) + theme_gdocs() + theme(text = element_text(size=30))
+      p2 <- ggplot(grades, aes(x=CT)) + geom_histogram(binwidth=1) + theme_gdocs() + theme(text = element_text(size=30))
+      p3 <- ggplot(grades, aes(x=CC)) + geom_histogram(binwidth=1) + theme_gdocs() + theme(text = element_text(size=30))
+      p4 <-
+      grid.arrange(p1, p2, p3, nrow = 2)
     }
-    round(apply( grades, 1, ComputeAverage), 1)
-  }
+    p <- PlotGrades(gradesSV)
+    ggsave('frequencies-R-SV.pdf', plot = p, device = "pdf", width = 40, height = 15)
 
-  df$CC.SV <- ComputeCC(df[ , activities$column], activities$SV)
-  df$CC.SITE <- ComputeCC(df[ , activities$column], activities$SITE)
+    p <- PlotGrades(gradesSITE)
+    ggsave('frequencies-R-SITE.pdf', plot = p, device = "pdf", width = 40, height = 15)
 
-  ComputeBB <- function(bugBounties) {
-    scale <- c("☆☆☆☆☆" = 0, "★☆☆☆☆" = 0.25, "★★☆☆☆" = 0.25, "★★★☆☆" = 0.5, "★★★★☆" = 0.5, "★★★★★" = 1)
-    GetScoreBB <- function(stars) {
-      if(is.na(stars)) return(0)
-      else return(scale[stars])
+    SummaryGrades <- function(grades) {
+     summary(grades[ , c('CC', 'CT', 'NOTE')])
     }
-    unname(sapply(bugBounties, GetScoreBB))
-  }
-  df$BB <- ComputeBB(df$Devoir.Bug.Bounty..Brut.)
 
-  ComputeGrades <- function(df, id, cc, ct, bb = 'BB') {
-    ind <- !is.na(df[ , ct])
-    grades <- unname(df[ind, c(id, cc, ct, bb)])
-    colnames(grades) <- c('id', 'CC', 'CT', 'BB')
-    ## compute grades
-    grades$NOTE <- pmax(grades$CT, 0.6 * grades$CC + 0.4 * grades$CT) + grades$BB
-    ## round grades to the upper quarter
-    grades$NOTE <- ceiling(4 * grades$NOTE)/4
-    return(grades)
-  }
-  ## ComputeFinalGrades <- function(grades) ceiling(4 * (0.6 * grades$CC + 0.4 * grades$CT))/4
+    sink('summary-R.txt')
+    cat('########\n## SV\n')
+    SummaryGrades(gradesSV)
+    cat('########\n## SITE\n')
+    SummaryGrades(gradesSITE)
+    sink()
+  #+END_SRC
 
-   gradesSV <- ComputeGrades(df, id, 'CC.SV', "CT.SV..Brut.")
-   gradesSITE <- ComputeGrades(df, id, 'CC.SITE', "CT.SITE..Brut.")
+**** 2019-2020
+  #+BEGIN_SRC R :var exercices=exercices :var projets=projets :session grade
 
-   gradesAll <- rbind(gradesSV, gradesSITE)
-   write.csv(gradesAll, 'notes-R.csv', row.names = FALSE)
 
-  PlotGrades <- function(grades) {
-    require(ggplot2)
-    require(ggthemes)
-    require(gridExtra)
-    p1 <- ggplot(grades, aes(x=NOTE)) + geom_histogram(binwidth=1) + theme_gdocs() + theme(text = element_text(size=30))
-    p2 <- ggplot(grades, aes(x=CT)) + geom_histogram(binwidth=1) + theme_gdocs() + theme(text = element_text(size=30))
-    p3 <- ggplot(grades, aes(x=CC)) + geom_histogram(binwidth=1) + theme_gdocs() + theme(text = element_text(size=30))
-    grid.arrange(p1, p2, p3, nrow = 1)
-  }
-  p <- PlotGrades(gradesSV)
-  ggsave('frequencies-R-SV.pdf', plot = p, device = "pdf", width = 40, height = 15)
+    ## Load activities from the website
+    UnLink <-function(x) gsub("\\[\\[.*\\]\\[(.*)\\]\\]", '\\1', x)
 
-  p <- PlotGrades(gradesSITE)
-  ggsave('frequencies-R-SITE.pdf', plot = p, device = "pdf", width = 40, height = 15)
+    activities <- data.frame(
+      name = make.names(c(UnLink(c(exercices$Problème, projets$Activité)))),
+      grade = c(exercices$Barème, projets$Barème),
+    )
 
-  SummaryGrades <- function(grades) {
-   summary(grades[ , c('CC', 'CT', 'NOTE')])
-  }
+    ## Load grades from moodle
+    file <- '~/downloads/SPUA31 Notes-20201207_1603-comma_separated.csv.csv'
+    df <- read.csv(file, stringsAsFactors = FALSE, na.strings = c("-", "NA"), header = TRUE)
 
-  sink('summary-R.txt')
-  cat('########\n## SV\n')
-  SummaryGrades(gradesSV)
-  cat('########\n## SITE\n')
-  SummaryGrades(gradesSITE)
-  sink()
-#+END_SRC
+    ## Compute the final QCM grades
+    ComputeGradeQCM <- function() {
+        qcm <- grep('Test\\..*', colnames(df))
+        rowSums(df[ , qcm], na.rm = TRUE) * 10 / length(qcm)
+      }
+    df$QCM <- ComputeGradeQCM()
 
-#+RESULTS:
+    ## Finalize the activities table
+    cols <-  sapply(activities$name, function(x) grep(x, colnames(df)))
+    ind <- sapply(cols, function(x) length(x) == 1)
+
+    activities <- data.frame(
+      column = unlist(cols),
+      activities[ind, ]
+    )
+
+    ## Change the project scales
+    scale20 <- colnames(df)[activities$column][grep("Devoir.", colnames(df)[activities$column])]
+    df[, scale20] <- 5 * df[, scale20]
+  #+END_SRC
+
+  #+RESULTS:
+  | 23 | ROULETTE                                         | 12 | 14 |
+  | 24 | ADDREV                                           | 12 | 14 |
+  | 25 | SABLE                                            | 16 | 18 |
+  | 27 | TRADN                                            | 20 | 20 |
+  |  7 | Graphisme.tortue                                 | 20 | 20 |
+  |  8 | Convertisseur.de.base..shiny.                    | 12 | 14 |
+  |  9 | Coefficient.de.Gini..shiny.                      | 12 | 14 |
+  | 10 | Estimation.de.la.moyenne..shiny.                 | 12 | 14 |
+  | 11 | Manipulation.de.polynômes                        | 20 | 20 |
+  | 12 | Estimation.d.aires.par.la.méthode.de.Monte.Carlo | 20 | 20 |
+  | 34 | QCM                                              | 12 | 12 |
+
+
+  #+BEGIN_SRC R :session grade
+
+    id <- "Adresse.de.courriel"
+
+    ComputeCC <- function(grades, coefs) {
+      ComputeAverage <- function(x) {
+        x[ is.na(x) ] <- 0
+        x <- x * coefs / 100
+        return(mean(head( sort(x, decreasing = TRUE), 3)))
+      }
+      round(apply( grades, 1, ComputeAverage), 1)
+    }
+
+    df$CC.SV <- ComputeCC(df[ , activities$column], activities$SV)
+    df$CC.SITE <- ComputeCC(df[ , activities$column], activities$SITE)
+
+    ComputeBB <- function(bugBounties) {
+      scale <- c("☆☆☆☆☆" = 0, "★☆☆☆☆" = 0.25, "★★☆☆☆" = 0.375, "★★★☆☆" = 0.5, "★★★★☆" = 0.75, "★★★★★" = 1)
+      GetScoreBB <- function(stars) {
+        if(is.na(stars)) return(0)
+        else return(scale[stars])
+      }
+      unname(sapply(bugBounties, GetScoreBB))
+    }
+    df$BB <- ComputeBB(df$Devoir.Bug.Bounty..Brut.)
+
+    ComputeGrades <- function(df, id, cc, ct, bb = 'BB') {
+      ind <- !is.na(df[ , ct])
+      grades <- unname(df[ind, c(id, cc, ct, bb)])
+      colnames(grades) <- c('id', 'CC', 'CT', 'BB')
+      ## compute grades
+      grades$NOTE <- pmax(grades$CT, 0.6 * grades$CC + 0.4 * grades$CT) + grades$BB
+      ## round grades to the upper quarter
+      grades$NOTE <- ceiling(4 * grades$NOTE)/4
+      return(grades)
+    }
+    ## ComputeFinalGrades <- function(grades) ceiling(4 * (0.6 * grades$CC + 0.4 * grades$CT))/4
+
+     gradesSV <- ComputeGrades(df, id, 'CC.SV', "CT.SV..Brut.")
+     gradesSITE <- ComputeGrades(df, id, 'CC.SITE', "CT.SITE..Brut.")
+
+     gradesAll <- rbind(gradesSV, gradesSITE)
+     write.csv(gradesAll, 'notes-R.csv', row.names = FALSE)
+
+    PlotGrades <- function(grades) {
+      require(ggplot2)
+      require(ggthemes)
+      require(gridExtra)
+      p1 <- ggplot(grades, aes(x=NOTE)) + geom_histogram(binwidth=1) + theme_gdocs() + theme(text = element_text(size=30))
+      p2 <- ggplot(grades, aes(x=CT)) + geom_histogram(binwidth=1) + theme_gdocs() + theme(text = element_text(size=30))
+      p3 <- ggplot(grades, aes(x=CC)) + geom_histogram(binwidth=1) + theme_gdocs() + theme(text = element_text(size=30))
+      grid.arrange(p1, p2, p3, nrow = 1)
+    }
+    p <- PlotGrades(gradesSV)
+    ggsave('frequencies-R-SV.pdf', plot = p, device = "pdf", width = 40, height = 15)
+
+    p <- PlotGrades(gradesSITE)
+    ggsave('frequencies-R-SITE.pdf', plot = p, device = "pdf", width = 40, height = 15)
+
+    SummaryGrades <- function(grades) {
+     summary(grades[ , c('CC', 'CT', 'NOTE')])
+    }
+
+    sink('summary-R.txt')
+    cat('########\n## SV\n')
+    SummaryGrades(gradesSV)
+    cat('########\n## SITE\n')
+    SummaryGrades(gradesSITE)
+    sink()
+  #+END_SRC
+
+  #+RESULTS:
 ** Seconde chance
    La seconde chance est une épreuve écrite similaire à l'examen.
    \\

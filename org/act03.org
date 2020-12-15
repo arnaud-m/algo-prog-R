@@ -162,7 +162,7 @@ Quelques exemples d'appels.
  : [1] "1P"
 
 * Conversion vers bibi-binaire
-  Écrire la fonction réciproque ~EncodeBibi~ qui prend en paramètre un nombre ~n~ et renvoie une chaîne de caractère, le nombre ~n~ écrit avec le [[https://fr.wikipedia.org/wiki/Syst%25C3%25A8me_bibi-binaire][système bibi-binaire]].
+  Écrire la fonction réciproque ~EncodeBibi~ qui prend en paramètre un nombre ~n~ et renvoie une chaîne de caractère, le nombre ~n~ écrit avec le [[https://fr.wikipedia.org/wiki/Syst%C3%A8me_bibi-binaire][système bibi-binaire]].
 
 #+NAME: template3
 #+BEGIN_SRC R :exports code

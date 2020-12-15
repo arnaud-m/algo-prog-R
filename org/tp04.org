@@ -2,7 +2,7 @@
 #+TITLE:     Travaux Pratiques #4
 #+SUBTITLE:     Algo & Prog avec R
 #+OPTIONS: num:1 toc:1
-#+PROPERTY: header-args :results output replace :exports none
+#+PROPERTY: header-args :results output replace :exports both
 * Calcul flottant
 
   Définissez en R la variable a dont la valeur est $\sqrt{3}$.
@@ -395,7 +395,7 @@ Refaites les applications numériques avec ~uniroot~ et comparez les résultats 
 
 * Racines d'un trinôme                                                 :HARD:
 
-  Il est fortement conseillé de lire la page wikipedia sur les [[https://fr.wikipedia.org/wiki/%25C3%2589quation_du_second_degr%25C3%25A9][équations du second degré]] ou encore mieux [[https://www.scilab.org/sites/default/files/scilabisnotnaive.pdf][Scilab is not naive]].
+  Il est fortement conseillé de lire la page wikipedia sur les [[https://fr.wikipedia.org/wiki/%C3%89quation_du_second_degr%C3%A9][équations du second degré]] ou encore mieux [[https://www.scilab.org/sites/default/files/scilabisnotnaive.pdf][Scilab is not naive]].
 
 ** Méthode naïve
    Écrire une fonction ~triroot(a,b,c)~ prenant en paramètre les coefficients ~a~, ~b~ et ~c~ d'un trinôme et renvoyant les racines réelles de l’équation $ax^2 + bx + c =0$.

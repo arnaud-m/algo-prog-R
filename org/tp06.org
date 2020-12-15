@@ -2,7 +2,7 @@
 #+TITLE:     Travaux Pratiques #6
 #+SUBTITLE:     Algo & Prog avec R
 #+OPTIONS: num:1 toc:1
-#+PROPERTY: header-args :results output replace :exports none
+#+PROPERTY: header-args :results output replace :exports both
 * Recherche d'éléments dans un vecteur
 
   1. Déterminez le nombre de 0 présent dans un vecteur.
@@ -28,6 +28,8 @@
   : [1] 6
 
 * Recherche de maximum
+  /Vous ne devez pas utiliser les fonctions prédéfinies ~max~ ou ~which.max~ dans cet exercice./
+
 ** Recherche simple
 
 1. Programmez la fonction ~Max2(a, b)~ prenant en argument deux nombres ~a~ et ~b~, et retournant le maximum de ces deux nombres.
@@ -220,11 +222,11 @@
 
 #+BEGIN_SRC R
   money <- c(10, 10, 20, 50, 50, 50, 100, 200, 200)
-  can_pay <- function(take, money, amount) {
+  CanPay <- function(take, money, amount) {
     sum(sample(money, take, replace=FALSE)) >= amount
   }
   n <- 10**5
-  proba <- mean(replicate(n, can_pay(2, money, 100)))
+  proba <- mean(replicate(n, CanPay(2, money, 100)))
   cat("Simulation probability :", round(proba,4),"\n")
 
   ## Theory :
@@ -249,35 +251,49 @@
   - 10% des élèves du lycée A quittent leur lycée pour aller au lycée B ;
   - 15% des élèves du lycée B quittent leur lycée pour aller au lycée A.
 
-   1. Au bout de combien de temps le lycée A comptera-t-il plus d’élèves que le lycée B ?
-   2. Quelle est l'évolution de ce système dynamique ? Est-ce qu'il atteint un état stationnaire ? Si oui, caractèrisez-le.
-   3. Tracer un graphique illustrant l'évolution de ce système dynamique. Que se passe t'il ? Expliquez.
+    1. Au bout de combien  de temps le lycée A comptera-t-il plus d’élèves que le lycée B ?
+    2. Quelle est l'évolution de ce système dynamique ? Est-ce qu'il atteint un état stationnaire ? Si oui, caractèrisez-le.
+    3. Tracer un graphique illustrant l'évolution de ce système dynamique. Que se passe t'il ? Expliquez.
+    4. Que se passe t'il si 15% des élèves du lycée A quittent leur lycée pour aller au lycée B ? Que remarquez-vous ?
 
-#+BEGIN_SRC R :session flux :results none
-  n <- 50;
-  na <- numeric(n)
-  na[1] <- 2000
-  nab <- 10000
-  for(i in seq(2,n)) {
-     da <- round( na[i-1] / 10 )
-     db <- round( 3*(nab-na[i-1])/20 )
-     na[i] <- na[i-1] - da + db
-     if(na[i] == na[i-1]) {
-       na <- head(na, i)
-       break
-     }
-   }
-  nb <- nab - na
+#+BEGIN_SRC R :session flux
+  FluxEleves <- function(n, nA, nB, probAB, probBA) {
+      na <- numeric(n)
+      na[1] <- nA
+      nab <- nA + nB
+      for(i in seq(2,n)) {
+          da <- round( probAB * na[i-1] )
+          db <- round( probBA*(nab-na[i-1]))
+          na[i] <- na[i-1] - da + db
+          if(na[i] == na[i-1]) {
+              na <- head(na, i)
+              break
+          }
+      }
+      return(na)
+  }
+
+  nA <- 2000
+  nB <- 8000
+  na <- FluxEleves(50, nA, nB, 0.1, 0.15)
+  nb <- nA + nB - na
+  print(na)
 #+END_SRC
+
+#+RESULTS:
+:  [1] 2000 3000 3750 4313 4735 5051 5288 5466 5599 5699 5774 5831 5873 5905 5929
+: [16] 5947 5960 5970 5977 5982 5987 5990 5993 5995 5996 5997 5997
 
 #+BEGIN_SRC R :exports code :session flux
   plot(na, type = 'b', xlab = "Année", ylab = "Effectif", lty = 1, pch = 1)
   lines(nb, type = 'b', lty = 2, pch = 2)
 #+END_SRC
+Attention, il est possible que vous deviez spécifier les paramètres ~xlim~ et ~ylim~.
+Cherchez dans la documentation.
 
 * Nombres premiers                                                      :KEY:
 Reprenons le cours sur les nombres premiers.
-La fonction ~estPremier(n)~  retourne False si elle trouve un diviseur non trivial (dans [2,n-1]) de n. Nous voudrions connaître ce diviseur !
+La fonction ~EstPremier(n)~  retourne False si elle trouve un diviseur non trivial (dans [2,n-1]) de n. Nous voudrions connaître ce diviseur !
 *** Programmez avec une boucle une fonction ~PlusPetitDiv(n)~ prenant un entier ~n~ ≥ 2 et retournant son plus petit diviseur $\geq 2$. Par exemple ~PlusPetitDiv(35)~ renvoie la valeur 5. Notez au passage que le résultat de ~PlusPetitDiv(n)~ est le plus petit facteur premier de ~n~ (pourquoi ?).
 #+BEGIN_SRC R :session primes
   PlusPetitDiv <- function(n) {
@@ -400,27 +416,93 @@ La fonction ~estPremier(n)~  retourne False si elle trouve un diviseur non trivi
    #+RESULTS:
    :  [1] 11 13 15 17 19 21 23 25 27 29 31
 
-** Nombres premiers avec un entier k                                   :HARD:
-   Programmez une fonction ~CoPremiers(k,a,b)~ retournant le vecteur des entiers copremiers avec ~k~ dans l’intervalle ~[a,b]~.
+** Nombres premiers avec un entier k                           :HARD:
 
- #+BEGIN_SRC R :session coprimes :results none
-   PGCD <- function(a,b) {
-     while ( b != 0 ) {
-       tmp = a %% b
-       a = b
-       b = tmp
-     }
-     return(a);
-   }
-   CoPremiers <- function(k,a,b) Filter(function(n) PGCD(n,k) == 1 , a:b)
- #+END_SRC
+***  Programmez une fonction ~CoPremiers(k,a,b)~ retournant le vecteur des entiers copremiers avec ~k~ dans l’intervalle ~[a,b]~.
 
- #+BEGIN_SRC R :session coprimes :exports both
-   CoPremiers(15,10,30)
- #+END_SRC
+    #+BEGIN_SRC R :session coprimes :results none
+      CoPremiers <- function(k,a,b) {
+          k <- abs(k)
+          ## Le plus simple est de créer un vecteur des diviseurs possibles allant de 2 à k.
+          if(k < 2) return(numeric(0))
+          ## Mais, on va éliminer les nombres multiples de 2 ou 3.
+          divk <- c(2, 3)
+          ## En utilisant la congruence à 6, ils ont la forme 5 + 6k
+          if(k >= 5) divk <- c(divk, seq(5, k, 6))
+          ## ou 1 + 6k
+          if(k >= 7) divk <- c(divk, seq(7, k, 6))
 
- #+RESULTS:
- :  [1] 11 13 14 16 17 19 22 23 26 28 29
+          ## On trouve les diviseurs de k parmi les candidats de divk.
+          divk <- divk[ k %% divk == 0]
+          ## Un nombre n est copremiers avec k si il n'a aucun diviseur commun avec k.
+          Filter(function(n) all(n %% divk != 0), a:b)
+      }
+    #+END_SRC
+
+    #+BEGIN_SRC R :session coprimes :exports both
+      CoPremiers(15,10,30)
+    #+END_SRC
+
+    #+RESULTS:
+    :  [1] 11 13 14 16 17 19 22 23 26 28 29
+
+***  Programmez une fonction ~CoPremiersPGCD(k,a,b)~ avec les mêmes spécifications, mais  utilisant une fonction auxiliaire calculant le pgcd de deux entiers de manière itérative.
+     #+BEGIN_SRC R :session coprimes :results none
+        PGCD <- function(a,b) {
+            while ( b != 0 ) {
+                tmp = a %% b
+                a = b
+                b = tmp
+            }
+            return(a);
+         }
+        CoPremiersPGCD <- function(k,a,b) Filter(function(n) PGCD(n,k) == 1 , a:b)
+     #+END_SRC
+
+*** Programmez une fonction ~TestCoPremiers(func, n)~ qui affiche le résultat des tests de performance de catégorie ~n~ (à définir) pour la fonction ~func~ passée en paramètre. Comparer les performances des deux fonctions. Quelle est la plus efficace en théorie ? En pratique ?
+    #+BEGIN_SRC R :session coprimes :results output
+      TestCoPremiers <- function(func, n) {
+          for(k in 10**seq(n)) {
+              for(a in 10**seq(n)) {
+                  func(k, a, 10 * a)
+              }
+          }
+      }
+      for(n in seq(3)) {
+          cat("n=", n, "\n")
+          cat("Avec vectorisation\n")
+          print(system.time(TestCoPremiers(CoPremiers, n)))
+          cat("Avec pgcd\n")
+          print(system.time(TestCoPremiers(CoPremiersPGCD, n)))
+      }
+     #+END_SRC
+
+     #+RESULTS:
+     #+begin_example
+     n= 1
+     Avec vectorisation
+     utilisateur     système      écoulé
+           0.009       0.000       0.009
+     Avec pgcd
+     utilisateur     système      écoulé
+           0.002       0.000       0.003
+     n= 2
+     Avec vectorisation
+     utilisateur     système      écoulé
+           0.001       0.000       0.002
+     Avec pgcd
+     utilisateur     système      écoulé
+           0.005       0.000       0.005
+     n= 3
+     Avec vectorisationy
+     utilisateur     système      écoulé
+           0.025       0.000       0.025
+     Avec pgcd
+     utilisateur     système      écoulé
+           0.054       0.000       0.054
+     #+end_example
+
+
 * Nombres aléatoires absents
    1. Utilisez la fonction ~sample~ pour créer une liste de 100 entiers compris entre 1 et 100 tirés au hasard avec remise.
    2. Calculer le nombre d’éléments compris entre 1 et 100 qui n’appartiennent pas à cette liste.

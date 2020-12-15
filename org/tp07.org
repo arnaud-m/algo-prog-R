@@ -2,7 +2,7 @@
 #+TITLE:     Travaux Pratiques #7
 #+SUBTITLE:     Algo & Prog avec R
 #+OPTIONS: num:1 toc:1
-#+PROPERTY: header-args :results output replace :exports none
+#+PROPERTY: header-args :results output replace :exports both
 * Ensembles et Dictionnaires
 ** Ensemble d'entiers aléatoires
    1. Définissez deux ensemble ~e2~ et ~e3~ de 10 entiers aléatoires de [0,20].
@@ -11,8 +11,8 @@
    #+BEGIN_SRC R
    e2 <- sample(0:20, 10, replace=FALSE)
    e3 <- sample(0:20, 10, replace=FALSE)
-   print(e2)     
-   print(e3)     
+   print(e2)
+   print(e3)
    union(e2,e3)
    intersect(e2,e3)
    setdiff(e2,e3)
@@ -30,7 +30,7 @@
 ** Histoire de s’amuser !
    Supposons que R ne dispose pas des fonctions ensemblistes.
    Comment programmeriez-vous les fonctions ~Union(x,y)~, ~Intersection(x,y)~, et ~Difference(x,y)~ (asymétrique) sur des vecteurs non triées avec répétitions.
-   #+BEGIN_SRC R 
+   #+BEGIN_SRC R
      Union <- function(x, y) unique(append(x,y))
      Intersection <- function(x, y) x[ x %in% y ]
      Difference <- function(x, y) x[ !(x %in% y) ]
@@ -56,7 +56,7 @@
    2. Faites afficher la liste des clés de d1.
    3. Faites afficher l’ensemble des valeurs de d1.
    4. Demandez la valeur de la clé "foo", puis "toto".
-      
+
 
    #+BEGIN_SRC R
    d1 <- list("foo"=0, "bar"=1:2, "team"="foobar")
@@ -73,8 +73,7 @@
    #+begin_example
    [1] "list"
    [1] "foo"  "bar"  "team"
-        foo     bar1     bar2     team 
-        "0"      "1"      "2" "foobar"
+   [1] "0"      "1:2"    "foobar"
    $foo
    [1] 0
    [1] 0
@@ -87,7 +86,7 @@
   1. Programmez une fonction ~RandomDict()~, retournant un dictionnaire aléatoire de longueur 10.
      - Les 10 clés distinctes seront choisies au hasard parmi les entiers de [0,20].
      - Les valeurs associées à ces clés (non nécessairement distinctes) seront choisies parmi les voyelles ’a’,’e’,’i’,’o’,’u’,’y’.
-  2. Posons ensuite ~d2 <- RandomDict()~.  
+  2. Posons ensuite ~d2 <- RandomDict()~.
   3. Faites afficher le nombres de clés paires de ~d2~.
   4. Faites afficher les valeurs distinctes de ~d2~.
 
@@ -104,15 +103,15 @@
 #+END_SRC
 
 #+RESULTS:
-:  15   4   5  19   8  16   0   6   3  14 
-: "o" "u" "y" "e" "y" "e" "u" "e" "y" "y" 
+:  15   4   5  19   8  16   0   6   3  14
+: "o" "u" "y" "e" "y" "e" "u" "e" "y" "y"
 : [1] 6
 : [1] "o" "u" "y" "e"
 
 ** Filtrage des clés par valeur
-   Programmez une fonction ~GetKeys(d,v)~ retournant l’ensemble des clés d’un dictionnaire quelconque ~d~, dont la valeur associée est ~v~. 
+   Programmez une fonction ~GetKeys(d,v)~ retournant l’ensemble des clés d’un dictionnaire quelconque ~d~, dont la valeur associée est ~v~.
 
-   Rappel : les clés sont uniques, mais pas les valeurs! 
+   Rappel : les clés sont uniques, mais pas les valeurs!
    #+BEGIN_SRC R
      d1 <- list('a'=5, 'b'=6, 'c'=5, 'd'='b', 'e'=0:1, 'f'=list(0,1))
      GetKeys <- function(d, v) {
@@ -123,12 +122,12 @@
        return(names(d)[ind])
      }
 
-     GetKeys(d1,5)     
-     GetKeys(d1,'b')     
+     GetKeys(d1,5)
+     GetKeys(d1,'b')
      GetKeys(d1,0:1)
      GetKeys(d1,0:2)
    #+END_SRC
- 
+
    #+RESULTS:
    : [1] "a" "c"
    : [1] "d"
@@ -151,8 +150,8 @@ unlist(strsplit(txt,' +',fixed=FALSE))
 #+RESULTS:
 : [[1]]
 : [1] "le"     "chien"  "et"     "le"     "loup"   "font"   "la"     "course"
-: 
-: [1] "Nice"    "Antibes" "Monaco" 
+:
+: [1] "Nice"    "Antibes" "Monaco"
 : [1] "foo" ""    ""    "bar"
 : [1] "foo" "bar"
 
@@ -187,22 +186,21 @@ unlist(strsplit(txt,' +',fixed=FALSE))
    #+RESULTS:
    : integer(0)
    : words
-   : do la mi re 
+   : do la mi re
    :  3  3  2  1
    : [1] "do" "la"
 
-
 * Algorithme de Bezout
-L’[[http://fr.wikipedia.org/wiki/Algorithme_d%2527Euclide_%25C3%25A9tendu][algorithme de Bezout]] prolonge l’algorithme d’Euclide. 
-Il dit qu’il est possible d’écrire le PGCD g de a et b comme combinaison linéaire de a et b à coefficients entiers : il existe u et v (non uniques) tels que g = a*u + b*v. 
+L’[[https://fr.wikipedia.org/wiki/Algorithme_d%27Euclide_%C3%A9tendu][algorithme de Bezout]] prolonge l’algorithme d’Euclide.
+Il dit qu’il est possible d’écrire le PGCD g de a et b comme combinaison linéaire de a et b à coefficients entiers : il existe u et v (non uniques) tels que g = a*u + b*v.
 Par exemple 4 = 8*(-1) + 12*1.
 *** On se propose de programmer une fonction ~bezout(a,b)~ retournant un triplet (g,u,v).
 *** Montrez que si l’on sait calculer bezout(b,a %% b), alors on peut en déduire bezout(a,b).
 *** Programmez une fonction ~bezout(a,b)~ récursive. Testez-la sur ~bezout(8,12)~.
 
-  #+BEGIN_SRC R :session bezout 
+  #+BEGIN_SRC R :session bezout
     bezout <- function(a,b) {
-      ## fonction récursive 
+      ## fonction récursive
       if(b == 0) return(c(a,1,0))
       x <- bezout(b, a %% b)
       return( c(x[1], x[3], x[2] - a %/% b * x[3]))
@@ -221,13 +219,13 @@ Par exemple 4 = 8*(-1) + 12*1.
       bz <- bezout(a,b);
       cat(bz[2],'*',a,'+',bz[3],'*',b,'=',bz[1], '\n')
     }
-   #+END_SRC 
+   #+END_SRC
 
   #+BEGIN_SRC R :session bezout :exports both
     aff_bezout(8, 12)
     aff_bezout(120,23)
     aff_bezout(5040,4116)
-   #+END_SRC 
+   #+END_SRC
 
   #+RESULTS:
   : -1 * 8 + 1 * 12 = 4
@@ -235,10 +233,10 @@ Par exemple 4 = 8*(-1) + 12*1.
   : 9 * 5040 + -11 * 4116 = 84
 
 *** Programmez une fonction ~bezout(a,b)~ itérative. Testez-la sur ~bezout(8,12)~.
-    
+
   #+BEGIN_SRC R :session bezout
     bezout <- function(a,b) {
-      ## fonction itérative 
+      ## fonction itérative
       bz <- c(a,1,0,b,0,1)
       ## égalités r = a*u+b*v et r' = a*u'+b*v' sont des invariants de boucle
       while(bz[4] != 0) {
@@ -252,7 +250,7 @@ Par exemple 4 = 8*(-1) + 12*1.
     aff_bezout(120,23)
     aff_bezout(5040,4116)
    #+END_SRC
-  
+
   #+RESULTS:
   : -1 * 8 + 1 * 12 = 4
   : -9 * 120 + 47 * 23 = 1
@@ -289,7 +287,7 @@ Le déroulement du jeu doit s'inspirer de l'exemple ci-dessous.
       ## Type a letter
       letter <- Read1("une lettre")
       stopifnot(nchar(letter) == 1)
-      ## Update search status 
+      ## Update search status
       word.letter <- word.code != utf8ToInt(letter)
       if(all(word.letter)) {
        j <- j + 1
@@ -326,3 +324,46 @@ Entrer une lettre :
 Tour 4 : ici
 >
 #+END_EXAMPLE
+* STARTED Crible d'Ératosthène                                     :noexport:
+Le crible d'Ératosthène est un procédé qui permet de trouver tous les nombres premiers inférieurs à un certain entier naturel donné ~n~ (voir [[https://fr.wikipedia.org/wiki/Crible_d%27%C3%89ratosth%C3%A8ne][Wikipedia]]).
+
+#+begin_src R :session crible
+    CribleEratosthene <- function(n) {
+        primes <- c(2, 3, 5)
+        if(n >= 6) {
+            ## numbers that are not multiple of 2 or 3 : 2k + 1 ; 2k + 5.
+            candidates <- rep( seq(6, n, 6), each = 2) + c(1, 5)
+            while(length(candidates) > 0 ) {
+              primes <- append(primes , candidates[1])
+              candidates <- candidates[ candidates %% candidates[1] != 0]
+            }
+        }
+        return(primes[ primes <=n ])
+    }
+
+   CribleHoare <- function(n) {
+        primes <- c(2, 3, 5)
+        if(n >= 6) {
+          candidates <- rep( seq(6, n, 6), each = 2) + c(1, 5)
+          for(v in candidates) {
+              if(all(v %% primes != 0)) {
+                  primes <- append(primes , v)
+              }
+          }
+        }
+        return(primes[ primes <=n ])
+   }
+#+end_src
+
+#+RESULTS:
+
+#+begin_src R :session crible
+ system.time(CribleEratosthene(10**5))
+ system.time(CribleHoare(10**5))
+#+end_src
+#+RESULTS:
+: utilisateur     système      écoulé
+:       0.865       0.004       0.871
+:
+: utilisateur     système      écoulé
+:       2.421       0.001       2.426

@@ -341,7 +341,7 @@ Un petit livre de Benoit Mandelbrot, l’inventeur de cette théorie, est à la 
 [[file:act01/fils_tendus_1.jpg]]
 * Courbes du Dragon
 ** Courbe de Levy
-   Programmez l’approximant de niveau ~n~ et de taille ~T~ de la célèbre [[http://fr.wikipedia.org/wiki/Courbe_de_L%25C3%25A9vy][courbe fractale de Levy]].
+   Programmez l’approximant de niveau ~n~ et de taille ~T~ de la célèbre [[https://fr.wikipedia.org/wiki/Courbe_de_L%C3%A9vy][courbe fractale de Levy]].
 
    Elle est construite de la manière suivante.
    La courbe de niveau 0 est un segment AB de longueur ~T~. La courbe de niveau 1 est la ligne brisée ACB, toujours avec   AB = ~T~.

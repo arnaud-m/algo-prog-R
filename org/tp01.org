@@ -106,7 +106,7 @@ Quand R et Rstudio sont installés, ouvrez RStudio en vérifiant l'absence de me
 ** Affectations, affichage et échanges de valeurs
  1. Définissez deux variables: p ayant pour valeur 5 et q ayant pour valeur 3p.
  2. Avec une seule instruction ~cat(...)~, faites afficher la phrase suivante :\\
-    p vaut 5 et q vaut 15 a , leur somme fait 20\\
+    p vaut 5 et q vaut 15, leur somme fait 20\\
   N.B. La solution suivante n'est PAS celle que l'on attend :
   ~cat('p vaut 5 et q vaut 15, leur somme fait 20\n')~.
  3. Demandez en R "q est-il un multiple de p?".

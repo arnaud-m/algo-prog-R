@@ -2,7 +2,7 @@
 #+TITLE:     Travaux Pratiques #5
 #+SUBTITLE:     Algo & Prog avec R
 #+OPTIONS: num:1 toc:1
-#+PROPERTY: header-args :results output replace :exports none
+#+PROPERTY: header-args :results output replace :exports both
 * Le tour de la boucle
 #+BEGIN_SRC R :results output :exports both
   Foo <- function(x,a,b) {
@@ -57,6 +57,13 @@
 * Alphabet
 
 #+BEGIN_SRC R :session alphabet :results silent
+  ## Une première solution sans passer par les codes
+  Alphabet <- function(upper=FALSE) {
+      if (upper) return(paste(LETTERS, collapse = ''))
+      else return(paste(letters, collapse = ''))
+  }
+
+  ## Une seconde solution basée sur les codes
   Alphabet <- function(upper=FALSE) intToUtf8( 0:25 + (utf8ToInt(ifelse(upper,'A','a'))))
 #+END_SRC
 
@@ -109,7 +116,7 @@
 
 * Tables de multiplication
 
-  Programmez une fonction ~TableMult(n)~ prenant un entier ~n~ compris entr 1 et 9, et affichant la table de mutliplication par n.
+  Programmez une fonction ~TableMult(n)~ prenant un entier ~n~ compris entre 1 et 9, et affichant la table de mutliplication par n.
   Vérifier la validité de l'argument ~n~ en utilisant la fonction ~stopifnot~.
 
 #+BEGIN_SRC R :session tables
@@ -251,7 +258,7 @@ Les autres caractères du message sont laissés intacts.
   La recherche de chaînes (string matching) est intéressante dans plusieurs disciplines, comme la biologie, dont un problème courant consiste à comprendre la structure des molécules d'ADN, et le rôle de structures spécifiques dans le fonctionnement de la molécule. Une séquence ADN est représentée par une suite  de caractères choisis parmi les quatre nucléotides : adenine (A), cytosine (C), guanine (G) et thymine (T). Par exemple, la chaîne de caractères 'AAACAACTTCGTAAGTATA' représente un brin d'ADN.
   Une manière de comprendre la fonction d'un brin d'ADN consiste à y rechercher une séquence précise, avec l'idée qu'une structure identique induira des effets identiques. Nous allons pénétrer un tout petit peu dans cette idée.
 
-  Programmez une fonction ~CountSubstringMatch(s1,s2)~ qui prend deux chaînes en argument et retourne le nombre de fois que ~s2~ apparaît comme sous-chaîne de ~s1~. \\
+  Programmez une fonction ~CountSubstringMatch(s1,s2)~ qui prend deux chaînes en argument et retourne le nombre de fois où ~s2~ apparaît comme sous-chaîne de ~s1~. \\
   /Indice/ : utiliser la fonction ~regexpr~.
 
 #+BEGIN_SRC R :results none :session biology
