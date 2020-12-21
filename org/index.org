@@ -399,184 +399,98 @@ http://phdcomics.com/comics/archive/phd051013s.gif
    - et $N_t$ votre note à l'examen terminal.
    - La note finale est calculée ainsi : $N_1 = \max(0.6 \times N_c + 0.4 \times N_t, N_t)$.
 *** Script de calcul des notes                                     :noexport:
-**** Calcul de la note de contrôle continu
+**** Calcul des notes
 
   #+BEGIN_SRC R :var exercices=exercices :var projets=projets :session grade
 
-    ## Load activities from the website
-    UnLink <-function(x) gsub("\\[\\[.*\\]\\[(.*)\\]\\]", '\\1', x)
-
     ## Load grades from moodle
-    file <- '~/downloads/SPUA31 Notes-20201207_1603-comma_separated.csv'
+    file <- '~/downloads/SPUA31 Notes-20201221_1342-comma_separated.csv'
     df <- read.csv(file, stringsAsFactors = FALSE, na.strings = c("-", "NA"), header = TRUE)
 
-    FindColumns <-function(df, patterns) sapply(patterns, function(x) grep(x, colnames(df)))
-    }
-  #+END_SRC
-**** Analyse des notes
-
-  #+BEGIN_SRC R :session grade
-     grades <- df[ , c("CC..Brut.", "CT..Brut.", "NOTE..Brut." ]
-     colnames(grades) <- c("CC", "CT", "NOTE")
-
-     PlotGrades <- function(grades) {
-      require(ggplot2)
-      require(ggthemes)
-      require(gridExtra)
-      require(xtable)
-      p1 <- ggplot(grades, aes(x=NOTE)) + geom_histogram(binwidth=1) + theme_gdocs() + theme(text = element_text(size=30))
-      p2 <- ggplot(grades, aes(x=CT)) + geom_histogram(binwidth=1) + theme_gdocs() + theme(text = element_text(size=30))
-      p3 <- ggplot(grades, aes(x=CC)) + geom_histogram(binwidth=1) + theme_gdocs() + theme(text = element_text(size=30))
-      p4 <-
-      grid.arrange(p1, p2, p3, nrow = 2)
-    }
-    p <- PlotGrades(gradesSV)
-    ggsave('frequencies-R-SV.pdf', plot = p, device = "pdf", width = 40, height = 15)
-
-    p <- PlotGrades(gradesSITE)
-    ggsave('frequencies-R-SITE.pdf', plot = p, device = "pdf", width = 40, height = 15)
-
-    SummaryGrades <- function(grades) {
-     summary(grades[ , c('CC', 'CT', 'NOTE')])
-    }
-
-    sink('summary-R.txt')
-    cat('########\n## SV\n')
-    SummaryGrades(gradesSV)
-    cat('########\n## SITE\n')
-    SummaryGrades(gradesSITE)
-    sink()
-  #+END_SRC
-
-**** 2019-2020
-  #+BEGIN_SRC R :var exercices=exercices :var projets=projets :session grade
-
-
-    ## Load activities from the website
-    UnLink <-function(x) gsub("\\[\\[.*\\]\\[(.*)\\]\\]", '\\1', x)
-
-    activities <- data.frame(
-      name = make.names(c(UnLink(c(exercices$Problème, projets$Activité)))),
-      grade = c(exercices$Barème, projets$Barème),
+    ## Grade CC
+    scaleA <- c(
+        "Devoir.Graphisme.tortue..Brut." = 1,
+        "Devoir.Convertisseur.de.base..shiny...Brut."=12/20,
+        "Devoir.Coefficient.de.Gini..shiny...Brut."=12/20,
+        "Devoir.Estimation.de.la.moyenne..shiny...Brut."=12/20,
+        "Devoir.Manipulation.de.polynômes..Brut."=1,
+        "Devoir.Estimation.d.aires.par.la.méthode.de.Monte.Carlo..Brut."=1,
+        "ARITHMA..Brut."=14/100,
+        "INET..Brut."=16/100
     )
+    QuarterCeiling <- function(x) ceiling(4 * x)/4
 
-    ## Load grades from moodle
-    file <- '~/downloads/SPUA31 Notes-20201207_1603-comma_separated.csv.csv'
-    df <- read.csv(file, stringsAsFactors = FALSE, na.strings = c("-", "NA"), header = TRUE)
+    gradeA <- t(apply( df[ , names(scaleA)], 1, function(x) scaleA*x))
+    gradeA <- apply(gradeA, 1, function(x) sum(tail(sort(x), 2), na.rm = TRUE))
+    partiel <- "Partiel.du.8.10..Brut."
+    examen <-  "CT..Brut."
+    gradeP <- pmax(df[ , partiel], df[ , examen], na.rm = TRUE)
+    gradeCC <- QuarterCeiling((gradeA + gradeP)/3)
 
-    ## Compute the final QCM grades
-    ComputeGradeQCM <- function() {
-        qcm <- grep('Test\\..*', colnames(df))
-        rowSums(df[ , qcm], na.rm = TRUE) * 10 / length(qcm)
-      }
-    df$QCM <- ComputeGradeQCM()
-
-    ## Finalize the activities table
-    cols <-  sapply(activities$name, function(x) grep(x, colnames(df)))
-    ind <- sapply(cols, function(x) length(x) == 1)
-
-    activities <- data.frame(
-      column = unlist(cols),
-      activities[ind, ]
-    )
-
-    ## Change the project scales
-    scale20 <- colnames(df)[activities$column][grep("Devoir.", colnames(df)[activities$column])]
-    df[, scale20] <- 5 * df[, scale20]
-  #+END_SRC
-
-  #+RESULTS:
-  | 23 | ROULETTE                                         | 12 | 14 |
-  | 24 | ADDREV                                           | 12 | 14 |
-  | 25 | SABLE                                            | 16 | 18 |
-  | 27 | TRADN                                            | 20 | 20 |
-  |  7 | Graphisme.tortue                                 | 20 | 20 |
-  |  8 | Convertisseur.de.base..shiny.                    | 12 | 14 |
-  |  9 | Coefficient.de.Gini..shiny.                      | 12 | 14 |
-  | 10 | Estimation.de.la.moyenne..shiny.                 | 12 | 14 |
-  | 11 | Manipulation.de.polynômes                        | 20 | 20 |
-  | 12 | Estimation.d.aires.par.la.méthode.de.Monte.Carlo | 20 | 20 |
-  | 34 | QCM                                              | 12 | 12 |
-
-
-  #+BEGIN_SRC R :session grade
-
-    id <- "Adresse.de.courriel"
-
-    ComputeCC <- function(grades, coefs) {
-      ComputeAverage <- function(x) {
-        x[ is.na(x) ] <- 0
-        x <- x * coefs / 100
-        return(mean(head( sort(x, decreasing = TRUE), 3)))
-      }
-      round(apply( grades, 1, ComputeAverage), 1)
-    }
-
-    df$CC.SV <- ComputeCC(df[ , activities$column], activities$SV)
-    df$CC.SITE <- ComputeCC(df[ , activities$column], activities$SITE)
-
-    ComputeBB <- function(bugBounties) {
+    ## Grade BONUS
+    GradeBB <- function(bugBounties) {
       scale <- c("☆☆☆☆☆" = 0, "★☆☆☆☆" = 0.25, "★★☆☆☆" = 0.375, "★★★☆☆" = 0.5, "★★★★☆" = 0.75, "★★★★★" = 1)
-      GetScoreBB <- function(stars) {
+      GetGradeBB <- function(stars) {
         if(is.na(stars)) return(0)
         else return(scale[stars])
       }
-      unname(sapply(bugBounties, GetScoreBB))
+      unname(sapply(bugBounties, GetGradeBB))
     }
-    df$BB <- ComputeBB(df$Devoir.Bug.Bounty..Brut.)
+    gradeB <- rowSums(df[ , c("Devoir.ARITHMA..mais.à.l.ancienne...Brut.", "Bonus.ROULETTE..Brut.")], na.rm = TRUE)/4 + GradeBB(df$Devoir.Bug.Bounty..Brut.) / 2
+    gradeB <- QuarterCeiling(gradeB)
 
-    ComputeGrades <- function(df, id, cc, ct, bb = 'BB') {
-      ind <- !is.na(df[ , ct])
-      grades <- unname(df[ind, c(id, cc, ct, bb)])
-      colnames(grades) <- c('id', 'CC', 'CT', 'BB')
-      ## compute grades
-      grades$NOTE <- pmax(grades$CT, 0.6 * grades$CC + 0.4 * grades$CT) + grades$BB
-      ## round grades to the upper quarter
-      grades$NOTE <- ceiling(4 * grades$NOTE)/4
-      return(grades)
-    }
-    ## ComputeFinalGrades <- function(grades) ceiling(4 * (0.6 * grades$CC + 0.4 * grades$CT))/4
+    ## Grade NOTE
+    ComputeFinalGrade <- function(ct, cc, bo) pmin(pmax(ct, 0.6 * ct + 0.4 * cc ) + bo, 20)
 
-     gradesSV <- ComputeGrades(df, id, 'CC.SV', "CT.SV..Brut.")
-     gradesSITE <- ComputeGrades(df, id, 'CC.SITE', "CT.SITE..Brut.")
+    gradeNOTE <- QuarterCeiling(ComputeFinalGrade(df[ , examen], gradeCC, gradeB))
 
-     gradesAll <- rbind(gradesSV, gradesSITE)
-     write.csv(gradesAll, 'notes-R.csv', row.names = FALSE)
 
-    PlotGrades <- function(grades) {
-      require(ggplot2)
-      require(ggthemes)
-      require(gridExtra)
-      p1 <- ggplot(grades, aes(x=NOTE)) + geom_histogram(binwidth=1) + theme_gdocs() + theme(text = element_text(size=30))
-      p2 <- ggplot(grades, aes(x=CT)) + geom_histogram(binwidth=1) + theme_gdocs() + theme(text = element_text(size=30))
-      p3 <- ggplot(grades, aes(x=CC)) + geom_histogram(binwidth=1) + theme_gdocs() + theme(text = element_text(size=30))
-      grid.arrange(p1, p2, p3, nrow = 1)
-    }
-    p <- PlotGrades(gradesSV)
-    ggsave('frequencies-R-SV.pdf', plot = p, device = "pdf", width = 40, height = 15)
+    ## Export Grades
+    grades <- data.frame(
+    id = df$Numéro.d.identification,
+    ##nom = df$Nom,
+    CC = gradeCC,
+    BONUS= gradeB,
+    NOTE=gradeNOTE
+    )
+    write.csv(grades, 'SPUA31-notes.csv', row.names = FALSE, na = "")
 
-    p <- PlotGrades(gradesSITE)
-    ggsave('frequencies-R-SITE.pdf', plot = p, device = "pdf", width = 40, height = 15)
-
-    SummaryGrades <- function(grades) {
-     summary(grades[ , c('CC', 'CT', 'NOTE')])
-    }
-
-    sink('summary-R.txt')
-    cat('########\n## SV\n')
-    SummaryGrades(gradesSV)
-    cat('########\n## SITE\n')
-    SummaryGrades(gradesSITE)
-    sink()
+##    cor.test(df$CT..Brut., grades$CC, method = "pearson", use = "complete.obs")
   #+END_SRC
 
   #+RESULTS:
-** Seconde chance
-   La seconde chance est une épreuve écrite similaire à l'examen.
-   \\
-   - Soit $N_1$ votre note finale (première session),
-   - et $N_{sc}$ votre note à l'examen de seconde chance.
-   - La note de seconde chance est calculée ainsi : $N_2 = \max(N_1, N_{sc})$.
+
+**** Analyse des notes
+
+  #+BEGIN_SRC R :session grade
+
+    file <- '~/downloads/SPUA31 Notes-20201221_1402-comma_separated.csv'
+    df <- read.csv(file, stringsAsFactors = FALSE, na.strings = c("-", "NA"), header = TRUE)
+
+    grades <- df[ , c("CC..Brut.", "CT..Brut.", "NOTE..Brut." )]
+    colnames(grades) <- c("CC", "CT", "NOTE")
+
+    require(ggplot2)
+    require(ggthemes)
+    require(grid)
+    require(gridExtra)
+
+    p1 <- ggplot(grades, aes(x=NOTE)) + geom_histogram(binwidth=2) + theme_gdocs() + theme(text = element_text(size=30))
+      p2 <- ggplot(grades, aes(x=CT)) + geom_histogram(binwidth=2) + theme_gdocs() + theme(text = element_text(size=30))
+      p3 <- ggplot(grades, aes(x=CC)) + geom_histogram(binwidth=2) + theme_gdocs() + theme(text = element_text(size=30))
+
+      gsummary <- as.data.frame(apply(grades, 2, summary, digits=3))
+      p4 <- tableGrob(gsummary, theme = ttheme_default(base_size=50,  padding = unit(c(25, 4), "mm"), core=list(fg_params=list(hjust=1, x=0.9))))
+
+    toptitle <- textGrob(sprintf("SPUA31 - Algo & Prog avec R - 2020/2021 - %d étudiants - %d acquis", nrow(grades), sum(grades$NOTE >= 10, na.rm=T)), gp=gpar(fontsize=50,font=2))
+
+    p <- grid.arrange(p2, p1, p3, p4, nrow = 2, top = toptitle)
+    ggsave('SPUA31-grades-2020-2021.pdf', plot = p, device = "pdf", width = 40, height = 15)
+
+
+  #+END_SRC
+
+  #+RESULTS:
 
 * Communication
 Notre mode de communication de prédilection sont les salons du cours sur le [[https://discord.gg/mjtRTSb][serveur discord de la Licence Informatique]].
