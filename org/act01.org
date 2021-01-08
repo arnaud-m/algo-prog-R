@@ -2,6 +2,13 @@
 #+TITLE:    Graphisme tortue
 #+SUBTITLE:     Activités #1
 #+PROPERTY: header-args :results output graphics :exports none
+
+#+begin_abstract
+Le mini-projet consiste à créer des dessins originaux en graphisme tortue, et pas à résoudre les exercices de travaux pratiques.
+Le but des exercices est de vous apprendre des techniques et de vous inspirer.
+Vous pouvez réutiliser ces dessins pour vos créations.
+#+end_abstract
+
 * Cours                                                            :noexport:
 
 #+BEGIN_SRC R :export results :results output graphics :file trirect.jpg :width 300 :height 300

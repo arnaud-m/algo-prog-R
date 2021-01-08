@@ -389,7 +389,7 @@ http://phdcomics.com/comics/archive/phd051013s.gif
 ** Contrôle continu
    La note de contrôle continu est la moyenne :
      - de la note de partiel, une épreuve écrite de 1h (barème indicatif - 6pts / 7pts / 10pts);
-     - et des 2 meilleures notes obtenues aux activités.
+     - et des 2 meilleures notes obtenues aux activités en prenant en considération leur barème.
 
 ** Examen terminal
    L'examen terminal est une épreuve écrite de 3h (barème indicatif - 3pts / 4pts / 16pts).
@@ -398,13 +398,16 @@ http://phdcomics.com/comics/archive/phd051013s.gif
    - Soit $N_c$ votre note de contrôle continu,
    - et $N_t$ votre note à l'examen terminal.
    - La note finale est calculée ainsi : $N_1 = \max(0.6 \times N_c + 0.4 \times N_t, N_t)$.
+*** TODO Changer pondération pour 2021/2022                        :noexport:
+   - La note finale est calculée ainsi : $N_1 = \max(0.5 \times N_c + 0.5 \times N_t, N_t)$.
+   - Diminuer le nombre de points pour les lectures de code
 *** Script de calcul des notes                                     :noexport:
 **** Calcul des notes
 
   #+BEGIN_SRC R :var exercices=exercices :var projets=projets :session grade
 
     ## Load grades from moodle
-    file <- '~/downloads/SPUA31 Notes-20201221_1342-comma_separated.csv'
+    file <- '~/downloads/SPUA31 Notes-20201221_1625-comma_separated.csv'
     df <- read.csv(file, stringsAsFactors = FALSE, na.strings = c("-", "NA"), header = TRUE)
 
     ## Grade CC
@@ -440,7 +443,7 @@ http://phdcomics.com/comics/archive/phd051013s.gif
     gradeB <- QuarterCeiling(gradeB)
 
     ## Grade NOTE
-    ComputeFinalGrade <- function(ct, cc, bo) pmin(pmax(ct, 0.6 * ct + 0.4 * cc ) + bo, 20)
+    ComputeFinalGrade <- function(ct, cc, bo) pmin(pmax(ct, 0.4 * ct + 0.6 * cc ) + bo, 20)
 
     gradeNOTE <- QuarterCeiling(ComputeFinalGrade(df[ , examen], gradeCC, gradeB))
 
@@ -464,7 +467,7 @@ http://phdcomics.com/comics/archive/phd051013s.gif
 
   #+BEGIN_SRC R :session grade
 
-    file <- '~/downloads/SPUA31 Notes-20201221_1402-comma_separated.csv'
+    file <- '~/downloads/SPUA31 Notes-20201221_1628-comma_separated.csv'
     df <- read.csv(file, stringsAsFactors = FALSE, na.strings = c("-", "NA"), header = TRUE)
 
     grades <- df[ , c("CC..Brut.", "CT..Brut.", "NOTE..Brut." )]
