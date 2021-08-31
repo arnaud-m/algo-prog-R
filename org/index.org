@@ -265,11 +265,11 @@ http://phdcomics.com/comics/archive/phd051013s.gif
 ** Organisation
 
  1. Le matériel pédagogique est ici,
- 2. Les évaluations et le carnet de notes sont sur [[https://lms.univ-cotedazur.fr/course/view.php?id=15555][Moodle]] et [[https://sphere-engine.com/][Sphere Engine]],
+ 2. Les évaluations et le carnet de notes sont sur [[https://lms.univ-cotedazur.fr/course/view.php?id=10988][Moodle]] et [[https://sphere-engine.com/][Sphere Engine]],
  3. Le code source est sur [[https://github.com/arnaud-m/algo-prog-R][github]] !
  4. On communique sur [[https://discord.gg/mjtRTSb][discord]].
 
-**** Inscrivez-vous au [[https://lms.univ-cotedazur.fr/course/view.php?id=15555][cours]] sur moodle !
+**** Inscrivez-vous au [[https://lms.univ-cotedazur.fr/course/view.php?id=10988][cours]] sur moodle !
 
 ** Autoformation
 
