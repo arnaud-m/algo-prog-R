@@ -251,11 +251,11 @@ http://phdcomics.com/comics/archive/phd051013s.gif
 ** Salles
    Toutes les salles sont au 2ème et 3ème étage du Petit Valrose.
 
-  | 09h15-12h00 |          | 13h15-16h00 |          |
-  |-------------+----------+-------------+----------|
-  | *Groupe 1*  | 317 (AM) | *Groupe 4*  | 215 (AM) |
-  | *Groupe 2*  | 316 (GR) | *Groupe 5*  | 215 (AM) |
-  | *Groupe 3*  | 315 (OS) |             |          |
+  | 09h15-12h00 |        | 13h15-16h00 |        |
+  |-------------+--------+-------------+--------|
+  | *Groupe 1*  | ? (AM) | *Groupe 4*  | ? (AM) |
+  | *Groupe 2*  | ? (GR) | *Groupe 5*  | ? (AM) |
+  | *Groupe 3*  | ? (OS) |             |        |
 
 * Contenu
  #+BEGIN_EXPORT html
@@ -291,13 +291,13 @@ http://phdcomics.com/comics/archive/phd051013s.gif
 
 | #. | Cours (Partie I)         | Cours (Partie II)                       | Travaux pratiques |
 |----+--------------------------+-----------------------------------------+-------------------|
-| 1. | Présentation du syllabus | [[file:pdf/01-variables.pdf][Expressions, instructions, et variables]] | [[file:tp01.org][TP 1 (corrigé)]]    |
-| 2. | [[file:pdf/02-fonctions.pdf][Conditions et fonctions]]  | [[file:pdf/03-jeu-roulette.pdf][Jeu de roulette]]                         | [[file:tp02.org][TP 2 (corrigé)]]    |
-| 3. | [[file:pdf/04-iterations-while.pdf][Itérations (while)]]       | [[file:pdf/05-conversions.pdf][Conversions]]                             | [[file:tp03.org][TP 3 (corrigé)]]    |
-| 4. | [[file:pdf/06-nombres-approches.pdf][Nombres réels approchés]]  | [[file:pdf/07-calcul-pi.pdf][Approximation du nombre \pi]]             | [[file:tp04.org][TP 4 (corrigé)]]    |
-| 5. | [[file:pdf/08-iterations-for.pdf][Itérations (for)]]         | [[file:pdf/09-chaines.pdf][Chaînes de caractères]]                   | [[file:tp05.org][TP 5 (corrigé)]]    |
-| 6. | [[file:pdf/10-vecteurs.pdf][Les séquences : vecteurs]] | [[file:pdf/11-premiers.pdf][Nombres premiers]]                        | [[file:tp06.org][TP 6 (corrigé)]]    |
-| 7. | [[file:pdf/12-listes.pdf][Les séquences : listes]]   | [[file:pdf/13-dictionnaires.pdf][Ensembles et dictionnaires]]              | [[file:tp07.org][TP 7 (corrigé)]]    |
+| 1. | Présentation du syllabus | [[file:pdf/01-variables.pdf][Expressions, instructions, et variables]] | [[file:tp01.org][TP 1]]              |
+| 2. | [[file:pdf/02-fonctions.pdf][Conditions et fonctions]]  | [[file:pdf/03-jeu-roulette.pdf][Jeu de roulette]]                         | [[file:tp02.org][TP 2]]              |
+| 3. | [[file:pdf/04-iterations-while.pdf][Itérations (while)]]       | [[file:pdf/05-conversions.pdf][Conversions]]                             | [[file:tp03.org][TP 3]]              |
+| 4. | [[file:pdf/06-nombres-approches.pdf][Nombres réels approchés]]  | [[file:pdf/07-calcul-pi.pdf][Approximation du nombre \pi]]             | [[file:tp04.org][TP 4]]              |
+| 5. | [[file:pdf/08-iterations-for.pdf][Itérations (for)]]         | [[file:pdf/09-chaines.pdf][Chaînes de caractères]]                   | [[file:tp05.org][TP 5]]              |
+| 6. | [[file:pdf/10-vecteurs.pdf][Les séquences : vecteurs]] | [[file:pdf/11-premiers.pdf][Nombres premiers]]                        | [[file:tp06.org][TP 6]]              |
+| 7. | [[file:pdf/12-listes.pdf][Les séquences : listes]]   | [[file:pdf/13-dictionnaires.pdf][Ensembles et dictionnaires]]              | [[file:tp07.org][TP 7]]              |
 | 8. | [[file:pdf/14-fibonacci.pdf][Suite de Fibonacci]]       |                                         | [[file:tp08.org][TP 8]]              |
 
 
@@ -335,13 +335,8 @@ http://phdcomics.com/comics/archive/phd051013s.gif
  |-------------------+--------|
  | [[http://i3s.unice.fr/master-info/ucancode/tutoriel/][Tutoriel UCAnCODE]] | -      |
  | [[https://51364960.widgets.sphere-engine.com/lp?hash=WYq1xQzKu7][ROULETTE]]          | Bonus  |
- | [[https://51364960.widgets.sphere-engine.com/lp?hash=3rfsqIJytU][ARITHMA]]           | 14     |
- | INET              | 16     |
 
-    L'activité INET est composé de 3 exercices chacun évalué par deux widgets avec les barèmes suivants :
-    - INET1 [[https://51364960.widgets.sphere-engine.com/lp?hash=iSIx4W7W3s][1A]] et [[https://51364960.widgets.sphere-engine.com/lp?hash=azJlSS05YX][1B]] : 3 + 3 = 6
-    - INET2 [[https://51364960.widgets.sphere-engine.com/lp?hash=GXxDFwwjpu][2A]] et [[https://51364960.widgets.sphere-engine.com/lp?hash=YClIPEzABG][2B]] : 3 + 3 = 6
-    - INET3 [[https://51364960.widgets.sphere-engine.com/lp?hash=QeZUubGmTV][3A]] et [[https://51364960.widgets.sphere-engine.com/lp?hash=HZPqgWGCnr][3B]] : 2 + 2 = 4
+
 
 *** Mini-projets
     Les mini-projets complètent et étendent des notions abordées en cours et vous font découvrir différentes applications.
@@ -388,7 +383,7 @@ http://phdcomics.com/comics/archive/phd051013s.gif
 
 ** Contrôle continu
    La note de contrôle continu est la moyenne :
-     - de la note de partiel, une épreuve écrite de 1h (barème indicatif - 6pts / 7pts / 10pts);
+     - de la note de partiel, une épreuve écrite de 1h (barème indicatif - 5pts / 6pts / 12pts);
      - et des 2 meilleures notes obtenues aux activités en prenant en considération leur barème.
 
 ** Examen terminal
