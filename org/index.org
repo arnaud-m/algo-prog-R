@@ -2,7 +2,7 @@
 #+TITLE:       Algo & Prog avec R
 #+SUBTITLE:     Université Côte d'Azur
 #+AUTHOR:       A. Malapert
-#+OPTIONS: H:4 num:nil toc:2
+#+OPTIONS: H:4 num:2 toc:2
 #+HTML_LINK_UP:
 #+HTML_LINK_HOME:
 * Tasks                                                   :noexport:TEACHING:
@@ -265,7 +265,7 @@ http://phdcomics.com/comics/archive/phd051013s.gif
 ** Organisation
 
  1. Le matériel pédagogique est ici,
- 2. Les évaluations et le carnet de notes sont sur [[https://lms.univ-cotedazur.fr/course/view.php?id=10988][Moodle]] et [[https://sphere-engine.com/][Sphere Engine]],
+ 2. Les évaluations et le carnet de notes sont sur [[https://lms.univ-cotedazur.fr/course/view.php?id=10988][moodle]] et [[https://sphere-engine.com/][sphere engine]],
  3. Le code source est sur [[https://github.com/arnaud-m/algo-prog-R][github]] !
  4. On communique sur [[https://discord.gg/mjtRTSb][discord]].
 
@@ -300,10 +300,9 @@ http://phdcomics.com/comics/archive/phd051013s.gif
 | 7. | [[file:pdf/12-listes.pdf][Les séquences : listes]]   | [[file:pdf/13-dictionnaires.pdf][Ensembles et dictionnaires]]              | [[file:tp07.org][TP 7]]              |
 | 8. | [[file:pdf/14-fibonacci.pdf][Suite de Fibonacci]]       |                                         | [[file:tp08.org][TP 8]]              |
 
-
 ** Activités
 
-   Choisissez votre binôme sur [[https://lms.univ-cotedazur.fr/course/view.php?id=14555][moodle]] pour toutes vos activités !
+   Choisissez votre binôme sur [[https://lms.univ-cotedazur.fr/course/view.php?id=10988][moodle]] pour toutes vos activités !
    Les activités sont évaluées pour le contrôle continu, mais ne sont pas au programme de l'examen.
    Les corrigés des activités ne sont pas publiés.
 
@@ -320,12 +319,12 @@ http://phdcomics.com/comics/archive/phd051013s.gif
 
 *** Exercices UCAnCODE
 
-    Les exercices UCAnCODE sont sur [[https://sphere-engine.com/][Sphere Engine]]. Les notes sont attribuées par le juge automatique.
+    Les exercices UCAnCODE sont sur [[https://sphere-engine.com/][sphere engine]]. Les notes sont attribuées par le juge automatique.
     Les exercices UCAnCODE seront introduits en cours et pendant les travaux pratiques.
 
     - [[file:pdf/A0-ucancode.pdf][Cours d'introduction à la programmation compétitive]]
 
-    Vous pouvez aussi suivre en autonomie le [[http://i3s.unice.fr/master-info/ucancode/tutoriel/][Tutoriel UCAnCODE]] si vous avez déjà des notions d'informatique ou de programmation.
+    Vous pouvez aussi suivre en autonomie le [[http://i3s.unice.fr/master-info/ucancode/tutoriel/][tutoriel UCAnCODE]] si vous avez déjà des notions d'informatique ou de programmation.
     Ne paniquez pas si cela vous semble difficile au début.
 
     *Attention, entrez votre adresse étudiante @etu.univ-cotedazur.fr dans le formulaire d'accueil. Sinon, votre note ne sera pas comptabilisée.*
@@ -336,11 +335,9 @@ http://phdcomics.com/comics/archive/phd051013s.gif
  | [[http://i3s.unice.fr/master-info/ucancode/tutoriel/][Tutoriel UCAnCODE]] | -      |
  | [[https://51364960.widgets.sphere-engine.com/lp?hash=WYq1xQzKu7][ROULETTE]]          | Bonus  |
 
-
-
 *** Mini-projets
     Les mini-projets complètent et étendent des notions abordées en cours et vous font découvrir différentes applications.
-    Vous devez déposer le projet sur moodle (un seul fichier de code source commenté) et faire une démonstration du projet pendant les travaux pratiques.
+    Vous devez déposer le projet sur moodle (un seul fichier de code source commenté) et faire une démonstration du projet.
     Le barème indique la note maximale possible pour une activité.
 
     #+NAME: projets
@@ -368,34 +365,36 @@ http://phdcomics.com/comics/archive/phd051013s.gif
      La note sera intégrée comme un bonus sur la note finale.
 * Contrôle des connaissances
 
-  Le contrôle des connaissances comprend plusieurs épreuves écrites.
-  Les épreuves écrites ont des durées différentes, mais suivent les mêmes modalités d'organisation :
-   - Le programme comprend l'autoformation et le cours, mais pas les activités.
-   - Il n'y a pas de question de cours.
-   - Le seul document autorisé est la carte de référence.
+** Épreuves écrites
 
-   Une épreuve écrite est structurée en trois parties :
-    - les conversions de base (c.f. QCM moodle) ;
-    - les lectures de code (c.f. QCM moodle) ;
-    - des exercices de programmation dérivés des travaux pratiques du cours, mais pas des activités.
+   Les épreuves écrites ont des durées différentes, mais suivent les mêmes modalités d'organisation.
+    - Le programme comprend l'autoformation et le cours, mais pas les activités.
+    - Il n'y a pas de question de cours.
+    - Le seul document autorisé est la carte de référence.
 
-   Le barème des trois parties somme toujours à 23, mais nous conserverons votre note sur 20.
+    Une épreuve écrite se structure en trois parties :
+     1. les conversions de base (c.f. QCM moodle) ;
+     2. les lectures de code (c.f. QCM moodle) ;
+     3. des exercices de programmation dérivés des travaux pratiques du cours, mais pas des activités.
 
-** Contrôle continu
-   La note de contrôle continu est la moyenne :
-     - de la note de partiel, une épreuve écrite de 1h (barème indicatif - 5pts / 6pts / 12pts);
-     - et des 2 meilleures notes obtenues aux activités en prenant en considération leur barème.
+    Le barème des trois parties (X/Y/Z) somme toujours à 23, mais nous conservons votre note sur 20.
 
-** Examen terminal
-   L'examen terminal est une épreuve écrite de 3h (barème indicatif - 3pts / 4pts / 16pts).
 
-** Note finale
-   - Soit $N_c$ votre note de contrôle continu,
-   - et $N_t$ votre note à l'examen terminal.
-   - La note finale est calculée ainsi : $N_1 = \max(0.6 \times N_c + 0.4 \times N_t, N_t)$.
-*** TODO Changer pondération pour 2021/2022                        :noexport:
-   - La note finale est calculée ainsi : $N_1 = \max(0.5 \times N_c + 0.5 \times N_t, N_t)$.
-   - Diminuer le nombre de points pour les lectures de code
+** Barème
+
+*** Première session
+
+ - La note $N_c$ de *contrôle continu* est la moyenne :
+   - de la note de partiel, une épreuve écrite de 2h (barème indicatif - 5/6/12);
+   - et des 2 meilleures notes obtenues aux activités en les pondérant par leur barème.
+ - L'*examen terminal* ($N_t$) est une épreuve écrite de 3h (barème indicatif - 3/4/16).
+ - La *note finale* est $N_1 = \max(N_t, 0.6 \times N_c + 0.4 \times N_t)$.
+
+*** Seconde session
+
+ - La *seconde chance* ($N_t^2$) est une épreuve écrite de 3h (barème indicatif - 3/4/16).
+ - La *note finale* est $N_2 = \max(N_t^2, N_1, 0.2 \times N_c + 0.8 \times N_t^2)$.
+
 *** Script de calcul des notes                                     :noexport:
 **** Calcul des notes
 
@@ -495,41 +494,40 @@ Notre mode de communication de prédilection sont les salons du cours sur le [[h
 Utilisez le courriel seulement pour les communications importantes ou officielles.
 
 * Ressources électroniques
-** Ressources BU
-  - [[http://catalogue.unice.fr/primo_library/libweb/action/dlDisplay.do?&docId%3Dsc_aleph_uns01000332479&vid%3DUNS][Le livre de R : apprentissage et référence]], Bernard Desgraupes.
-** Manuels, Livres, \dots
+*** Ressources BU
+   - [[http://catalogue.unice.fr/primo_library/libweb/action/dlDisplay.do?&docId%3Dsc_aleph_uns01000332479&vid%3DUNS][Le livre de R : apprentissage et référence]], Bernard Desgraupes.
+*** Manuels, Livres, \dots
 
- - [[https://cran.r-project.org/doc/contrib/Goulet_introduction_programmation_R.pdf][Introduction à la programmation de R]] (V. Goulet)
- - [[http://cran.r-project.org/doc/contrib/Paradis-rdebuts_fr.pdf][R pour les débutants]] (E. Paradis)
- - [[http://cran.r-project.org/doc/contrib/Barnier-intro_R.pdf][Introduction à R]] (J. Barnier)
- - [[http://link.springer.com/book/10.1007/978-3-642-17980-8][A Tiny Handbook of R]]
- - [[http://cran.r-project.org/manuals.html][Manuels de référence]]
- - [[http://cran.r-project.org/other-docs.html][Autre Documentation sur R]] (plusieurs langues)
+  - [[https://cran.r-project.org/doc/contrib/Goulet_introduction_programmation_R.pdf][Introduction à la programmation de R]] (V. Goulet)
+  - [[http://cran.r-project.org/doc/contrib/Paradis-rdebuts_fr.pdf][R pour les débutants]] (E. Paradis)
+  - [[http://cran.r-project.org/doc/contrib/Barnier-intro_R.pdf][Introduction à R]] (J. Barnier)
+  - [[http://link.springer.com/book/10.1007/978-3-642-17980-8][A Tiny Handbook of R]]
+  - [[http://cran.r-project.org/manuals.html][Manuels de référence]]
+  - [[http://cran.r-project.org/other-docs.html][Autre Documentation sur R]] (plusieurs langues)
 
-** Reference Cards                                                 :noexport:
+*** Reference Cards                                                :noexport:
 
-- [[http://github.com/rstudio/cheatsheets/raw/master/base-r.pdf][Base R Cheat Sheet]]
-- [[http://cran.r-project.org/doc/contrib/Baggott-refcard-v2.pdf][R Ref. Card]]
-- [[http://www.duclert.org/Aide-memoire-R/Le-langage/Introduction.php][Aide-mémoire R]]
-- [[https://github.com/rstudio/cheatsheets/raw/master/package-development.pdf][Package Development Cheat Sheet]]
-- Encore plus de cheat sheets sur https://www.rstudio.com/resources/cheatsheets/
+ - [[http://github.com/rstudio/cheatsheets/raw/master/base-r.pdf][Base R Cheat Sheet]]
+ - [[http://cran.r-project.org/doc/contrib/Baggott-refcard-v2.pdf][R Ref. Card]]
+ - [[http://www.duclert.org/Aide-memoire-R/Le-langage/Introduction.php][Aide-mémoire R]]
+ - [[https://github.com/rstudio/cheatsheets/raw/master/package-development.pdf][Package Development Cheat Sheet]]
+ - Encore plus de cheat sheets sur https://www.rstudio.com/resources/cheatsheets/
 
-** Others                                                          :noexport:
+*** Others                                                         :noexport:
 
- - [[http://exercism.io/languages/r/about][exercism.io]] (télécharger et résoudre des exercices)
- - [[http://larmarange.github.io/analyse-R/][Analyse R]]
- - [[http://www.dummies.com/how-to/computers-software/programming/R.html][R pour les nuls]]
- - [[http://link.springer.com/book/10.1007/978-1-4614-9020-3][The R Software]]
- - [[http://adv-r.had.co.nz/][Advanced R]]
- - [[http://cran.r-project.org/doc/contrib/Torfs%2BBrauer-Short-R-Intro.pdf][A (very) short introduction to R]] (P. Torfs and C. Brauer)
+  - [[http://exercism.io/languages/r/about][exercism.io]] (télécharger et résoudre des exercices)
+  - [[http://larmarange.github.io/analyse-R/][Analyse R]]
+  - [[http://www.dummies.com/how-to/computers-software/programming/R.html][R pour les nuls]]
+  - [[http://link.springer.com/book/10.1007/978-1-4614-9020-3][The R Software]]
+  - [[http://adv-r.had.co.nz/][Advanced R]]
+  - [[http://cran.r-project.org/doc/contrib/Torfs%2BBrauer-Short-R-Intro.pdf][A (very) short introduction to R]] (P. Torfs and C. Brauer)
 
-
-** E-learning
- - [[http://swirlstats.com/][Swirl]] : (tutoriel interactif dans la console R)
- - [[https://www.youtube.com/playlist?list=PLqzoL9-eJTNARFXxgwbqGo56NtbJnB37A][Cours en vidéo]] (youtube)
- - Coursera [[https://www.coursera.org/course/datascitoolbox][1]] et [[https://www.coursera.org/course/rprog][2]]
-
+*** E-learning
+  - [[http://swirlstats.com/][Swirl]] : (tutoriel interactif dans la console R)
+  - [[https://www.youtube.com/playlist?list=PLqzoL9-eJTNARFXxgwbqGo56NtbJnB37A][Cours en vidéo]] (youtube)
+  - Coursera [[https://www.coursera.org/course/datascitoolbox][1]] et [[https://www.coursera.org/course/rprog][2]]
 
 
 
-http://www.phdcomics.com/comics/archive/phd031714s.gif
+
+ http://www.phdcomics.com/comics/archive/phd031714s.gif
