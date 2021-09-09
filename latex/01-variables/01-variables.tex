@@ -74,7 +74,6 @@
     \item Un peu quand même, mais pas trop, le monde est vaste. Nous allons tâcher d'en modéliser de petites portions pour les faire rentrer dans la machine. Des nombres, du texte, des images, le Web \dots
     \item On pourrait presque dire : calculer le Monde ?
     \item Oui, bravo, c'est cela, \alert{réduire le Monde à des ensembles d'objets sur lesquels on peut faire des calculs.}
-
     \end{itemize}
   \end{block}
 \end{frame}
@@ -86,7 +85,7 @@
     R se présente comme une calculette interactive à travers son \alert{toplevel}.
     Il présente son \alert{prompt $>$} pour que vous lui soumettiez un calcul \dots
   \end{alertblock}
-  
+
 \begin{columns}[t]
 \begin{column}{0.38\textwidth}
 \begin{lstlisting}
@@ -115,9 +114,9 @@
 \end{columns}
 \begin{exampleblock}{Le kilo informatique}
 \begin{lstlisting}[style=block]
-> 2**10 # le kilo informatique  
+> 2**10 # le kilo informatique
 [1] 1024
-\end{lstlisting}  
+\end{lstlisting}
 \end{exampleblock}
 \end{frame}
 
@@ -141,7 +140,7 @@
 > 16 %% 3
 [1] 1
 > 3 * (16 %/% 3) + (16 %% 3)
-[1] 16    
+[1] 16
   \end{lstlisting}
 \end{frame}
 
@@ -220,7 +219,7 @@ Attention, l’arithmétique flottante n’est pas exacte !
 \begin{lstlisting}
 > x <- 2 ** 221
 > x + 1 == x
-[1] TRUE  
+[1] TRUE
 \end{lstlisting}
  Comment expliquer vous ce résultat ? Quels sont les autres problèmes ?
 \end{frame}
@@ -237,7 +236,7 @@ Attention, l’arithmétique flottante n’est pas exacte !
 > p <- 10 # p prend pour valeur 10
 > c <- a ** p # c prend pour valeur celle de a puissance p
 > c  # toujours le kilo informatique
-[1] 1024 
+[1] 1024
 \end{lstlisting}
 
 \begin{alertblock}{Instruction d'affectation : \texttt{variable <- expression}}
@@ -247,7 +246,7 @@ Attention, l’arithmétique flottante n’est pas exacte !
 \begin{exampleblock}{  L'écriture \texttt{2 + 3 = a} n'aura donc aucun sens !!}
 \begin{lstlisting}[style=block]
 > 2 + 3 <- a
-Error in 2 + 3 <- a : 
+Error in 2 + 3 <- a :
   la cible de l'assignation est un objet n'appartenant pas au langage
 > 2 + 3 <- 5
 Error in 2 + 3 <- 5 : ...
@@ -267,24 +266,24 @@ Error in 2 + 3 <- 5 : ...
   \end{itemize}
 
 
-  
+
 \begin{columns}[b]
 \begin{column}{0.33\textwidth}
     \begin{lstlisting}
 > a <- 5
 > x <- 3
 \end{lstlisting}
-    
+
 \end{column}
-    
+
 \begin{column}{0.33\textwidth}
   \begin{alertblock}{Expression}
     Renvoie un résultat.
     \begin{lstlisting}
 > a * x ** 2
-[1] 45      
+[1] 45
     \end{lstlisting}
-    
+
   \end{alertblock}
 \end{column}
 \begin{column}{0.33\textwidth}
@@ -302,7 +301,7 @@ Error in 2 + 3 <- 5 : ...
   \begin{lstlisting}[style=block]
 > a <- 5 ; x <- 3
 \end{lstlisting}
-  
+
 \end{block}
 \end{frame}
 
@@ -337,15 +336,15 @@ Error in 2 + 3 <- 5 : ...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Comparaison}
- 
+
 \begin{columns}[t]
 \begin{column}{0.59\textwidth}
   \begin{block}{Opérateurs de comparaison}
   \begin{lstlisting}[style=block]
-> a <- 2 
+> a <- 2
 > a == 3 # égalité mathématique
 [1] FALSE
-> a > 3 # strictement supérieur 
+> a > 3 # strictement supérieur
 [1] FALSE
 > a + 1 >= 3 # supérieur ou égal
 [1] TRUE
@@ -375,7 +374,7 @@ Error in 2 + 3 <- 5 : ...
 > FALSE + 1 == TRUE
 [1] TRUE
 \end{lstlisting}
-\alert{Évitez ce genre de facilités !}    
+\alert{Évitez ce genre de facilités !}
   \end{block}
 \end{column}
 \end{columns}
@@ -399,18 +398,18 @@ Cependant, la fonction renvoie aussi l'objet \texttt{x} passé en paramètre de 
 > print(5)==5
 [1] 5                  # l'effet de print(5)
 [1] TRUE               # le résultat du test d'égalité
->  
+>
 \end{lstlisting}
 \end{frame}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
 \frametitle{Construction de résultats avec \texttt{paste}}
 La fonction \texttt{paste(\dots)} permet de concaténer une expression :
 \begin{lstlisting}
 > paste('le carre de', a, 'vaut', a*a)
-[1] "le carre de 2 vaut 4"  
+[1] "le carre de 2 vaut 4"
 \end{lstlisting}
 Remarquez l'espace automatique.
 
@@ -423,11 +422,11 @@ Remarquez l'espace automatique.
 [1] "le carre de|2|vaut|4"
 \end{lstlisting}
 Cependant, les possibilités de la fonction paste(...) sont limitées.
-  
+
 \end{frame}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
 \frametitle{Construction de résultats avec \texttt{sprintf}}
 La fonction \texttt{sprintf(\dots)} permet de concaténer et formater finement une expression :
@@ -445,13 +444,13 @@ La fonction \texttt{sprintf(\dots)} permet de concaténer et formater finement u
 \end{lstlisting}
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
 \frametitle{Construction et affichage de résultats avec \texttt{cat}}
 La fonction \texttt{cat(\dots)} permet de concaténer une expression, puis de l'afficher :
 \begin{lstlisting}
 > cat('le carre de', a, 'vaut', a*a)
-le carre de 2 vaut 4> 
+le carre de 2 vaut 4>
 \end{lstlisting}
 Remarquez l'espace automatique et l'absence de saut de ligne.
 
@@ -464,13 +463,13 @@ Pour ajouter un saut de ligne, il faut utiliser un \alert{caractère spécial}.
 \begin{lstlisting}
 > cat('le carre de', a, 'vaut', a*a, '\n')
 le carre de 2 vaut 4
-> 
+>
 \end{lstlisting}
 
 Contrairement à \texttt{print}, la fonction ne renvoie pas de résultat.
 \begin{lstlisting}
 > cat(5)==5
-5logical(0) # l'effet de cat(5) collé au résultat du test 
+5logical(0) # l'effet de cat(5) collé au résultat du test
 \end{lstlisting}
 \end{frame}
 
@@ -484,7 +483,7 @@ Contrairement à \texttt{print}, la fonction ne renvoie pas de résultat.
 \begin{columns}[t]
 \begin{column}{0.49\textwidth}
     \begin{center}
-      \includegraphics[height=3.5cm]{RStudio-hex}          
+      \includegraphics[height=3.5cm]{RStudio-hex}
     \end{center}
 \end{column}
 \begin{column}{0.49\textwidth}
@@ -492,7 +491,7 @@ Contrairement à \texttt{print}, la fonction ne renvoie pas de résultat.
       \includegraphics[height=3.2cm]{emacsIcon}
     \end{center}
 \end{column}
-\end{columns}  
+\end{columns}
 \end{frame}
 
 
@@ -505,7 +504,7 @@ Contrairement à \texttt{print}, la fonction ne renvoie pas de résultat.
  \backupSlides
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
- 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \begin{frame}[fragile]{Backup slides}
 %   Sometimes, it is useful to add slides at the end of your presentation to
