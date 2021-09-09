@@ -333,7 +333,7 @@ http://phdcomics.com/comics/archive/phd051013s.gif
  | Problème          | Barème |
  |-------------------+--------|
  | [[http://i3s.unice.fr/master-info/ucancode/tutoriel/][Tutoriel UCAnCODE]] | -      |
- | [[https://51364960.widgets.sphere-engine.com/lp?hash=WYq1xQzKu7][ROULETTE]]          | Bonus  |
+ | [[https://51364960.widgets.sphere-engine.com/lp?hash=1L607lu5Yq][ROULETTE]]          | Bonus  |
 
 *** Mini-projets
     Les mini-projets complètent et étendent des notions abordées en cours et vous font découvrir différentes applications.
@@ -388,7 +388,7 @@ http://phdcomics.com/comics/archive/phd051013s.gif
    - de la note de partiel, une épreuve écrite de 2h (barème indicatif - 5/6/12);
    - et des 2 meilleures notes obtenues aux activités en les pondérant par leur barème.
  - L'*examen terminal* ($N_t$) est une épreuve écrite de 3h (barème indicatif - 3/4/16).
- - La *note finale* est $N_1 = \max(N_t, 0.6 \times N_c + 0.4 \times N_t)$.
+ - La *note finale* est $N_1 = \max(N_t, 0.4 \times N_c + 0.6 \times N_t)$.
 
 *** Seconde session
 
