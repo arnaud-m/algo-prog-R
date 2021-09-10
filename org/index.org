@@ -345,9 +345,9 @@ http://phdcomics.com/comics/archive/phd051013s.gif
     |----+--------------------------------------------------+-------+-------------+--------|
     | 1. | [[file:act01.org][Graphisme tortue]]                                 | [[file:pdf/A1-Tortue.pdf][A1]]    | Tout niveau |     20 |
     | 2. | Graphisme tortue 3D                              | A2    | Difficile   |     20 |
-    | 3. | [[file:act03.org][Convertisseur de base (shiny)]]                    | [[http://www.hanselsolutions.com/blog/surf-talk/shiny-surf.html#/][A3]]    | Facile      |     12 |
-    | 4. | [[file:act04.org][Coefficient de Gini (shiny)]]                      | [[http://www.hanselsolutions.com/blog/surf-talk/shiny-surf.html#][A3]]    | Facile      |     12 |
-    | 5. | [[file:act05.org][Estimation de la moyenne (shiny)]]                 | [[http://www.hanselsolutions.com/blog/surf-talk/shiny-surf.html#/][A3]]    | Facile      |     12 |
+    | 3. | [[file:act03.org][Convertisseur de base (shiny)]]                    | [[https://shiny.rstudio.com/tutorial/][A3]]    | Facile      |     12 |
+    | 4. | [[file:act04.org][Coefficient de Gini (shiny)]]                      | [[https://shiny.rstudio.com/tutorial/][A3]]    | Facile      |     12 |
+    | 5. | [[file:act05.org][Estimation de la moyenne (shiny)]]                 | [[https://shiny.rstudio.com/tutorial/][A3]]    | Facile      |     12 |
     | 6. | [[file:act06.org][Manipulation de polynômes]]                        | [[file:pdf/A4-Polynomes.pdf][A4]]    | Difficile   |     20 |
     | 7. | [[file:act07.org][Estimation d'aires par la méthode de Monte Carlo]] | A5    | Difficile   |     20 |
 
