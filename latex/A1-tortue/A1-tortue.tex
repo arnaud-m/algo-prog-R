@@ -274,6 +274,106 @@ Comme \texttt{turtle\_goto} ou \texttt{TraceFunction} , la plupart des fonctions
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Courbes en coordonnées paramétriques}
+  \begin{block}{Cinématique (étude du mouvement)}
+    La cinématique  s'intéresse à la trajectoire d'un corps dont les coordonnées $(x,y)$ sont fonction d'un paramètre $t$.
+Autrement dit : $x = x(t)$ et $y = y(t)$
+\\
+Ces courbes englobent les courbes $y = f(x)$ mais sont plus générales !
+  \end{block}
+
+\begin{columns}[c]
+\begin{column}{0.63\textwidth}
+\begin{exampleblock}{Le segment}
+Le segment AB joignant le point $A(x_A, y_A)$ au point $B(x_B, y_B)$ est la trajectoire d'un mobile $M$ paramétrée par $t \in [0,1]$ :
+\begin{align*}
+  x(t) = t x_A + (1 - t) x_B \\
+  y(t) = t y_A + (1 - t) y_B
+\end{align*}
+De manière vectorielle : $\overrightarrow{MB} = t \overrightarrow{AB}$
+\end{exampleblock}
+
+\end{column}
+\begin{column}{0.35\textwidth}
+    \begin{tikzpicture}[scale=0.75]
+      \draw[thick] (0,0) node [left] {$A$} -- (1,1.5) node [right] {$M$} -- (3,4.5) node [right] {$B$};
+      \fill (1, 1.5) circle (0.1);
+    \end{tikzpicture}
+  \end{column}
+\end{columns}
+
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Animation de la tortue parcourant un cercle}
+
+\begin{columns}[c]
+\begin{column}{0.58\textwidth}
+  \begin{exampleblock}{Le cercle}
+    le cercle de centre $A(x, y)$ et de rayon $r$ n'est autre que la trajectoire d'un mobile $M$ dont les
+    coordonnées sont paramétrés par $t \in [0, 2\pi]$ :
+\begin{align*}
+x(t) = x + r \cos(t) \\
+y(t) = y + r \sin(t)
+\end{align*}
+\end{exampleblock}
+\end{column}
+\begin{column}{0.38\textwidth}
+\begin{tikzpicture}[scale=0.9]
+  \draw (0, 0) node (A) [below] {$A$} circle (2);
+  \fill (1, 1.732051) node (M) [above right] {$M$} circle (0.1);
+  \draw  (0,0) -- (2, 0);
+  \draw  (0,0) -- (1, 1.732051)  node [pos=0.5,left] {$r$};
+  \draw (0.5,0) arc (0:60:0.5);
+  \draw (30:0.5) node[right]{$t$};
+\end{tikzpicture}
+\end{column}
+\end{columns}
+
+\begin{lstlisting}[style=editor]
+Cercle <- function(r, n) {
+  turtle_up()
+  turtle_goto(2*r, r)
+  turtle_down()
+  for(x in seq(0,2*pi, length.out=n)) {
+    turtle_goto(r + r*cos(x), r + r*sin(x))
+  }
+}
+\end{lstlisting}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Le caractère continu du mouvement est une illusion d'optique}
+ En fait, il est \alert{discrétisé}. Le paramètre $t$ avance chaque fois de $\frac{2\pi}{n}$.
+
+\begin{columns}[b]
+  \begin{column}{0.48\textwidth}
+  \begin{lstlisting}[linerange=2-5]
+png("fig/cercle-1.png")
+turtle_init()
+turtle_do(
+  Cercle(r = 50, n = 1000)
+)
+dev.off()
+\end{lstlisting}
+\includegraphics[width=4cm]{cercle-1}
+\end{column}
+\begin{column}{0.48\textwidth}
+
+\begin{lstlisting}[linerange=2-3]
+png("fig/cercle-2.png")
+turtle_init()
+Cercle(r = 50, n = 10)
+dev.off()
+\end{lstlisting}
+\includegraphics[width=4cm]{cercle-2}
+\end{column}
+\end{columns}
+
+ Le choix de $n$ peut être empirique, guidé par l'esthétique de la simulation.
+
 
 \end{frame}
 
