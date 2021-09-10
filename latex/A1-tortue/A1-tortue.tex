@@ -637,8 +637,68 @@ dev.off()
   \includegraphics[width=4cm]{fleur-4}
 \end{column}
 \end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{La courbe fractale de Von Koch}
+  Petite incursion dans la récurrence graphique. La suite ($VK_n $) des courbes de Von Koch de base $T$ est construite de proche en proche :
 
 
+\begin{columns}[c]
+\begin{column}{0.58\textwidth}
+  \begin{itemize}
+\item $VK_0$ est un segment de longueur $T$.
+\item $VK_1$ s'obtient par chirurgie sur $VK_0$.
+\item $VK_2$ s'obtient par la même chirurgie sur chaque segment de $VK_1$.
+\item $VK_3$ s'obtient par la même chirurgie sur chaque segment de $VK_2$.
+\item \dots
+
+\end{itemize}
+\end{column}
+\begin{column}{0.38\textwidth}
+  \includegraphics[width=0.9\textwidth]{von-koch-iterations}
+\end{column}
+\end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Dessin de la courbe fractale de Von Koch}
+  Mathématiquement, la courbe $VK_n$ s'obtient donc comme assemblage de quatre courbes $VK_{n-1}$.
+  Il s'agit donc d'une RÉCURRENCE sur $n$.
+
+\begin{columns}[c]
+\begin{column}{0.6\textwidth}
+  \begin{lstlisting}
+VK <- function(n,T) {
+# Approximant de niveau n et base T
+  if (n == 0) turtle_forward(T)
+  else {
+    VK(n-1,T/3)
+    turtle_left(60)
+    VK(n-1,T/3)
+    turtle_right(120)
+    VK(n-1,T/3)
+    turtle_left(60)
+    VK(n-1,T/3)
+  }
+}
+  \end{lstlisting}
+\end{column}
+\begin{column}{0.38\textwidth}
+  \includegraphics[width=\textwidth]{von-koch-2}
+\end{column}
+\end{columns}
+La courbe de Von Koch est la limite de la suite : $VK = \lim_{n \rightarrow + \infty} VK_n$.
+
+Découverte en 1906, $VK$ possède d'étranges propriétés. Par exemple, elle est continue mais n'admet de tangente en aucun point !!
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Variations sur la courbe de Von Koch}
+  \begin{center}
+    \includegraphics[width=\textwidth]{von-koch}
+  \end{center}
 \end{frame}
 
 
