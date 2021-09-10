@@ -562,6 +562,7 @@ dev.off()
 
   \begin{itemize}
   \item Il est possible, mais non obligatoire, de \alert{localiser la fonction auxiliaire}. Elle ne sera plus utilisable par ailleurs !
+  \item Remarquez qu'une fonction locale a accès aux arguments de la fonction globale.
   \item On change la couleur de chaque carré en créant un vecteur de \texttt{n} couleurs.
 
   \end{itemize}
@@ -583,7 +584,7 @@ Fleur <- function(n, c) {
 \begin{lstlisting}[linerange=2-3]
 png("fig/fleur-2.png")
 turtle_init()
-turtle_do(Fleur(100, 35))
+turtle_do(Fleur(150, 35))
 dev.off()
 \end{lstlisting}
 \end{column}
@@ -594,6 +595,50 @@ dev.off()
 \end{columns}
 
 Remarquez la notation \lstinline!in! pour parcourir un vecteur.
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Généralisation : polygones colorés en fleur}
+
+\begin{columns}[c]
+\begin{column}{0.58\textwidth}
+  \begin{lstlisting}[style=editor]
+Fleur <- function(n, m, c) {
+  a <- 360 / n
+  cols <- rep_len(colors(), n)
+  for(col in cols) {
+    turtle_col(col)
+    Polygone(m, c)
+    turtle_left(a)
+  }
+}
+\end{lstlisting}
+
+\begin{lstlisting}[linerange=2-3]
+png("fig/fleur-3.png")
+turtle_init()
+turtle_do(Fleur(150, 5, 25))
+dev.off()
+\end{lstlisting}
+
+
+\begin{lstlisting}[linerange=2-3]
+png("fig/fleur-4.png")
+turtle_init()
+turtle_do(Fleur(150, 6, 20))
+dev.off()
+\end{lstlisting}
+
+\end{column}
+
+\begin{column}{0.38\textwidth}
+  \includegraphics[width=4cm]{fleur-3}
+  \\
+  \includegraphics[width=4cm]{fleur-4}
+\end{column}
+\end{columns}
+
+
 \end{frame}
 
 
