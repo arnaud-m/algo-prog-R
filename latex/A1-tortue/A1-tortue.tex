@@ -373,9 +373,230 @@ dev.off()
 \end{columns}
 
  Le choix de $n$ peut être empirique, guidé par l'esthétique de la simulation.
+\end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Le graphisme polaire}
+Il s'agit du vrai graphisme tortue pour les puristes \dots\\
+Nous ignorons la valeur du cap et de la position dans le graphisme polaire pur.
+
+\begin{columns}[t]
+\begin{column}{0.48\textwidth}
+  \begin{block}{Le cap}
+    \begin{lstlisting}[style=edblock]
+turtle_left(a)
+turtle_right(a)
+turtle_turn(a,dir)
+    \end{lstlisting}
+  \end{block}
+\end{column}
+\begin{column}{0.48\textwidth}
+  \begin{block}{La position}
+    \begin{lstlisting}[style=edblock]
+turtle_forward(d)
+turtle_backward(d)
+turtle_move(d,dir)
+    \end{lstlisting}
+  \end{block}
+\end{column}
+\end{columns}
+
+\begin{center}
+\begin{tabular}{l@{ $\Leftrightarrow$ }l}
+  \toprule
+  \lstinline!turtle_right(a)! & \lstinline!turtle_left(-a)! \\
+  \lstinline!turtle_backward(d)! & \lstinline!turtle_forward(-d)! \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\begin{block}{Dessiner}
+Une suite d'appels à ces fonctions \texttt{turtle\_left} et \texttt{turtle\_forward} permet donc de décrire une courbe d'un seul tenant.
+En levant le crayon, on peut tracer plusieurs courbes non reliées entre elles.
+\end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Dessiner un triangle et un carré}
+
+Il s'agit du vrai graphisme tortue pour les puristes \dots
+Nous ignorons la valeur du cap et de la position dans le graphisme polaire pur.
+
+\begin{columns}[t]
+\begin{column}{0.48\textwidth}
+  \begin{lstlisting}[style=edblock]
+Triangle <- function(c) {
+  for(i in 1:3) {
+    turtle_forward(c)
+    turtle_left(120)
+  }
+}
+\end{lstlisting}
+
+
+
+\end{column}
+\begin{column}{0.48\textwidth}
+  \begin{lstlisting}[style=edblock]
+Carre <- function(c) {
+  for(i in 1:4) {
+    turtle_forward(c)
+    turtle_left(90)
+  }
+}
+\end{lstlisting}
+
+\end{column}
+\end{columns}
+
+
+Remarquez la notation \lstinline!i:j! pour parcourir l'intervalle [i,j].
 
 \end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Généralisation : dessiner un polygone régulier}
+
+
+\begin{columns}[c]
+\begin{column}{0.48\textwidth}
+\begin{lstlisting}[style=editor]
+Polygone <- function(n, c) {
+  a <- 360 / n
+  for(i in seq(n)) {
+    turtle_forward(c)
+    turtle_left(a)
+  }
+}
+\end{lstlisting}
+
+\begin{lstlisting}[style=editor]
+Polygone <- function(n, c) {
+  a <- 360 / n
+  while(n > 0) {
+    turtle_forward(c)
+    turtle_left(a)
+    n <- n - 1
+  }
+}
+\end{lstlisting}
+\end{column}
+\begin{column}{0.48\textwidth}
+\includegraphics[width=5.5cm]{polygon_angles}
+\end{column}
+\end{columns}
+
+Remarquez la notation \lstinline!seq(n)! pour parcourir [1,n].
+La boucle \texttt{for} est bien pratique lorsque l'on connaît à l'avance le nombre d'itérations
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{En pratique, dessiner et exporter une figures}
+
+  \begin{lstlisting}[style=editor]
+Carre <- function(c) Polygone(4,c)
+\end{lstlisting}
+
+\begin{columns}[c]
+\begin{column}{0.48\textwidth}
+  \begin{lstlisting}
+png("fig/polygones.png")
+turtle_init()
+Carre(45)
+turtle_right(75)
+Triangle(45)
+turtle_right(120)
+Polygone(5, 30)
+turtle_right(120)
+turtle_do(Polygone(100, 1))
+dev.off()
+\end{lstlisting}
+\end{column}
+
+\begin{column}{0.48\textwidth}
+    \includegraphics[width=4cm]{polygones}
+\end{column}
+\end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Carrés en fleur}
+
+  Spécialisons \texttt{Polygone} en une \alert{fonction auxiliaire globale} \texttt{Carre}.
+  \begin{lstlisting}[style=editor]
+Carre <- function(c) Polygone(4,c)
+\end{lstlisting}
+
+Dessinons une fleur avec des carrés en rotation par \alert{composition et répétition de fonctions}.
+
+\begin{columns}[c]
+\begin{column}{0.58\textwidth}
+  \begin{lstlisting}[style=editor]
+Fleur <- function(n, c) {
+  a <- 360 / n
+  for(i in seq(n)) {
+    Carre(c)
+    turtle_left(a)
+  }
+}
+\end{lstlisting}
+
+\begin{lstlisting}[linerange=2-3]
+png("fig/fleur-1.png")
+turtle_init()
+turtle_do(Fleur(100, 35))
+dev.off()
+\end{lstlisting}
+\end{column}
+
+\begin{column}{0.38\textwidth}
+    \includegraphics[width=4cm]{fleur-1}
+\end{column}
+\end{columns}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Carrés colorés en fleur}
+
+  \begin{itemize}
+  \item Il est possible, mais non obligatoire, de \alert{localiser la fonction auxiliaire}. Elle ne sera plus utilisable par ailleurs !
+  \item On change la couleur de chaque carré en créant un vecteur de \texttt{n} couleurs.
+
+  \end{itemize}
+\begin{columns}[c]
+\begin{column}{0.58\textwidth}
+  \begin{lstlisting}[style=editor]
+Fleur <- function(n, c) {
+  Carre<- function() Polygone(4,c)
+  a <- 360 / n
+  cols <- rep_len(colors(), n)
+  for(col in cols) {
+    turtle_col(col)
+    Carre()
+    turtle_left(a)
+  }
+}
+\end{lstlisting}
+
+\begin{lstlisting}[linerange=2-3]
+png("fig/fleur-2.png")
+turtle_init()
+turtle_do(Fleur(100, 35))
+dev.off()
+\end{lstlisting}
+\end{column}
+
+\begin{column}{0.38\textwidth}
+    \includegraphics[width=4cm]{fleur-2}
+\end{column}
+\end{columns}
+
+Remarquez la notation \lstinline!in! pour parcourir un vecteur.
+\end{frame}
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \questionSlide
