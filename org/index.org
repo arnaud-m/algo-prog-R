@@ -343,7 +343,7 @@ http://phdcomics.com/comics/archive/phd051013s.gif
     #+NAME: projets
     | #. | Activité                                         | Cours | Niveau      | Barème |
     |----+--------------------------------------------------+-------+-------------+--------|
-    | 1. | [[file:act01.org][Graphisme tortue]]                                 | [[file:pdf/A1-Tortue.pdf][A1]]    | Tout niveau |     20 |
+    | 1. | [[file:act01.org][Graphisme tortue]]                                 | [[file:pdf/A1-tortue.pdf][A1]]    | Tout niveau |     20 |
     | 2. | Graphisme tortue 3D                              | A2    | Difficile   |     20 |
     | 3. | [[file:act03.org][Convertisseur de base (shiny)]]                    | [[https://shiny.rstudio.com/tutorial/][A3]]    | Facile      |     12 |
     | 4. | [[file:act04.org][Coefficient de Gini (shiny)]]                      | [[https://shiny.rstudio.com/tutorial/][A3]]    | Facile      |     12 |
