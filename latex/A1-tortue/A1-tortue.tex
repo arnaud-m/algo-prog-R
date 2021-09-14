@@ -21,7 +21,7 @@
 \begin{frame}{Les deux types de graphisme dans le plan I}
 \subtitle{test}
   Il y a deux types de graphisme 2D, mathématiquement parlant :
-  \begin{alertblock}{Le graphisme CARTESIEN (global)}
+  \begin{alertblock}{Le graphisme CARTÉSIEN (global)}
     Le plan est rapporté à un repère orthonormé direct $(0,\vec{i},\vec{j})$.
   \end{alertblock}
 
@@ -117,9 +117,9 @@ library(TurtleGraphics)
 
   \begin{block}{Représentation de la tortue}
     \begin{itemize}
-    \item une flèche qui indique son \alert{cap} en degrés ;
-    \item une \alert{position} : une abscisse et une ordonnée ;
-    \item un \alert{crayon} (\emph{pen}) qui peut être baissé (\emph{down}) ou levé (\emph{up}).
+    \item Une flèche indique son \alert{cap} en degrés.
+    \item Une \alert{position} : une abscisse et une ordonnée.
+    \item Un \alert{crayon} (\emph{pen}) qui peut être baissé (\emph{down}) ou levé (\emph{up}).
       Si le crayon est baissé, la tortue laisse une trace en se déplaçant.
       On peut choisir la couleur du crayon ainsi que le type et l’épaisseur de la ligne.
   \end{itemize}
@@ -149,7 +149,7 @@ library(TurtleGraphics)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]{État et opération de la tortue}
-  Une tortue a donc un ETAT représenté mathématiquement par trois données : position ; cap ; crayon.
+  Une tortue a donc un ÉTAT représenté mathématiquement par trois données : position ; cap ; crayon.
 
 
 \begin{columns}[t]
@@ -411,16 +411,13 @@ turtle_move(d,dir)
 \end{center}
 
 \begin{block}{Dessiner}
-Une suite d'appels à ces fonctions \texttt{turtle\_left} et \texttt{turtle\_forward} permet donc de décrire une courbe d'un seul tenant.
+Une suite d'appels aux fonctions \texttt{turtle\_left} et \texttt{turtle\_forward} permet donc de décrire une courbe d'un seul tenant.
 En levant le crayon, on peut tracer plusieurs courbes non reliées entre elles.
 \end{block}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]{Dessiner un triangle et un carré}
-
-Il s'agit du vrai graphisme tortue pour les puristes \dots
-Nous ignorons la valeur du cap et de la position dans le graphisme polaire pur.
 
 \begin{columns}[t]
 \begin{column}{0.48\textwidth}
@@ -432,8 +429,6 @@ Triangle <- function(c) {
   }
 }
 \end{lstlisting}
-
-
 
 \end{column}
 \begin{column}{0.48\textwidth}
@@ -562,8 +557,8 @@ dev.off()
 
   \begin{itemize}
   \item Il est possible, mais non obligatoire, de \alert{localiser la fonction auxiliaire}. Elle ne sera plus utilisable par ailleurs !
-  \item Remarquez qu'une fonction locale a accès aux arguments de la fonction globale.
-  \item On change la couleur de chaque carré en créant un vecteur de \texttt{n} couleurs.
+  \item Remarquez qu'une fonction locale a accès aux arguments de la fonction globale, (ici \texttt{c}).
+  \item On change la couleur de chaque carré en créant un vecteur de \texttt{n} couleurs que l'on redimensionne au besoin.
 
   \end{itemize}
 \begin{columns}[c]
@@ -647,15 +642,16 @@ dev.off()
 \begin{columns}[c]
 \begin{column}{0.58\textwidth}
   \begin{itemize}
-\item $VK_0$ est un segment de longueur $T$.
-\item $VK_1$ s'obtient par chirurgie sur $VK_0$.
-\item $VK_2$ s'obtient par la même chirurgie sur chaque segment de $VK_1$.
-\item $VK_3$ s'obtient par la même chirurgie sur chaque segment de $VK_2$.
+\item $VK_0$ est un segment de longueur $T$. \vspace{0.5cm}
+\item $VK_1$ s'obtient par chirurgie sur $VK_0$. \vspace{0.5cm}
+\item $VK_2$ s'obtient par la même chirurgie sur chaque segment de $VK_1$. \vspace{0.5cm}
+\item $VK_3$ s'obtient par la même chirurgie sur chaque segment de $VK_2$. \vspace{0.5cm}
 \item \dots
 
 \end{itemize}
 \end{column}
 \begin{column}{0.38\textwidth}
+  \vspace{0.25cm} \\
   \includegraphics[width=0.9\textwidth]{von-koch-iterations}
 \end{column}
 \end{columns}
