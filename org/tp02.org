@@ -46,6 +46,7 @@
          if(x > z) {return(y+x)}
          else {return(y+z)}
        }
+       ## Dans tous les cas, 2 comparaisons et une addition
      }
      ## Avec min
      Somme2Max <- function(x,y,z) {x+y+z-min(x,y,z)}
@@ -70,8 +71,6 @@
    : [1] 5
    : [1] 5
    : [1] 5
-
-
 ** Affichage du résultat à l'écran
    Définissez la fonction ~PrintSomme2Max(x,y,z)~ faisant afficher la somme des deux plus grands des entiers ~x~, ~y~, ~z~. Cette fonction n'aura aucun résultat (ne confondez pas l'effet et le résultat d'une fonction !).
 

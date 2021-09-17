@@ -207,7 +207,7 @@ http://www.dcode.fr/compte-est-bon
    - http://www.java-online.ch/lego/legoEnglish/index.php?inhalt_links=turtle/nav_turtle.inc.php&inhalt_mitte=turtle/aufgaben/aufgaben.inc.php
 ** TODO http://socserv.socsci.mcmaster.ca/jfox/Courses/R-programming/
 * Intervenants
- - Arnaud Malapert (responsable), Giulia Rocco, Oussama Sabri.
+ - Arnaud Malapert (responsable), Riccardo Di Dio, Oussama Sabri.
 
 * Introduction
 
@@ -250,12 +250,13 @@ http://phdcomics.com/comics/archive/phd051013s.gif
 
 ** Salles
    Toutes les salles sont au 2ème et 3ème étage du Petit Valrose.
+   Les initiales de l'intervenant sont indiqués entre parenthèses.
 
-  | 09h15-12h00 |        | 13h15-16h00 |        |
-  |-------------+--------+-------------+--------|
-  | *Groupe 1*  | ? (AM) | *Groupe 4*  | ? (AM) |
-  | *Groupe 2*  | ? (GR) | *Groupe 5*  | ? (AM) |
-  | *Groupe 3*  | ? (OS) |             |        |
+  | 09h15-11h45 | Salle     | 13h15-15h45 | Salle    |
+  |-------------+-----------+-------------+----------|
+  | *Groupe 1*  | 315 (RDD) | *Groupe 4*  | 201 (AM) |
+  | *Groupe 2*  | 316 (AM)  |             |          |
+  | *Groupe 3*  | 317 (OS)  |             |          |
 
 * Contenu
  #+BEGIN_EXPORT html
@@ -393,7 +394,7 @@ http://phdcomics.com/comics/archive/phd051013s.gif
 *** Seconde session
 
  - La *seconde chance* ($N_t^2$) est une épreuve écrite de 3h (barème indicatif - 3/4/16).
- - La *note finale* est $N_2 = \max(N_t^2, N_1, 0.2 \times N_c + 0.8 \times N_t^2)$.
+ - La *note finale* est $N_2 = \max(N_1, N_t^2, 0.2 \times N_c + 0.8 \times N_t^2)$.
 
 *** Script de calcul des notes                                     :noexport:
 **** Calcul des notes
