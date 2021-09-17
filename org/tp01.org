@@ -86,22 +86,29 @@ Quand R et Rstudio sont installés, ouvrez RStudio en vérifiant l'absence de me
 : Moyenne des entiers de [1,10] : 5.5
 
 #+BEGIN_SRC R :exports code
+  # À l'infini
   cat('3 * Inf =',3 * Inf, '\n')
   cat('-2 * Inf =',-2 * Inf, '\n')
   cat('1 / 0 =',1/0, '\n')
+  # À zéro
+  cat('1 / Inf =',1 / Inf, '\n')
+  cat('0 / Inf =',0 / Inf, '\n')
   ## NaN signifie "Not A Number", forme indeterminee.
-  cat('Inf / Inf =',Inf/ Inf, '\n')
-  cat('Inf / Inf =',Inf/ Inf, '\n')
+  cat('Inf / Inf =',Inf / Inf, '\n')
   cat('0 / 0 =',0 / 0, '\n')
 #+END_SRC
 
 #+RESULTS:
-: 3 * Inf = Inf
-: -2 * Inf = -Inf
-: 1 / 0 = Inf
-: Inf / Inf = NaN
-: Inf / Inf = NaN
-: 0 / 0 = NaN
+#+begin_example
+3 * Inf = Inf
+-2 * Inf = -Inf
+1 / 0 = Inf
+1 / Inf = 0
+0 / Inf = 0
+Inf / Inf = NaN
+0 / 0 = NaN
+#+end_example
+
 
 ** Affectations, affichage et échanges de valeurs
  1. Définissez deux variables: p ayant pour valeur 5 et q ayant pour valeur 3p.
