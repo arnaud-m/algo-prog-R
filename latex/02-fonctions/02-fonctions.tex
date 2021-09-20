@@ -30,7 +30,7 @@ if (a > 0) {
   cat(a,'est positif\n')
 } else {
   cat(a,'est negatif ou nul\n')
-}    
+}
 \end{lstlisting}
 
 \end{column}
@@ -38,9 +38,9 @@ if (a > 0) {
   \RUN
   -2 est négatif ou nul
 \end{column}
-\end{columns} 
+\end{columns}
   \end{block}
-  
+
 
 
 \begin{block}{Au toplevel}
@@ -55,7 +55,7 @@ if (a > 0) {
   \end{lstlisting}
 \end{column}
 \begin{column}{0.35\textwidth}
-  \RUN 
+  \RUN
   \alert{Erreur : 'else' inattendu(e) in "else"}
 \end{column}
 \end{columns}
@@ -66,9 +66,9 @@ if (a > 0) {
   \frametitle{Bloc et indentation}
   \begin{alertblock}{Syntaxe pour une instruction conditionelle}
     \begin{lstlisting}[style=edblock]
-if (condition) { 
+if (condition) {
   blocInstructions
-} else { 
+} else {
   blocInstructions
 }
 \end{lstlisting}
@@ -77,19 +77,19 @@ if (condition) {
 \begin{block}{Indentation}
   La bonne distance à la marge d'une ligne permet de structurer et de comprendre un programme.
 \end{block}
-  
+
 \begin{block}{Bloc d'instructions}
   C'est une suite d'instructions délimitée par des accolades.
 \end{block}
-  
-  \newcommand{\indentrule}{\color{BrickRed}\vrule width 1pt\hspace{2pt}}        
+
+  \newcommand{\indentrule}{\color{BrickRed}\vrule width 1pt\hspace{2pt}}
   \begin{lstlisting}[style=editor, escapechar=?]
 ?\indentrule?a <- -2
 ?\indentrule?if (a > 0) {
 ?\indentrule?  ?\indentrule?cat(a,'est positif\n')
 ?\indentrule?} else {
-?\indentrule?  ?\indentrule?cat(a,'est negatif ou nul\')
-?\indentrule?}    
+?\indentrule?  ?\indentrule?cat(a,'est negatif ou nul\n')
+?\indentrule?}
 \end{lstlisting}
 
 \end{frame}
@@ -104,16 +104,16 @@ if (condition) {
 a <- -2
 if (a > 0) {
   cat(a,'est positif\n')
-else { 
+else {
   cat(a,'est negatif ou nul\n')
-}    
+}
 \end{lstlisting}
 \end{column}
 \begin{column}{0.45\textwidth}
 \RUN
 \alert{Erreur : 'else' inattendu(e) in "else"}
 \end{column}
-\end{columns} 
+\end{columns}
 \end{block}
 
 \begin{block}{Une utilisation correcte des parenthèses est obligatoire en R}
@@ -124,16 +124,16 @@ else {
 a <- -2
 if a > 0 {
   cat(a,'est positif\n')
-} else { 
+} else {
   cat(a,'est negatif ou nul\n')
-}    
+}
 \end{lstlisting}
 \end{column}
 \begin{column}{0.45\textwidth}
 \RUN
 \alert{Erreur : unexpected symbol in "if a"}
 \end{column}
-\end{columns} 
+\end{columns}
 \end{block}
 
 \end{frame}
@@ -142,14 +142,14 @@ if a > 0 {
 %   \frametitle{Bloc et indentation}
 %   \begin{block}{Indentation}
 %     La bonne distance à la marge d'une ligne permet de structurer et de comprendre un programme.
-%         \newcommand{\indentrule}{\color{BrickRed}\vrule width 1\hspace{2pt}}        
+%         \newcommand{\indentrule}{\color{BrickRed}\vrule width 1\hspace{2pt}}
 %   \begin{lstlisting}[style=editor, escapechar=?]
 % ?\indentrule?a <- -2
 % ?\indentrule?if (a > 0) {
 % ?\indentrule?  ?\indentrule?cat(a,'est positif')
 % ?\indentrule?} else {
 % ?\indentrule?  ?\indentrule?cat(a,'est negatif ou nul')
-% ?\indentrule?}    
+% ?\indentrule?}
 % \end{lstlisting}
 %  \end{block}
 
@@ -158,21 +158,21 @@ if a > 0 {
 %    Il est nécessaire d’ouvrir et fermer les paires d’accolades : \{\dots\}.
 %    \begin{columns}[c]
 %      \begin{column}{0.58\textwidth}
-%        \newcommand{\indentrule}{\color{DarkBlue}\vrule\hspace{2pt}}        
+%        \newcommand{\indentrule}{\color{DarkBlue}\vrule\hspace{2pt}}
 %        \begin{lstlisting}[style=editor, escapechar=?]
 % a <- -2
 % if (a > 0) {
 %   cat(a,'est positif')
-% else { 
+% else {
 %   cat(a,'est negatif ou nul')
-% }    
+% }
 % \end{lstlisting}
 % \end{column}
 % \begin{column}{0.42\textwidth}
 % \RUN
 % \alert{Erreur : 'else' inattendu(e) in "else"}
 % \end{column}
-% \end{columns} 
+% \end{columns}
 % \end{block}
 
 % \begin{center}
@@ -203,7 +203,7 @@ if a > 0 {
 > x == 3
 Erreur : objet 'x' introuvable
 > (a > 0) && (x==3)
-[1] FALSE    
+[1] FALSE
 \end{lstlisting}
 L'expression \lstinline[columns=fixed]{x == 3} n'a pas été évaluée car \texttt{FALSE \&\& ? == FALSE}
 
@@ -219,7 +219,7 @@ on aurait pu écrire : \lstinline[columns=fixed]{a > 0 && x == 3} .
 \begin{frame}[fragile]
   \frametitle{Liens avec l'électronique numérique}
   \begin{block}{L'opérateur \texttt{||} est aussi court-circuité}
-    
+
 \begin{columns}[c]
 \begin{column}{0.48\textwidth}
   \begin{lstlisting}[style=block]
@@ -227,7 +227,7 @@ on aurait pu écrire : \lstinline[columns=fixed]{a > 0 && x == 3} .
 > x == 3
 Erreur : objet 'x' introuvable
 > (a < 0) || (x==3)
-[1] TRUE    
+[1] TRUE
 \end{lstlisting}
 \end{column}
 \begin{column}{0.48\textwidth}
@@ -236,14 +236,14 @@ Erreur : objet 'x' introuvable
 \end{columns}
 \end{block}
 
-\begin{block}{Portes logiques en électronique} 
+\begin{block}{Portes logiques en électronique}
 %\begin{figure}[h]
 %  \centering
   \includegraphics[width=0.8\textwidth]{portes-logiques} \\
 %\end{figure}
 L'opérateur \texttt{!} inverse les valeurs \texttt{TRUE} et \texttt{FALSE}. C'est l'inverseur \dots\\
 Les constructeurs d'ordinateurs utilisent beaucoup la \alert{porte nand}.
-  \includegraphics[width=0.8\textwidth]{porte-nand}  
+  \includegraphics[width=0.8\textwidth]{porte-nand}
 \end{block}
 \end{frame}
 
@@ -267,10 +267,10 @@ Certaines fonctions résident dans des \alert{modules/packages} spécialisés, c
 Erreur : impossible de trouver la fonction "turtle_forward"
 > library(TurtleGraphics) # il faut charger l'extension
 > turtle_init()
-> turtle_forward(dist=15)  
+> turtle_forward(dist=15)
 \end{lstlisting}
 
-\end{frame}  
+\end{frame}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -278,7 +278,7 @@ Erreur : impossible de trouver la fonction "turtle_forward"
   \frametitle{Comment définir une nouvelle fonction ?}
 
   \begin{alertblock}{Syntaxe pour la définition d'une fonction}
-    Une fonction est une routine qui retourne une valeur.  
+    Une fonction est une routine qui retourne une valeur.
   \begin{lstlisting}[style=edblock]
 nomFonction <- function(listeDeParamètres) {
   blocInstructions
@@ -292,7 +292,7 @@ Le mot \alert{return} signifie "le résultat est \dots".
   \begin{lstlisting}[style=block]
 > f <- function(n) {return( 2*n - 1)}
 > f(5)
-[1] 9    
+[1] 9
 \end{lstlisting}
 \end{exampleblock}
 \begin{block}{Paramètres non typés : \texttt{n} n'est pas forcément un entier.}
@@ -301,7 +301,7 @@ Le mot \alert{return} signifie "le résultat est \dots".
 9.4
 > f(complex(real = 1, imaginary = 1)) # avec des complexes
 [1] 1+2i
-  \end{lstlisting}  
+  \end{lstlisting}
 \end{block}
 \end{frame}
 
@@ -309,7 +309,7 @@ Le mot \alert{return} signifie "le résultat est \dots".
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Les choix multiples avec \texttt{if \dots else if \dots else \dots}}
-  
+
 \begin{columns}[c]
 \begin{column}{0.48\textwidth}
   \begin{lstlisting}[style=editor]
@@ -317,7 +317,7 @@ f <- function(x) {
   if( x < -1) return(-1)
   else if( x > 1) return(1)
   else return(x)
-}   
+}
 \end{lstlisting}
 
 ou de manière équivalente
@@ -345,7 +345,7 @@ f <- function(x) {
   % dotted lines
   \draw[dotted] (-1,-1) -- (-1,0);
   \draw[dotted] (1,0) -- (1,1);
-  
+
   \draw[dotted] (-1,-1) -- (0, -1);
   \draw[dotted] (0, 1) -- (1,1);
 \end{tikzpicture}
@@ -372,7 +372,7 @@ Abs <- function(n) {
 \begin{column}{0.6\textwidth}
   \begin{lstlisting}
 > cat('|-5| vaut', Abs(-5), '\n')
-|-5| vaut 5    
+|-5| vaut 5
   \end{lstlisting}
 \end{column}
 \end{columns}
@@ -394,7 +394,7 @@ Max <- function(n, m) {
 \begin{column}{0.6\textwidth}
   \begin{lstlisting}
 > cat('max(-10, -5) vaut', Max(-10, -5), '\n')
-max(-10, -5) vaut -5    
+max(-10, -5) vaut -5
 \end{lstlisting}
 \end{column}
 \end{columns}
@@ -412,8 +412,8 @@ max(-10, -5) vaut -5
   \item si l'année est divisible par 400.
   \end{itemize}
   \begin{exampleblock}{Comment calculer le nombre de jours d'une année  ?}
-    
- 
+
+
   \begin{lstlisting}[style=edblock]
 JoursParAn <- function(n) {
   if(((n %% 4 == 0) && (n %% 100 != 0)) || (n %% 400 == 0)){
@@ -435,7 +435,7 @@ Remarquez l'utilisation correcte des parenthèses.
     Un nombre premier ne peut être divisé que par lui-même et par 1.
   \end{block}
   \begin{block}{Plus grand commun diviseur (PGCD)}
-    Le PGCD de deux nombres entiers non nuls est le plus grand entier qui les divise simultanément. 
+    Le PGCD de deux nombres entiers non nuls est le plus grand entier qui les divise simultanément.
   \end{block}
 
   \begin{block}{Premiers entre eux}
@@ -456,7 +456,7 @@ PremiersEntreEux <- function(p,q) {
   } else {
     return(FALSE)
   }
-}    
+}
 \end{lstlisting}
 ou encore
 \begin{lstlisting}[style=editor]
@@ -465,9 +465,9 @@ PremiersEntreEux <- function (p,q) {
     return(TRUE)
   }
   return(FALSE)
-}  
+}
 \end{lstlisting}
-Le mot clé \alert{\texttt{return} provoque un échappement}. 
+Le mot clé \alert{\texttt{return} provoque un échappement}.
 Le reste du texte de la fonction est abandonné !
 
 \end{frame}
@@ -476,12 +476,12 @@ Le reste du texte de la fonction est abandonné !
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Composition de fonctions II}
- 
+
 Une version qui renvoie directement le résultat de l'évaluation de l'expression.
 \begin{lstlisting}[style=editor]
 PremiersEntreEux <- function(p,q) {
   return(gcd(p,q) == 1)
-}  
+}
 \end{lstlisting}
 
 Une version encore plus courte qui omet les accolades et \texttt{return}.
@@ -493,7 +493,7 @@ PremiersEntreEux <- function(p,q) gcd(p,q) == 1
 > PremiersEntreEux(21,6)
 [1] FALSE
 > PremiersEntreEux(21,8)
-[1] TRUE  
+[1] TRUE
 \end{lstlisting}
 
 Vous voyez qu'il existe différentes manières de coder une fonction.
@@ -507,7 +507,7 @@ Elles se distinguent par leur \alert{efficacité}, mais aussi leur \alert{élég
 \begin{frame}[fragile]
   \frametitle{Documenter une fonction}
   \begin{block}{Pour l'instant}
-    Ajouter simplement des commentaires au début de la fonction.    
+    Ajouter simplement des commentaires au début de la fonction.
   \end{block}
 
 \begin{lstlisting}
@@ -541,12 +541,12 @@ Usage:
 
      paste (..., sep = " ", collapse = NULL)
      paste0(..., collapse = NULL)
-     
+
 Arguments:
- ...    
+ ...
 > ??paste # rechercher dans la documentation
   \end{lstlisting}
-\end{frame}  
+\end{frame}
 
 
 % \begin{frame}[fragile]
@@ -555,7 +555,7 @@ Arguments:
 %     print(sample(1:3))
 %     print(sample(1:3, size=3, replace=FALSE))  # same as previous line
 %     print(sample(c(2,5,3), size=4, replace=TRUE)
-%     print(sample(1:2, size=10, prob=c(1,3), replace=TRUE))    
+%     print(sample(1:2, size=10, prob=c(1,3), replace=TRUE))
 %   \end{lstlisting}
 
 
