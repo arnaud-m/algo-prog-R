@@ -351,7 +351,7 @@ while (i < n) {
 
 
 \begin{frame}
-  \frametitle{Comment savoir si un nombre est premier}
+  \frametitle{Comment savoir si un nombre est premier ?}
 Les nombres premiers 2, 3, 5, 7, 11... jouent un rôle important dans les codes secrets (cartes bancaires, mots de passe, etc).
 
 Un entier $n$ est toujours divisible par $1$ et $n$, qui sont ses diviseurs triviaux.
@@ -592,7 +592,7 @@ S <- function(n) {
 \begin{frame}[fragile]
   \frametitle{la série harmonique diverge lentement \dots}
 
-  \begin{block}{Combien faut-il de termes dans la somme pour que $S(n) > 8$ ?}
+  \begin{block}{Combien faut-il de termes dans la somme pour que $S(n) \geq 8$ ?}
 
 \begin{columns}[t]
 \begin{column}{0.55\textwidth}
@@ -623,7 +623,7 @@ S <- function(n) {
 Quelle est l'approche la plus sûre ? La plus efficace ?
 \end{block}
 
-\begin{block}{Et pour que $S(n) > 16$ ?}
+\begin{block}{Et pour que $S(n) \geq 16$ ?}
 
 \begin{lstlisting}[style=block]
 > while(acc < 16) {

@@ -292,8 +292,8 @@ http://phdcomics.com/comics/archive/phd051013s.gif
 
 | #. | Cours (Partie I)         | Cours (Partie II)                       | Travaux pratiques |
 |----+--------------------------+-----------------------------------------+-------------------|
-| 1. | Présentation du syllabus | [[file:pdf/01-variables.pdf][Expressions, instructions, et variables]] | [[file:tp01.org][TP 1]]              |
-| 2. | [[file:pdf/02-fonctions.pdf][Conditions et fonctions]]  | [[file:pdf/03-jeu-roulette.pdf][Jeu de roulette]]                         | [[file:tp02.org][TP 2]]              |
+| 1. | Présentation du syllabus | [[file:pdf/01-variables.pdf][Expressions, instructions, et variables]] | [[file:tp01.org][TP 1 (corrigés)]]   |
+| 2. | [[file:pdf/02-fonctions.pdf][Conditions et fonctions]]  | [[file:pdf/03-jeu-roulette.pdf][Jeu de roulette]]                         | [[file:tp02.org][TP 2 (corrigés)]]   |
 | 3. | [[file:pdf/04-iterations-while.pdf][Itérations (while)]]       | [[file:pdf/05-conversions.pdf][Conversions]]                             | [[file:tp03.org][TP 3]]              |
 | 4. | [[file:pdf/06-nombres-approches.pdf][Nombres réels approchés]]  | [[file:pdf/07-calcul-pi.pdf][Approximation du nombre \pi]]             | [[file:tp04.org][TP 4]]              |
 | 5. | [[file:pdf/08-iterations-for.pdf][Itérations (for)]]         | [[file:pdf/09-chaines.pdf][Chaînes de caractères]]                   | [[file:tp05.org][TP 5]]              |

@@ -3,6 +3,8 @@
 #+SUBTITLE:     Algo & Prog avec R
 #+OPTIONS: num:1 toc:1
 #+PROPERTY: header-args :results output replace :exports none
+
+# # https://stackoverflow.com/questions/47508315/emacs-org-mode-export-to-html-without-syntax-highlighting
 * Factorielles                                                          :KEY:
 Les choix algorithmiques et d'implémentation que vous ferez influent sur la qualité du programme en terme de complexité et donc de vitesse d'exécution.
 ** Fonctions factorielle
@@ -150,10 +152,10 @@ Voici les factorielles (rapides) des entiers de [1,10] :
 
 * Quelques fonctions prédéfinies pour les conversions
   L'exercice suivant est un complément de cours.
-  Cherchez la documentation sur les fonctions ~intToBits~, ~utf8ToInt~, ~strtoi~, et ~as.hexmode~.
+  Cherchez la documentation sur les fonctions ~intToBits~, ~strtoi~, et ~as.hexmode~.
 
  1. Comment demande-t-on au toplevel R de voir l'écriture binaire (base 2) de 233 ? Que remarquez-vous ?
-#+BEGIN_SRC R :exports code
+#+BEGIN_SRC R  :exports code
   intToBits(233)
 #+END_SRC
 
