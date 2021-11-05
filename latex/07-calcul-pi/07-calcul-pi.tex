@@ -30,7 +30,7 @@
   On utilisera la formule de Leibniz issue du développement en série de Taylor en 0 de $arctan(x)$ évalué au point 1 :
   \alert{
     \[
-      \sum_{k=0}^{+\infty} \frac{(-1)^k}{2k+ 1} = 1 - \frac{1}{3} + \frac{1}{5}  - \frac{1}{9} + \frac{1}{11} + \ldots = \frac{\pi}{4}
+      \sum_{k=0}^{+\infty} \frac{(-1)^k}{2k+ 1} = 1 - \frac{1}{3} + \frac{1}{5}  - \frac{1}{7} + \frac{1}{9} + \ldots = \frac{\pi}{4}
     \]
     }
 
@@ -66,7 +66,7 @@ acc <- acc + term
     Mon approximation courante a est-elle \alert{assez bonne} ? Elle est assez bonne lorsque je n'arrive plus à l'améliorer. Notons $\mathtt{h}$ la précision. \\
      Est-ce que le calcul \alert{prend trop de temps} ? Notons $\mathtt{n}$ le nombre maximum de termes à calculer.
 \begin{lstlisting}[style=editor]
- abs(term) < h || i > n
+ 4*abs(term) < h || i >= n
 \end{lstlisting}
 \end{block}
 \begin{block}{INITIALISATION}
@@ -85,7 +85,7 @@ LeibnizPi <- function(n = 10**4, h = 2**(-20)) {
   i <- 0
   term <- 1
   acc <- 1
-  while( (i <= n) && 4*abs(term) > h) {
+  while( (i < n) && 4*abs(term) > h) {
     i <- i + 1
     term <- (-1)**i / (2*i + 1)
     acc <- acc + term
@@ -96,9 +96,9 @@ LeibnizPi <- function(n = 10**4, h = 2**(-20)) {
 
 \begin{lstlisting}
 > LeibnizPi(n = 100, h = 0)
-[1] 3.131789
+[1]  3.151493
 > LeibnizPi(n = 100000, h = 0)
-[1] 3.141583
+[1] 3.141603
 > pi
 [1] 3.141593
 \end{lstlisting}
@@ -124,10 +124,10 @@ ErreurRelativeLeibnizPi <- function(n) {
       \toprule
     $\mathtt{n}$ & Erreur   \\
     \midrule
-    100          & 0.003121 \\
-    1000         & 0.000318 \\
-    10000        & 0.000032 \\
-    100000       & 0.000003 \\
+    101          & -0.003152 \\
+    1001         & -0.000318 \\
+    10001        & -0.000032 \\
+    100001       & -0.000003 \\
       \bottomrule
   \end{tabular}
 
@@ -214,7 +214,7 @@ LeibnizPi2 <- function(n = 10**4, h = 2**(-20)) {
   h <- h / 4 ## éviter la multiplication du test
   signe <- 1 ## mémoriser le signe du terme
   denom <- 1 ## mémoriser le dénominateur du terme
-  while( (i <=n) && abs(term) > h) {
+  while( (i < n) && abs(term) > h) {
     i <- i + 1
     signe <- -1 * signe # éviter une puissance
     denom <- denom + 2 # éviter une multiplication
@@ -272,12 +272,13 @@ LeibnizPi2 <- function(n = 10**4, h = 2**(-20)) {
     $$
     \vspace{-10pt}
     \begin{columns}[t]
-      \begin{column}{0.53\textwidth}
+      \begin{column}{0.59\textwidth}
   \begin{block}{Récurrence}
     \begin{lstlisting}[style=edblock]
 P <- function(n) {
-  if(n <=0) return(0)
-  else {
+  if(n <=1) {
+    return(ifelse(n == 1,  4/3, 0))
+  } else {
     t <- 4*(n**2)
     return((t/(t-1)) * P(n-1))}
 }
@@ -294,7 +295,7 @@ P <- function(n) {
   \end{block}
 
 \end{column}
-\begin{column}{0.47\textwidth}
+\begin{column}{0.41\textwidth}
   \begin{block}{Itération}
     \begin{lstlisting}[style=edblock]
 P <- function(n) {
