@@ -513,7 +513,6 @@ Utiliser ce module pour vérifier vos résultats.
 * Exercice optionnel un peu long, mais intéressant, et ô combien gratifiant !
 
   Reprogrammez complètement le module dans lequel vous opterez pour une représentation dense des polynômes : un polynôme de degré ~d~ sera représenté par un vecteur ~p~ de longueur ~d+1~ telle que $a_k=$ ~p[k+1]~.
-L’exercice est long, ne vous pressez pas, mais j’ai entendu dans le couloir qu’il vaudrait mieux le faire avant l’examen, allez savoir pourquoi \dots
 
 #+BEGIN_SRC R :exports none
 
