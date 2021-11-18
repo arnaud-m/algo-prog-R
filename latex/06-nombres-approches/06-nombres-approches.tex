@@ -326,6 +326,26 @@ Racine <- function(r, h = 2**(-10)) {
 
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Tableau des flottants 6 bits}
+  \begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\linewidth]{float-6bits-table}
+  \end{figure}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Quelques erreurs catastrophiques}
+  \begin{itemize}
+  \item En 1982  à la bourse de Vancouver, les calculs sur un indice nouveau, de valeur initiale 1000.0, sont tronqués (plutôt qu’arrondis). Après 22 mois la valeur calculée de l’indice est de 520 au lieu de 1098.892\dots
+  \item Le 25 février 1991, à Dharan en Arabie Saoudite, un missile anti-missile Patriot américain rate l’interception d’un missile Scud irakien à cause d'une erreur d'arrondi dans sa trajectoire : 28 morts, plus d’une centaine de blessés.
+%  \item Perte d’une plate-forme pétrolière en mer du Nord, au large de la Norvège, le 23 août 1991 (problème matériel + imprécision éléments finis) : coût estimé à 700 M\$.
+  \item Lors des élections dans le Schleswig-Holstein le 5 avril 1992, l’affichage du pourcentage de voix des Verts sans décimales puis avec deux décimales change le résultat et donne la majorité au SPD au parlement allemand.
+  \item Le 4 juin 1996, lors de son premier vol, la fusée européenne Ariane 5 explose 30 secondes après son décollage à cause d'une erreur d'\textit{overflow} dans l'ordinateur de bord causant une perte estimée à 500 M\$ (et 7 milliards de dollars d’investissement).
+\end{itemize}
+
+\end{frame}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \begin{frame}[fragile]{Backup slides}
 %   Sometimes, it is useful to add slides at the end of your presentation to
