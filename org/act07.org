@@ -5,7 +5,8 @@
 * Introduction
 ** Principe du TP/projet
 
-Ce TP/projet doit vous servir de support afin de rendre un rapport, qui comptera pour 30% de la note finale. Il est fortement conseillé de lire TOUT le TP/projet avant de le commencer.
+Ce TP/projet doit vous servir de support afin de rendre un rapport.
+Il est fortement conseillé de lire TOUT le TP/projet avant de le commencer.
 
 Il s'agit d'un RAPPORT: vous ne devez pas seulement écrire du code, vous devez également le COMMENTER (à l'intérieur du code et à l'extérieur), faire attention aux NOMS des fonctions et des variables que vous utilisez (utilisez obligatoirement les noms donnés dans l'énoncé, choisissez des noms EXPLICITES pour vos variables et fonctions supplémentaires). Pensez à rédiger une introduction, une conclusion, et à faire des paragraphes pour vos explications.
 
