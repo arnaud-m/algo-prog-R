@@ -10,7 +10,7 @@
    #+BEGIN_SRC R :exports code :results output silent
      install.packages("shiny") ## pour l'application web
    #+END_SRC
-   N'hésitez pas à parcourir l'[[http://shiny.rstudio.com/tutorial/written-tutorial/lesson1/][introduction]] à shiny.
+   N'hésitez pas à parcourir l'[[https://shiny.rstudio.com/tutorial/written-tutorial/lesson1/][introduction]] à shiny.
 
    Installez ensuite l'extension suggérée. Continuez même si l'installation échoue.
    #+BEGIN_SRC R :exports code :results output silent

@@ -2,7 +2,7 @@
 #+TITLE:     Travaux Pratiques #7
 #+SUBTITLE:     Algo & Prog avec R
 #+OPTIONS: num:1 toc:1
-#+PROPERTY: header-args :results output replace :exports none
+#+PROPERTY: header-args :results output replace :exports both
 * Ensembles et Dictionnaires
 ** Ensemble d'entiers aléatoires
    1. Définissez deux ensemble ~e2~ et ~e3~ de 10 entiers aléatoires de [0,20].
@@ -257,7 +257,7 @@ Par exemple 4 = 8*(-1) + 12*1.
   : 9 * 5040 + -11 * 4116 = 84
 
 * Jeu de Pendu
-Le [[https://fr.wikipedia.org/wiki/Le_pendu_%2528jeu%2529][pendu]] est un jeu consistant à trouver un mot en devinant quelles sont les lettres qui le composent.
+Le [[https://fr.wikipedia.org/wiki/Le_Pendu_(jeu)][pendu]] est un jeu consistant à trouver un mot en devinant quelles sont les lettres qui le composent.
  1. Programmer une fonction ~JeuPendu()~ sans limite du nombre de coups. Le joueur entre une lettres au clavier jusqu'à ce qu'il ait trouvé le mot.
  2. Modifier la fonction ~JeuPendu(n)~ pour que le joueur soit déclaré perdant après ~n~ erreurs.
 

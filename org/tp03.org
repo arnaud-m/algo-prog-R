@@ -2,7 +2,7 @@
 #+TITLE:     Travaux Pratiques #3
 #+SUBTITLE:     Algo & Prog avec R
 #+OPTIONS: num:1 toc:1
-#+PROPERTY: header-args :results output replace :exports none
+#+PROPERTY: header-args :results output replace :exports both
 
 # # https://stackoverflow.com/questions/47508315/emacs-org-mode-export-to-html-without-syntax-highlighting
 * Factorielles                                                          :KEY:
@@ -390,7 +390,7 @@ Voici les factorielles (rapides) des entiers de [1,10] :
   Comment feriez-vous pour savoir si la fraction 51/85 est irréductible ?
   En d'autres termes, peut-on la simplifier ? Par combien ?
 
-  /Indice/ : calcul du [[https://fr.wikipedia.org/wiki/Plus_grand_commun_diviseur][pgcd]] par la [[https://fr.wikipedia.org/wiki/Plus_grand_commun_diviseur#M.C3.A9thode_soustractive][méthode soustractive]] ou encore mieux avec l'[[https://fr.wikipedia.org/wiki/PGCD_de_nombres_entiers#Algorithme_d.27Euclide][algorithme d'euclide]].
+  /Indice/ : calcul du [[https://fr.wikipedia.org/wiki/Plus_grand_commun_diviseur][pgcd]] par la méthode soustractive ou encore mieux avec l'[[https://fr.wikipedia.org/wiki/PGCD_de_nombres_entiers#Algorithme_d.27Euclide][algorithme d'euclide]].
 #+BEGIN_SRC R
 
   gcd <- function(a,b) ifelse (b==0, a, gcd(b, a %% b))
@@ -447,7 +447,7 @@ Voici les factorielles (rapides) des entiers de [1,10] :
     : [26] 00 00 00 00 00 00 00
 
 
-    Les entiers sont représentés dans un [[https://fr.wikipedia.org/wiki/Syst%25C3%25A8me_binaire][système binaire]] (base 2).
+    Les entiers sont représentés dans un [[https://fr.wikipedia.org/wiki/Syst%C3%A8me_binaire][système binaire]] (base 2).
     Le système binaire le plus courant est l'équivalent en base deux de la [[https://fr.wikipedia.org/wiki/Notation_positionnelle][numération de position]] que nous utilisons en base dix dans la vie courante.
 *** les objets de base de R sont les vecteurs.
 

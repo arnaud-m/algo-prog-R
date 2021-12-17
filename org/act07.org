@@ -53,7 +53,7 @@ Attention, il est essentiel que le fichier ~main.R~ s'exécute sans erreur.
 ** Estimation de \pi
 *** Méthode de Monte Carlo
 
-Lire la partie "Détermination de la valeur de \pi" dans l'article wikipédia sur [[http://fr.wikipedia.org/wiki/M%25C3%25A9thode_de_Monte-Carlo][Méthode de Monte Carlo]].
+Lire la partie "Détermination de la valeur de \pi" dans l'article wikipédia sur [[https://fr.wikipedia.org/wiki/M%C3%A9thode_de_Monte-Carlo][Méthode de Monte Carlo]].
 Il est écrit "la probabilité que le point M appartienne au disque est \pi/4." : détailler le calcul aboutissant à la valeur pi/4.
 *** Questions préliminaires
 
@@ -161,7 +161,7 @@ Utiliser le code suivant pour:
 [[file:act07/mc_PI_TE.jpg]]
 ** Autres méthodes d'estimation de \pi                                :BONUS:
 
-Instruisez vous avec la page wikipedia sur [[http://fr.wikipedia.org/wiki/Pi][PI]].
+Instruisez vous avec la page wikipedia sur [[https://fr.wikipedia.org/wiki/Pi][PI]].
 Comparer la qualité des estimations obtenues avec la méthode de Monte Carlo avec :
  - les représentations fractionnaires,
  - les séries,
@@ -175,8 +175,8 @@ N'oubliez pas qu'un ordinateur effectue des /calcul approchés/ sur les nombres 
 ** Définition d'un polygone simple
 
 La suite du TP/projet utilise cette méthode dite de Monte Carlo, mais dans le but d'approximer l'aire d'un polygone.
-Un [[http://fr.wikipedia.org/wiki/Polygone][polygone]] est une figure géométrique plane, formée d'une suite cyclique de segments consécutifs.
-Les polygones considérés sont des [[http://fr.wikipedia.org/wiki/Polygone_simple][polygones simples]] (c'est-à-dire dont les arêtes ne se croisent pas), par opposition au cas des [[http://en.wikipedia.org/wiki/Complex_polygon][polygones complexes]]  qui n'est pas traité ici.
+Un [[https://fr.wikipedia.org/wiki/Polygone][polygone]] est une figure géométrique plane, formée d'une suite cyclique de segments consécutifs.
+Les polygones considérés sont des [[https://fr.wikipedia.org/wiki/Polygone_simple][polygones simples]] (c'est-à-dire dont les arêtes ne se croisent pas), par opposition au cas des [[https://en.wikipedia.org/wiki/Complex_polygon][polygones complexes]] qui n'est pas traité ici.
 Notez bien que les polygones considérés ne sont pas nécessairement convexes.
 
 ** Représentation d'un polygone sous forme de matrice
@@ -236,7 +236,7 @@ lorsque celui-ci est donné sous la forme décrite précédemment.
   Tous les polygones que l'on demande de générer doivent être sous la forme matricielle définie en section précédente.
 ** Polygone régulier
 
-Pour rappel sur les propriétés de ces polygones, il est conseillé de jeter un oeil à l'adresse: http://fr.wikipedia.org/wiki/Polygone_r%C3%A9gulier.
+Pour rappel sur les propriétés de ces polygones, il est conseillé de jeter un oeil à l'adresse: https://fr.wikipedia.org/wiki/Polygone_r%C3%A9gulier.
 
 Définir une fonction ~reg_poly <- function(n, r=1) { ... }~ qui prend en argument un entier ~n~, un réel strictement positif ~r~ (de valeur 1 par défaut), et qui renvoie un polygone ~p~ vérifiant:
  - le polygone ~p~ a ~n~ côtés,
@@ -399,8 +399,8 @@ Vous pourrez utiliser le code suivant pout tester la fonction ~appartient~.
 #+RESULTS:
 [[file:act07/test_appartient.jpg]]
 *** Références
-    - http://en.wikipedia.org/wiki/Point_in_polygon
-    - http://stackoverflow.com/questions/217578/point-in-polygon-aka-hit-test
+    - https://en.wikipedia.org/wiki/Point_in_polygon
+    - https://stackoverflow.com/questions/217578/how-can-i-determine-whether-a-2d-point-is-within-a-polygon
 ** Méthode de Monte Carlo et calcul approché de l'aire d'un polygone
 *** Principe
 

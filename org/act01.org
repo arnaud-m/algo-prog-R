@@ -10,7 +10,7 @@ Vous pouvez réutiliser ces dessins pour vos créations.
 #+end_abstract
 
 * Prélude
-Nous allons utiliser le package [[http://www.gagolewski.com/software/TurtleGraphics/][TurtleGraphics]] pour dessiner nos premiers graphiques en R.
+Nous allons utiliser le package TurtleGraphics pour dessiner nos premiers graphiques en R.
 #+BEGIN_SRC R :exports code
 install.packages("TurtleGraphics")
 #+END_SRC
@@ -270,7 +270,7 @@ Un petit livre de Benoit Mandelbrot, l’inventeur de cette théorie, est à la 
 
 ** Courbe du dragon
 
-Programmez l’approximant de niveau ~n~ et de taille ~T~ de la célèbre [[http://fr.wikipedia.org/wiki/Courbe_du_dragon][courbe fractale du dragon]].
+Programmez l’approximant de niveau ~n~ et de taille ~T~ de la célèbre [[https://fr.wikipedia.org/wiki/Courbe_du_dragon][courbe fractale du dragon]].
 
 #+BEGIN_SRC R :file act01/dragon_2.jpg :width 500 :height 250
   Dragon <- function(n,T) {
@@ -458,7 +458,7 @@ Programmez l’approximant de niveau ~n~ et de taille ~T~ de la célèbre [[http
 [[file:act01/fleur_carre.jpg]]
 
 * Spirale
-  Programmez le dessin sur cette [[http://commons.wikimedia.org/wiki/File%3ATurtle-Graphics_Polyspiral.svg][page]] en vous aidant du pseudo-code.
+  Programmez le dessin sur cette [[https://commons.wikimedia.org/wiki/File%3ATurtle-Graphics_Polyspiral.svg][page]] en vous aidant du pseudo-code.
 
 #+BEGIN_SRC R :file act01/polyspiral.jpg :width 300 :height 300
   PolySpiral <- function(dist, angle, incr, segs, width)

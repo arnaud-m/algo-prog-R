@@ -101,7 +101,7 @@
 #+end_example
 
 
-*** Utiliser l'extension [[http://ggplot2.org/][~ggplot2~]] pour produire des graphiques de la courbe de Lorenz.
+*** Utiliser l'extension [[https://ggplot2.tidyverse.org/][~ggplot2~]] pour produire des graphiques de la courbe de Lorenz.
 
     Tout d'abord, il faut installer quelques extensions.
      #+BEGIN_SRC R :exports code :results output silent :session gini
@@ -150,7 +150,7 @@
 
 
 * Application shiny
-*** Utiliser l'extension [[http://shiny.rstudio.com/][~shiny~]] pour produire une application web interactive.
+*** Utiliser l'extension [[https://shiny.rstudio.com/][~shiny~]] pour produire une application web interactive.
 
      Installer d'abord l'extension.
      #+BEGIN_SRC R :exports code :results output silent :session gini
@@ -158,7 +158,7 @@
      #+END_SRC
 
      Ensuite, rassembler le code définissant les nécessaire dans un fichier et exécuter le.
-     N'hésitez pas à lire l'[[http://shiny.rstudio.com/tutorial/written-tutorial/lesson1/][introduction]] à shiny.
+     N'hésitez pas à lire l'[[https://shiny.rstudio.com/tutorial/written-tutorial/lesson1/][introduction]] à shiny.
 
      #+BEGIN_SRC R :exports code :results output silent :session gini
        library(shiny)

@@ -12,7 +12,7 @@
    #+BEGIN_SRC R :exports code :results output silent
      install.packages("shiny") ## pour l'application web
    #+END_SRC
-   N'hésitez pas à parcourir l'[[http://shiny.rstudio.com/tutorial/written-tutorial/lesson1/][introduction]] à shiny.
+   N'hésitez pas à parcourir l'[[https://shiny.rstudio.com/tutorial/written-tutorial/lesson1/][introduction]] à shiny.
 
 ** Obtenir le code de l'application
 
@@ -27,7 +27,7 @@
    Votre mission consiste compléter le code de l'application.
    La spécification des fonctions est précisée dans les sections suivantes.
 
-   Nous allons suivre certains préceptes des [[https://fr.wikipedia.org/wiki/M%25C3%25A9thode_agile][méthodes agiles]].
+   Nous allons suivre certains préceptes des [[https://fr.wikipedia.org/wiki/M%C3%A9thode_agile][méthodes agiles]].
    L'application est développé en plusieurs étapes.
    Chaque étape ajoute une ou plusieurs fonctionnalités à l'application.
    À la fin de chaque étape, notre application est opérationnelle.

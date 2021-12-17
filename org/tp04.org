@@ -2,7 +2,7 @@
 #+TITLE:     Travaux Pratiques #4
 #+SUBTITLE:     Algo & Prog avec R
 #+OPTIONS: num:1 toc:1
-#+PROPERTY: header-args :results output replace :exports none
+#+PROPERTY: header-args :results output replace :exports both
 * Calcul flottant
 
   Définissez en R la variable a dont la valeur est $\sqrt{3}$.
@@ -224,14 +224,14 @@ Obtenez-vous la même chose avec votre simulation ? Pourquoi?
 
 
 *** Écrivez une fonction ~PopulationMalthus(n, n0, r)~ qui renvoie la population finale après ~n~ générations en partant d'une population $N_0$ par un calcul direct (sans utiliser ni boucle ni récurrence).
-#+begin_src R :session dynpop :exports code
+#+begin_src R :session dynpop
   PopulationMalthus <- function(n, n0, r) {
     return(n0 * ((1+r)**n))
   }
 #+end_src
 
 ** Modèle de Verhulst
- Le [[https://fr.wikipedia.org/wiki/Pierre_Fran%25C3%25A7ois_Verhulst][modèle de Verhulst]] donnera naissance aux courbes "logistiques" que les biologistes voient si souvent.
+ Le [[https://fr.wikipedia.org/wiki/Pierre_Fran%C3%A7ois_Verhulst][modèle de Verhulst]] donnera naissance aux courbes "logistiques" que les biologistes voient si souvent.
  Il s'écrit comme ceci:
  $$ N_{t+1} = \left(1 +r\left(1-\frac{N_t}{K}\right)\right)N_t$$
 

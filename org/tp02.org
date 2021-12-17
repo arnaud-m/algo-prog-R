@@ -381,7 +381,7 @@ Maintenant, programmez la fonction ~Circuit2(R1,R2,R3)~ retournant la résistanc
 ** Utilisation d'arguments par défaut
 
  Un autre avantage de l'évaluation paresseuse est que vous pouvez définir des arguments par défaut mutuellement récursif ce qui permet d'implémenter des interfaces adaptatives.
- Par exemple, voici une fonction (voir [[http://blog.moertel.com/posts/2006-01-20-wondrous-oddities-rs-function-call-semantics.html][ici]]) qui calcule la représentation d'un point en coordonnées polaires et cartésiennes.
+ Par exemple, voici une fonction (voir [[https://blog.moertel.com/posts/2006-01-20-wondrous-oddities-rs-function-call-semantics.html][ici]]) qui calcule la représentation d'un point en coordonnées polaires et cartésiennes.
  Vous pouvez spécifier le point dans l'un ou l'autre des systèmes de coordonnées.
 
 #+BEGIN_SRC R :exports both :output results
