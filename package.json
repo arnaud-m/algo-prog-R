@@ -1,7 +1,7 @@
 {
   "name": "algo-prog-R",
-  "version": "0.2",
-  "description": "Algo % Prog avec R",
+  "version": "0.3",
+  "description": "Algo & Prog avec R",
   "main": "gulpfile.js",
   "repository": {
     "type": "git",
@@ -15,15 +15,17 @@
   "author": "Arnaud Malapert",
   "license": "CC BY-NC 4.0",
   "devDependencies": {
-    "browser-sync": "^2.26.7",
-    "del": "^2.2.2",
-    "gulp": "^4.0.2",
-    "gulp-changed": "^4.0.2",
-    "gulp-htmlmin": "^5.0.1",
-    "gulp-plumber": "^1.2.1",
     "htmlize": "^1.0.0"
   },
-  "dependencies": {},
+  "dependencies": {
+    "browser-sync": "^2.27.5",
+    "child_process": "^1.0.2",
+    "del": "^6.0.0",
+    "gulp": "^4.0.2",
+    "gulp-changed": "^4.0.3",
+    "gulp-htmlmin": "^5.0.1",
+    "gulp-plumber": "^1.2.1"
+  },
   "bugs": {
     "url": "https://github.com/arnaud-m/algo-prog-R/issues"
   },
