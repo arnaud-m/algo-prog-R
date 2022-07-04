@@ -535,6 +535,6 @@ Utilisez le courriel seulement pour les communications importantes ou officielle
 *** E-learning
   - [[https://swirlstats.com/][Swirl]] : (tutoriel interactif dans la console R)
   - [[https://www.youtube.com/playlist?list=PLqzoL9-eJTNARFXxgwbqGo56NtbJnB37A][Cours en vidéo]] (youtube)
-  - Coursera [[https://www.coursera.org/learn/data-scientists-tools][1]] et [[https://www.coursera.org/course/rprog][2]]
+  - Coursera [[https://www.coursera.org/learn/data-scientists-tools][1]] et [[https://www.coursera.org/learn/r-programming ][2]]
 
 https://phdcomics.com/comics/archive/phd031714s.gif
