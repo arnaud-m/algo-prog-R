@@ -336,12 +336,7 @@ https://phdcomics.com/comics/archive/phd051013s.gif
  |-------------------+--------+---------------|
  | [[https://i3s.unice.fr/master-info/ucancode/tutoriel/][Tutoriel UCAnCODE]] |      - |               |
  | [[https://51364960.widgets.sphere-engine.com/lp?hash=1L607lu5Yq][ROULETTE]]          |  Bonus |               |
- | [[https://51364960.widgets.sphere-engine.com/lp?hash=DzcCU8OIxy][HASH1]]             |     12 | 28/10 - 29/10 |
- | [[https://51364960.widgets.sphere-engine.com/lp?hash=LlOvxlZVwc][HASH2]]             |     12 | 11/11 - 12/11 |
- | HASH 1 ET 2       |     14 |               |
- | MULT3             |  Bonus | 12-11 - 19/11 |
- | [[https://51364960.widgets.sphere-engine.com/lp?hash=1t9d56vSV2][GEOHASH]]           |    17+ | 18/11 - 26/11 |
- | [[https://51364960.widgets.sphere-engine.com/lp?hash=IG2VzE9Kzo][PAIRS]]             |     14 | 03/12         |
+ |                   |     12 | 28/10 - 29/10 |
 
 
  L'exercice à GEOHASH a des bonifications pour les premiers binômes à résoudre le problème : 3pts pour le premier ; 2pts pour le second ; 1pt pour le troisième.

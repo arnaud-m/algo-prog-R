@@ -2,7 +2,7 @@
 #+TITLE:     Travaux Pratiques #3
 #+SUBTITLE:     Algo & Prog avec R
 #+OPTIONS: num:1 toc:1
-#+PROPERTY: header-args :results output replace :exports both
+#+PROPERTY: header-args :results output replace :exports none
 
 # # https://stackoverflow.com/questions/47508315/emacs-org-mode-export-to-html-without-syntax-highlighting
 * Factorielles                                                          :KEY:
