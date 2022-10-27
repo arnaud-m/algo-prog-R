@@ -1,5 +1,4 @@
-
-\begin{frame}{Représentation des nombres}                                                                                                                
+\begin{frame}{Représentation des nombres}
   \begin{center}
     \alert{On représente les nombres grâce à des symboles.}
   \end{center}
@@ -10,7 +9,7 @@
     \item I=1, II = 2, III = 3, Iet IIIIIIIII = 10.
     \item Le calcul est facile.
       \begin{itemize}
-      \item       I + III = IIII; 
+      \item       I + III = IIII;
       \item II $\times$ III = II II II = IIIIII
       \end{itemize}
     \item<alert@1> mais cela devient vite \emph{incompréhensible}
@@ -33,7 +32,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\begin{frame}{Représentation des nombres}                                                                                                                
+\begin{frame}{Représentation des nombres}
   \begin{alertblock}{Système positionnel : symboles dont la valeur dépend de la position}
     \begin{itemize}
     \item 999 = 900 + 90 + 9
@@ -47,7 +46,7 @@
     \begin{quote}
       Les hommes sont comme les chiffres, ils n'acquièrent de la valeur que par leur position.
       \begin{flushright}
-        Napoléon Bonaparte 
+        Napoléon Bonaparte
       \end{flushright}
     \end{quote}
   \end{block}
@@ -71,7 +70,7 @@
     }
   \end{alertblock}
 
-    \begin{description}[Hexadécimale] 
+    \begin{description}[Hexadécimale]
   \item[Décimale] $(b = 10),\ a_i \in \{0, 1, 2, 3, 4, 5, 6, 7, 8, 9\}$
   \item[Binaire] $(b = 2),\ a_i \in \{0, 1\}$
   \item[Hexadécimale] $(b = 16),\ a_i \in \{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, A, B, C, D, E, F\}$
@@ -87,7 +86,7 @@
 \subsection{Entiers naturels}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Représentation des entiers naturels}                                                                                                                
+\begin{frame}{Représentation des entiers naturels}
  \begin{block}{En base $b$}
  \[
   x = a_n a_{n-1} \ldots a_1 a_0  = \sum_{i=0}^n a_i b^i
@@ -108,7 +107,7 @@
     (101)_2 & = 1 \times 2^2 + 0 \times 2^1 + 1 \times 2^0 \\
             &= 4 + 0 + 1 = 5.
   \end{align*}
-          
+
 \end{exampleblock}
 \end{frame}
 
@@ -125,7 +124,7 @@
   \begin{block}{Schéma de Horner}
     \begin{itemize}
     \item Méthode générale pour calculer l'image d'un polynôme en un point.
-    \item Moins d'opération que la méthode simple.
+    \item Moins d'opérations que la méthode simple.
     \item Plus efficace pour une machine, pas nécessairement pour un humain.
     \end{itemize}
 
@@ -134,19 +133,19 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Schéma de Horner}                                                                                                                
+\begin{frame}{Schéma de Horner}
   \only<1>{
     \begin{block}{Une reformulation judicieuse de l'écriture en base $b$}
       \begin{align*}
       a_n a_{n-1} \ldots a_1 a_0  & = \sum_{i=0}^n a_i b^i \\
-                                  & = ((\ldots ((a_ nb + a_{n-1})b + a_{n-2})\ldots)b + a_{1})b + a_0   
+                                  & = ((\ldots ((a_ nb + a_{n-1})b + a_{n-2})\ldots)b + a_{1})b + a_0
       \end{align*}
     \end{block}
   }
 
   \begin{alertblock}{Algorithme simple et efficace}
   \begin{itemize}
-  \item   Initialiser l'accumulateur : $v = 0$. 
+  \item   Initialiser l'accumulateur : $v = 0$.
   \item Pour chaque chiffre $a_i$ en partant de la gauche : $ v \leftarrow (v \times b) + a_i$.
   \end{itemize}
 \end{alertblock}
@@ -156,7 +155,7 @@
 \begin{column}{0.48\textwidth}
   \begin{exampleblock}{$(10110)_2 = (22)_{10}$}
     \begin{tabular}{lll}
-      $a_i$ & $v$  & Calcul de $v$     \\ 
+      $a_i$ & $v$  & Calcul de $v$     \\
       1     & 1    & $2 \times 0 + 1$  \\
       0     & $2$  & $2 \times 1 + 0$  \\
       1     & $5$  & $2 \times 2 + 1$  \\
@@ -169,12 +168,12 @@
 \begin{column}{0.48\textwidth}
   \begin{exampleblock}{ $(12021)_3 = (142)_{10}$}
     \begin{tabular}{lll}
-      $a_i$ & $v$   & Calcul de $v$     \\ 
+      $a_i$ & $v$   & Calcul de $v$     \\
       1     & 1     & $3 \times 0 + 1$  \\
       2     & $5$   & $3 \times 1 + 2$  \\
       0     & $15$  & $3 \times 5 + 0$  \\
       2     & $47$  & $3 \times 15 + 2$ \\
-      1     & $142$ & $3 \times 47 + 1$ \\   
+      1     & $142$ & $3 \times 47 + 1$ \\
     \end{tabular}
 \end{exampleblock}
 \end{column}
@@ -190,7 +189,7 @@
   \begin{block}{Du binaire vers une base $2^k$}
     Regrouper les bits par $k$ en partant de la droite et les traduire.
   \end{block}
-   
+
    \begin{block}{D'une base $2^k$ vers le binaire}
      Traduire chacun des symboles en un nombre binaire.
    \end{block}
@@ -211,7 +210,7 @@
     \end{tabular}
   \end{exampleblock}
 
-  
+
    \begin{block}{D'une base $2^k$ vers une base $2^p$}
      \begin{enumerate}
      \item<alert@1> Passer par le binaire : $(x)_{2^k} \rightarrow (x)_2 \rightarrow (x)_{2^p}$.
@@ -237,7 +236,7 @@
     La suite des restes obtenus correspond aux chiffres de $a_0$ à $a_n$ dans la base visée.
   \end{block}
 
-  
+
       \begin{columns}[t]
         \begin{column}{0.48\textwidth}
           \begin{exampleblock}{$(44)_{10} = (101100)_2$}
@@ -293,7 +292,7 @@
 \end{frame}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \begin{frame}{Exercices}
    \begin{itemize}
    \item Traduire $(10101)_2$ en écriture décimale.
@@ -318,7 +317,7 @@
       x = a_n a_{n-1} \ldots a_1 a_0,a_{-1}a_{-2}\ldots a_{-k} = \sum_{\alert{i=-k}}^n a_i b^i
     \]
   \end{block}
-  
+
   \begin{exampleblock}{En base 10}
     \[
       19.98 = 1 \times 10^1 + 9 \times 10^0 + 9 \times 10^{-1} + 8 \times 10^{-2} .
@@ -330,17 +329,17 @@
       &= 4  + 0 + 1 + 0 + 0.25 = 5,25.
     \end{align*}
   \end{exampleblock}
-  
+
 \end{frame}
 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Traduction vers une base quelquonque}
     \begin{block}{Nombre fractionnaire}
         \begin{itemize}
-        \item On décompose le nombre en partie entière et fractionnaire si $x > 0$ : 
+        \item On décompose le nombre en partie entière et fractionnaire si $x > 0$ :
           $$x = E[x] + F[x].$$
         \item On convertit la partie entière par la méthode précédente :
-          $$E[x] =  a_n a_{n-1} \ldots a_1 a_0.$$ 
+          $$E[x] =  a_n a_{n-1} \ldots a_1 a_0.$$
         \item On convertit la partie fractionnaire :
           $$F[x] = 0,a_{-1}a_{-2}\dots a_{-m}.$$
         \item Finalement, on additionne la partie entière et fractionnaire :
@@ -388,7 +387,7 @@
        $0,8\times2$        & $1,6$ & $a_{-5} = 1$ \\
        $0,6\times2$        & $1,2$ & $a_{-6} = 1$ \\
       \alert{$0,2\times2$} & $0,4$ & $a_{-7} = 0$ \\
-      
+
       %\dots \\
     \end{tabular}
   \end{exampleblock}

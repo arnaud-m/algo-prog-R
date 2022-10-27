@@ -2,7 +2,7 @@
 #+TITLE:     Travaux Pratiques #1
 #+SUBTITLE:     Algo & Prog avec R
 #+OPTIONS: num:1 toc:1
-#+PROPERTY: header-args :results output replace :exports none
+#+PROPERTY: header-args :results output replace :exports both
 #+BEGIN_abstract
 Cette séance de travaux pratiques peut être réalisée en distanciel.
 #+END_abstract
@@ -173,7 +173,7 @@ RSiteSearch("foo")  # recherche la chaîne foo dans les manuels et les listes de
  2. Est-ce que la fonction printf existe ? Existe-t'il d'autres fonctions de la famille printf ? Lesquelles ?
 
 
-* STARTED Découverte des exercices UCAnCODE
+* Découverte des exercices UCAnCODE
 Tout au long du semestre, nous proposerons des exercices UCAnCODE sur [[https://sphere-engine.com/][Sphere Engine]], certains notés, d'autres non.
 Ces exercices sont corrigés par un juge automatique.
 Un cours magistral leur sera consacré en milieu de semestre.
@@ -186,4 +186,3 @@ Commencez avec deux exercices pour vous familiariser avec le juge automatique.
 Ces exercices ont un petit côté mathématique pour être stimulant (mais complètement hors programme), car nous ne connaissons encore que peu d'éléments du langage.
 
 1. [[https://51364960.widgets.sphere-engine.com/lp?hash=bpReDSRv5Z][Double dilution dans la pandémie]]
-2. La ballade du tournesol (à venir)

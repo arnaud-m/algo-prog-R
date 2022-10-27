@@ -85,6 +85,8 @@
 #+RESULTS:
 : [1] "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
+/Indice/ : ne pas utiliser de boucles, mais les vecteurs constants `letters` et `LETTERS`.
+
 * Table ASCII
    Programmez une fonction ~Ascii()~ qui renvoie une table ASCII pour les caractères dont le code est compris entre 32 et 126.
 
@@ -158,6 +160,7 @@
 
 #+BEGIN_SRC R :session strbin
   IntToBin <- function(n) {
+    if(n == 0) return("0")
     n <- abs(n);
     acc <- "";
     while(n > 0) {

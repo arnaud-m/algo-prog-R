@@ -2,10 +2,10 @@
 #+TITLE:     Travaux Pratiques #3
 #+SUBTITLE:     Algo & Prog avec R
 #+OPTIONS: num:1 toc:1
-#+PROPERTY: header-args :results output replace :exports none
+#+PROPERTY: header-args :results output replace :exports both
 
 # # https://stackoverflow.com/questions/47508315/emacs-org-mode-export-to-html-without-syntax-highlighting
-* Factorielles                                                          :KEY:
+* Factorielles
 Les choix algorithmiques et d'implémentation que vous ferez influent sur la qualité du programme en terme de complexité et donc de vitesse d'exécution.
 ** Fonctions factorielle
    Programmez plusieurs fonctions prenant un entier positif ~n~ et retournant la factorielle n! de n. Par exemple, 5! est égal à 120.
@@ -85,7 +85,7 @@ utilisateur     système      écoulé
       0.001       0.000       0.001
 #+end_example
 ** Petites factorielles
-   Ecrivez un programme itératif faisant afficher toutes les factorielles des entiers de 0 à 10, une par ligne.
+   Ecrivez une fonction itérative ~AfficherFact(n) faisant afficher toutes les factorielles des entiers de 0 à 10, une par ligne.
 *** En utilisant la fonction ~Fact~ ou ~FactRec~, combien votre programme fera-t-il de multiplications ?
 
 
@@ -122,17 +122,20 @@ Voici les factorielles des entiers de [1,20] :
   ## Si l'on veut faire tomber le nombre de multiplications, il ne FAUT PAS
   ## utiliser une fonction factorielle qui repart chaque fois du debut, mais maintenir
   ## dans une variable f la derniere factorielle calculee !
-  cat('Voici les factorielles (rapides) des entiers de [1,10] :\n')
-  i <- 1
-  acc <- 1
-  while (i <= 10) {
-    ## la boucle effectue en tout 10 multiplications !!!
-    cat(i,'! =', acc, '\n')
-    i <- i + 1
-    acc <- acc * i
+  AfficherFact <- function(n) {
+    cat('Voici les factorielles (rapides) des entiers de [1,", n, "] :\n', sep = "")
+    i <- 1
+    acc <- 1
+    while (i <= n) {
+      ## la boucle effectue en tout 10 multiplications !!!
+      cat(i,'! =', acc, '\n')
+      i <- i + 1
+      acc <- acc * i
+    }
+    ## Le cout d'affichage des factorielles des entiers de [1,N] est donc maintenant de N,
+    ## le cout est devenu LINEAIRE. Difficile de faire mieux dans le cas present...
   }
-  ## Le cout d'affichage des factorielles des entiers de [1,N] est donc maintenant de N,
-  ## le cout est devenu LINEAIRE. Difficile de faire mieux dans le cas present...
+  AfficherFact(10)
 #+END_SRC
 
 #+RESULTS:
@@ -276,7 +279,7 @@ Voici les factorielles (rapides) des entiers de [1,10] :
 : [1] 27
 : [1] "cba"
 
-* Jeu de hasard
+* Jeu de hasard                                                         :KEY:
   Virginie lance trois dés numérotés de 1 à 6.
     - Si elle obtient une somme de 18, elle gagne 50 euros,
     - entre 10 et 17, elle gagne 5 euros,
@@ -296,7 +299,7 @@ Voici les factorielles (rapides) des entiers de [1,10] :
 
  #+RESULTS:
 
-*** Écrire une simulation où Virginie joue jusqu'à ce que son gain dépasse 50.
+*** Écrire une simulation où Virginie joue jusqu'à ce que son gain total dépasse 50.
 
     #+BEGIN_SRC R :session jeuHasard
       gain <- 0
@@ -347,64 +350,195 @@ Voici les factorielles (rapides) des entiers de [1,10] :
      #+RESULTS:
      : Esperance simulée : 3.3375
      : Esperance théorique 3.333333
-* Algorithme d'Euclide
-   L’algorithme d’Euclide pour calculer le PGCD de deux entiers a et b ≥ 0 consiste à appliquer les deux règles suivantes :
-   - si b = 0, le PGCD de a et de b est a
-   - sinon, le PGCD de a et b est le même que celui de b et du reste de la division de a par b
-*** Calculez le PGCD de 8 et 12 par cette méthode.
 
-*** Programmez une fonction récursive ~pgcd(a,b)~.
-     #+BEGIN_SRC R
-       pgcd <- function(a,b) ifelse(b == 0, a, pgcd(b, a %% b))
-       pgcd(12,8)
-       pgcd(8,12)
-       pgcd(87,116)
-     #+END_SRC
+* Algorithme d'Euclide                                             :UCANCODE:
 
-     #+RESULTS:
-     : [1] 4
-     : [1] 4
-     : [1] 29
+Lisez le début de la page [[https://fr.wikipedia.org/wiki/Plus_grand_commun_diviseur_de_nombres_entiers][wikipedia du Plus Grand Diviseur Commun (PGCD)]], puis attentivement la [[https://fr.wikipedia.org/wiki/Plus_grand_commun_diviseur_de_nombres_entiers#Algorithme_d'Euclide][section sur l'algorithme d'Euclide]]. Calculer le PGCD de 8 et 20 par la méthode soustractive, puis par divisions.
 
-*** Programmez cette fonction de manière itérative.
+Nous allons implémenter plusieurs fonctions pour le calcul du *PGCD de deux entiers relatifs*.
+Nous utiliserons la définition du [[https://fr.wikipedia.org/wiki/Plus_grand_commun_diviseur_de_nombres_entiers#Plus_grand_au_sens_de_la_divisibilit%C3%A9][plus grand au sens de la divisibilité]].
 
-  #+BEGIN_SRC R
-    pgcd <- function(a,b) {
-      while ( b != 0 ) {
-        tmp <- a %% b
-        a <- b
-        b <- tmp
-      }
-      return(a);
+** Méthode soustractive
+
+   Le PGCD de deux entiers a et b est aussi celui de a et de a - b.
+
+   1. Programmez une fonction récursive ~PgcdSubRec(a,b)~
+   2. Programmez une fonction itérative ~PgcdSubIter(a,b)~
+
+
+#+BEGIN_SRC R :results silent :session pgcd
+  PgcdSubRec <- function(a, b) {
+    ExecPgcdSubRec <- function(a, b) {
+      if(a > b) ifelse(b == 0, a, ExecPgcdSubRec(b, a))
+      else ifelse(a == 0, b, ExecPgcdSubRec(a, b - a))
     }
-    pgcd(12,8)
-    pgcd(8,12)
-    pgcd(87,116)
-  #+END_SRC
-
-  #+RESULTS:
-  : [1] 4
-  : [1] 4
-  : [1] 29
-* Fraction irréductible
-  Comment feriez-vous pour savoir si la fraction 51/85 est irréductible ?
-  En d'autres termes, peut-on la simplifier ? Par combien ?
-
-  /Indice/ : calcul du [[https://fr.wikipedia.org/wiki/Plus_grand_commun_diviseur][pgcd]] par la méthode soustractive ou encore mieux avec l'[[https://fr.wikipedia.org/wiki/PGCD_de_nombres_entiers#Algorithme_d.27Euclide][algorithme d'euclide]].
-#+BEGIN_SRC R
-
-  gcd <- function(a,b) ifelse (b==0, a, gcd(b, a %% b))
-  g = gcd(58,87)
-  if (g == 1) {
-    cat('La fraction 58/87 est irreductible !\n')
-  } else {
-    cat("La fraction 58/87 n'est pas irreductible, on peut la simplifier par",g,"\n")
+    return(ExecPgcdSubRec(abs(a), abs(b)))
   }
 
+  PgcdSubIter <- function(a, b) {
+    a <- abs(a)
+    b <- abs(b)
+    if(a == 0) return(b)
+    while(b != 0) {
+      ## cat(a, b, "\n")
+      if(b  >= a) {
+        b <- b - a
+      } else {
+        a <- a - b
+      }
+    }
+    return(a)
+  }
+#+END_SRC
+
+La fonction ~TestPGCD~ effectue des tests simples pour vérifier que le résultat est correct.
+#+BEGIN_SRC R :exports code :session pgcd
+  TestPGCD <- function(pgcd) {
+    system.time(
+      stopifnot(
+        pgcd(12,8) == 4,
+        pgcd(8,12) == 4,
+        pgcd(87,116) == 29
+        ## Ajouter des tests
+        ## ...
+      ))
+  }
+#+END_SRC
+
+Il faut passer en paramètre la fonction à tester.
+#+BEGIN_SRC R :exports code :session pgcd
+  TestPGCD(PgcdSubRec)
+  TestPGCD(PgcdSubIter)
+#+END_SRC
+
+Ajouter des tests à la fonction pour vérifier des cas généraux (premiers entre eux ou pas, négatifs, etc) et des cas limites (0, 1, etc).
+
+#+BEGIN_SRC R :results silent :session pgcd
+  TestPGCD <- function(pgcd) {
+    system.time(
+      stopifnot(
+        ## identité
+        pgcd(12,12) == 12,
+        ## non premiers entre eux
+        pgcd(12,8) == 4,
+        pgcd(8,12) == 4,
+        ## nombres négatifs
+        pgcd(-8,12) == 4,
+        pgcd(8,-12) == 4,
+        pgcd(-8,-12) == 4,
+        ## premiers entre eux
+        pgcd(27,64) == 1,
+        pgcd(64,27) == 1,
+        ## nombres négatifs
+        pgcd(-64,27) == 1,
+        pgcd(64,-27) == 1,
+        pgcd(-64,-27) == 1,
+        ## avec 1
+        pgcd(64,1) == 1,
+        pgcd(1,64) == 1,
+        pgcd(1,1) == 1,
+        ## avec 0
+        pgcd(63,0) == 63,
+        pgcd(0,63) == 63,
+        pgcd(0,0) == 0
+      ))
+  }
+#+END_SRC
+
+** Méthode par divisions
+
+   Le PGCD de deux entiers a et b est aussi celui de a et du reste de la division de b par a.
+
+   1. Programmez une fonction récursive ~PgcdDivRec(a,b)~
+   2. Programmez une fonction itérative ~PgcdDivIter(a,b)~
+
+#+BEGIN_SRC R :results silent :session pgcd
+  PgcdDivRec <- function(a,b) {
+    ExecPgcdSubRec <- function(a, b) ifelse(b == 0, a, PgcdDivRec(b, a %% b))
+    ExecPgcdSubRec(abs(a), abs(b))
+  }
+
+  PgcdDivIter <- function(a, b) {
+    a <- abs(a)
+    b <- abs(b)
+    while(b != 0) {
+      ## cat(a, b, "\n")
+      r <- a %% b
+      a <- b
+      b <- r
+    }
+    return(a)
+  }
 #+END_SRC
 
 #+RESULTS:
-: La fraction 58/87 n'est pas irreductible, on peut la simplifier par 29
+
+N'oubliez pas de tester vos fonctions.
+#+BEGIN_SRC R :exports code :session pgcd
+  TestPGCD(PgcdDivRec)
+  TestPGCD(PgcdDivIter)
+#+END_SRC
+
+#+RESULTS:
+: utilisateur     système      écoulé
+:       0.001       0.000       0.001
+: utilisateur     système      écoulé
+:           0           0           0
+
+
+La fonction ~PerfPGCD~ mesure le temps total d'exécution d'une fonction pour des cas de test avec différents ordres de grandeur.
+
+#+BEGIN_SRC R :exports code :results silent :session pgcd
+  PerfPGCD <- function(pgcd) {
+    n <- 2**seq(1, 31, 3)
+    n <- c(n-1, n)
+    df <- expand.grid(a = n, b = n)
+    ## print(df) ## afficher les cas de tests
+    system.time(apply(df, 1, function(x) pgcd(x[1], x[2])))
+  }
+#+END_SRC
+
+
+Comparez les performances des différentes fonctions et interprétez les résultats.
+
+#+BEGIN_SRC R :session pgcd
+  PerfPGCD(PgcdDivRec)
+  PerfPGCD(PgcdDivIter)
+#+END_SRC
+
+#+RESULTS:
+: utilisateur     système      écoulé
+:       0.025       0.000       0.025
+: utilisateur     système      écoulé
+:       0.006       0.000       0.006
+
+
+** Fraction irréductible
+  Comment feriez-vous pour savoir si la fraction 51/85 est irréductible ?
+  En d'autres termes, peut-on la simplifier ? Par combien ?
+
+  Programmez une fonction ~AfficherFraction(a,b)~ qui prend en paramètres deux entiers ~a~ et ~b~ représentant une fraction ~a/b~ et affiche sa fraction irréductible ~c/d~.
+
+#+BEGIN_SRC R :session pgcd
+  AfficherFraction <- function(a, b) {
+    d <- PgcdDivIter(a, b)
+    cat(sprintf("%d/%d = %d/%d\n", a, b, a/d, b/d))
+  }
+#+END_SRC
+
+#+RESULTS:
+
+#+BEGIN_SRC R :export both :session pgcd
+  AfficherFraction(58,87)
+#+END_SRC
+
+#+RESULTS:
+: 58/87 = 2/3
+
+** Exercice UCAnCODE
+
+Vous avez maintenant confiance dans la correction et l'efficacité de votre programme de calcul du PGCD.
+Allez résoudre l'[[https://51364960.widgets.sphere-engine.com/lp?hash=5ngrjoyzHU][exercice UCAnCODE]] !
 
 * Représentation des nombres en machines
    La fonction ~typeof~ renvoie le type d'un objet.
