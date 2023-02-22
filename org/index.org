@@ -409,39 +409,40 @@ https://phdcomics.com/comics/archive/phd051013s.gif
   #+BEGIN_SRC R :var exercices=exercices :var projets=projets :session grade
 
       ## Load grades from moodle
-      file <- "~/download/SPUA31 Notes-20220121_1249-comma_separated.csv"
+      file <- "~/download/SPUA31 Notes-20230114_1700-comma_separated.csv"
       df <- read.csv(file, stringsAsFactors = FALSE, na.strings = c("-", "NA"), header = TRUE)
       df <- subset(df, ! is.na(df$Numéro.d.identification))
       QuarterCeiling <- function(x) ceiling(4 * x)/4
 
       ## Grade CC
-      indA <- (grepl("^Devoir\\.", colnames(df)) | grepl("(HASH|PAIRS)", colnames(df))) & ! grepl("Bug.Bounty", colnames(df))
+      indA <- (grepl("^Devoir\\.", colnames(df)) | grepl("(FIRSTDIG|INET|NTHDIG)", colnames(df))) & ! grepl("Bug.Bounty", colnames(df))
 
       SumTwoBestGrades <- function(x) sum(tail(sort(x), 2), na.rm = TRUE)
       gradeA <- apply(df[, indA], 1, SumTwoBestGrades)
-      partiel <- "Partiel.du.8.10..Brut."
+      partiel <- "Partiel.du.6.10..Brut."
       examen <-  "CT..Brut."
       gradeP <- pmax(df[ , partiel], df[ , examen], na.rm = TRUE)
       gradeCC <- QuarterCeiling((gradeA + gradeP)/3)
 
       ## Grade BONUS
-      GradeBB <- function(bugBounties) {
-          scale <- c("☆☆☆☆☆" = 0, "★☆☆☆☆" = 0.25, "★★☆☆☆" = 0.375, "★★★☆☆" = 0.5, "★★★★☆" = 0.75, "★★★★★" = 1)
-          GetGradeBB <- function(stars) {
-              if(is.na(stars)) return(0)
-              else return(scale[stars])
-          }
-          unname(sapply(bugBounties, GetGradeBB))
-      }
+    ##   GradeBB <- function(bugBounties) {
+    ##       scale <- c("☆☆☆☆☆" = 0, "★☆☆☆☆" = 0.25, "★★☆☆☆" = 0.375, "★★★☆☆" = 0.5, "★★★★☆" = 0.75, "★★★★★" = 1)
+    ##       GetGradeBB <- function(stars) {
+    ##           if(is.na(stars)) return(0)
+    ##           else return(scale[stars])
+    ##       }
+    ##       unname(sapply(bugBounties, GetGradeBB))
+    ##   }
 
-      indB <- grepl("^Bonus\\.", colnames(df))
+    ## indB <- grepl("^Bonus\\.", colnames(df))
 
-    gradeB <- rowSums(df[ , indB], na.rm = TRUE) / sum(indB) + GradeBB(df$Devoir.Bug.Bounty..Brut.)
-    gradeB [ is.na(gradeCC) ] <- NA
-    gradeB <- QuarterCeiling(gradeB)
+    ## gradeB <- rowSums(df[ , indB], na.rm = TRUE) / sum(indB) + GradeBB(df$Devoir.Bug.Bounty..Brut.)
+    ## gradeB [ is.na(gradeCC) ] <- NA
+    ## gradeB <- QuarterCeiling(gradeB)
+    gradeB <- df[ , "BONUS..Brut." ]
 
-      ## Grade NOTE
-      ComputeFinalGrade <- function(ct, cc, bo) QuarterCeiling(pmin(pmax(ct, 0.6 * ct + 0.4 * cc ) + bo, 20))
+    ##   ## Grade NOTE
+    ComputeFinalGrade <- function(ct, cc, bo) QuarterCeiling(pmin(pmax(ct, 0.6 * ct + 0.4 * cc ) + bo, 20))
 
       gradeNOTE <- ComputeFinalGrade(df[ , examen], gradeCC, gradeB)
 
@@ -451,7 +452,7 @@ https://phdcomics.com/comics/archive/phd051013s.gif
           id = df$Numéro.d.identification,
           ##nom = df$Nom,
           CC = gradeCC,
-          BONUS= gradeB,
+          ## BONUS= gradeB,
           NOTE=gradeNOTE
           )
           write.csv(grades, 'SPUA31-notes.csv', row.names = FALSE, na = "")
@@ -461,12 +462,12 @@ https://phdcomics.com/comics/archive/phd051013s.gif
   #+END_SRC
 
   #+RESULTS:
+  : TRUE
 
 **** Analyse des notes
 
   #+BEGIN_SRC R :session grade :results none
-
-    file <- '~/download/SPUA31 Notes-20220121_1331-comma_separated.csv'
+    file <- '~/download/SPUA31 Notes-20230120_0858-comma_separated.csv'
     df <- read.csv(file, stringsAsFactors = FALSE, na.strings = c("-", "NA"), header = TRUE)
 
     grades <- df[ , c("CC..Brut.", "CT..Brut.", "NOTE..Brut." )]
@@ -485,11 +486,10 @@ https://phdcomics.com/comics/archive/phd051013s.gif
       gsummary <- as.data.frame(apply(grades, 2, summary, digits=3))
       p4 <- tableGrob(gsummary, theme = ttheme_default(base_size=50,  padding = unit(c(25, 4), "mm"), core=list(fg_params=list(hjust=1, x=0.9))))
 
-    toptitle <- textGrob(sprintf("SPUA31 - Algo & Prog avec R - 2021/2022 - %d étudiants - %d absents - %d acquis", nrow(grades), sum(is.na(grades$CC)), sum(grades$NOTE >= 10, na.rm=T)), gp=gpar(fontsize=50,font=2))
+    toptitle <- textGrob(sprintf("SPUA31 - Algo & Prog avec R - 2022/2023 - %d étudiants - %d absents - %d acquis", nrow(grades), sum(is.na(grades$NOTE)), sum(grades$NOTE >= 10, na.rm=T)), gp=gpar(fontsize=50,font=2))
 
     p <- grid.arrange(p2, p1, p3, p4, nrow = 2, top = toptitle)
-    ggsave('SPUA31-grades-2021-2022.pdf', plot = p, device = "pdf", width = 40, height = 15)
-
+    ggsave('SPUA31-statistics-2022-2023.pdf', plot = p, device = "pdf", width = 40, height = 15)
 
   #+END_SRC
 
