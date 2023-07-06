@@ -405,7 +405,7 @@ https://phdcomics.com/comics/archive/phd051013s.gif
 
 *** Script de calcul des notes                                     :noexport:
 **** Calcul des notes
-
+***** Session 1
   #+BEGIN_SRC R :var exercices=exercices :var projets=projets :session grade
 
       ## Load grades from moodle
@@ -441,7 +441,7 @@ https://phdcomics.com/comics/archive/phd051013s.gif
     ## gradeB <- QuarterCeiling(gradeB)
     gradeB <- df[ , "BONUS..Brut." ]
 
-    ##   ## Grade NOTE
+    ## Grade NOTE
     ComputeFinalGrade <- function(ct, cc, bo) QuarterCeiling(pmin(pmax(ct, 0.6 * ct + 0.4 * cc ) + bo, 20))
 
       gradeNOTE <- ComputeFinalGrade(df[ , examen], gradeCC, gradeB)
@@ -463,6 +463,34 @@ https://phdcomics.com/comics/archive/phd051013s.gif
 
   #+RESULTS:
   : TRUE
+
+
+***** Session 2
+  #+BEGIN_SRC R :var exercices=exercices :var projets=projets :session grade
+
+    ## Load grades from moodle
+    file <- "~/download/SPUA31 Notes-20230620_2007-comma_separated.csv"
+    df <- read.csv(file, stringsAsFactors = FALSE, na.strings = c("-", "NA"), header = TRUE)
+    df <- subset(df, ! is.na(df$Numéro.d.identification))
+    QuarterCeiling <- function(x) ceiling(4 * x)/4
+
+    cc1 <- df$CC..Brut.
+    note1 <- df$NOTE..Brut.
+    ct2 <- df$CT..Session.2...Brut.
+
+    note2 <- QuarterCeiling(pmax(note1, ct2, 0.8 * ct2 + 0.2 * cc1, na.rm = TRUE))
+    note2[ is.na(ct2) ] <- NA
+    grades <- data.frame(
+      id = df$Numéro.d.identification,
+      NOTE2=note2
+    )
+          write.csv(grades, 'SPUA31-notes.csv', row.names = FALSE, na = "")
+
+
+
+  #+END_SRC
+
+  #+RESULTS:
 
 **** Analyse des notes
 
