@@ -207,8 +207,7 @@ http://www.dcode.fr/compte-est-bon
    - http://www.java-online.ch/lego/legoEnglish/index.php?inhalt_links=turtle/nav_turtle.inc.php&inhalt_mitte=turtle/aufgaben/aufgaben.inc.php
 ** TODO http://socserv.socsci.mcmaster.ca/jfox/Courses/R-programming/
 * Intervenants
- - Arnaud Malapert (responsable), Riccardo Di Dio, Oussama Sabri.
-
+ - Arnaud Malapert (responsable), Marie Pelleau.
 * Introduction
 
 #+BEGIN_QUOTE
@@ -250,13 +249,13 @@ https://phdcomics.com/comics/archive/phd051013s.gif
 
 ** Salles
    Toutes les salles sont au 2ème et 3ème étage du Petit Valrose.
-   Les initiales de l'intervenant sont indiqués entre parenthèses.
+   Les initiales de l'intervenant sont indiquées entre parenthèses.
 
-  | 09h15-11h45 | Salle     | 13h15-15h45 | Salle    |
-  |-------------+-----------+-------------+----------|
-  | *Groupe 1*  | 315 (RDD) | *Groupe 4*  | 201 (AM) |
-  | *Groupe 2*  | 316 (AM)  |             |          |
-  | *Groupe 3*  | 317 (OS)  |             |          |
+  | 09h15-11h45 | Salle | 13h15-15h45 | Salle |
+  |-------------+-------+-------------+-------|
+  | *Groupe 1*  |       | *Groupe 4*  |       |
+  | *Groupe 2*  |       |             |       |
+  | *Groupe 3*  |       |             |       |
 
 * Contenu
  #+BEGIN_EXPORT html
@@ -266,11 +265,11 @@ https://phdcomics.com/comics/archive/phd051013s.gif
 ** Organisation
 
  1. Le matériel pédagogique est ici,
- 2. Les évaluations et le carnet de notes sont sur [[https://lms.univ-cotedazur.fr/course/view.php?id=10988][moodle]] et [[https://sphere-engine.com/][sphere engine]],
+ 2. Les évaluations et le carnet de notes sont sur [[https://lms.univ-cotedazur.fr/2023/course/view.php?id=13883][moodle]] et [[https://sphere-engine.com/][sphere engine]],
  3. Le code source est sur [[https://github.com/arnaud-m/algo-prog-R][github]] !
  4. On communique sur [[https://discord.com/invite/mjtRTSb][discord]].
 
-**** Inscrivez-vous au [[https://lms.univ-cotedazur.fr/course/view.php?id=10988][cours]] sur moodle !
+**** Inscrivez-vous au [[https://lms.univ-cotedazur.fr/2023/course/view.php?id=13883][cours]] sur moodle !
 
 ** Autoformation
 
@@ -304,7 +303,7 @@ https://phdcomics.com/comics/archive/phd051013s.gif
 
 ** Activités
 
-   Choisissez votre binôme sur [[https://lms.univ-cotedazur.fr/course/view.php?id=10988][moodle]] pour toutes vos activités !
+   Choisissez votre binôme sur [[https://lms.univ-cotedazur.fr/2023/course/view.php?id=13883][moodle]] pour toutes vos activités !
    Les activités sont évaluées pour le contrôle continu, mais ne sont pas au programme de l'examen.
    Les corrigés des activités ne sont pas publiés.
 
@@ -329,17 +328,16 @@ https://phdcomics.com/comics/archive/phd051013s.gif
     Vous pouvez aussi suivre en autonomie le [[https://i3s.unice.fr/master-info/ucancode/tutoriel/][tutoriel UCAnCODE]] si vous avez déjà des notions d'informatique ou de programmation.
     Ne paniquez pas si cela vous semble difficile au début.
 
-    *Attention, entrez votre adresse étudiante @etu.univ-cotedazur.fr dans le formulaire d'accueil. Sinon, votre note ne sera pas comptabilisée.*
-
     #+NAME: exercices
- | Problème          | Barème | Période       |
- |-------------------+--------+---------------|
- | [[https://i3s.unice.fr/master-info/ucancode/tutoriel/][Tutoriel UCAnCODE]] |      - |               |
- | [[https://51364960.widgets.sphere-engine.com/lp?hash=1L607lu5Yq][ROULETTE]]          |  Bonus |               |
- |                   |     12 | 28/10 - 29/10 |
+ | Problème          | Barème | Période   |
+ |-------------------+--------+-----------|
+ | [[https://i3s.unice.fr/master-info/ucancode/tutoriel/][Tutoriel UCAnCODE]] | -      |           |
+ | [[https://51364960.widgets.sphere-engine.com/lp?hash=1L607lu5Yq][ROULETTE]]          | Bonus  |           |
+ |                   | 12     | Oct. 2023 |
 
+Entrez votre adresse étudiante @etu.univ-cotedazur.fr dans le formulaire d'accueil.
 
- L'exercice à GEOHASH a des bonifications pour les premiers binômes à résoudre le problème : 3pts pour le premier ; 2pts pour le second ; 1pt pour le troisième.
+ # L'exercice à GEOHASH a des bonifications pour les premiers binômes à résoudre le problème : 3pts pour le premier ; 2pts pour le second ; 1pt pour le troisième.
 
 *** Mini-projets
     Les mini-projets complètent et étendent des notions abordées en cours et vous font découvrir différentes applications.
@@ -365,8 +363,8 @@ https://phdcomics.com/comics/archive/phd051013s.gif
     - Proposition d'exercices venant d'autres disciplines (biologie, économie, gestion \dots)
 
     Pour soumettre une contribution, vous devez
-     - rendre un devoir à l'activité /Bug Bounty/  sur moodle, ou
-     - poster une [[https://github.com/arnaud-m/algo-prog-R/issues][issue]] sur github.
+     - rendre un devoir à l'activité /Bug Bounty/  sur moodle,
+     - ou poster une [[https://github.com/arnaud-m/algo-prog-R/issues][issue]] sur github.
 
      La note sera intégrée comme un bonus sur la note finale.
 * Contrôle des connaissances

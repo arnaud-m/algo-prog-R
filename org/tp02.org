@@ -2,7 +2,7 @@
 #+TITLE:     Travaux Pratiques #2
 #+SUBTITLE:     Algo & Prog avec R
 #+OPTIONS: num:1 toc:1
-#+PROPERTY: header-args :results output replace :exports both
+#+PROPERTY: header-args :results output replace :exports none
 * Travail au CRIPS (Petit Valrose)
    Vous allez travailler sur des ordinateurs sous le système d'exploitation Windows (2ème étage) ou Linux (3ème étage).
    Peut-être utilisez-vous un ordinateur MacOS-X (basé sur UNIX comme Linux) ?
