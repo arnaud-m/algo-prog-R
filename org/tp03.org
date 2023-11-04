@@ -2,9 +2,8 @@
 #+TITLE:     Travaux Pratiques #3
 #+SUBTITLE:     Algo & Prog avec R
 #+OPTIONS: num:1 toc:1
-#+PROPERTY: header-args :results output replace :exports none
+#+PROPERTY: header-args :results output replace :exports both
 
-# # https://stackoverflow.com/questions/47508315/emacs-org-mode-export-to-html-without-syntax-highlighting
 * Factorielles
 Les choix algorithmiques et d'implémentation que vous ferez influent sur la qualité du programme en terme de complexité et donc de vitesse d'exécution.
 ** Fonctions factorielle
@@ -52,7 +51,7 @@ Les choix algorithmiques et d'implémentation que vous ferez influent sur la qua
 #+RESULTS:
 : [1] Inf
 
-*** Pour chronométrer un calcul en R, il suffit d'importer la fonction ~system.time~ : ~system.time(replicate(1000,factorial(100)))~. Qui est le plus rapide entre ~Fact(100)~ et ~FactRec(100)~ ?
+*** Pour chronométrer un calcul en R, il suffit d'appeler la fonction ~system.time~ : ~system.time(replicate(1000,factorial(100)))~. Qui est le plus rapide entre ~Fact(100)~ et ~FactRec(100)~ ?
 
 #+BEGIN_SRC R :session fact
   ## On apprendra plus tard à écrire une version vectorisée
@@ -85,12 +84,12 @@ utilisateur     système      écoulé
       0.001       0.000       0.001
 #+end_example
 ** Petites factorielles
-   Ecrivez une fonction itérative ~AfficherFact(n) faisant afficher toutes les factorielles des entiers de 0 à 10, une par ligne.
+   Ecrivez une fonction itérative ~AfficherFact(n)~ faisant afficher toutes les factorielles des entiers de 0 à 10, une par ligne.
 *** En utilisant la fonction ~Fact~ ou ~FactRec~, combien votre programme fera-t-il de multiplications ?
 
 
 #+BEGIN_SRC R :session fact
-  cat('Voici les factorielles des entiers de [1,20] :\n')
+  cat('Voici les factorielles des entiers de [1,10] :\n')
   i <- 1
   while (i <= 10) {
     ## la boucle d'iteration effectue en tout 1+2+3+...+10 = 55 multiplications
@@ -103,7 +102,7 @@ utilisateur     système      écoulé
 
 #+RESULTS:
 #+begin_example
-Voici les factorielles des entiers de [1,20] :
+Voici les factorielles des entiers de [1,10] :
 1 ! = 1
 2 ! = 2
 3 ! = 6
@@ -585,5 +584,5 @@ Allez résoudre l'[[https://51364960.widgets.sphere-engine.com/lp?hash=5ngrjoyzH
     Le système binaire le plus courant est l'équivalent en base deux de la [[https://fr.wikipedia.org/wiki/Notation_positionnelle][numération de position]] que nous utilisons en base dix dans la vie courante.
 *** les objets de base de R sont les vecteurs.
 
-    Même un entier "tout seul" est représenté par un vecteur \dots de une seule cellule.
+    Même un entier "tout seul" est représenté par un vecteur \dots d'une seule cellule.
     C'est comme ça : [[https://cran.r-project.org/doc/manuals/r-release/R-lang.html#Basic-types][basic types]] ; [[http://adv-r.had.co.nz/Expressions.html][expressions]].

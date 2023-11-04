@@ -251,11 +251,11 @@ https://phdcomics.com/comics/archive/phd051013s.gif
    Toutes les salles sont au 2ème et 3ème étage du Petit Valrose.
    Les initiales de l'intervenant sont indiquées entre parenthèses.
 
-  | 09h15-11h45 | Salle | 13h15-15h45 | Salle |
-  |-------------+-------+-------------+-------|
-  | *Groupe 1*  |       | *Groupe 4*  |       |
-  | *Groupe 2*  |       |             |       |
-  | *Groupe 3*  |       |             |       |
+  | 09h15-11h45 | Salle    | 13h15-15h45 | Salle    |
+  |-------------+----------+-------------+----------|
+  | *Groupe 1*  | 304 (AM) | *Groupe 4*  | 212 (AM) |
+  | *Groupe 2*  | 302 (MP) |             |          |
+  | *Groupe 3*  | 313      |             |          |
 
 * Contenu
  #+BEGIN_EXPORT html
@@ -291,9 +291,9 @@ https://phdcomics.com/comics/archive/phd051013s.gif
 
 | #. | Cours (Partie I)         | Cours (Partie II)                       | Travaux pratiques |
 |----+--------------------------+-----------------------------------------+-------------------|
-| 1. | Présentation du syllabus | [[file:pdf/01-variables.pdf][Expressions, instructions, et variables]] | [[file:tp01.org][TP 1]]              |
-| 2. | [[file:pdf/02-fonctions.pdf][Conditions et fonctions]]  | [[file:pdf/03-jeu-roulette.pdf][Jeu de roulette]]                         | [[file:tp02.org][TP 2]]              |
-| 3. | [[file:pdf/04-iterations-while.pdf][Itérations (while)]]       | [[file:pdf/05-conversions.pdf][Conversions]]                             | [[file:tp03.org][TP 3]]              |
+| 1. | Présentation du syllabus | [[file:pdf/01-variables.pdf][Expressions, instructions, et variables]] | [[file:tp01.org][TP 1 (corrigés)]]   |
+| 2. | [[file:pdf/02-fonctions.pdf][Conditions et fonctions]]  | [[file:pdf/03-jeu-roulette.pdf][Jeu de roulette]]                         | [[file:tp02.org][TP 2 (corrigés)]]   |
+| 3. | [[file:pdf/04-iterations-while.pdf][Itérations (while)]]       | [[file:pdf/05-conversions.pdf][Conversions]]                             | [[file:tp03.org][TP 3 (corrigés)]]   |
 | 4. | [[file:pdf/06-nombres-approches.pdf][Nombres réels approchés]]  | [[file:pdf/07-calcul-pi.pdf][Approximation du nombre \pi]]             | [[file:tp04.org][TP 4]]              |
 | 5. | [[file:pdf/08-iterations-for.pdf][Itérations (for)]]         | [[file:pdf/09-chaines.pdf][Chaînes de caractères]]                   | [[file:tp05.org][TP 5]]              |
 | 6. | [[file:pdf/10-vecteurs.pdf][Les séquences : vecteurs]] | [[file:pdf/11-premiers.pdf][Nombres premiers]]                        | [[file:tp06.org][TP 6]]              |
@@ -329,11 +329,11 @@ https://phdcomics.com/comics/archive/phd051013s.gif
     Ne paniquez pas si cela vous semble difficile au début.
 
     #+NAME: exercices
- | Problème          | Barème | Période   |
- |-------------------+--------+-----------|
- | [[https://i3s.unice.fr/master-info/ucancode/tutoriel/][Tutoriel UCAnCODE]] | -      |           |
- | [[https://51364960.widgets.sphere-engine.com/lp?hash=1L607lu5Yq][ROULETTE]]          | Bonus  |           |
- |                   | 12     | Oct. 2023 |
+ | Problème          | Barème | Période     |
+ |-------------------+--------+-------------|
+ | [[https://i3s.unice.fr/master-info/ucancode/tutoriel/][Tutoriel UCAnCODE]] | -      |             |
+ | [[https://51364960.widgets.sphere-engine.com/lp?hash=1L607lu5Yq][ROULETTE]]          | Bonus  |             |
+ | [[https://51364960.widgets.sphere-engine.com/lp?hash=fJB10NDfNU][RWC2023]]           | 12     | 26/10-27/10 |
 
 Entrez votre adresse étudiante @etu.univ-cotedazur.fr dans le formulaire d'accueil.
 
@@ -391,7 +391,7 @@ Entrez votre adresse étudiante @etu.univ-cotedazur.fr dans le formulaire d'accu
  - L'*examen terminal* (note $N_t$) est une épreuve écrite de 3h (barème indicatif - 3/4/16).
  - La note $N_c$ de *contrôle continu* est la moyenne :
    - de la note maximale entre
-     - la note de partiel, une épreuve écrite de 2h (barème indicatif - 5/6/12) et
+     - la note de partiel, une épreuve écrite de 2h (barème indicatif - 4/6/12) et
      - la note d'examen terminal;
    - et des 2 meilleures notes obtenues aux activités en les pondérant par leur barème.
  - La *note finale* est $N_1 = \max(N_t, 0.4 \times N_c + 0.6 \times N_t)$.
