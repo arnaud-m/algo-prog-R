@@ -246,6 +246,68 @@ La fonction \alert{\texttt{strsplit}} sépare une chaîne de caractères en une 
 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Accumulation dans une chaîne de caractères}
+  La situation générale est différente par rapport aux nombres où l'accumulation est arithmétique.
+  \begin{block}{Passer à l'étape suivante (\alert{ITÉRATION})}
+    Étant en possession d'une chaîne de caractères \texttt{acc}, la chaîne \texttt{acc} est concaténée avec le résultat de l'itération courante \texttt{res}.
+    \begin{lstlisting}
+acc <- paste(acc, res) ## accumulation suffixe ou
+acc <- paste(res, acc) ## accumulation préfixe
+    \end{lstlisting}
+  \end{block}
+
+  \begin{block}{Détecter si le calcul est terminé (\alert{TERMINAISON})}
+    Cela dépend de l'algorithme, le résultat est \texttt{acc}.
+  \end{block}
+
+  \begin{block}{Trouver les valeurs initiales des variables (\alert{INITIALISATION})}
+    Au début du calcul, la chaîne \texttt{acc} est vide.
+  \end{block}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Renverser un nombre dans une chaîne}
+  En TP, vous avez programmé la fonction \texttt{Renverser(n)} prenant un entier positif \texttt{n} et retournant l’entier obtenu en prenant les chiffres de \texttt{n} en sens inverse.
+
+
+\begin{columns}[c]
+\begin{column}{0.67\textwidth}
+  \begin{lstlisting}[style=edblock]
+Renverser <- function(n) {
+  acc <- ""
+  while(n > 9) {
+    acc <- paste(acc, n %% 10, sep = "")
+    n <- n %/% 10
+  }
+  return(paste(acc, n, sep = ""))
+}
+\end{lstlisting}
+
+\end{column}
+\begin{column}{0.29\textwidth}
+\begin{lstlisting}
+> Renverser(2023)
+[1] "3202"
+> Renverser(2000)
+[1] "0002"
+\end{lstlisting}
+\end{column}
+\end{columns}
+
+\begin{block}{Observation sur renversements}
+  Le renversement dans un nombre supprime les zéros en suffixe, alors que le renversement dans une chaîne les conserve.
+  \begin{itemize}
+  \item Le renversement de 1000 dans un nombre donne 1.
+  \item Celui dans une chaîne donne "0001".
+  \end{itemize}
+\end{block}
+
+
+
+\end{frame}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
@@ -433,194 +495,19 @@ langues du monde (plus de 65000 caractères !) \dots
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \begin{frame}[fragile]{Backup slides}
-%   Sometimes, it is useful to add slides at the end of your presentation to
-%   refer to during audience questions.
-
-%   The best way to do this is to include the \verb|appendixnumberbeamer|
-%   package in your preamble and call \verb|\appendix| before your backup slides.
-
-%   will automatically turn off slide numbering and progress bars for
-%   slides in the appendix.
-% \end{frame}
-
-
 \begin{frame}[fragile]{Backup slides}
-  Les diapositives suivantes, issues du cours 7, doivent probablement être déplacées dans un autre cours. \\
-  En effet, on utilise les vecteurs à bloc !
-\end{frame}
+  Sometimes, it is useful to add slides at the end of your presentation to
+  refer to during audience questions.
 
+  The best way to do this is to include the \verb|appendixnumberbeamer|
+  package in your preamble and call \verb|\appendix| before your backup slides.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]{Codage d'un entier en binaire I}
-  Coder en binaire un entier consiste à remarquer que ses chiffres (lus de droite à gauche) ne sont autres que les restes des divisions par 2.
-  \begin{exampleblock}{$(13)_{10}$ s'écrit $(1101)_2$ en binaire : $13 = 6 \times 2 + 1$}
-    \begin{itemize}
-    \item Le prefixe 110 correspond au codage du quotient (6).
-    \item Le suffixe 1 correspond au reste (1).
-    \end{itemize}
-  \end{exampleblock}
-
-  \begin{block}{Par récurrence}
-    \begin{lstlisting}[style=edblock]
-Codebin <- function(n) {
-  if(n < 2) {
-    return(as.character(n))
-  } else {
-    return(paste(codebin(n%/%2),n %% 2,sep=''))
-  }}
-    \end{lstlisting}
-  \end{block}
-
-  \begin{lstlisting}
-> codebin(13)
-[1] '1101'
-> codebin(0)
-[1] '0'
-\end{lstlisting}
-
-
-\end{frame}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]{Codage d'un entier en binaire II}
-  \begin{block}{Par itération}
-    \begin{lstlisting}[style=edblock]
-Codebin <- function(n) {
-  res <- c()
-  while( n > 0) {
-    res <- append(n %% 2, res)
-    n <- n %/%2
-  }
-  return(paste(res,collapse=''))
-}
-    \end{lstlisting}
-  \end{block}
-
-  \begin{exampleblock}{Questions}
-    \begin{itemize}
-    \item Que renvoie l'appel \texttt{Codebin(13)} ?
-    \item Que renvoie l'appel \texttt{Codebin(0)} ?
-    \item Comment peut-on corriger la fonction \texttt{Codebin} ?
-    \end{itemize}
-  \end{exampleblock}
-
-\end{frame}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]{Décodage du binaire vers le décimal : méthode naïve}
-
-  Le \alert{mauvais algorithme} consiste à calculer des puissances de 2.
-  $$(1101)_2 = 1*2^3 + 1*2^2 + 0*2^1 + 1*2^0$$
-  \begin{lstlisting}[style=editor]
-Decodebin <- function(n) {
-  digits <- utf8ToInt(n)- utf8ToInt('0')
-  res <- 0
-  for(i in seq_along(digits)) {
-    res <- res + digits[i]* 2**(length(digits)-i)
-  }
-  return(res)
-}
-\end{lstlisting}
-
-\begin{lstlisting}
-> Decodebin('1101')
-[1] 13
-\end{lstlisting}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]{Décodage du binaire vers le décimal : schéma de Horner}
-
-  Le \alert{bon algorithme} consiste à implémente un schéma de Hörner : calcul optimal de
-  la valeur d’un polynôme en un point sans calculs de puissances.
-  $$(1101)_2 = (1 \times 2 + 1) \times 2 + 0) \times 2 + 1$$
-  \begin{lstlisting}[style=editor]
-Decodebin <- function(n) {
-  horner <- function(digits) {
-    res <- 0
-    if(length(digits) > 0) {
-      res <- 2* horner(head(digits,-1)) + tail(digits,1)
-    }
-    return(res)
-  }
-  digits <- utf8ToInt(n)- utf8ToInt('0')
-  return(horner(digits))
-}
-\end{lstlisting}
-
-\begin{lstlisting}
-> Decodebin('1101')
-[1] 13
-\end{lstlisting}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
-  \frametitle{Traitement des vecteurs}
-  Une chaîne de caractères n’est pas mutable, mais on peut la transformer en un vecteur de code de caractères, et un vecteur est mutable \dots
-  \begin{exampleblock}{Transformation des chiffres en '?'}
-
-\begin{columns}[c]
-\begin{column}{0.66\textwidth}
-    \begin{lstlisting}[style=edblock]
-Cacher <- function(str) {
-  chars <- utf8ToInt(str)
-  c0 <- utf8ToInt('0')
-  c9 <- utf8ToInt('9')
-  res <- c()
-  for(i in seq_along(chars)) {
-    if(chars[i]>=c0 && chars[i]<=c9) {
-      res <- append(res,utf8ToInt('?'))
-    } else {
-      res <- append(res, chars[i])
-    }
-  }
-  return(intToUtf8(res))
-}
-\end{lstlisting}
-
-\end{column}
-\begin{column}{0.34\textwidth}
-  \begin{lstlisting}
-> Cacher('324DAC75')
-[1] '???DAC??'
-\end{lstlisting}
-
-
-\end{column}
-\end{columns}
-\alert{Inconvénient : construction incrémentale de \texttt{res} par \texttt{append} est coûteuse.}
-  \end{exampleblock}
+  will automatically turn off slide numbering and progress bars for
+  slides in the appendix.
 \end{frame}
 
 
 
-\begin{frame}[fragile]
-  \frametitle{Traitement vectorisé des vecteurs }
-  La solution consiste à basculer la chaîne dans un vecteur en un vecteur de code de caractères, puis à effectuer un \alert{traitement de vecteur mutable}, puis à rebasculer le vecteur liste en une chaîne. Intellectuel non ?
-
-  \begin{lstlisting}[style=editor]
-Cacher <- function(str) {
-  chars <- utf8ToInt(str)
-  c0 <- utf8ToInt('0')
-  c9 <- utf8ToInt('9')
-  numbers <- which( chars >= c0 & chars <= c9)
-  chars[numbers] <- utf8ToInt('?')
-  return(intToUtf8(chars))
-}
-\end{lstlisting}
-
-\begin{exampleblock}{concaténer un vecteur de chaînes : une opération fréquente}
-\begin{lstlisting}[style=block]
-> paste(c('a','bb','c'),collapse='')
-[1] "abbc"
-\end{lstlisting}
-
-\end{exampleblock}
-\end{frame}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
