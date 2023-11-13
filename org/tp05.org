@@ -184,7 +184,28 @@ Foo(10,15,20)
 * Épluchages de chaînes                                         :KEY:
   En utilisant l'idée d'épluchage d'un entier, programmez les fonctions suivantes d'écriture et de lecture d'un nombre binaire.
 
-*** La fonction ~IntToBin(n)~ prenant un entier ~n~ et retournant la chaîne contenant l'écriture binaire de n.
+*** La fonction ~IntToBin(n)~ prenant un entier ~n~ et retournant la chaîne contenant l'écriture binaire de ~n~.
+
+1. Programmez une version itérative.
+   #+BEGIN_SRC R :session strbin
+     IntToBin <- function(n) {
+       n <- abs(n);
+       acc <- "";
+       while(n > 2) {
+         acc <- paste(n %% 2, acc, sep="");
+         n  <- n %/% 2;
+       }
+       return( paste(n, acc, sep=""))
+       }
+    #+END_SRC
+2. Programmez une version récursive.
+   #+BEGIN_SRC R :session strbin
+     IntToBin <- function(n) {
+       n <- abs(n);
+       if(n < 2) return(as.character(n))
+       else return(paste(IntToBin(n %/% 2), n %% 2, sep = ""))
+     }
+    #+END_SRC
 
 
 #+BEGIN_SRC R :exports both :session strbin
@@ -196,32 +217,28 @@ Foo(10,15,20)
 #+RESULTS:
 : 3456 -> 110110000000 -> 3456
 
-**** Programmez une version itérative.
-
-#+BEGIN_SRC R :session strbin
-  IntToBin <- function(n) {
-    n <- abs(n);
-    acc <- "";
-    while(n > 2) {
-      acc <- paste(n %% 2, acc, sep="");
-      n  <- n %/% 2;
-    }
-    return( paste(n, acc, sep=""))
-    }
-#+END_SRC
-
-
-**** Programmez une version récursive.
-
-#+BEGIN_SRC R :session strbin
-  IntToBin <- function(n) {
-    n <- abs(n);
-    if(n < 2) return(as.character(n))
-    else return(paste(IntToBin(n %/% 2), n %% 2, sep = ""))
-  }
-#+END_SRC
-
 *** La fonction inverse ~BinToInt(s)~ prenant une chaîne ~s~ contenant l'écriture binaire d'un entier ~n~, et retournant ~n~.
+
+1. Programmez la fonction avec la méthode des puissances.
+   #+BEGIN_SRC R :results silent :session strbin
+     BinToInt <- function(s) {
+       digits <- utf8ToInt(s)-utf8ToInt("0")
+       pows <- seq(from = length(digits)-1, to = 0)
+       return(sum( 2**pows * digits))
+     }
+    #+END_SRC
+2. Programmez la fonction avec le schéma de Horner qui calcule de manière optimale la valeur d'un polynôme en un point sans calcul de puissance.
+   #+BEGIN_SRC R :results silent :session strbin
+     BinToInt <- function(s) {
+       digits <- utf8ToInt(s)-utf8ToInt("0")
+       acc <- 0
+       for(digit in digits) {
+         acc <- 2 * acc + digit
+       }
+       return(acc)
+     }
+    #+END_SRC
+
 
 #+BEGIN_SRC R :exports both :session strbin
   n <- 3456
@@ -232,29 +249,6 @@ Foo(10,15,20)
 
 #+RESULTS:
 : 3456 -> 110110000000 -> 3456
-
-*** Programmez la fonction avec la méthode des puissances.
-
-#+BEGIN_SRC R :results silent :session strbin
-  BinToInt <- function(s) {
-    digits <- utf8ToInt(s)-utf8ToInt("0")
-    pows <- seq(from = length(digits)-1, to = 0)
-    return(sum( 2**pows * digits))
-  }
-#+END_SRC
-
-*** Programmez la fonction avec le schéma de Horner qui calcule de manière optimale la valeur d'un polynôme en un point sans calcul de puissance.
-
-#+BEGIN_SRC R :results silent :session strbin
-  BinToInt <- function(s) {
-    digits <- utf8ToInt(s)-utf8ToInt("0")
-    acc <- 0
-    for(digit in digits) {
-      acc <- 2 * acc + digit
-    }
-    return(acc)
-  }
-#+END_SRC
 
 * Code de César                                                        :HARD:
   Le codage des messages secrets selon Jules César consistait à choisir une clé entière ~k~ dans [1,25] pour fabriquer à partir d'un message ~msg~ un nouveau message codé avec la technique suivante.
