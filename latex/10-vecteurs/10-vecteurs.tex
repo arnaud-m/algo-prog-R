@@ -598,6 +598,115 @@ ExtractionNombresPairs <- function(x) {
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Retour sur les chaînes de caractères}
+  On ne peut pas itérer sur les caractères d'une chaîne, mais on peut la transformer en un vecteur de code de caractères, et on peut itérer sur un vecteur.
+
+  \begin{exampleblock}{Transformation des chiffres en '?'}
+\begin{columns}[c]
+\begin{column}{0.66\textwidth}
+    \begin{lstlisting}[style=edblock]
+Cacher <- function(str) {
+  chars <- utf8ToInt(str)
+  c0 <- utf8ToInt('0')
+  c9 <- utf8ToInt('9')
+  acc <- ""
+  for(ci in chars) {
+    if(ci >=c0 && ci <=c9) {
+      acc <- paste(acc,"?", sep = "")
+    } else {
+      acc <- paste(acc, intToUtf8(ci), sep = "")
+    }
+  }
+  return(acc)
+}
+\end{lstlisting}
+\end{column}
+\begin{column}{0.34\textwidth}
+  \begin{lstlisting}
+> Cacher("324DAC75")
+[1] "???DAC??"
+\end{lstlisting}
+\end{column}
+\end{columns}
+\alert{Inconvénient : construction incrémentale de \texttt{acc} par \texttt{paste} est coûteuse.}
+  \end{exampleblock}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Vectorisation de chaîne de caractères}
+
+  Une chaîne de caractères n’est pas mutable, mais on peut la transformer en un vecteur de code de caractères, et on peut modifier un vecteur, puis le rebasculer dans une chaîne !
+
+  \begin{lstlisting}[style=editor]
+Cacher <- function(str) {
+  chars <- utf8ToInt(str)
+  c0 <- utf8ToInt('0')
+  c9 <- utf8ToInt('9')
+  digits <- which(chars >= c0 & chars <= c9)
+  chars[digits] <- utf8ToInt('?')
+  return(intToUtf8(chars))
+}
+\end{lstlisting}
+
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Substitution d'expression régulière dans une chaîne}
+
+  La solution la plus simple et robuste reste l'appel à une une fonction prédéfinie pour la substitution d'expression régulière.
+
+\begin{lstlisting}[style=edblock]
+Cacher <- function(str) gsub("\\d", "?", str)
+\end{lstlisting}
+
+En bonus, la fonction \texttt{Cacher} est elle-même vectorisée.
+\begin{lstlisting}
+> Cacher(c("234DAC75", "BCD302GE"))
+[1] "???DAC??" "BCD???GE"
+\end{lstlisting}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Évaluation des performances}
+    Le protocol expérimental consiste à cacher 2000 mots aléatoires de différentes longueurs avec les trois versions.
+  \begin{description}[Version III]
+  \item[Version I] accumulation dans une chaîne de caractères.
+  \item[Version II] vectorisation dans un vecteur de codes.
+  \item[Version III] substitution d'expression régulière dans une chaîne.
+  \end{description}
+
+  \begin{lstlisting}
+> alphabet <- c(letters, seq(0,9))
+> GenerateWord <- function(n) paste(sample(alphabet, size = n, replace = TRUE), collapse = "")
+> words <- replicate(2000,  GenerateWord(100))
+> system.time(sapply(words, Cacher))
+  \end{lstlisting}
+
+  \begin{table}[ht]
+    \centering
+    \begin{tabular}{l|rrr}
+      \toprule
+      \texttt{n} & version I & version II & version III \\
+      \midrule
+      $10^2$     &   0.67 & 0.03 & 0.03  \\
+      $10^3$     &   8.42 & 0.07 & 0.08  \\
+      $10^4$     & 269.62 & 0.51 & 0.60  \\
+      \bottomrule
+    \end{tabular}
+    \caption{Durée du traitement en secondes.}
+  \end{table}
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \questionSlide
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
