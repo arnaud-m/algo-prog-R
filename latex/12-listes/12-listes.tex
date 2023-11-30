@@ -290,7 +290,7 @@ CalculerBoiteEnglobante <- function(pts) {
   x <- CalculerIntervalleEnglobant(pts, 1)
   y <- CalculerIntervalleEnglobant(pts, 2)
   ## on met en forme le résultat
-  return(list(x, y))
+  return(list(c(x[1], y[1]), c(x[2], y[2])))
 }
   \end{lstlisting}
 %   \begin{lstlisting}
