@@ -307,7 +307,7 @@ Définir une fonction ~boite~ qui prend en argument un polygone donné sous la f
 
 *** Tirage de points uniformément aléatoirement dans un rectangle
 
-Définir une fonction ~points_aleatoires~ qui prend en argument un couple ~(n, bo)~, où ~n~ est un entier et ~bo~ une boîte rectangulaire, et renvoie une matrice ~M~ contenant ~n~ points tirés uniformément au hasard dans le rectangle ~r=[xmin;xmax]*[ymin;ymax]~. Plus précisément, la matrice ~M~ est de taille ~n*2~ et chaque colonne contient un point tiré uniformément au hasard dans le rectangle ~r~. Par exemple:
+Définir une fonction ~points_aleatoires~ qui prend en argument un couple ~(n, bo)~, où ~n~ est un entier et ~bo~ une boîte rectangulaire, et renvoie une matrice ~M~ contenant ~n~ points tirés uniformément au hasard dans le rectangle ~r=[xmin;xmax]*[ymin;ymax]~. Plus précisément, la matrice ~M~ est de taille ~n*2~ et chaque ligne contient un point tiré uniformément au hasard dans le rectangle ~r~. Par exemple:
 
 #+BEGIN_SRC R :results none :session poly
   points_aleatoires <- function(n, bo) {

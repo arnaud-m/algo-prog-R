@@ -294,8 +294,8 @@ https://phdcomics.com/comics/archive/phd051013s.gif
 | 1. | Présentation du syllabus | [[file:pdf/01-variables.pdf][Expressions, instructions, et variables]] | [[file:tp01.org][TP 1 (corrigés)]]   |
 | 2. | [[file:pdf/02-fonctions.pdf][Conditions et fonctions]]  | [[file:pdf/03-jeu-roulette.pdf][Jeu de roulette]]                         | [[file:tp02.org][TP 2 (corrigés)]]   |
 | 3. | [[file:pdf/04-iterations-while.pdf][Itérations (while)]]       | [[file:pdf/05-conversions.pdf][Conversions]]                             | [[file:tp03.org][TP 3 (corrigés)]]   |
-| 4. | [[file:pdf/06-nombres-approches.pdf][Nombres réels approchés]]  | [[file:pdf/07-calcul-pi.pdf][Approximation du nombre \pi]]             | [[file:tp04.org][TP 4]]              |
-| 5. | [[file:pdf/08-iterations-for.pdf][Itérations (for)]]         | [[file:pdf/09-chaines.pdf][Chaînes de caractères]]                   | [[file:tp05.org][TP 5]]              |
+| 4. | [[file:pdf/06-nombres-approches.pdf][Nombres réels approchés]]  | [[file:pdf/07-calcul-pi.pdf][Approximation du nombre \pi]]             | [[file:tp04.org][TP 4 (corrigés)]]   |
+| 5. | [[file:pdf/08-iterations-for.pdf][Itérations (for)]]         | [[file:pdf/09-chaines.pdf][Chaînes de caractères]]                   | [[file:tp05.org][TP 5 (corrigés)]]   |
 | 6. | [[file:pdf/10-vecteurs.pdf][Les séquences : vecteurs]] | [[file:pdf/11-premiers.pdf][Nombres premiers]]                        | [[file:tp06.org][TP 6]]              |
 | 7. | [[file:pdf/12-listes.pdf][Les séquences : listes]]   | [[file:pdf/13-dictionnaires.pdf][Ensembles et dictionnaires]]              | [[file:tp07.org][TP 7]]              |
 | 8. | [[file:pdf/14-fibonacci.pdf][Suite de Fibonacci]]       |                                         | [[file:tp08.org][TP 8]]              |
@@ -331,9 +331,12 @@ https://phdcomics.com/comics/archive/phd051013s.gif
     #+NAME: exercices
  | Problème          | Barème | Période     |
  |-------------------+--------+-------------|
- | [[https://i3s.unice.fr/master-info/ucancode/tutoriel/][Tutoriel UCAnCODE]] | -      |             |
- | [[https://51364960.widgets.sphere-engine.com/lp?hash=1L607lu5Yq][ROULETTE]]          | Bonus  |             |
- | [[https://51364960.widgets.sphere-engine.com/lp?hash=fJB10NDfNU][RWC2023]]           | 12     | 26/10-27/10 |
+ | [[https://i3s.unice.fr/master-info/ucancode/tutoriel/][Tutoriel UCAnCODE]] |      - |             |
+ | [[https://51364960.widgets.sphere-engine.com/lp?hash=1L607lu5Yq][ROULETTE]]          |  Bonus |             |
+ | [[https://51364960.widgets.sphere-engine.com/lp?hash=fJB10NDfNU][RWC2023]]           |     12 | 26/10-27/10 |
+ | [[https://51364960.widgets.sphere-engine.com/lp?hash=qCUe8vmgz4][LUHN10]]            |     14 | 23/11-24/11 |
+ | [[https://51364960.widgets.sphere-engine.com/lp?hash=PEtCDYSPvs][HASH1]]             |     +3 | 23/11-24/11 |
+ | [[https://51364960.widgets.sphere-engine.com/lp?hash=ZQswWvX54O][HASH2]]             |     +3 | 23/11-24/11 |
 
 Entrez votre adresse étudiante @etu.univ-cotedazur.fr dans le formulaire d'accueil.
 

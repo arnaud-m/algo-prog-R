@@ -5,11 +5,15 @@
 #+PROPERTY: header-args :results output replace :exports none
 * Recherche d'éléments dans un vecteur
 
-  1. Déterminez le nombre de 0 présent dans un vecteur.
-  2. Déterminer l'indice du premier 0 d'un vecteur.
-  3. Déterminez le plus petit élément non nul d'un vecteur.
-  4. Déterminer la valeur médiane d'un vecteur.
+Programmez des fonctions avec boucle répondant aux questions ci-dessous.
 
+  1. Déterminez le nombre de 0 présent dans un vecteur.
+  2. Déterminez l'indice du premier 0 d'un vecteur.
+  3. Déterminez le plus petit élément non nul d'un vecteur.
+  4. Déterminez la valeur médiane d'un vecteur.
+
+
+Le code ci-dessous répond aux questions avec des fonctions prédéfinies.
 
   #+BEGIN_SRC R :exports code
     vec <- sample(0:10,12, replace=TRUE)
@@ -188,7 +192,9 @@
   : [1] 0.6031135 0.1285228 0.3853113 0.7070992 0.7411141 0.9772133
   : [1] 0.9772133 0.7411141
 
-*** Programmez une fonction avec une boucle ~Kmax(x, k)~ prenant un vecteur ~x~ numérique, et retournant les ~k~ plus grands éléments de ~x~ triés par ordre non croissant. /Indices/ : ~sort~ et ~head~.
+*** Programmez une fonction avec une boucle ~Kmax(x, k)~ prenant un vecteur ~x~ numérique, et retournant les ~k~ plus grands éléments de ~x~ triés par ordre non croissant. /Indices/ : inspirez-vous du tri par sélection.
+
+*** Reprogrammez une fonction ~Kmax(x, k)~ avec des fonctions prédéfinies. /Indices/ : ~sort~ et ~head~.
 
   #+BEGIN_SRC R :session max2 :results none
     Kmax <- function(x, k) {
@@ -535,7 +541,7 @@ La fonction ~EstPremier(n)~  retourne False si elle trouve un diviseur non trivi
   : [1] 36.578
   : [1] 36.514
 * Compression d'un vecteur
-*** Programmez une fonction ~Compacter(x)~ prenant une vecteur ~x~ et remplaçant toute suite d’éléments consécutifs ~x~, ~x~,\dots, ~x~ par le seul élément ~x~.
+*** Programmez une fonction ~Compacter(x)~ prenant un vecteur ~x~ et remplaçant toute suite d’éléments consécutifs ~x~, ~x~,\dots, ~x~ par le seul élément ~x~.
 
  #+BEGIN_SRC R :session compact1 :results none
    Compacter <- function(x) {
@@ -644,7 +650,7 @@ Programmez une fonction ~masque(s,x)~ prenant un vecteur ~x~ numérique et une c
 
 * Recherche d'un motif                                       :HOME:
 
- Nous poursuivons l’exercice complémentaire du TP3, dont nous supposons que vous avez programmé la fonction ~CountSubstringMatch(s1,s2)~ dont vous allez vous inspirer. Programmez une fonction ~SubstringMatchExact(s1,s2)~ retournant le vecteur conternant les positions successives de l’apparition de ~s2~ dans ~s1~.
+ Nous poursuivons l’exercice complémentaire du TP3, dont nous supposons que vous avez programmé la fonction ~CountSubstringMatch(s1,s2)~ dont vous allez vous inspirer. Programmez une fonction ~SubstringMatchExact(s1,s2)~ retournant le vecteur contenant les positions successives de l’apparition de ~s2~ dans ~s1~.
 #+BEGIN_SRC R :session match :results none
   SubstringMatchExact <- function(str, pattern) {
     res <- c();

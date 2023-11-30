@@ -138,7 +138,7 @@ Voici le résultat de la fonction avec des nombres correctement formatés.
   Écrire la fonction réciproque ~EncodeNumber~.
 #+NAME: template2
 #+BEGIN_SRC R :exports code
-  #' Écrit le nombre n dans une chaîne de caractères en utilisant un base comprise entre 2 et 36
+  #' Écrit le nombre n dans une chaîne de caractères en utilisant une base comprise entre 2 et 36
   #' @param n le nombre à encoder
   #' @param base la base dans laquelle écrire le nombre
   #' @return la chaîne de caractère contenant le nombre n écrit dans la base

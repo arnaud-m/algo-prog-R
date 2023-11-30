@@ -2,7 +2,7 @@
 #+TITLE:     Travaux Pratiques #5
 #+SUBTITLE:     Algo & Prog avec R
 #+OPTIONS: num:1 toc:1
-#+PROPERTY: header-args :results output replace :exports none
+#+PROPERTY: header-args :results output replace :exports both
 * Le tour de la boucle                                                  :KEY:
 #+BEGIN_SRC R :results output :exports both
   Foo <- function(x,a,b) {
@@ -249,6 +249,8 @@ Foo(10,15,20)
 
 #+RESULTS:
 : 3456 -> 110110000000 -> 3456
+
+*** Vous avez maintenant tous les pré-requis pour commencer le mini-projet [[file:act03.org][Convertisseur de base (shiny)]].
 
 * Code de César                                                        :HARD:
   Le codage des messages secrets selon Jules César consistait à choisir une clé entière ~k~ dans [1,25] pour fabriquer à partir d'un message ~msg~ un nouveau message codé avec la technique suivante.
