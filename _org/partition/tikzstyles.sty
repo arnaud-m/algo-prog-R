@@ -1,0 +1,281 @@
+
+\usepackage{tikz}
+\usetikzlibrary{decorations}
+\usetikzlibrary{positioning, calc}
+\usetikzlibrary{shapes, fit}
+\usetikzlibrary{arrows}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{decorations.markings}
+\tikzstyle directed = [postaction={decorate,decoration={markings,
+    mark=at position .66 with {\arrow{latex}}}}, postaction={decorate,decoration={markings,
+    mark=at position .33 with {\arrow{latex}}}}]
+
+%%% Pour les graphes
+
+\tikzstyle{noeud}[20pt] = [circle, draw, minimum size=#1, scale=0.6, inner sep=0.5pt]
+\tikzstyle{vertex}[20pt] = [noeud={#1}]
+\tikzstyle{vertexB}[20pt] = [noeud={#1}, fill=bleuTN]
+\tikzstyle{vertexBk}[20pt] = [noeud={#1}, fill=black]
+\tikzstyle{vertexW}[20pt] = [noeud={#1}, fill=white]
+\tikzstyle{vertexR}[20pt] = [noeud={#1}, fill=rouge]
+\tikzstyle{vertexG}[20pt] = [noeud={#1}, fill=vert]
+\tikzstyle{vertexY}[20pt] = [noeud={#1}, fill=jauneTN]
+\tikzstyle{vertexV}[20pt] = [noeud={#1}, fill=violet]
+\tikzstyle{vertexBTN}[20pt] = [noeud={#1}, fill=bleuTN]
+\tikzstyle{vertexVTN}[20pt] = [noeud={#1}, fill=vertTN]
+\tikzstyle{vertexJTN}[20pt] = [noeud={#1}, fill=jauneTN]
+\tikzstyle{vertexGy}[20pt] = [noeud={#1}, fill=gray!70]
+\tikzstyle{vertexGyp}[20pt] = [noeud={#1}, fill=gray!20]
+
+
+\tikzstyle{nodeB}[20pt] = [noeud={#1}, color=bleuTN]
+\tikzstyle{nodeR}[20pt] = [noeud={#1}, color=rouge]
+\tikzstyle{nodeG}[20pt] = [noeud={#1}, color=vert]
+\tikzstyle{nodeV}[20pt] = [noeud={#1}, color=vertTN]
+\tikzstyle{nodeY}[20pt] = [noeud={#1}, color=jauneTN]
+
+\tikzstyle{vertexBp}[20pt] = [noeud={#1}, top color=blue!25, bottom color=blue!60]
+\tikzstyle{vertexRp}[20pt] = [noeud={#1}, top color=red!25, bottom color=red!60]
+\tikzstyle{vertexGp}[20pt] = [noeud={#1}, top color=green!30, bottom color=green!70]
+\tikzstyle{vertexYp}[20pt] = [noeud={#1}, top color=yellow!30, bottom color=yellow!70]
+\tikzstyle{vertexM}[20pt] = [noeud={#1}, top color=brown!10, bottom color=brown!80]
+
+\tikzstyle{point}[4pt] = [circle, draw, fill, minimum size={#1}, scale=0.8, inner sep=0.5pt]
+
+\tikzstyle{arete}[0.03cm] = [-, line width=#1]
+\tikzstyle{highlight}[0.5mm] = [line width=#1, >=latex, rounded corners=5pt]
+
+%%% Pour le métro
+\tikzstyle{station}[6pt] = [circle, fill, minimum size = {#1}, scale = 0.6, inner sep = 0.3pt]
+\tikzstyle{ligne}[0.6mm] = [line width = {#1}]
+\tikzstyle{hub} = [circle, draw, top color = gray!10, bottom color = gray!25, minimum size = 10pt, scale = 0.6, inner sep = 0.5pt]
+
+\tikzstyle{vertex1}[6pt] = [station = {#1}, fill = violet]
+\tikzstyle{ligne1} = [ligne, violet]
+\tikzstyle{vertex2}[6pt] = [station = {#1}, fill = vertTN]
+\tikzstyle{ligne2} = [ligne, vertTN]
+\tikzstyle{vertex3}[6pt] = [station = {#1}, fill = bleuTN]
+\tikzstyle{ligne3} = [ligne, bleuTN]
+\tikzstyle{vertex4}[6pt] = [station = {#1}, fill = vert]
+\tikzstyle{ligne4} = [ligne, vert]
+\tikzstyle{vertex5}[6pt] = [station = {#1}, fill = rouge]
+\tikzstyle{ligne5} = [ligne, rouge]
+\tikzstyle{vertex6}[6pt] = [station = {#1}, fill = bleuPastel]
+\tikzstyle{ligne6} = [ligne, bleuPastel]
+\tikzstyle{vertex7}[6pt] = [station = {#1}, fill = jauneTN]
+\tikzstyle{ligne7} = [ligne, jauneTN]
+\tikzstyle{vertex8}[6pt] = [station = {#1}, fill = vertPastel]
+\tikzstyle{ligne8} = [ligne, vertPastel]
+\tikzstyle{vertex9}[6pt] = [station = {#1}, fill = orange]
+\tikzstyle{ligne9} = [ligne, orange]
+\tikzstyle{vertex10}[6pt] = [station = {#1}, fill = magenta]
+\tikzstyle{ligne10} = [ligne, magenta]
+
+%%% Pour dessiner des dés ou des dominos
+
+\tikzstyle{domino}=[draw, minimum size=1.4cm, inner sep=0.1mm]
+
+\tikzset{
+  pics/domino/.style={code={
+    \tikzset{domino/.cd,#1}%
+    \def\arg##1{\pgfkeysvalueof{/tikz/domino/##1}}%
+
+    \node (\arg{label}) at (0,0) [domino] {};
+
+    \def\n{\arg{nb}}
+    \pgfmathparse{int(Mod(\n, 2))}
+    \def\p{\pgfmathresult}
+
+    \ifnum\p=1
+      \fill (0, 0) circle (0.13);
+    \fi
+
+    \ifnum\n>3
+      \fill (0.36, 0.36) circle (0.13);
+      \fill (0.36, -0.36) circle (0.13);
+      \fill (-0.36, 0.36) circle (0.13);
+      \fill (-0.36, -0.36) circle (0.13);
+      \ifnum\n=6
+        \fill (0.36, 0) circle (0.13);
+        \fill (-0.36, 0) circle (0.13);
+      \fi
+    \else
+      \ifnum\n=2
+        \fill (135:0.3675) circle (0.13);
+        \fill (315:0.3675) circle (0.13);
+      \fi
+      \ifnum\n=3
+        \fill (135:0.5125) circle (0.13);
+        \fill (315:0.5125) circle (0.13);
+      \fi
+    \fi
+  }}, domino/.cd, param/.initial = {}, label/.initial = {}, nb/.initial = 1
+}
+
+\tikzset{
+  pics/vsplit node/.style={code={
+    \tikzset{vsplit node/.cd,#1}%
+    \def\arg##1{\pgfkeysvalueof{/tikz/vsplit node/##1}}%
+    \node (\arg{label}-north) at (0,0) {\arg{north}};
+    \node [anchor = north] (\arg{label}-south) at (\arg{label}-north.south) {\arg{south}};
+
+    \node [inner sep=0pt, draw, rectangle, rounded corners, fit=(\arg{label}-north)(\arg{label}-south)] (\arg{label}) {};
+  }}, vsplit node/.cd, param/.initial = {}, label/.initial = {}, north/.initial={}, south/.initial={}
+}
+
+\tikzset{
+  pics/split node/.style={code={
+    \tikzset{split node/.cd,#1}%
+    \def\arg##1{\pgfkeysvalueof{/tikz/split node/##1}}%
+    \node (\arg{label}-A) at (0,0) {\arg{north west}};
+    \node [anchor = north] (\arg{label}-C) at (\arg{label}-A.south) {\arg{south west}};
+
+    \node [inner sep=0pt, fit=(\arg{label}-A)(\arg{label}-C)] (\arg{label}-west) {}; 
+
+    \node [draw = none] (neast) {\phantom{\arg{north east}}};
+    \node [draw = none] (seast) {\phantom{\arg{south east}}};
+    
+    \path let \p1 = ($(neast.west) - (neast.east)$), \p2 = ($(seast.west) - (seast.east)$), \n1 = {veclen(\p1)-\pgflinewidth}, \n2 = {veclen(\p2)-\pgflinewidth} in 
+      \ifdim\n1>\n2
+        node [anchor = north west] (\arg{label}-B) at (\arg{label}-west.north east) {\arg{north east}};
+        \node [anchor = north] (\arg{label}-D) at (\arg{label}-B.south) {\arg{south east}};
+      \else
+        node [anchor = south west] (\arg{label}-D) at (\arg{label}-west.south east) {\arg{south east}};
+        \node [anchor = south] (\arg{label}-B) at (\arg{label}-D.north) {\arg{north east}};
+      \fi
+
+    \node [inner sep=0pt, fit=(\arg{label}-B)(\arg{label}-D)] (\arg{label}-east) {};
+
+    \node [inner sep=0pt, draw, rectangle, rounded corners, fit=(\arg{label}-west)(\arg{label}-east)] (\arg{label}) {};
+    \draw (\arg{label}-west.north east) -- (\arg{label}-west.south east);
+  }}, split node/.cd, param/.initial = {}, label/.initial = {}, north west/.initial={}, north east/.initial={}, south west/.initial={}, south east/.initial={}
+}
+
+\tikzset{
+  pics/fermier/.style={code={
+    \tikzset{fermier/.cd,#1}%
+    \def\arg##1{\pgfkeysvalueof{/tikz/fermier/##1}}%
+    
+    \pic (\arg{label}) at (0, 0) {split node = {north west = Ferme, north east = March\'e, south west/.link=/tikz/fermier/ferme, south east/.link=/tikz/fermier/marche}};
+
+  }}, fermier/.cd, param/.initial = {}, label/.initial = {}, ferme/.initial={}, marche/.initial={}
+}
+
+\tikzset{
+  pics/creteaux/.style={code={
+    \tikzset{creteaux/.cd,#1}%
+    \def\arg##1{\pgfkeysvalueof{/tikz/creteaux/##1}}%
+    \ifdim\arg{ub}pt=\arg{lb}pt
+      \ifnum\arg{up}=0
+        \def\n{\arg{lb}-0.5}
+      \else
+        \def\n{\arg{lb}+0.5}
+      \fi
+      \fill [\arg{col2}] (0, 0) to (0, \arg{lb}) node[transform shape = false, above, black] {\tiny\arg{annot1}} to[out=0, in=180] (1, \n) to[out=0, in=180] (2, \arg{lb}) node[transform shape = false, above, black] {\tiny\arg{annot2}} to (2, 0);
+      \begin{scope}
+        \clip (0, 0) to (0, \arg{lb}) to[out=0, in=180] (1, \n) to[out=0, in=180] (2, \arg{lb}) to (2, 0);
+        \draw [line width = 3.25mm] (0, \arg{lb}) to[out=0, in=180] (1, \n) to[out=0, in=180] (2, \arg{lb});
+        \draw [color = \arg{col1}, line width = 3mm] (0, \arg{lb}) to[out=0, in=180] (1, \n) to[out=0, in=180] (2, \arg{lb});
+      \end{scope}
+      \draw [arete] (0, \arg{lb}) to [out=0, in=180] (1, \n) to [out=0, in=180] (2, \arg{lb});
+    \else
+      \fill [\arg{col2}] (0, 0) to (0, \arg{lb}) node[transform shape = false, above, black] {\tiny\arg{annot1}} to[out=0, in=180] (2, \arg{ub}) node[transform shape = false, above, black] {\tiny\arg{annot2}} to (2, 0);
+      \begin{scope}
+        \clip (0, 0) to (0, \arg{lb}) to[out=0, in=180] (2, \arg{ub}) to (2, 0);
+        \draw [line width = 3.25mm] (0, \arg{lb}) to[out=0, in=180] (2, \arg{ub});
+        \draw [color = \arg{col1}, line width = 3mm] (0, \arg{lb}) to[out=0, in=180] (2, \arg{ub});
+      \end{scope}
+      \draw [arete] (0, \arg{lb}) to[out=0, in=180]  (2, \arg{ub});
+    \fi
+    \draw (0, \arg{lb}) -- (0, 0) -- (2, 0) -- (2, \arg{ub});
+    \node[transform shape = false] (\arg{label}) at (1, -0.5) {$\arg{nom}$};
+  }}, creteaux/.cd, param/.initial = {}, label/.initial = {}, lb/.initial = 1, ub/.initial = 1, nom/.initial = {}, up/.initial = 0, col1/.initial = jauneTN, col2/.initial = bleuTN!40, annot1/.initial = {}, annot2/.initial={}
+}
+
+\tikzset{
+  pics/crete/.style={code={
+    \tikzset{crete/.cd,#1}%
+    \def\arg##1{\pgfkeysvalueof{/tikz/crete/##1}}%
+    \ifnum\arg{annot}>0
+      \ifdim\arg{scale}pt=1pt
+        \pic[\arg{param}] (\arg{label}) {creteaux={lb/.link=/tikz/crete/lb, ub/.link=/tikz/crete/ub, nom/.link=/tikz/crete/nom, up/.link=/tikz/crete/up, col1/.link=/tikz/crete/col1, col2/.link=/tikz/crete/col2, annot1/.link=/tikz/crete/lb, annot2/.link=/tikz/crete/ub}};
+      \else
+        \draw let \n1 = {\arg{lb}*\arg{scale}}, \n2 = {\arg{ub}*\arg{scale}}, \n3 = {\arg{lb}}, \n4 = {\arg{ub}} in pic [\arg{param}] {creteaux={lb={\n1}, ub={\n2}, nom/.link=/tikz/crete/nom, up/.link=/tikz/crete/up, col1/.link=/tikz/crete/col1, col2/.link=/tikz/crete/col2, annot1={ \n3}, annot2={\n4}}};
+      \fi
+    \else
+      \ifdim\arg{scale}pt=1pt
+        \pic[\arg{param}] (\arg{label}) {creteaux={lb/.link=/tikz/crete/lb, ub/.link=/tikz/crete/ub, nom/.link=/tikz/crete/nom, up/.link=/tikz/crete/up, col1/.link=/tikz/crete/col1, col2/.link=/tikz/crete/col2}};
+      \else
+        \draw let \n1 = {\arg{lb}*\arg{scale}}, \n2 = {\arg{ub}*\arg{scale}} in pic [\arg{param}] {creteaux={lb={\n1}, ub={\n2}, nom/.link=/tikz/crete/nom, up/.link=/tikz/crete/up, col1/.link=/tikz/crete/col1, col2/.link=/tikz/crete/col2}};
+      \fi
+    \fi
+  }}, crete/.cd, param/.initial = {}, label/.initial = {}, lb/.initial = 1, ub/.initial = 1, nom/.initial = {}, up/.initial = 0, up/.default = 1, col1/.initial = jauneTN, col2/.initial = bleuTN!40, scale/.initial = 1, annot/.initial = 0, toto/.initial = {}
+}
+
+\tikzset{
+  pics/loop/.style={code={
+    \tikzset{loop/.cd,#1}%
+    \def\arg##1{\pgfkeysvalueof{/tikz/loop/##1}}%
+    \ifnum\arg{right}>0
+      \draw [arete] (\arg{node}) to ++ (0.4, 0.2) to[out=30, in=90] ++ (0.25, -0.2) node[right = 0] {\arg{nom}} to [out=-90, in=-30] ++ (-0.25, -0.2) to (\arg{node});
+    \else
+      \ifnum\arg{left}>0
+        \draw [arete] (\arg{node}) to ++ (-0.4, 0.2) to[out=150, in=90] ++ (-0.25, -0.2) node[left = 0] {\arg{nom}} to [out=-90, in=-150] ++ (0.25, -0.2) to (\arg{node});
+      \else
+        \ifnum\arg{below}>0
+          \draw [arete] (\arg{node}) to ++ (-0.2, -0.4) to[out=230, in=180] ++ (0.2, -0.25) node[below = 0] {\arg{nom}} to [out=0, in=-60] ++ (0.2, 0.25) to (\arg{node});
+        \else
+          \draw [arete] (\arg{node}) to ++ (-0.2, 0.4) to[out=120, in=180] ++ (0.2, 0.25) node[above = 0] {\arg{nom}} to [out=0, in=60] ++ (0.2, -0.25) to (\arg{node});
+        \fi
+      \fi
+    \fi
+    
+  }}, loop/.cd, param/.initial = {}, label/.initial = {}, nom/.initial = {}, node/.initial = {}, right/.initial = 0, right/.default = 1, left/.initial = 0, left/.default = 1, below/.initial = 0, below/.default = 1, above/.initial = 1
+}
+
+\tikzset{
+  pics/chevre/.style={code={
+    \tikzset{chevre/.cd,#1}%
+    \def\arg##1{\pgfkeysvalueof{/tikz/chevre/##1}}%
+    
+    \draw[thick, line cap=round, \arg{param}] (-0.35, 0.13) -- (-0.05, 0.13) (-0.23, 0.13) -- (-0.28, 0) (0, 0) -- (-0.05, 0.13) -- (0, 0.31) -- (-0.05, 0.38) (0, 0.31) -- (0.05, 0.38) (0, 0.31) -- (0.14, 0.22) (0.14, 0.22) -- (-0.025, 0.22);
+    
+  }}, chevre/.cd, param/.initial={}
+}
+
+\tikzset{
+  pics/bonhomme/.style={code={
+    \tikzset{bonhomme/.cd,#1}%
+    \def\arg##1{\pgfkeysvalueof{/tikz/bonhomme/##1}}%
+    
+    \filldraw[thick, line cap=round, \arg{param}] (-0.14, 0) -- (0, 0.14) (0.14, 0) -- (0, 0.14) (0, 0.14) -- (0, 0.48) (-0.14, 0.35) -- (0.14, 0.35) (0, 0.58) circle (0.12);
+    
+  }}, bonhomme/.cd, param/.initial={}
+}
+
+\tikzset{
+  pics/verre/.style={code={
+    \tikzset{verre/.cd,#1}%
+    \def\ballsxcoord{{-0.341, 0.341, 0, -0.388, 0.388, -0.023, -0.431, 0.364, -0.066, 0.473, -0.474, 0.097, 0.474, -0.295, 0.065}}%
+    \def\ballsycoord{{0.23, 0.23, 0.5, 0.697, 0.697, 0.934, 1.13, 1.131, 1.367, 1.552, 1.563, 1.77, 1.987, 1.959, 2.204}}%
+    \def\arg##1{\pgfkeysvalueof{/tikz/verre/##1}}%
+    
+    \draw[ultra thick, line cap=round, \arg{param}] (-0.71, 1.6) -- (-0.55, 0) -- (0.55, 0) -- (0.71, 1.6);
+    
+    \newcount\i \i = 0
+    \edef\balls{\pgfkeysvalueof{/tikz/verre/balls}}
+    \foreach \c in \balls {
+      \ifx\c\empty\relax
+      \else
+        \ifnum\i<15
+          \pgfmathparse{\ballsxcoord[\the\i]}
+          \edef\xcoord{\pgfmathresult}
+          \pgfmathparse{\ballsycoord[\the\i]}
+          \edef\ycoord{\pgfmathresult}
+          \node[noeud, thick, fill = \c] at (\xcoord, \ycoord) {};
+          \global\advance\i by 1
+        \fi
+      \fi
+    }
+  }}, verre/.cd, param/.initial={}, balls/.initial={}
+}

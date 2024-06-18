@@ -1,0 +1,67 @@
+
+\usepackage{tcolorbox}
+%\tcbuselibrary{skins, breakable}
+\usepackage{ifthen}
+
+\def\name#1{\ifthenelse{\equal{#1}{}}{}{~-- #1}}
+
+%%% DEFINITION %%%
+\newtcolorbox[auto counter,number within=section]{definition}[2][]{%
+colback=jeuBG,colframe=jeuCol,fonttitle=\bfseries,
+title=Définition~\thetcbcounter\name{#2},
+#1}
+
+%%% EXEMPLE %%%
+\newtcolorbox[auto counter,number within=section]{exemple}[2][]{%
+colback=exBG,colframe=exCol,fonttitle=\bfseries,
+title=Exemple~\name{#2}, 
+%breakable, % Coupe la boîte avec les paramètres par défaut
+#1}
+
+%%% EXERCICE %%%
+\newtcolorbox[auto counter,number within=section]{exercice}[2][]{%
+colback=pedagoBG,colframe=pedagoCol,fonttitle=\bfseries,
+title=Exercice~\thetcbcounter #2,
+%breakable, title after break=Probl\`eme~\thetcbcounter. #2 (suite),  % Ajout du titre avec (suite) pour les autres parties
+#1}
+
+%%% REMARQUE %%%
+\newtcolorbox[auto counter,number within=section]{remarque}[2][]{%
+colback=pbBG,colframe=pbCol,fonttitle=\bfseries,
+title=Remarque~\thetcbcounter #2, 
+#1}
+
+
+
+%%% ALGORITHME %%%
+\newtcolorbox[auto counter,number within=section]{algorithme}[2][]{%
+colback=algoBG,colframe=algoCol,fonttitle=\bfseries,
+title=Algorithme~\thetcbcounter\name{#2},
+%enhanced, breakable, % Coupe la boîte sans bordure de fin
+#1}
+
+%%% PLUS LOIN %%%
+\newtcolorbox[auto counter,number within=section]{plusloin}[2][]{%
+colback=loinBG,colframe=loinCol,fonttitle=\bfseries,
+title=Allons plus loin\name{#2}, 
+%enhanced, breakable, 
+%overlay first={
+%  \path[font=\small\itshape, color = tcbcolframe] (frame.south) node (tmp) {(suite sur la prochaine page)};
+%  \draw[thick, color = tcbcolframe, dotted] (frame.south west) -- (tmp.west) (tmp.east) -- (frame.south east);
+%}, 
+%overlay middle={
+%  \path[font=\small\itshape, color = tcbcolframe] (frame.north) node (tmp1) {(suite de Allons plus loin\name{#2})};
+%  \draw[thick, color = tcbcolframe, dotted] (frame.north west) -- (tmp1.west) (tmp1.east) -- (frame.north east);
+%  \path[font=\small\itshape, color = tcbcolframe] (frame.south) node (tmp2) {(suite sur la prochaine page)};
+%  \draw[thick, color = tcbcolframe, dotted] (frame.south west) -- (tmp2.west) (tmp2.east) -- (frame.south east);
+%}, 
+%overlay last={
+%  \path[font=\small\itshape, color = tcbcolframe] (frame.north) node (tmp) {(suite de Allons plus loin\name{#2})};
+%  \draw[thick, color = tcbcolframe, dotted] (frame.north west) -- (tmp.west) (tmp.east) -- (frame.north east);
+%}, 
+#1}
+% Comme précédemment mais en couleur avec des pointillés :)
+
+
+
+

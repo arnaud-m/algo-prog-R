@@ -1,0 +1,27 @@
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Th\'eor\`eme}[section]
+
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{property}{Property}[theorem]
+\newtheorem{assert}{Assertion}[theorem]
+\newtheorem*{assertnonum}{Assertion}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+
+\theoremstyle{definition}
+\newtheorem{algo}[theorem]{Algorithme}
+
+\newenvironment{indice}[1][]{\par \noindent \underline{{\it Indice}\ifthenelse{\equal{#1}{}}{}{~#1}}~:\ }{\hfill$\lhd$
+\par \vspace{11pt}}
+
+\newenvironment{reponse}[1][]{\par \noindent \underline{{\it Solution du Jeu}\ifthenelse{\equal{#1}{}}{}{~#1}}.\ }{\hfill$\lhd$
+\par \vspace{11pt}}
+
+\newenvironment{reponsepb}[1][]{\par \noindent \underline{{\it Solution du Probl\`eme}\ifthenelse{\equal{#1}{}}{}{~#1}}.\ }{\hfill$\lhd$
+\par \vspace{11pt}}
+
+\newenvironment{solution}[1][]{\par \noindent \underline{{\it Solution}\ifthenelse{\equal{#1}{}}{}{~#1}}.\ }{\hfill$\lhd$
+\par \vspace{11pt}}
+
