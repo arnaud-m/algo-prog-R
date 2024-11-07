@@ -21,7 +21,7 @@
     "browser-sync": "^3.0.3",
     "child_process": "^1.0.2",
     "del": "^6.0.0",
-    "gulp": "^4.0.2",
+    "gulp": "^5.0.0",
     "gulp-changed": "^4.0.3",
     "gulp-htmlmin": "^5.0.1",
     "gulp-plumber": "^1.2.1"
