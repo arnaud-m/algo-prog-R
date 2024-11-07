@@ -23,7 +23,8 @@ var spawn = require('child_process').spawn;
 function publish(cb) {
     //var cmd = spawn('cmd', ['arg1', 'agr2'], {stdio: 'inherit'});
     // var cmd = spawn('ls', [], {stdio: 'inherit'});
-    var cmd = spawn('emacs', ['--eval', '(prog1 (org-publish-project "org-r")(kill-emacs))'], {stdio: 'inherit'});
+    // Emacs Workaround : conflict between whitespace-style and org-publish.
+    var cmd = spawn('emacs', ['--eval', '(prog1 (setq whitespace-style \'(face))(org-publish-project "org-r")(kill-emacs))'], {stdio: 'inherit'});
     cmd.on('close', function (code) {
     console.log('emacs org-publish exited with code ' + code);
     cb(code);
@@ -45,7 +46,7 @@ function serve(done) {
 }
 
 function pages() {
-    // https://github.com/gulpjs/gulp/issues/267  
+    // https://github.com/gulpjs/gulp/issues/267
     return $.src('build/*.html',  {base: './'})
     .pipe($changed('build'))
     .pipe($plumber())
@@ -57,4 +58,3 @@ function pages() {
       minifyCSS: true}))
     .pipe($.dest('./'));
 }
-
