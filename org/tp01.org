@@ -182,7 +182,7 @@ En attendant, nous introduisons progressivement ces exercices en vous guidant.
 Au début, nous vous fournirons un modèle et vous devrez écrire votre code à un endroit précis.
 À la fin, vous n'aurez plus de modèle.
 
-Commencez avec deux exercices pour vous familiariser avec le juge automatique.
-Ces exercices ont un petit côté mathématique pour être stimulant (mais complètement hors programme), car nous ne connaissons encore que peu d'éléments du langage.
+Commencez avec ce premier exercice pour vous familiariser avec le juge automatique.
+Il a un petit côté mathématique pour être stimulant (mais complètement hors programme), car nous ne connaissons encore que peu d'éléments du langage.
 
-1. [[https://51364960.widgets.sphere-engine.com/lp?hash=bpReDSRv5Z][Double dilution dans la pandémie]]
+- [[https://51364960.widgets.sphere-engine.com/lp?hash=bpReDSRv5Z][Double dilution dans la pandémie]]

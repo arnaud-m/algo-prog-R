@@ -37,7 +37,37 @@
      2. Écrivez une seconde version utilisant les fonctions prédéfinies ~max~ ou ~min~.
 
    #+BEGIN_SRC R :results silent :session maxsom
-     ## Avec des if
+     Somme2Max <- function(x,y,z) {
+       ## Trouver l'ordre des variables avec des else if
+       if(x <= y && y <= z) {
+         return(y + z)
+       } else if(x <= z && z <= y) {
+         return(y+z)
+       } else if(y <= x && x <= z) {
+         return(x + z)
+       } else if(y <= z && z <= x) {
+         return(x + z)
+       } else {
+         ## Cas 1 : z <= x && x <= y
+         ## Cas 2 : z <= y && y <= x
+         return(x + y)
+         ## Dans le pire cas, il y a 8 comparaisons et une addition
+       }
+     }
+
+     Somme2Max <- function(x,y,z) {
+       ## Trouver le plus petit élément avec des else if
+       if(y >= x && z >= x ) { ## x est le plus petit.
+         return(y + z)
+       } else if(x >= y && z >=y ) { ## y est le plus petit.
+         return(x+z)
+       } else { ## Sinon z est le plus petit.
+         return(x+y)
+       }
+       ## Dans le pire cas, il y a 4 comparaisons et une addition
+     }
+
+     ## Trouver le plus petit élément Avec des if imbriqués
      Somme2Max <- function(x,y,z) {
        if(x > y) {
          if(y > z) {return(x+y)}
@@ -46,31 +76,31 @@
          if(x > z) {return(y+x)}
          else {return(y+z)}
        }
-       ## Dans tous les cas, 2 comparaisons et une addition
+       ## Dans tous les cas, il y a 2 comparaisons et une addition
      }
-     ## Avec min
+
+     ## Avec la fonction prédéfinie min
      Somme2Max <- function(x,y,z) {x+y+z-min(x,y,z)}
-     ## Avec max
+     ## Avec la fonction prédéfinie max
      Somme2Max <- function(x,y,z) {max(x+y,y+z,x+z)}
    #+END_SRC
 
    À chaque fois, testez votre fonction grâce aux appels ci-dessous.
    #+BEGIN_SRC R :exports code :session maxsom
+     ## Ordres totaux
      Somme2Max(1, 2, 3)
      Somme2Max(1, 3, 2)
      Somme2Max(2, 1, 3)
      Somme2Max(2, 3, 1)
      Somme2Max(3, 1, 2)
      Somme2Max(3, 2, 1)
+     ## Ordres partiels
+     Somme2Max(3, 2, 2)
+     Somme2Max(2, 3, 2)
+     Somme2Max(2, 2, 3)
+     Somme2Max(2.5, 2.5, 2.5)
    #+END_SRC
 
-   #+RESULTS:
-   : [1] 5
-   : [1] 5
-   : [1] 5
-   : [1] 5
-   : [1] 5
-   : [1] 5
 ** Affichage du résultat à l'écran
    Définissez la fonction ~PrintSomme2Max(x,y,z)~ faisant afficher la somme des deux plus grands des entiers ~x~, ~y~, ~z~. Cette fonction n'aura aucun résultat (ne confondez pas l'effet et le résultat d'une fonction !).
 
@@ -315,6 +345,7 @@ Maintenant, programmez la fonction ~Circuit2(R1,R2,R3)~ retournant la résistanc
 : [1] 0
 : [1] 4700
 
+** TODO Calcul du taux global d'imposition et de la courbe d'imposition :noexport:
 * Calcul de l'hypoténuse
   1. Calculez l’hypoténuse d’un triangle connaissant les deux côtés de l’angle droit (~a~ et ~b~).
   2. Demander à l'utilisateur de saisir les valeurs ~a~ et ~b~ à l'aide de la fonction ~scan()~

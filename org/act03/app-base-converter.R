@@ -1,9 +1,9 @@
 DecodeDigits <- function(word, alphabet = c(0:9, LETTERS)) {
-  digits <- unlist(strsplit(toupper(word), NULL)) 
+  digits <- unlist(strsplit(toupper(word), NULL))
   return(match(digits, alphabet)-1)
 }
 
-#' Décode une chaîne de caractère word représentant un nombre n écrit dans une base comprise entre 2 et 36. 
+#' Décode une chaîne de caractère word représentant un nombre n écrit dans une base comprise entre 2 et 36.
 #'
 #' @param word la chaîne de caractère représentant le nombre ne contenant que des caractères alphanumériques.
 #' @param base la base dans laquelle est écrite le nombre
@@ -18,7 +18,7 @@ DecodeNumber <- function(word, base) {
 #' @return la chaîne de caractère contenant le nombre n écrit dans la base
 EncodeNumber <- function(n, base) {
   return(NA)
-} 
+}
 
 #' Écrit un nombre n dans une chaîne de caractère avec le système bibi-binaire
 #' @param n le nombre à encoder
@@ -41,8 +41,8 @@ server <- function(input, output) {
   number <- reactive( {
     number <- trimws(input$number)
     validate(
-      need(nchar(number) > 0, "Pas de nombre en entrée."), 
-      need(!grepl("[^a-zA-Z0-9]", number), "Format de nombre incorrect") 
+      need(nchar(number) > 0, "Pas de nombre en entrée."),
+      need(!grepl("[^a-zA-Z0-9]", number), "Format de nombre incorrect")
     )
     number <- DecodeNumber(number, fromBase())
     validate(
@@ -66,7 +66,7 @@ server <- function(input, output) {
   output$toBase3 <- renderText({ ConvertNumber(number(), input$toBase3)})
 }
 
-#' La fonction server d'une application shiny construit l'interface graphique à partir de ses entrées/sorties.
+#' La fonction ui d'une application shiny construit l'interface graphique à partir de ses entrées/sorties.
 ui <- fluidPage(
   titlePanel("Convertisseur à Bibi"),
   sidebarLayout(
@@ -77,15 +77,15 @@ ui <- fluidPage(
     ),
     ## Panneau principal contenant les sorties de l'application
     mainPanel(
-      column(4, 
+      column(4,
              numericInput("toBase1", "Vers la base:", "10"),
              verbatimTextOutput("toBase1")
              ),
-      column(4, 
+      column(4,
              numericInput("toBase2", "Vers la base:", "2"),
              verbatimTextOutput("toBase2")
              ),
-    column(4, 
+    column(4,
            numericInput("toBase3", "Vers la base:", "16"),
            verbatimTextOutput("toBase3")
            )

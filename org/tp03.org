@@ -84,7 +84,7 @@ utilisateur     système      écoulé
       0.001       0.000       0.001
 #+end_example
 ** Petites factorielles
-   Ecrivez une fonction itérative ~AfficherFact(n)~ faisant afficher toutes les factorielles des entiers de 0 à 10, une par ligne.
+   Ecrivez une fonction itérative ~AfficherFact()~ faisant afficher toutes les factorielles des entiers de 1 à 10, une par ligne.
 *** En utilisant la fonction ~Fact~ ou ~FactRec~, combien votre programme fera-t-il de multiplications ?
 
 
@@ -115,7 +115,7 @@ Voici les factorielles des entiers de [1,10] :
 10 ! = 3628800
 #+end_example
 
-*** Sans utiliser cette fonction. Tâchez de faire baisser le nombre de multiplications ! Combien votre programme fera-t-il de multiplications ?
+*** Sans utiliser cette fonction, tâchez de faire baisser le nombre de multiplications ! Combien votre programme fera-t-il de multiplications ?
 
 #+BEGIN_SRC R
   ## Si l'on veut faire tomber le nombre de multiplications, il ne FAUT PAS
@@ -379,7 +379,7 @@ Nous utiliserons la définition du [[https://fr.wikipedia.org/wiki/Plus_grand_co
     b <- abs(b)
     if(a == 0) return(b)
     while(b != 0) {
-      ## cat(a, b, "\n")
+      #cat(a, b, "\n")
       if(b  >= a) {
         b <- b - a
       } else {

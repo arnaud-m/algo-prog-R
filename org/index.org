@@ -1,7 +1,7 @@
-#+TITLE:       Algo & Prog avec R
-#+SETUPFILE:   base-template.org
-#+SUBTITLE:     Université Côte d'Azur
-#+AUTHOR:       A. Malapert
+#+SETUPFILE: base-template.org
+#+TITLE: Algo & Prog avec R
+#+SUBTITLE: Université Côte d'Azur
+#+AUTHOR: A. Malapert
 #+OPTIONS: H:4 num:2 toc:2
 #+HTML_LINK_UP:
 #+HTML_LINK_HOME:
@@ -207,7 +207,7 @@ http://www.dcode.fr/compte-est-bon
    - http://www.java-online.ch/lego/legoEnglish/index.php?inhalt_links=turtle/nav_turtle.inc.php&inhalt_mitte=turtle/aufgaben/aufgaben.inc.php
 ** TODO http://socserv.socsci.mcmaster.ca/jfox/Courses/R-programming/
 * Intervenants
- - Arnaud Malapert (responsable), Marie Pelleau.
+ - Arnaud Malapert (responsable), Marie Pelleau, Kenza Benjelloun.
 * Introduction
 
 #+BEGIN_QUOTE
@@ -248,14 +248,19 @@ https://phdcomics.com/comics/archive/phd051013s.gif
  #+END_EXPORT
 
 ** Salles
-   Toutes les salles sont au 2ème et 3ème étage du Petit Valrose.
-   Les initiales de l'intervenant sont indiquées entre parenthèses.
+   Toutes les salles du vendredi sont au 2ème et 3ème étage du Petit Valrose.
+   La salle M118/120 du jeudi est à l'étage le plus bas du bâtiment M.
+   Les initiales de l'intervenant sont indiquées dans la troisième colonne.
 
-  | 09h15-11h45 | Salle    | 13h15-15h45 | Salle    |
-  |-------------+----------+-------------+----------|
-  | *Groupe 1*  | 304 (AM) | *Groupe 4*  | 212 (AM) |
-  | *Groupe 2*  | 302 (MP) |             |          |
-  | *Groupe 3*  | 313      |             |          |
+| Créneau          | Salle    | Intervenant |
+|------------------+----------+-------------|
+| Jeu. 15h30-18h00 | M118/120 | AM          |
+| Ven. 09h15-11h45 | PV214    | AM          |
+| Ven. 09h15-11h45 | PV215    | KB          |
+| Ven. 09h15-11h45 | PV313    | MP          |
+| Ven. 13h15-15h45 | PV214    | AM          |
+| Ven. 13h15-15h45 | PV215    | MP          |
+
 
 * Contenu
  #+BEGIN_EXPORT html
@@ -265,11 +270,12 @@ https://phdcomics.com/comics/archive/phd051013s.gif
 ** Organisation
 
  1. Le matériel pédagogique est ici,
- 2. Les évaluations et le carnet de notes sont sur [[https://lms.univ-cotedazur.fr/2023/course/view.php?id=13883][moodle]] et [[https://sphere-engine.com/][sphere engine]],
+ 2. Les évaluations et le carnet de notes sont sur [[https://lms.univ-cotedazur.fr/2024/course/view.php?id=7319][moodle]] et [[https://sphere-engine.com/][sphere engine]],
  3. Le code source est sur [[https://github.com/arnaud-m/algo-prog-R][github]] !
- 4. On communique sur [[https://discord.com/invite/mjtRTSb][discord]].
+ 4. On communique surtout à l'oral pendant les cours,
+ 5. et plus rarement par courriel pour les communications importantes.
 
-**** Inscrivez-vous au [[https://lms.univ-cotedazur.fr/2023/course/view.php?id=13883][cours]] sur moodle !
+**** Inscrivez-vous au [[https://lms.univ-cotedazur.fr/2024/course/view.php?id=7319][cours]] sur moodle !
 
 ** Autoformation
 
@@ -294,8 +300,8 @@ https://phdcomics.com/comics/archive/phd051013s.gif
 | 1. | Présentation du syllabus | [[file:pdf/01-variables.pdf][Expressions, instructions, et variables]] | [[file:tp01.org][TP 1 (corrigés)]]   |
 | 2. | [[file:pdf/02-fonctions.pdf][Conditions et fonctions]]  | [[file:pdf/03-jeu-roulette.pdf][Jeu de roulette]]                         | [[file:tp02.org][TP 2 (corrigés)]]   |
 | 3. | [[file:pdf/04-iterations-while.pdf][Itérations (while)]]       | [[file:pdf/05-conversions.pdf][Conversions]]                             | [[file:tp03.org][TP 3 (corrigés)]]   |
-| 4. | [[file:pdf/06-nombres-approches.pdf][Nombres réels approchés]]  | [[file:pdf/07-calcul-pi.pdf][Approximation du nombre \pi]]             | [[file:tp04.org][TP 4 (corrigés)]]   |
-| 5. | [[file:pdf/08-iterations-for.pdf][Itérations (for)]]         | [[file:pdf/09-chaines.pdf][Chaînes de caractères]]                   | [[file:tp05.org][TP 5 (corrigés)]]   |
+| 4. | [[file:pdf/06-nombres-approches.pdf][Nombres réels approchés]]  | [[file:pdf/07-calcul-pi.pdf][Approximation du nombre \pi]]             | [[file:tp04.org][TP 4]]              |
+| 5. | [[file:pdf/08-iterations-for.pdf][Itérations (for)]]         | [[file:pdf/09-chaines.pdf][Chaînes de caractères]]                   | [[file:tp05.org][TP 5]]              |
 | 6. | [[file:pdf/10-vecteurs.pdf][Les séquences : vecteurs]] | [[file:pdf/11-premiers.pdf][Nombres premiers]]                        | [[file:tp06.org][TP 6]]              |
 | 7. | [[file:pdf/12-listes.pdf][Les séquences : listes]]   | [[file:pdf/13-dictionnaires.pdf][Ensembles et dictionnaires]]              | [[file:tp07.org][TP 7]]              |
 | 8. | [[file:pdf/14-fibonacci.pdf][Suite de Fibonacci]]       |                                         | [[file:tp08.org][TP 8]]              |
@@ -303,7 +309,7 @@ https://phdcomics.com/comics/archive/phd051013s.gif
 
 ** Activités
 
-   Choisissez votre binôme sur [[https://lms.univ-cotedazur.fr/2023/course/view.php?id=13883][moodle]] pour toutes vos activités !
+   Choisissez votre binôme sur [[https://lms.univ-cotedazur.fr/2024/course/view.php?id=7319][moodle]] pour toutes vos activités !
    Les activités sont évaluées pour le contrôle continu, mais ne sont pas au programme de l'examen.
    Les corrigés des activités ne sont pas publiés.
 
@@ -325,22 +331,26 @@ https://phdcomics.com/comics/archive/phd051013s.gif
 
     - [[file:pdf/A0-ucancode.pdf][Cours d'introduction à la programmation compétitive]]
 
-    Vous pouvez aussi suivre en autonomie le [[https://i3s.unice.fr/master-info/ucancode/tutoriel/][tutoriel UCAnCODE]] si vous avez déjà des notions d'informatique ou de programmation.
+    Vous pouvez aussi suivre en autonomie le [[https://upinfo.univ-cotedazur.fr/ucancode/tutoriel/][tutoriel UCAnCODE]] si vous avez déjà des notions d'informatique ou de programmation.
     Ne paniquez pas si cela vous semble difficile au début.
+
+Entrez votre adresse étudiante @etu.univ-cotedazur.fr dans le formulaire d'accueil.
+
 
     #+NAME: exercices
  | Problème          | Barème | Période     |
  |-------------------+--------+-------------|
- | [[https://i3s.unice.fr/master-info/ucancode/tutoriel/][Tutoriel UCAnCODE]] |      - |             |
- | [[https://51364960.widgets.sphere-engine.com/lp?hash=1L607lu5Yq][ROULETTE]]          |  Bonus |             |
- | [[https://51364960.widgets.sphere-engine.com/lp?hash=fJB10NDfNU][RWC2023]]           |     12 | 26/10-27/10 |
- | [[https://51364960.widgets.sphere-engine.com/lp?hash=qCUe8vmgz4][LUHN10]]            |     14 | 23/11-24/11 |
- | [[https://51364960.widgets.sphere-engine.com/lp?hash=PEtCDYSPvs][HASH1]]             |     +3 | 23/11-24/11 |
- | [[https://51364960.widgets.sphere-engine.com/lp?hash=ZQswWvX54O][HASH2]]             |     +3 | 23/11-24/11 |
+ | [[https://upinfo.univ-cotedazur.fr/ucancode/tutoriel/][Tutoriel UCAnCODE]] | -      |             |
+ |-------------------+--------+-------------|
+ | [[https://51364960.widgets.sphere-engine.com/lp?hash=2YT9CnbZPy][JO2024]]            | 12     | 24/10-25/10 |
+ | [[https://51364960.widgets.sphere-engine.com/lp?hash=6s6sTmdXHZ][ADDREV]]            | + 1    | 24/10-25/10 |
+ | [[https://51364960.widgets.sphere-engine.com/lp?hash=1L607lu5Yq][ROULETTE]]          | + 0.5  | 19/09-25/10 |
+ | [[https://51364960.widgets.sphere-engine.com/lp?hash=MQZj6SbdQU][RWC2023]]           | + 0.5  | 04/10-25/10 |
+ | [[https://51364960.widgets.sphere-engine.com/lp?hash=Dg1rBpfz1r][LUHN10]]            | + 0.5  | 18/10-25/10 |
+ | [[https://51364960.widgets.sphere-engine.com/lp?hash=Dg1rBpfz1r][HELLOKIT]]          | + 0.5  | 18/10-25/10 |
+ |-------------------+--------+-------------|
+ | ??                | ?      | 21/11-22/11 |
 
-Entrez votre adresse étudiante @etu.univ-cotedazur.fr dans le formulaire d'accueil.
-
- # L'exercice à GEOHASH a des bonifications pour les premiers binômes à résoudre le problème : 3pts pour le premier ; 2pts pour le second ; 1pt pour le troisième.
 
 *** Mini-projets
     Les mini-projets complètent et étendent des notions abordées en cours et vous font découvrir différentes applications.
@@ -410,22 +420,22 @@ Entrez votre adresse étudiante @etu.univ-cotedazur.fr dans le formulaire d'accu
   #+BEGIN_SRC R :var exercices=exercices :var projets=projets :session grade
 
       ## Load grades from moodle
-      file <- "~/download/SPUA31 Notes-20230114_1700-comma_separated.csv"
+      file <- "~/download/SPUA31 Notes-20240123_1220-comma_separated.csv"
       df <- read.csv(file, stringsAsFactors = FALSE, na.strings = c("-", "NA"), header = TRUE)
       df <- subset(df, ! is.na(df$Numéro.d.identification))
       QuarterCeiling <- function(x) ceiling(4 * x)/4
 
       ## Grade CC
-      indA <- (grepl("^Devoir\\.", colnames(df)) | grepl("(FIRSTDIG|INET|NTHDIG)", colnames(df))) & ! grepl("Bug.Bounty", colnames(df))
+      indA <- (grepl("^Devoir\\.", colnames(df)) | grepl("(RWC2023|LUHN10|LUHNN)", colnames(df))) & ! grepl("Bug.Bounty", colnames(df))
 
       SumTwoBestGrades <- function(x) sum(tail(sort(x), 2), na.rm = TRUE)
       gradeA <- apply(df[, indA], 1, SumTwoBestGrades)
-      partiel <- "Partiel.du.6.10..Brut."
+      partiel <- "Partiel.du.12.10..Brut."
       examen <-  "CT..Brut."
       gradeP <- pmax(df[ , partiel], df[ , examen], na.rm = TRUE)
       gradeCC <- QuarterCeiling((gradeA + gradeP)/3)
 
-      ## Grade BONUS
+    ## Grade BONUS
     ##   GradeBB <- function(bugBounties) {
     ##       scale <- c("☆☆☆☆☆" = 0, "★☆☆☆☆" = 0.25, "★★☆☆☆" = 0.375, "★★★☆☆" = 0.5, "★★★★☆" = 0.75, "★★★★★" = 1)
     ##       GetGradeBB <- function(stars) {
@@ -445,18 +455,18 @@ Entrez votre adresse étudiante @etu.univ-cotedazur.fr dans le formulaire d'accu
     ## Grade NOTE
     ComputeFinalGrade <- function(ct, cc, bo) QuarterCeiling(pmin(pmax(ct, 0.6 * ct + 0.4 * cc ) + bo, 20))
 
-      gradeNOTE <- ComputeFinalGrade(df[ , examen], gradeCC, gradeB)
+    gradeNOTE <- ComputeFinalGrade(df[ , examen], gradeCC, gradeB)
 
 
       ## Export Grades
-      grades <- data.frame(
-          id = df$Numéro.d.identification,
-          ##nom = df$Nom,
-          CC = gradeCC,
-          ## BONUS= gradeB,
-          NOTE=gradeNOTE
-          )
-          write.csv(grades, 'SPUA31-notes.csv', row.names = FALSE, na = "")
+    grades <- data.frame(
+      id = df$Numéro.d.identification,
+      ##nom = df$Nom,
+      CC = gradeCC,
+      ## BONUS= gradeB,
+      NOTE=gradeNOTE
+    )
+    write.csv(grades, 'SPUA31-notes.csv', row.names = FALSE, na = "")
 
 
       ##    cor.test(df$CT..Brut., grades$CC, method = "pearson", use = "complete.obs")
@@ -467,10 +477,10 @@ Entrez votre adresse étudiante @etu.univ-cotedazur.fr dans le formulaire d'accu
 
 
 ***** Session 2
-  #+BEGIN_SRC R :var exercices=exercices :var projets=projets :session grade
+  #+BEGIN_SRC R :var exercices=exercices :session grade
 
     ## Load grades from moodle
-    file <- "~/download/SPUA31 Notes-20230620_2007-comma_separated.csv"
+    file <- "~/download/SPUA31 Notes-20240626_0744-comma_separated.csv"
     df <- read.csv(file, stringsAsFactors = FALSE, na.strings = c("-", "NA"), header = TRUE)
     df <- subset(df, ! is.na(df$Numéro.d.identification))
     QuarterCeiling <- function(x) ceiling(4 * x)/4
@@ -496,7 +506,7 @@ Entrez votre adresse étudiante @etu.univ-cotedazur.fr dans le formulaire d'accu
 **** Analyse des notes
 
   #+BEGIN_SRC R :session grade :results none
-    file <- '~/download/SPUA31 Notes-20230120_0858-comma_separated.csv'
+    file <- '~/download/SPUA31 Notes-20240123_1230-comma_separated.csv'
     df <- read.csv(file, stringsAsFactors = FALSE, na.strings = c("-", "NA"), header = TRUE)
 
     grades <- df[ , c("CC..Brut.", "CT..Brut.", "NOTE..Brut." )]
@@ -515,10 +525,10 @@ Entrez votre adresse étudiante @etu.univ-cotedazur.fr dans le formulaire d'accu
       gsummary <- as.data.frame(apply(grades, 2, summary, digits=3))
       p4 <- tableGrob(gsummary, theme = ttheme_default(base_size=50,  padding = unit(c(25, 4), "mm"), core=list(fg_params=list(hjust=1, x=0.9))))
 
-    toptitle <- textGrob(sprintf("SPUA31 - Algo & Prog avec R - 2022/2023 - %d étudiants - %d absents - %d acquis", nrow(grades), sum(is.na(grades$NOTE)), sum(grades$NOTE >= 10, na.rm=T)), gp=gpar(fontsize=50,font=2))
+    toptitle <- textGrob(sprintf("SPUA31 - Algo & Prog avec R - 2023/2024 - %d étudiants - %d absents - %d acquis", nrow(grades), sum(is.na(grades$NOTE)), sum(grades$NOTE >= 10, na.rm=T)), gp=gpar(fontsize=50,font=2))
 
     p <- grid.arrange(p2, p1, p3, p4, nrow = 2, top = toptitle)
-    ggsave('SPUA31-statistics-2022-2023.pdf', plot = p, device = "pdf", width = 40, height = 15)
+    ggsave('SPUA31-statistics-2023-2024.pdf', plot = p, device = "pdf", width = 40, height = 15)
 
   #+END_SRC
 

@@ -156,7 +156,7 @@ unlist(strsplit(txt,' +',fixed=FALSE))
 : [1] "foo" "bar"
 
     1. Utilisez les méthodes ~strsplit~ et ~table~ pour programmer une fonction ~Frequences(str)~ prenant une chaîne ~str~ et retournant un vecteur nommé contenant les fréquences d’apparition de chaque mot de ~str~.
-    2. Modifiez votre solution pour que le résultat soit une liste de couples triée par la fréquence en utilisant la fonction ~sort~.
+    2. Modifiez votre solution pour que le résultat soit trié par la fréquence en utilisant la fonction ~sort~.
     3. En déduire une fonction ~PlusFrequents(str)~ retournant les mots les plus fréquents.
 
 

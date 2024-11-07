@@ -226,7 +226,7 @@ Quelques exemples d'appels.
       output$toBase3 <- renderText({ ConvertNumber(number(), input$toBase3)})
     }
 
-    #' La fonction server d'une application shiny construit l'interface graphique à partir de ses entrées/sorties.
+    #' La fonction ui d'une application shiny construit l'interface graphique à partir de ses entrées/sorties.
     ui <- fluidPage(
       titlePanel("Convertisseur à Bibi"),
       sidebarLayout(

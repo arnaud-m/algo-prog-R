@@ -1,6 +1,6 @@
 ﻿#+SETUPFILE: base-template.org
-#+TITLE:    Manipulation de polynômes
-#+SUBTITLE:     Activités #6
+#+TITLE: Manipulation de polynômes
+#+SUBTITLE: Activités #6
 #+PROPERTY: header-args :results output replace :exports none
 * Représentations en machine des polynômes
   1. Quelle serait la représentation creuse sous forme de liste du polynôme $2 + x^ 4 - 3 x^5$ ?
@@ -413,13 +413,14 @@ Utiliser ce module pour vérifier vos résultats.
 
 *** Programmez la fonction ~polyhorn(p,x)~ avec la [[https://en.wikipedia.org/wiki/Horner's_method][méthode de Horner]].
      #+BEGIN_SRC R :results none :session sparse
-       polyhorn <- function(p,x) {
+       polyhorn2 <- function(p,x) {
          if(length(p) == 0) return(NULL)
          acc <- 0
          deg <- p[[1]][2]
          for(m in p) {
            acc <- acc * (x**(deg-m[2])) + m[1]
            deg <- m[2]
+           print(acc)
          }
          if(deg > 0) {
            ## P = Q * X^deg

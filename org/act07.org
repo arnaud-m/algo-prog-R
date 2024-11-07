@@ -1,6 +1,6 @@
 ﻿#+SETUPFILE: base-template.org
-#+TITLE:    Estimation d'aires avec la méthode de Monte Carlo
-#+SUBTITLE:     Activités #7
+#+TITLE: Estimation d'aires avec la méthode de Monte Carlo
+#+SUBTITLE: Activités #7
 #+PROPERTY: header-args :results output graphics :exports none
 * Introduction
 ** Principe du TP/projet
@@ -222,12 +222,11 @@ Par exemple, on pourra utiliser le code suivant pour définir des polygones.
 
 Vous pouvez dessiner un polygone avec la fonction ~plot~,
 lorsque celui-ci est donné sous la forme décrite précédemment.
-
 #+BEGIN_SRC R :exports both :file act07/dessin_poly.jpg :width 300 :height 300 :session poly
   plot(carre, type='l')
   lines(papillon -1, type='b', col='firebrick')
   lines(losange, type='l', col='darkblue')
-#+END_SRC R
+#+END_SRC
 
 #+RESULTS:
 [[file:act07/dessin_poly.jpg]]

@@ -1,6 +1,6 @@
 #+SETUPFILE: base-template.org
-#+TITLE:     Travaux Pratiques #8
-#+SUBTITLE:     Algo & Prog avec R
+#+TITLE: Travaux Pratiques #8
+#+SUBTITLE: Algo & Prog avec R
 #+OPTIONS: num:1 toc:1
 #+PROPERTY: header-args :results output replace :exports none
 * Memo-Fonctions

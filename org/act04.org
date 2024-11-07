@@ -1,6 +1,6 @@
 ﻿#+SETUPFILE: base-template.org
-#+TITLE:    Coefficient de Gini
-#+SUBTITLE:     Activités #4
+#+TITLE: Coefficient de Gini
+#+SUBTITLE: Activités #4
 #+PROPERTY: header-args :results output replace :exports none
 * Saisie des données
 *** Entrer les données ci-dessous dans R grâce à la fonction ~scan~.

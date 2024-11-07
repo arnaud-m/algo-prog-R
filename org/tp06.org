@@ -32,9 +32,9 @@ Le code ci-dessous répond aux questions avec des fonctions prédéfinies.
   : [1] 6
 
 * Recherche de maximum
-  /Vous ne devez pas utiliser les fonctions prédéfinies ~max~ ou ~which.max~ dans cet exercice./
 
 ** Recherche simple
+  Vous ne devez pas utiliser les fonctions prédéfinies ~max~ ou ~which.max~ dans cette partie
 
 1. Programmez la fonction ~Max2(a, b)~ prenant en argument deux nombres ~a~ et ~b~, et retournant le maximum de ces deux nombres.
 2. Programmez la fonction ~Max3(a, b, c)~ renvoyant le maximum de trois nombres ~a~ et ~b~, et ~c~.
