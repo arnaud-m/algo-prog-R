@@ -62,7 +62,7 @@ S <- function(n) {
   \frametitle{Échappement d'une boucle \texttt{for}}
   Lorsque l'instruction \texttt{return} ou \texttt{break} est placée à l'intérieur de la boucle \texttt{for}, cela signifie :
   \begin{center}
-    \alert{Je parcours a priori \emph{tout} une séquence,\\ mais je me réserve la possibilité de \emph{m'échapper} en cours de route !}
+    \alert{Je parcours a priori \emph{toute} une séquence,\\ mais je me réserve la possibilité de \emph{m'échapper} en cours de route !}
 
   \end{center}
 \begin{exampleblock}{Exemple : comparaison d'une valeur à une séquence}
@@ -139,40 +139,55 @@ En version courte pour générer des entiers consécutifs :
 \begin{frame}[fragile]
   \frametitle{La boucle for parcourt un objet itérable}
 
-  Nous avons utilisé jusqu'à présent la boucle \texttt{for} sur une séquence d’entiers.
-  Or \texttt{seq} ne construit pas forcément l'intervalle, mais un itérateur sur un vecteur virtuel.
-  Heureusement d'ailleurs :
+  %Nous avons utilisé jusqu'à présent la boucle \texttt{for} sur une séquence d’entiers.
+  \texttt{seq} ne construit pas toujours l'intervalle, mais quelquefois un itérateur sur une séquence virtuelle (vecteur ou liste).
+  % Heureusement d'ailleurs:
+  \vspace{-5pt}
 \begin{columns}[t]
-\begin{column}{0.58\textwidth}
+\begin{column}{0.5\textwidth}
   \begin{lstlisting}[style=editor]
-for(i in seq(1,10**7, by=2)) {
-  print(i)
+system.time({
+for(i in seq(1,10**9, by=2)) {
+  cat(i, "")
   if(i > 10) break
 }
-  \end{lstlisting}
+cat("\n")})
+\end{lstlisting}
+
+\begin{lstlisting}
+1 3 5 7 9 11
+utilisateur  système  écoulé
+       2.74     2.34    5.10
+\end{lstlisting}
 \end{column}
-\begin{column}{0.38\textwidth}
-  \begin{lstlisting}
-[1] 1
-[1] 3
-[1] 5
-[1] 7
-[1] 9
-[1] 11
-  \end{lstlisting}
+\begin{column}{0.5\textwidth}
+  \begin{lstlisting}[style=editor]
+system.time({i <- 1
+while(i <= 10 ** 9) {
+  cat(i, "")
+  if(i > 10) break
+  i <- i + 2
+}
+cat("\n")})
+\end{lstlisting}
+
+\begin{lstlisting}
+1 3 5 7 9 11
+utilisateur  système   écoulé
+      0.003    0.000    0.004
+\end{lstlisting}
 \end{column}
 \end{columns}
 
-Les séquences (vector, list) sont des objets itérables .
-\begin{block}{Syntaxe}
 
-\end{block}{Syntaxe de la boucle \texttt{for}}
+\begin{alertblock}{Syntaxe de la boucle \texttt{for}}
+Les séquences (vector, list) sont des objets itérables.
 \begin{lstlisting}[style=edblock]
 for (x in sequence) {
   ...
 }
 \end{lstlisting}
-
+\end{alertblock}
 \end{frame}
 
 
