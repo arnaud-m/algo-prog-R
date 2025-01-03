@@ -292,6 +292,19 @@ Racine <- function(r, h = 2**(-10)) {
 \end{frame}
 
 
+% \begin{frame}
+%   \frametitle{Mais d'où vient la formule de Newton  $b = \frac{1}{2}(a + \frac{r}{a})$ ?}
+
+%   \tableofcontents
+
+
+%   \begin{itemize}
+%   \item Main : \insertmainframenumber
+%   \item Appendix : \insertappendixframenumber \ (remis à 0 par le package \texttt{appendixnumberbeamer})
+%   \item Total : \inserttotalframenumber
+
+%   \end{itemize}
+% \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  \questionSlide
@@ -299,6 +312,7 @@ Racine <- function(r, h = 2**(-10)) {
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  \appendix
  \backupSlides
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -342,8 +356,39 @@ Racine <- function(r, h = 2**(-10)) {
 %  \item Perte d’une plate-forme pétrolière en mer du Nord, au large de la Norvège, le 23 août 1991 (problème matériel + imprécision éléments finis) : coût estimé à 700 M\$.
   \item Lors des élections dans le Schleswig-Holstein le 5 avril 1992, l’affichage du pourcentage de voix des Verts sans décimales puis avec deux décimales change le résultat et donne la majorité au SPD au parlement allemand.
   \item Le 4 juin 1996, lors de son premier vol, la fusée européenne Ariane 5 explose 30 secondes après son décollage à cause d'une erreur d'\textit{overflow} dans l'ordinateur de bord causant une perte estimée à 500 M\$ (et 7 milliards de dollars d’investissement).
-\end{itemize}
+  \end{itemize}
+\end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{L’explosion du vol Ariane 501}
+  \begin{itemize}
+  \item Le 4 juin 1996, lors de son premier vol, la fusée européenne Ariane 5 explose 30 secondes après son décollage causant la perte de la fusée et de son chargement estime a 500 M\$.
+  \item Le système de guidage de la fusée s’est arrêté a la suite de l’arrêt des deux unités flottantes qui contrôlaient son programme.
+  \item Après deux semaines d’enquête, un problème est découvert dans le système de référence inertiel :
+    \begin{itemize}
+    \item la vitesse horizontale de la fusée par rapport au sol était calculée sur des flottants 64 bits et
+    \item dans le programme du calculateur de bord, il y avait une conversion de cette valeur flottante 64 bits vers un entier signe 16 bits.
+    \item Rien n’était fait pour tester que cette conversion était bien possible mathématiquement (sans dépassement de capacité).
+    \end{itemize}
+  \item Les tests ont été effectues pour Ariane 4 qui, étant moins puissante qu’Ariane 5, avait une vitesse horizontale suffisamment faible pour tenir sur un entier 16 bits ce qui n’était pas le cas d’Ariane 5.
+  \end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Scud ! Je l’ai raté !}
+  \begin{itemize}
+  \item L’horloge interne du missile Patriot mesure le temps en $\frac{1}{10}$s.
+  \item Pour obtenir le temps en secondes le système multiplie ce   nombre par 10 en utilisant un registre de 24 bits en virgule fixe.
+  \item $\frac{1}{10}$ n’est pas représentable de manière finie en base 2 et a donc été arrondi.
+    \begin{itemize}
+    \item L’expansion binaire de 1/10 est 0.0001100.
+    \item Le registre de 24 bits contient 0.00011001100110011001100.
+    \item Il introduit une erreur binaire de 0.000000000000000000000001100,
+    \item soit une erreur d'environ 0.000000095 en décimal.
+    \end{itemize}
+  \item En multipliant ce chiffre par le nombre de dixième de seconde en 100h (le temps écoulé entre la mise en marche du système et le lancement du missile Patriot), le temps écoulé est sous-estimé de : \\$ 0.000000095 \times 100 \times 60 \times 60 \times 10 = 0.34s$.
+  \item Un Scud parcourt environ 1676 m/s, donc en 0.34s parcourt plus de 500m ce qui le fait largement sortir de la zone d’acquisition de sa cible par le missile d’interception Patriot.
+  \end{itemize}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
