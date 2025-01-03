@@ -42,6 +42,8 @@
 
      #' HistPSI est une fonction construisant un histogramme d'une série d'observations.
      #' @param x le vecteur numérique d'observations
+     #' @param main le titre de l'histogramme
+     #' @param binwidth la largeur d'une barre de l'histogramme
      #' @return un histogramme construit avec ggplot2
      HistPSI <- function(x, main, binwidth=0.5) {
        ## TODO

@@ -2,7 +2,7 @@
 #+TITLE:     Travaux Pratiques #5
 #+SUBTITLE:     Algo & Prog avec R
 #+OPTIONS: num:1 toc:1
-#+PROPERTY: header-args :results output replace :exports none
+#+PROPERTY: header-args :results output replace :exports both
 * Le tour de la boucle                                                  :KEY:
 #+BEGIN_SRC R :results output :exports both
   Foo <- function(x,a,b) {
@@ -50,7 +50,7 @@
 
 
 *** Reprogrammez cette même fonction sans utiliser aucune boucle !
-**** En utilisant le calcul direct
+**** En utilisant le calcul direct.
 #+BEGIN_SRC R
   Foo <- function(x,a,b) {
     return( x + (b-a+1)* ((a+b) / 2) )
@@ -303,7 +303,7 @@ Les autres caractères du message sont laissés intacts.
 : k= -23 : ENVOYEZ 36 HOMMES ! --> HQYRBHC 36 KRPPHV ! --> ENVOYEZ 36 HOMMES !
 : k= 5 : ENVOyez 36 homMES ! --> JSATdje 36 mtrRJX ! --> ENVOyez 36 homMES !
 
-* Recherche de chaînes : une perspective biologique                    :HARD:
+* Recherche de chaînes : une perspective biologique               :HOME:HARD:
   D'après le cours Python du MIT.
 
   La recherche de chaînes (string matching) est intéressante dans plusieurs disciplines, comme la biologie, dont un problème courant consiste à comprendre la structure des molécules d'ADN, et le rôle de structures spécifiques dans le fonctionnement de la molécule. Une séquence ADN est représentée par une suite  de caractères choisis parmi les quatre nucléotides : adenine (A), cytosine (C), guanine (G) et thymine (T). Par exemple, la chaîne de caractères 'AAACAACTTCGTAAGTATA' représente un brin d'ADN.

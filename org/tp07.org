@@ -2,7 +2,7 @@
 #+TITLE:     Travaux Pratiques #7
 #+SUBTITLE:     Algo & Prog avec R
 #+OPTIONS: num:1 toc:1
-#+PROPERTY: header-args :results output replace :exports none
+#+PROPERTY: header-args :results output replace :exports both
 * Ensembles et Dictionnaires
 ** Ensemble d'entiers aléatoires
    1. Définissez deux ensemble ~e2~ et ~e3~ de 10 entiers aléatoires de [0,20].
@@ -199,10 +199,10 @@ Par exemple 4 = 8*(-1) + 12*1.
 *** Programmez une fonction ~bezout(a,b)~ récursive. Testez-la sur ~bezout(8,12)~.
 
   #+BEGIN_SRC R :session bezout
-    bezout <- function(a,b) {
+    Bezout <- function(a,b) {
       ## fonction récursive
       if(b == 0) return(c(a,1,0))
-      x <- bezout(b, a %% b)
+      x <- Bezout(b, a %% b)
       return( c(x[1], x[3], x[2] - a %/% b * x[3]))
     }
     print(bezout(8, 12))
@@ -212,19 +212,19 @@ Par exemple 4 = 8*(-1) + 12*1.
   : [1] 12  0  1
   : [1]  4 -1  1
 
-*** Programmez une fonction ~aff_bezout(a,b)~ affichant la décomposition g = a*u + b*v.
+*** Programmez une fonction ~AfficherBezout(a,b)~ affichant la décomposition g = a*u + b*v.
 
   #+BEGIN_SRC R :session bezout :results none
-    aff_bezout <- function(a,b) {
+    AfficherBezout <- function(a,b) {
       bz <- bezout(a,b);
       cat(bz[2],'*',a,'+',bz[3],'*',b,'=',bz[1], '\n')
     }
    #+END_SRC
 
   #+BEGIN_SRC R :session bezout :exports both
-    aff_bezout(8, 12)
-    aff_bezout(120,23)
-    aff_bezout(5040,4116)
+    AfficherBezout(8, 12)
+    AfficherBezout(120,23)
+    AfficherBezout(5040,4116)
    #+END_SRC
 
   #+RESULTS:
@@ -232,10 +232,10 @@ Par exemple 4 = 8*(-1) + 12*1.
   : -9 * 120 + 47 * 23 = 1
   : 9 * 5040 + -11 * 4116 = 84
 
-*** Programmez une fonction ~bezout(a,b)~ itérative. Testez-la sur ~bezout(8,12)~.
+*** Programmez une fonction ~Bezout(a,b)~ itérative. Testez-la sur ~bezout(8,12)~.
 
   #+BEGIN_SRC R :session bezout
-    bezout <- function(a,b) {
+    Bezout <- function(a,b) {
       ## fonction itérative
       bz <- c(a,1,0,b,0,1)
       ## égalités r = a*u+b*v et r' = a*u'+b*v' sont des invariants de boucle
@@ -246,9 +246,9 @@ Par exemple 4 = 8*(-1) + 12*1.
       }
       return(bz[1:3])
     }
-    aff_bezout(8, 12)
-    aff_bezout(120,23)
-    aff_bezout(5040,4116)
+    AfficherBezout(8, 12)
+    AfficherBezout(120,23)
+    AfficherBezout(5040,4116)
    #+END_SRC
 
   #+RESULTS:

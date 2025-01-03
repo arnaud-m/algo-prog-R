@@ -12,7 +12,7 @@ DecodeNumber <- function(word, base) {
   return(NA)
 }
 
-#' Écrit le nombre n dans une chaîne de caractères en utilisant un base comprise entre 2 et 36
+#' Écrit le nombre n dans une chaîne de caractères en utilisant une base comprise entre 2 et 36
 #' @param n le nombre à encoder
 #' @param base la base dans laquelle écrire le nombre
 #' @return la chaîne de caractère contenant le nombre n écrit dans la base

@@ -6,6 +6,14 @@
 #+HTML_LINK_UP:
 #+HTML_LINK_HOME:
 * Tasks                                                   :noexport:TEACHING:
+** TODO Exercice sur le calcul de la note finale en session 1 et 2.
+
+- Exercice au TP 2 avec seulement deux notes d'activités, puis au TP 6 avec un vecteur
+- Exercice UCAnCODE pour la première version. Pour la seconde ?
+- Mini-projet shiny
+
+
+
 ** TODO https://mgimond.github.io/ES218/index.html
  Added: [2018-06-14 jeu. 17:26]
 ** TODO simulation [[https://blogdemaths.wordpress.com/2015/02/23/arnaquez-vos-amis-a-pile-ou-face/][pile ou face]]
@@ -44,92 +52,7 @@
 ** TODO [[http://pbil.univ-lyon1.fr/R/pdf/exp3.pdf][nombres de Kaprekar]]
 ** TODO http://www.economie.gouv.fr/recrutement/aide-a-preparation-lexamen-professionnel-programmeur
  Added: [2016-12-19 lun. 13:40]
-** STARTED Occurences
-   #+BEGIN_SRC R :results output
-     x <- c(1,2,2,3,3,3,4,4,4,4)
-     CheckOcc <- function(x, v, k) {
-       if(k <= 0) {return(TRUE)}
-       for(i in x) {
-         if(i == v) {
-           k <- k - 1
-           if(k <= 0) {return(TRUE)}
-         }
-       }
-       return(k <= 0)
-     }
 
-
-     CheckOcc <- function(x, v, k) {
-       i <- 1
-       n <- length(x)
-       while(k > 0 && i <= n) {
-         if(x[i] == v) {
-           k <- k - 1
-         }
-         i <- i + 1
-       }
-       return(k <= 0)
-     }
-
-     CheckOcc <- function(x, v, k) {
-       length(which( x == v)) >= k
-     }
-
-
-     CheckOcc(x, 1, 1)
-     CheckOcc(x, 1, 2)
-     CheckOcc(x, 2, 2)
-     CheckOcc(x, 5, 1)
-     CheckOcc(x, 5, 0)
-
-
-   #+END_SRC
-
-   #+RESULTS:
-   : [1] TRUE
-   : [1] FALSE
-   : [1] TRUE
-   : [1] FALSE
-   : [1] TRUE
-
-** STARTED Le zanzibar
-   http://www.momes.net/Jeux/Jeux-et-animations/Regles-des-jeux-de-societe/Regle-de-12-jeux-de-des
-
-   de 2 joueurs à plus - 3 dés
-
-   Le premier joueur (que l'on déterminera comme on veut mais sans dispute!) lance les dés.
-   S'il fait un as (ou 1) il marque 100 points, s'il fait un 6 il marque 60 points, les autres faces du dé indiquant le nombre de points correspondant (2= 2 points, 3= 3 points, 4= 4 points, 5= 5 points)
-
-   On joue en un lancer de dés et on fait 3 tours. Le gagnant est celui qui a le plus de points.
-
-
-
- #+BEGIN_SRC R :session zanzibar
-   ZanzibarThrow <- function() {
-     sample(c(100,2,3,4,5,60), 3, replace = TRUE)
-   }
-
-   ZanzibarTurn <- function(n) {
-     replicate(n, ZanzibarThrow())
-   }
-
-   ZanzibarWinners <- function(x) {
-     which(x == max(x, na.rm = TRUE))
-   }
-
-   ZanzibarGame <- function(n, m = 3, verbose = FALSE) {
-     scores <- replicate(m, ZanzibarTurn(n))
-     #print(scores)
-     scores <- rowSums(scores)
-     #print(scores)
-     return(ZanzibarWinners(scores))
-    }
- #+END_SRC
-
- #+RESULTS:
-
-** TODO https://fr.wikipedia.org/wiki/Black_Box_%28jeu%29
- Added: [2016-04-01 ven. 23:40]
 ** TODO Turtle : étoile
 Added: [2016-03-21 lun. 09:07]
 http://villemin.gerard.free.fr/Wwwgvmm/Geometri/NbOrEtoi.htm
@@ -196,7 +119,6 @@ http://www.dcode.fr/compte-est-bon
 
 ** IDEA https://fr.wikipedia.org/wiki/Suite_de_Conway
 ** IDEA http://www.dptinfo.ens-cachan.fr/concours-ens/annales-info-ecrit.html
-** IDEA http://www.bankexam.fr/etablissement/528-Concours-Passerelle-ESC/47070-Informatique
 ** IDEA http://www.pge-pgo.fr/annales-entrainez-vous/annales-concours-edhec-ast1.html
 ** IDEA http://bcb.dfci.harvard.edu/~aedin/courses/Bioconductor/
 ** IDEA Nlle question pour la courbe du dragon :
@@ -205,7 +127,6 @@ http://www.dcode.fr/compte-est-bon
 ** IDEA More Turtle drawings
    - http://artscript.co.uk/Draw
    - http://www.java-online.ch/lego/legoEnglish/index.php?inhalt_links=turtle/nav_turtle.inc.php&inhalt_mitte=turtle/aufgaben/aufgaben.inc.php
-** TODO http://socserv.socsci.mcmaster.ca/jfox/Courses/R-programming/
 * Intervenants
  - Arnaud Malapert (responsable), Marie Pelleau, Kenza Benjelloun.
 * Introduction
@@ -300,10 +221,10 @@ https://phdcomics.com/comics/archive/phd051013s.gif
 | 1. | Présentation du syllabus | [[file:pdf/01-variables.pdf][Expressions, instructions, et variables]] | [[file:tp01.org][TP 1 (corrigés)]]   |
 | 2. | [[file:pdf/02-fonctions.pdf][Conditions et fonctions]]  | [[file:pdf/03-jeu-roulette.pdf][Jeu de roulette]]                         | [[file:tp02.org][TP 2 (corrigés)]]   |
 | 3. | [[file:pdf/04-iterations-while.pdf][Itérations (while)]]       | [[file:pdf/05-conversions.pdf][Conversions]]                             | [[file:tp03.org][TP 3 (corrigés)]]   |
-| 4. | [[file:pdf/06-nombres-approches.pdf][Nombres réels approchés]]  | [[file:pdf/07-calcul-pi.pdf][Approximation du nombre \pi]]             | [[file:tp04.org][TP 4]]              |
-| 5. | [[file:pdf/08-iterations-for.pdf][Itérations (for)]]         | [[file:pdf/09-chaines.pdf][Chaînes de caractères]]                   | [[file:tp05.org][TP 5]]              |
-| 6. | [[file:pdf/10-vecteurs.pdf][Les séquences : vecteurs]] | [[file:pdf/11-premiers.pdf][Nombres premiers]]                        | [[file:tp06.org][TP 6]]              |
-| 7. | [[file:pdf/12-listes.pdf][Les séquences : listes]]   | [[file:pdf/13-dictionnaires.pdf][Ensembles et dictionnaires]]              | [[file:tp07.org][TP 7]]              |
+| 4. | [[file:pdf/06-nombres-approches.pdf][Nombres réels approchés]]  | [[file:pdf/07-calcul-pi.pdf][Approximation du nombre \pi]]             | [[file:tp04.org][TP 4 (corrigés)]]   |
+| 5. | [[file:pdf/08-iterations-for.pdf][Itérations (for)]]         | [[file:pdf/09-chaines.pdf][Chaînes de caractères]]                   | [[file:tp05.org][TP 5 (corrigés)]]   |
+| 6. | [[file:pdf/10-vecteurs.pdf][Les séquences : vecteurs]] | [[file:pdf/11-premiers.pdf][Nombres premiers]]                        | [[file:tp06.org][TP 6 (corrigés)]]   |
+| 7. | [[file:pdf/12-listes.pdf][Les séquences : listes]]   | [[file:pdf/13-dictionnaires.pdf][Ensembles et dictionnaires]]              | [[file:tp07.org][TP 7 (corrigés)]]   |
 | 8. | [[file:pdf/14-fibonacci.pdf][Suite de Fibonacci]]       |                                         | [[file:tp08.org][TP 8]]              |
 
 
@@ -338,20 +259,31 @@ Entrez votre adresse étudiante @etu.univ-cotedazur.fr dans le formulaire d'accu
 
 
     #+NAME: exercices
- | Problème          | Barème | Période     |
- |-------------------+--------+-------------|
- | [[https://upinfo.univ-cotedazur.fr/ucancode/tutoriel/][Tutoriel UCAnCODE]] | -      |             |
- |-------------------+--------+-------------|
- | [[https://51364960.widgets.sphere-engine.com/lp?hash=2YT9CnbZPy][JO2024]]            | 12     | 24/10-25/10 |
- | [[https://51364960.widgets.sphere-engine.com/lp?hash=6s6sTmdXHZ][ADDREV]]            | + 1    | 24/10-25/10 |
- | [[https://51364960.widgets.sphere-engine.com/lp?hash=1L607lu5Yq][ROULETTE]]          | + 0.5  | 19/09-25/10 |
- | [[https://51364960.widgets.sphere-engine.com/lp?hash=MQZj6SbdQU][RWC2023]]           | + 0.5  | 04/10-25/10 |
- | [[https://51364960.widgets.sphere-engine.com/lp?hash=Dg1rBpfz1r][LUHN10]]            | + 0.5  | 18/10-25/10 |
- | [[https://51364960.widgets.sphere-engine.com/lp?hash=Dg1rBpfz1r][HELLOKIT]]          | + 0.5  | 18/10-25/10 |
- |-------------------+--------+-------------|
- | ??                | ?      | 21/11-22/11 |
+ | Problème          | Barème | Période         |
+ |-------------------+--------+-----------------|
+ | [[https://upinfo.univ-cotedazur.fr/ucancode/tutoriel/][Tutoriel UCAnCODE]] | -      |                 |
+ |-------------------+--------+-----------------|
+ | **[[https://51364960.widgets.sphere-engine.com/lp?hash=2YT9CnbZPy][JO2024]]**        | **12** | **24/10-25/10** |
+ | [[https://51364960.widgets.sphere-engine.com/lp?hash=6s6sTmdXHZ][ADDREV]]            | + 1    | 24/10-25/10     |
+ | [[https://51364960.widgets.sphere-engine.com/lp?hash=1L607lu5Yq][ROULETTE]]          | + 0.5  | 19/09-25/10     |
+ | [[https://51364960.widgets.sphere-engine.com/lp?hash=MQZj6SbdQU][RWC2023]]           | + 0.5  | 04/10-25/10     |
+ | [[https://51364960.widgets.sphere-engine.com/lp?hash=Dg1rBpfz1r][LUHN10]]            | + 0.5  | 18/10-25/10     |
+ | [[https://51364960.widgets.sphere-engine.com/lp?hash=Dg1rBpfz1r][HELLOKIT]]          | + 0.5  | 18/10-25/10     |
+ |-------------------+--------+-----------------|
+ | **[[https://51364960.widgets.sphere-engine.com/lp?hash=iCbiokj5lK][URL]]**           | **13** | **21/11-22/11** |
+ | [[https://51364960.widgets.sphere-engine.com/lp?hash=g2vkFj8IdT][TOILE]]             | + 3    | 21/11-22/11     |
+ |-------------------+--------+-----------------|
+ | **[[https://51364960.widgets.sphere-engine.com/lp?hash=PuC77IuuJZ][FISHNET]]**       | **13** | **05/12-06/12** |
+ | [[https://51364960.widgets.sphere-engine.com/lp?hash=KoiSv8Yr1Q][DAMIER]]            | + 3    | 05/12-06/12     |
+ |-------------------+--------+-----------------|
+ | **[[https://51364960.widgets.sphere-engine.com/lp?hash=v3zELaYW0r][GOODIES_EZ]]**    | **14** | **05/12-12/12** |
+ | [[https://51364960.widgets.sphere-engine.com/lp?hash=lMfGXki5gU][GOODIES]]           | + 3    | 05/12-12/12     |
+ | Bonifications     | + 3    |                 |
 
+L'exercice GOODIES a des bonifications pour les premiers binômes à résoudre le problème : 3pts pour le premier ; 2pts pour le second ; 1pt pour le troisième.
 
+**** Table Formatting                                              :noexport:
+https://stackoverflow.com/questions/294885/how-to-put-spacing-between-tbody-elements
 *** Mini-projets
     Les mini-projets complètent et étendent des notions abordées en cours et vous font découvrir différentes applications.
     Vous devez déposer le projet sur moodle (un seul fichier de code source commenté) et faire une démonstration du projet.
@@ -539,7 +471,8 @@ Utilisez le courriel seulement pour les communications importantes ou officielle
 
 * Ressources électroniques
 *** Ressources BU
-   - [[http://catalogue.unice.fr/permalink/f/13cm8lt/sc_aleph_uns01000332479][Le livre de R : apprentissage et référence]], Bernard Desgraupes.
+   - [[https://catalogue.bu.univ-cotedazur.fr/permalink/f/11hf8mm/33UCA_KOHA75121
+][Le livre de R : apprentissage et référence]], Bernard Desgraupes.
 *** Manuels, Livres, \dots
 
   - [[https://cran.r-project.org/doc/contrib/Goulet_introduction_programmation_R.pdf][Introduction à la programmation de R]] (V. Goulet)

@@ -2,7 +2,7 @@
 #+TITLE:     Travaux Pratiques #6
 #+SUBTITLE:     Algo & Prog avec R
 #+OPTIONS: num:1 toc:1
-#+PROPERTY: header-args :results output replace :exports none
+#+PROPERTY: header-args :results output replace :exports both
 * Recherche d'éléments dans un vecteur
 
 Programmez des fonctions avec boucle répondant aux questions ci-dessous.
@@ -10,26 +10,88 @@ Programmez des fonctions avec boucle répondant aux questions ci-dessous.
   1. Déterminez le nombre de 0 présent dans un vecteur.
   2. Déterminez l'indice du premier 0 d'un vecteur.
   3. Déterminez le plus petit élément non nul d'un vecteur.
-  4. Déterminez la valeur médiane d'un vecteur.
+  4. Déterminez la valeur médiane d'un vecteur. Indice : ~sort~.
 
 
 Le code ci-dessous répond aux questions avec des fonctions prédéfinies.
 
   #+BEGIN_SRC R :exports code
+    Count0 <- function(vec) sum(vec == 0)
+    Which0 <- function(vec) head(which(vec == 0), 1)
+    Min0 <- function(vec) min(vec[ vec != 0])
+
     vec <- sample(0:10,12, replace=TRUE)
     print(vec)
-    sum(vec == 0)
-    head(which(vec == 0),1)
-    min(vec[ vec != 0])
+    Count0(vec)
+    Which0(vec)
+    Min0(vec)
     median(vec)
   #+END_SRC
 
   #+RESULTS:
-  :  [1]  0  3  5 10  9  2 10 10  7  0  2 10
-  : [1] 2
+  :  [1]  2  9  6  0  6  3  5  5  3 10  2  4
   : [1] 1
+  : [1] 4
   : [1] 2
-  : [1] 6
+  : [1] 4.5
+
+
+  #+BEGIN_SRC R
+    Count0 <- function(vec) {
+      count <- 0
+      for(v in vec) {
+        if( v == 0) {
+          count <- count + 1
+        }
+      }
+      return(count)
+    }
+
+    Which0 <- function(vec) {
+      for(i in seq_along(vec)) {
+        if( vec[i] == 0) {
+          return(i)
+        }
+      }
+      return(NA)
+    }
+
+
+    Min0 <- function(vec) {
+      res <- Inf
+      for(v in vec) {
+        if( v != 0 && v < res) {
+          res <- v
+        }
+      }
+      return(res)
+    }
+
+    Median <- function(vec) {
+      vec <- sort(vec)
+      n <- length(vec)
+      k <- n %/% 2
+      if(n %% 2 == 0) {
+        return((vec[k] + vec[k+1]) / 2)
+      } else {
+        return((vec[k + 1]))
+      }
+    }
+
+    vec <- sample(0:10,12, replace=TRUE)
+    print(vec)
+    Count0(vec)
+    Which0(vec)
+    Min0(vec)
+    Median(vec)
+  #+END_SRC
+
+  #+RESULTS:
+  : [1]  2 10  1 10  7  3  9  1  1 10  6  4
+  : [1] 0
+  : [1] NA
+  : [1] 1
+  : [1] 5
 
 * Recherche de maximum
 
@@ -38,7 +100,37 @@ Le code ci-dessous répond aux questions avec des fonctions prédéfinies.
 
 1. Programmez la fonction ~Max2(a, b)~ prenant en argument deux nombres ~a~ et ~b~, et retournant le maximum de ces deux nombres.
 2. Programmez la fonction ~Max3(a, b, c)~ renvoyant le maximum de trois nombres ~a~ et ~b~, et ~c~.
-3. Programmez la fonction ~MaxF(x)~ prenant un vecteur numérique ~x~ et retournant le maximum de ~x~.
+3. Programmez la fonction ~MaxV(x)~ prenant un vecteur numérique ~x~ et retournant le maximum de ~x~.
+
+  #+BEGIN_SRC R :session max :results none
+    Max2 <- function(a, b) {
+      if(a > b) {
+        return(a)
+      } else {
+        return(b)
+      }
+    }
+
+    Max3 <- function(a, b) {
+      if(a > b) {
+        return(ifelse(a > c, a, c))
+      } else {
+        return(ifelse(b > c, b, c))
+      }
+    }
+
+
+    MaxV <- function(x) {
+      res <- -Inf
+      for(v in vec) {
+        if(v > res) {
+          res <- v
+        }
+      }
+      return(res)
+    }
+  #+END_SRC
+
 
 ** Recherche à partir d'une position
    Programmez la fonction ~MaxFrom(x,i)~ prenant un vecteur numérique ~x~ et retournant le maximum de ~x~ à partir de l’indice ~i~ inclus.
@@ -60,7 +152,7 @@ Le code ci-dessous répond aux questions avec des fonctions prédéfinies.
 
 
   #+BEGIN_SRC R :session max :exports both
-    print(MaxFrom(c(), 1))
+    print(MaxFrom(numeric(0), 1))
     x <- sample(1:100, 6, replace = TRUE)
     print(x)
     print(MaxFrom(x,0))
@@ -107,7 +199,7 @@ Le code ci-dessous répond aux questions avec des fonctions prédéfinies.
 *** Avec une boucle.
  #+BEGIN_SRC R :session max :results none
    MaxAndIdx <- function(x) {
-       imax=0;
+       imax=NA;
        vmax=-Inf
        for (i in seq_along(x)) {
          if(x[i] > vmax) {
@@ -133,7 +225,13 @@ Le code ci-dessous répond aux questions avec des fonctions prédéfinies.
 *** Avec des fonctions prédéfinies. /Indice/ : ~which.max~.
 
  #+BEGIN_SRC R :session max :results none
-   MaxAndIdx <- function(x) c(max(x), which.max(x))
+   MaxAndIdx <- function(x) {
+     if(length(x) == 0) {
+       return(c(-Inf, NA))
+     } else {
+       return(c(max(x), which.max(x)))
+     }
+   }
  #+END_SRC
 
  #+BEGIN_SRC R :session max
@@ -181,7 +279,7 @@ Le code ci-dessous répond aux questions avec des fonctions prédéfinies.
 
 
   #+BEGIN_SRC R :session max2 :exports both
-    print(Max2(c()))
+    print(Max2(numeric(0)))
     x <- runif(6);
     print(x)
     print(Max2(x))
@@ -192,12 +290,48 @@ Le code ci-dessous répond aux questions avec des fonctions prédéfinies.
   : [1] 0.6031135 0.1285228 0.3853113 0.7070992 0.7411141 0.9772133
   : [1] 0.9772133 0.7411141
 
-*** Programmez une fonction avec une boucle ~Kmax(x, k)~ prenant un vecteur ~x~ numérique, et retournant les ~k~ plus grands éléments de ~x~ triés par ordre non croissant. /Indices/ : inspirez-vous du tri par sélection.
-
-*** Reprogrammez une fonction ~Kmax(x, k)~ avec des fonctions prédéfinies. /Indices/ : ~sort~ et ~head~.
+*** Programmez une fonction avec des boucles ~MaxK(x, k)~ prenant un vecteur ~x~ numérique, et retournant les ~k~ plus grands éléments de ~x~ triés par ordre non croissant. /Indices/ : inspirez-vous du tri par sélection.
 
   #+BEGIN_SRC R :session max2 :results none
-    Kmax <- function(x, k) {
+    MaxK <- function(x, k) {
+      n <- length(x)
+      k <- min(n, k)
+      if(k == 0) return(numeric(0))
+      for(i in seq(n)) {
+        k <- i
+        for(j in seq(i, n)) {
+          if(x[j] > x[k]) {
+            k <- j
+          }
+        }
+        v <- x[i]
+        x[i] <- x[k]
+        x[k] <- v
+      }
+      return(head(x, k))
+    }
+  #+END_SRC
+
+  #+BEGIN_SRC R :session max2
+    x <- sample(1:100, 6, replace = TRUE)
+    print(x)
+    print(MaxK(x, 0))
+    print(MaxK(x, 2))
+    print(MaxK(x, 4))
+    print(MaxK(x, 7))
+  #+END_SRC
+
+  #+RESULTS:
+  : [1]  77  51 100  72  30  41
+  : numeric(0)
+  : [1] 100  77  72  51  41  30
+  : [1] 100  77  72  51  41  30
+  : [1] 100  77  72  51  41  30
+
+*** Reprogrammez une fonction ~MaxK(x, k)~ avec des fonctions prédéfinies. /Indices/ : ~sort~ et ~head~.
+
+  #+BEGIN_SRC R :session max2 :results none
+    MaxK <- function(x, k) {
       k <- max(0,k)
       return( head( sort(x, decreasing = TRUE), k) )
     }
@@ -207,10 +341,10 @@ Le code ci-dessous répond aux questions avec des fonctions prédéfinies.
   #+BEGIN_SRC R :session max2 :exports both
     x <- sample(1:100, 6, replace = TRUE)
     print(x)
-    print(Kmax(x, 0))
-    print(Kmax(x, 2))
-    print(Kmax(x, 4))
-    print(Kmax(x, 7))
+    print(MaxK(x, 0))
+    print(MaxK(x, 2))
+    print(MaxK(x, 4))
+    print(MaxK(x, 7))
   #+END_SRC
 
   #+RESULTS:
@@ -631,7 +765,7 @@ La fonction ~EstPremier(n)~  retourne False si elle trouve un diviseur non trivi
  : $lengths
  : [1] 1 3 1 3 2 1
 * Masque d'une chaîne
-Programmez une fonction ~masque(s,x)~ prenant un vecteur ~x~ numérique et une chaîne ~s~, et retournant une nouvelle chaîne contenant les caractères dont les positions dans ~s~ figurent dans la liste ~x~.
+Programmez une fonction ~Masque(s,x)~ prenant un vecteur ~x~ numérique et une chaîne ~s~, et retournant une nouvelle chaîne contenant les caractères dont les positions dans ~s~ figurent dans la liste ~x~.
 
 #+BEGIN_SRC R :session mask :results none
   Masque <- function(str, pos) intToUtf8(utf8ToInt(str)[pos])
