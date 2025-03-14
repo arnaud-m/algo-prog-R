@@ -1,0 +1,66 @@
+\documentclass[border = 5mm]{standalone}
+
+\usepackage{tikz}
+\usepackage{colors}
+\usepackage{pifont}
+\usepackage{xcolor}
+\usepackage{xspace}
+\def\yep{\textcolor{vert}{\ding{51}}\xspace}
+
+\tikzset{
+  pics/bloc/.style={code={
+    \tikzset{bloc/.cd,#1}%
+    \def\arg##1{\pgfkeysvalueof{/tikz/bloc/##1}}%
+
+    \filldraw [fill = lightgray, even odd rule] (0, 0) rectangle ++ ({\arg{size} + 1}, 2) (0.5, 0.5) rectangle ++ (\arg{size}, 1);
+    
+    \filldraw [pic actions] (0.5, 0.5) rectangle ++ (\arg{size}, 1);
+    
+  }}, bloc/.cd, label/.initial={}, size/.initial = 1
+}
+
+\begin{document}
+  \begin{tikzpicture}
+    \filldraw [fill = lightgray, even odd rule] (0, 0) rectangle ++ (19, 2) (0.5, 0.5) rectangle ++ (18, 1);
+
+    \foreach \i in {1, ..., 17} {
+      \draw ({\i + 0.5}, 0.5) -- ++ (0, 1);
+    }
+
+    \foreach \i in {5, 7, 8, 9, 10, 12, 13, 14, 15, 16, 17, 18} {
+      \draw (\i, 1) node {\huge\yep};
+    }
+
+    \begin{scope}[yshift = -2cm]
+      \pic [fill = orange] at (0, 0) {bloc = {size = 9}};
+      \pic [fill = rouge] at (9, -2) {bloc = {size = 8}};
+      \pic [fill = jauneTN] at (9, -4) {bloc = {size = 7}};
+      \pic [fill = bleuTN] at (9, -6) {bloc = {size = 5}};
+    \end{scope}
+
+    \begin{scope}[yshift = -10cm]
+      \pic [fill = rouge] at (0, 0) {bloc = {size = 8}};
+      \pic [fill = jauneTN] at (8, -2) {bloc = {size = 7}};
+      \pic [fill = bleuTN] at (8, -4) {bloc = {size = 5}};
+      \pic [fill = vertTN] at (13, -6) {bloc = {size = 5}};
+    \end{scope}
+
+    \begin{scope}[yshift = -18cm]
+      \pic [fill = jauneTN] at (0, 0) {bloc = {size = 7}};
+      \pic [fill = bleuTN] at (7, -2) {bloc = {size = 5}};
+    \end{scope}
+
+    \begin{scope}[yshift = -22cm]
+      \pic [fill = bleuTN] at (0, 0) {bloc = {size = 5}};
+      \pic [fill = vertTN] at (5, -2) {bloc = {size = 5}};
+    \end{scope}
+    
+
+    % \filldraw [fill = bleuTN] (0, 5) rectangle ++ (5, 1);
+    % \filldraw [fill = jauneTN] (5.25, 5) rectangle ++ (7, 1);
+    % \filldraw [fill = vertTN] (12.5, 5) rectangle ++ (5, 1);
+    % \filldraw [fill = rouge] (0, 3) rectangle ++ (8, 1);
+    % \filldraw [fill = violet] (8.25, 3) rectangle ++ (2, 1);
+    % \filldraw [fill = orange] (10.5, 3) rectangle ++ (9, 1);
+  \end{tikzpicture}
+\end{document}

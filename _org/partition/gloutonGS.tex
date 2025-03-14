@@ -1,0 +1,20 @@
+\documentclass[border = 5mm]{standalone}
+
+\usepackage{tikz}
+\usepackage{colors}
+
+\begin{document}
+  \begin{tikzpicture}
+    \node at (9.5, 3.5) {\Huge\textbf{Glouton GS}};
+
+    \filldraw [fill = lightgray, even odd rule] (0, 0) rectangle ++ (19, 2) (0.5, 0.5) rectangle ++ (18, 1);
+
+    \filldraw [fill = bleuTN] (0.5, 0.5) rectangle ++ (5, 1);
+    \filldraw [fill = jauneTN] (5.5, 0.5) rectangle ++ (7, 1);
+    \filldraw [fill = vertTN] (12.5, 0.5) rectangle ++ (5, 1);
+
+    \filldraw [fill = rouge] (0, -1.5) rectangle ++ (8, 1);
+    \filldraw [fill = violet] (8.25, -1.5) rectangle ++ (2, 1);
+    \filldraw [fill = orange] (10.5, -1.5) rectangle ++ (9, 1);
+  \end{tikzpicture}
+\end{document}

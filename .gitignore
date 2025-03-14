@@ -17,6 +17,7 @@
 *.nav
 *.snm
 *.vrb
+*.synctex.gz
 
 # Emacs stuff
 _region_.tex
