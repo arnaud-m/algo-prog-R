@@ -1,23 +1,7 @@
 \documentclass[border = 5mm]{standalone}
 
-\usepackage{tikz}
 \usepackage{colors}
-\usepackage{pifont}
-\usepackage{xcolor}
-\usepackage{xspace}
-\def\yep{\textcolor{vert}{\ding{51}}\xspace}
-
-\tikzset{
-  pics/bloc/.style={code={
-    \tikzset{bloc/.cd,#1}%
-    \def\arg##1{\pgfkeysvalueof{/tikz/bloc/##1}}%
-
-    \filldraw [fill = lightgray, even odd rule] (0, 0) rectangle ++ ({\arg{size} + 1}, 2) (0.5, 0.5) rectangle ++ (\arg{size}, 1);
-    
-    \filldraw [pic actions] (0.5, 0.5) rectangle ++ (\arg{size}, 1);
-    
-  }}, bloc/.cd, label/.initial={}, size/.initial = 1
-}
+\usepackage{tikzstyles}
 
 \begin{document}
   \begin{tikzpicture}

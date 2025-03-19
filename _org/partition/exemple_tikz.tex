@@ -1,0 +1,14 @@
+\documentclass[border = 5mm]{standalone}
+
+\usepackage{colors}
+\usepackage{tikzstyles}
+
+\begin{document}
+  \begin{tikzpicture}
+    \pic at (0, 0) {subset sum = {sizes = {5, 2, 3, 4, 1, 6, 2}, deck = {2, 0, 0, 1, 1, 0, 1}}};
+
+    \pic at (0, 4) {subset sum = {capacity = 39, unit = 0.5, sizes = {1, ..., 12}, deck = {0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0}}};
+
+    \pic at (0, 6) {subset sum = {capacity = 39, unit = 0.5, sizes = {1, 7, 2, 8, 3, 9, 4, 10, 5, 11, 6, 12}, deck = {0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0}}};
+  \end{tikzpicture}
+\end{document}
