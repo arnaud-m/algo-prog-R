@@ -2,7 +2,7 @@
 #+TITLE:     Travaux Pratiques #1
 #+SUBTITLE:     Algo & Prog avec R
 #+OPTIONS: num:1 toc:1
-#+PROPERTY: header-args :results output replace :exports both
+#+PROPERTY: header-args :results output replace :exports none
 #+BEGIN_abstract
 Cette séance de travaux pratiques peut être réalisée en distanciel.
 #+END_abstract

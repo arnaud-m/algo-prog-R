@@ -218,13 +218,13 @@ https://phdcomics.com/comics/archive/phd051013s.gif
 
 | #. | Cours (Partie I)         | Cours (Partie II)                       | Travaux pratiques |
 |----+--------------------------+-----------------------------------------+-------------------|
-| 1. | Présentation du syllabus | [[file:pdf/01-variables.pdf][Expressions, instructions, et variables]] | [[file:tp01.org][TP 1 (corrigés)]]   |
-| 2. | [[file:pdf/02-fonctions.pdf][Conditions et fonctions]]  | [[file:pdf/03-jeu-roulette.pdf][Jeu de roulette]]                         | [[file:tp02.org][TP 2 (corrigés)]]   |
-| 3. | [[file:pdf/04-iterations-while.pdf][Itérations (while)]]       | [[file:pdf/05-conversions.pdf][Conversions]]                             | [[file:tp03.org][TP 3 (corrigés)]]   |
-| 4. | [[file:pdf/06-nombres-approches.pdf][Nombres réels approchés]]  | [[file:pdf/07-calcul-pi.pdf][Approximation du nombre \pi]]             | [[file:tp04.org][TP 4 (corrigés)]]   |
-| 5. | [[file:pdf/08-iterations-for.pdf][Itérations (for)]]         | [[file:pdf/09-chaines.pdf][Chaînes de caractères]]                   | [[file:tp05.org][TP 5 (corrigés)]]   |
-| 6. | [[file:pdf/10-vecteurs.pdf][Les séquences : vecteurs]] | [[file:pdf/11-premiers.pdf][Nombres premiers]]                        | [[file:tp06.org][TP 6 (corrigés)]]   |
-| 7. | [[file:pdf/12-listes.pdf][Les séquences : listes]]   | [[file:pdf/13-dictionnaires.pdf][Ensembles et dictionnaires]]              | [[file:tp07.org][TP 7 (corrigés)]]   |
+| 1. | Présentation du syllabus | [[file:pdf/01-variables.pdf][Expressions, instructions, et variables]] | [[file:tp01.org][TP 1]]              |
+| 2. | [[file:pdf/02-fonctions.pdf][Conditions et fonctions]]  | [[file:pdf/03-jeu-roulette.pdf][Jeu de roulette]]                         | [[file:tp02.org][TP 2]]              |
+| 3. | [[file:pdf/04-iterations-while.pdf][Itérations (while)]]       | [[file:pdf/05-conversions.pdf][Conversions]]                             | [[file:tp03.org][TP 3]]              |
+| 4. | [[file:pdf/06-nombres-approches.pdf][Nombres réels approchés]]  | [[file:pdf/07-calcul-pi.pdf][Approximation du nombre \pi]]             | [[file:tp04.org][TP 4]]              |
+| 5. | [[file:pdf/08-iterations-for.pdf][Itérations (for)]]         | [[file:pdf/09-chaines.pdf][Chaînes de caractères]]                   | [[file:tp05.org][TP 5]]              |
+| 6. | [[file:pdf/10-vecteurs.pdf][Les séquences : vecteurs]] | [[file:pdf/11-premiers.pdf][Nombres premiers]]                        | [[file:tp06.org][TP 6]]              |
+| 7. | [[file:pdf/12-listes.pdf][Les séquences : listes]]   | [[file:pdf/13-dictionnaires.pdf][Ensembles et dictionnaires]]              | [[file:tp07.org][TP 7]]              |
 | 8. | [[file:pdf/14-fibonacci.pdf][Suite de Fibonacci]]       |                                         | [[file:tp08.org][TP 8]]              |
 
 
@@ -331,20 +331,23 @@ https://stackoverflow.com/questions/294885/how-to-put-spacing-between-tbody-elem
 
 ** Barème
 
+Toutes les notes calculées sont arrondies au quart de point supérieur.
+
 *** Première session
 
- - L'*examen terminal* (note $N_t$) est une épreuve écrite de 3h (barème indicatif - 3/4/16).
+ - L'*examen terminal* obligatoire (note $N_t$) est une épreuve écrite de 3h (barème indicatif - 3/4/16).
  - La note $N_c$ de *contrôle continu* est la moyenne :
    - de la note maximale entre
      - la note de partiel, une épreuve écrite de 2h (barème indicatif - 4/6/12) et
      - la note d'examen terminal;
    - et des 2 meilleures notes obtenues aux activités en les pondérant par leur barème.
- - La *note finale* est $N_1 = \max(N_t, 0.4 \times N_c + 0.6 \times N_t)$.
+ - La *note finale* est $N_1 = \max(N_t, 0.4 \times N_c + 0.6 \times N_t)$
 
 *** Seconde session
 
  - La *seconde chance* ($N_t^2$) est une épreuve écrite de 3h (barème indicatif - 3/4/16).
- - La *note finale* est $N_2 = \max(N_1, N_t^2, 0.2 \times N_c + 0.8 \times N_t^2)$.
+ - La *note finale* est $N_2 = \max(N_1, N_t^2, 0.2 \times N_c + 0.8 \times N_t^2)$. Elle est arrondie au quart de point supérieur.
+
 
 *** Script de calcul des notes                                     :noexport:
 **** Calcul des notes
@@ -352,37 +355,35 @@ https://stackoverflow.com/questions/294885/how-to-put-spacing-between-tbody-elem
   #+BEGIN_SRC R :var exercices=exercices :var projets=projets :session grade
 
       ## Load grades from moodle
-      file <- "~/download/SPUA31 Notes-20240123_1220-comma_separated.csv"
+      file <- "~/download/SPUA300\ Notes-20250115_1036-comma_separated.csv"
       df <- read.csv(file, stringsAsFactors = FALSE, na.strings = c("-", "NA"), header = TRUE)
       df <- subset(df, ! is.na(df$Numéro.d.identification))
-      QuarterCeiling <- function(x) ceiling(4 * x)/4
+      QuarterCeiling <- function(x) ceiling(4 * x) / 4
 
       ## Grade CC
-      indA <- (grepl("^Devoir\\.", colnames(df)) | grepl("(RWC2023|LUHN10|LUHNN)", colnames(df))) & ! grepl("Bug.Bounty", colnames(df))
+      indA <- (grepl("^Devoir\\.", colnames(df)) | grepl("^Exercice\\.UCAnCODE", colnames(df))) & ! grepl("Bug.Bounty", colnames(df))
 
       SumTwoBestGrades <- function(x) sum(tail(sort(x), 2), na.rm = TRUE)
       gradeA <- apply(df[, indA], 1, SumTwoBestGrades)
-      partiel <- "Partiel.du.12.10..Brut."
+      partiel <- "Partiel.du.10.10..Brut."
       examen <-  "CT..Brut."
       gradeP <- pmax(df[ , partiel], df[ , examen], na.rm = TRUE)
       gradeCC <- QuarterCeiling((gradeA + gradeP)/3)
 
     ## Grade BONUS
-    ##   GradeBB <- function(bugBounties) {
-    ##       scale <- c("☆☆☆☆☆" = 0, "★☆☆☆☆" = 0.25, "★★☆☆☆" = 0.375, "★★★☆☆" = 0.5, "★★★★☆" = 0.75, "★★★★★" = 1)
-    ##       GetGradeBB <- function(stars) {
-    ##           if(is.na(stars)) return(0)
-    ##           else return(scale[stars])
-    ##       }
-    ##       unname(sapply(bugBounties, GetGradeBB))
-    ##   }
+      GradeBB <- function(bugBounties) {
+          scale <- c("☆☆☆☆☆" = 0, "★☆☆☆☆" = 0.25, "★★☆☆☆" = 0.375, "★★★☆☆" = 0.5, "★★★★☆" = 0.75, "★★★★★" = 1)
+          GetGradeBB <- function(stars) {
+              if(is.na(stars)) return(0)
+              else return(scale[stars])
+          }
+          unname(sapply(bugBounties, GetGradeBB))
+      }
 
-    ## indB <- grepl("^Bonus\\.", colnames(df))
+    indB <- grepl("^Bonus\\.", colnames(df))
 
-    ## gradeB <- rowSums(df[ , indB], na.rm = TRUE) / sum(indB) + GradeBB(df$Devoir.Bug.Bounty..Brut.)
+    gradeB <-  pmin(1, pmax(0, rowSums(!is.na(df[ , indA])) - 2) / 4 + GradeBB(df$Devoir.Bug.Bounty..Brut.))
     ## gradeB [ is.na(gradeCC) ] <- NA
-    ## gradeB <- QuarterCeiling(gradeB)
-    gradeB <- df[ , "BONUS..Brut." ]
 
     ## Grade NOTE
     ComputeFinalGrade <- function(ct, cc, bo) QuarterCeiling(pmin(pmax(ct, 0.6 * ct + 0.4 * cc ) + bo, 20))
@@ -393,12 +394,12 @@ https://stackoverflow.com/questions/294885/how-to-put-spacing-between-tbody-elem
       ## Export Grades
     grades <- data.frame(
       id = df$Numéro.d.identification,
-      ##nom = df$Nom,
+      nom = df$Nom,
       CC = gradeCC,
-      ## BONUS= gradeB,
+      BONUS= gradeB,
       NOTE=gradeNOTE
     )
-    write.csv(grades, 'SPUA31-notes.csv', row.names = FALSE, na = "")
+    write.csv(grades, 'SPUA300-notes.csv', row.names = FALSE, na = "")
 
 
       ##    cor.test(df$CT..Brut., grades$CC, method = "pearson", use = "complete.obs")
@@ -438,7 +439,7 @@ https://stackoverflow.com/questions/294885/how-to-put-spacing-between-tbody-elem
 **** Analyse des notes
 
   #+BEGIN_SRC R :session grade :results none
-    file <- '~/download/SPUA31 Notes-20240123_1230-comma_separated.csv'
+    file <- '~/download/SPUA300 Notes-20250115_1305-comma_separated.csv'
     df <- read.csv(file, stringsAsFactors = FALSE, na.strings = c("-", "NA"), header = TRUE)
 
     grades <- df[ , c("CC..Brut.", "CT..Brut.", "NOTE..Brut." )]
@@ -457,10 +458,10 @@ https://stackoverflow.com/questions/294885/how-to-put-spacing-between-tbody-elem
       gsummary <- as.data.frame(apply(grades, 2, summary, digits=3))
       p4 <- tableGrob(gsummary, theme = ttheme_default(base_size=50,  padding = unit(c(25, 4), "mm"), core=list(fg_params=list(hjust=1, x=0.9))))
 
-    toptitle <- textGrob(sprintf("SPUA31 - Algo & Prog avec R - 2023/2024 - %d étudiants - %d absents - %d acquis", nrow(grades), sum(is.na(grades$NOTE)), sum(grades$NOTE >= 10, na.rm=T)), gp=gpar(fontsize=50,font=2))
+    toptitle <- textGrob(sprintf("SPUA300 - Algo & Prog avec R - 2024/2025 - %d étudiants - %d absents - %d acquis", nrow(grades), sum(is.na(grades$NOTE)), sum(grades$NOTE >= 10, na.rm=T)), gp=gpar(fontsize=50,font=2))
 
     p <- grid.arrange(p2, p1, p3, p4, nrow = 2, top = toptitle)
-    ggsave('SPUA31-statistics-2023-2024.pdf', plot = p, device = "pdf", width = 40, height = 15)
+    ggsave('SPUA300-statistics-2024-2025.pdf', plot = p, device = "pdf", width = 40, height = 15)
 
   #+END_SRC
 
@@ -471,8 +472,7 @@ Utilisez le courriel seulement pour les communications importantes ou officielle
 
 * Ressources électroniques
 *** Ressources BU
-   - [[https://catalogue.bu.univ-cotedazur.fr/permalink/f/11hf8mm/33UCA_KOHA75121
-][Le livre de R : apprentissage et référence]], Bernard Desgraupes.
+   - [[https://catalogue.bu.univ-cotedazur.fr/permalink/f/11hf8mm/33UCA_KOHA75121][Le livre de R : apprentissage et référence]], Bernard Desgraupes.
 *** Manuels, Livres, \dots
 
   - [[https://cran.r-project.org/doc/contrib/Goulet_introduction_programmation_R.pdf][Introduction à la programmation de R]] (V. Goulet)
@@ -502,6 +502,6 @@ Utilisez le courriel seulement pour les communications importantes ou officielle
 *** E-learning
   - [[https://swirlstats.com/][Swirl]] : (tutoriel interactif dans la console R)
   - [[https://www.youtube.com/playlist?list=PLqzoL9-eJTNARFXxgwbqGo56NtbJnB37A][Cours en vidéo]] (youtube)
-  - Coursera [[https://www.coursera.org/learn/data-scientists-tools][1]] et [[https://www.coursera.org/learn/r-programming ][2]]
+  - Coursera [[https://www.coursera.org/learn/data-scientists-tools][Data Scientists Tools]]
 
 https://phdcomics.com/comics/archive/phd031714s.gif

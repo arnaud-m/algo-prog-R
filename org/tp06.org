@@ -2,7 +2,7 @@
 #+TITLE:     Travaux Pratiques #6
 #+SUBTITLE:     Algo & Prog avec R
 #+OPTIONS: num:1 toc:1
-#+PROPERTY: header-args :results output replace :exports both
+#+PROPERTY: header-args :results output replace :exports none
 * Recherche d'éléments dans un vecteur
 
 Programmez des fonctions avec boucle répondant aux questions ci-dessous.
@@ -266,15 +266,53 @@ Le code ci-dessous répond aux questions avec des fonctions prédéfinies.
       v1=-Inf
       v2=-Inf
       for (v in x) {
-        if(v > v1) {
-          v2 <- v1
-          v1 <- v
-        } else if(v > v2) {
-          v2 <- v
+        if(v > v2) {
+          if(v > v1) {
+            v2 <- v1
+            v1 <- v
+          } else {
+            v2 <- v
+          }
         }
       }
       return(c(v1,v2))
     }
+
+    Max2Rec <- function(x) {
+      DoMax2Rec <- function(x, i, j) {
+        if(i == j) {
+          return(list(max = x[i], max2 = numeric(0)))
+        }
+        m <- (i + j) %/% 2
+        l <- DoMax2Rec(x, i, m)
+        r <- DoMax2Rec(x, m + 1, j)
+        if(l$max > r$max) {
+          return(list(max = l$max, max2 = append(l$max2, r$max)))
+        } else {
+          return(list(max = r$max, max2 = append(r$max2, l$max)))
+        }
+      }
+
+      x <- DoMax2Rec(x, 1, length(x))
+      return(c(x$max, max(-Inf, x$max2)))
+    }
+
+    Max2Vec <- function(x) {
+      idx <- which.max(x)
+      return(c(x[idx], max(x[-idx])))
+    }
+
+    GenerateTestCases  <- function(t, n, min = 0, max = 1000) {
+      GenTestCases <- function(n) replicate(t, runif(n, min = min, max = 1000), simplify = FALSE)
+      unlist(lapply(n, GenTestCases), recursive = FALSE)
+    }
+
+
+    x <- GenerateTestCases(1000, c(100))
+    system.time(sapply(x, Max2))
+    system.time(sapply(x, Max2Rec))
+    system.time(sapply(x, Max2Vec))
+
   #+END_SRC
 
 
