@@ -1,0 +1,16 @@
+\documentclass[border = 5mm]{standalone}
+
+\usepackage{colors}
+\usepackage{tikzstyles}
+
+\begin{document}
+\begin{tikzpicture}
+\pic at (0, -4) {subset sum = {capacity = 17, sizes = {11,8,7,5,2,1}, deck = {1,0,0,0,0,0}}};
+\pic at (0, -8) {subset sum = {capacity = 17, sizes = {11,8,7,5,2,1}, deck = {1,2,0,0,0,0}}};
+\pic at (0, -12) {subset sum = {capacity = 17, sizes = {11,8,7,5,2,1}, deck = {1,2,2,0,0,0}}};
+\pic at (0, -16) {subset sum = {capacity = 17, sizes = {11,8,7,5,2,1}, deck = {1,2,2,1,0,0}}};
+\pic at (0, -20) {subset sum = {capacity = 17, sizes = {11,8,7,5,2,1}, deck = {1,2,2,1,2,0}}};
+\pic at (0, -24) {subset sum = {capacity = 17, sizes = {11,8,7,5,2,1}, deck = {1,2,2,1,2,1}}};
+
+\end{tikzpicture}
+\end{document}
