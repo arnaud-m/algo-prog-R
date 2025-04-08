@@ -30,6 +30,8 @@
 \usepackage{theoremes}
 \usepackage{macros}
 
+
+\newcommand{\instance}[1]{instance de type #1 du tableau~\ref{tab:instances} page~\pageref{tab:instances}}
 \title{Activité : Partition}
 \date{}
 
@@ -42,8 +44,7 @@
 
   \begin{definition}{Partition d'un ensemble}
     Un \emph{multiensemble} (parfois appelé sac) est un ensemble dans lequel chaque élément peut apparaître plusieurs fois.
-
-    Soit un multiensemble $S$ de $n$ entiers naturels.
+    Soit un multiensemble $S$ de $n$ entiers naturels :
 
     $$S = \{s_i\ |\ s_i > 0\}_{1\leq i \leq n}.$$
 
@@ -51,7 +52,7 @@
     \begin{itemize}
       \item $S_1$ et $S_2$ sont non vides:  $S_1 \neq \emptyset$ et $S_2 \neq \emptyset$ ;
       \item $S_1$ et $S_2$ sont disjoints:  $S_1 \cap S_2 = \emptyset$ ;
-      \item $S_1$ et $S_2$ recouvrent $S$:  $S_1 \cup S_2 = S$ ;
+      \item $S_1$ et $S_2$ recouvrent $S$:  $S_1 \cup S_2 = S$.
     \end{itemize}
   \end{definition}
 
@@ -67,7 +68,7 @@
         \begin{itemize}
           \item $S_1 = \{1,2,3,4,5\}$ et $S_2 = \emptyset$, car $S_2$ est vide.
           \item $S_1 = \{1,2,3\}$ et $S_2 = \{3,4,5\}$, car leur intersection est non vide.
-          \item $S_2 = \{1,2\}$ et $S_2 = \{4, 5\}$, car 3 est dans 4, mais n'appartient ni à $S_1$ ni à $S_2$.
+          \item $S_2 = \{1,2\}$ et $S_2 = \{4, 5\}$, car 3 est dans $S$, mais n'appartient ni à $S_1$ ni à $S_2$.
         \end{itemize}
     \end{itemize}
   \end{exemple}
@@ -179,64 +180,33 @@
 
 \end{exercice}
 
-  % \begin{solution}
-  %   Dans l'indice on remarque que la somme des nombres de chaque colonne est la même $2p + 1$.
 
-  %   Quand $p$ est pair on met les nombres des $\frac{p}{2}$ premières colonnes dans un ensemble et ceux des $\frac{p}{2}$ colonnes suivantes dans l'autre ensemble. Les deux ensembles ont donc la même somme. Soit
-
-  %   $$\begin{align*}
-  %     S_1 = & \left\{1, 2, \dots, \frac{p}{2}, 2p - \frac{p}{2}+1, 2p - \frac{p}{2}+2, \dots, 2p\right\}\\
-  %     S_2 = & \left\{\frac{p}{2} + 1, \frac{p}{2} + 2, \dots, 2p - \frac{p}{2}\right\}.
-  %   \end{align*}$$
-
-  %   Quand $p$ est impair on met les nombres des $\frac{p - 1}{2}$ premières colonnes dans un ensemble et ceux des $\frac{p - 1}{2}$ colonnes suivantes dans l'autre ensemble. Il reste la dernière colonne contenant $p$ et $p+1$, on met donc $p$ dans $S_1$ et $p+1$ dans $S_2$. Soit
-
-  %   $$\begin{align*}
-  %     S_1 = & \left\{1, 2, \dots, \frac{p-1}{2}, p, 2p - \frac{p-1}{2}+1, 2p - \frac{p-1}{2}+2, \dots, 2p\right\}\\
-  %     S_2 = & \left\{\frac{p-1}{2} + 1, \frac{p-1}{2} + 2, \dots, p-1, p+1, p+2, \dots, 2p - \frac{p-1}{2}\right\}.
-  %   \end{align*}$$
-  % \end{solution}
-
-  % \begin{exercice}{}
-  %   Généraliser pour trouver une partition parfaite de $[1, n]$ avec $n=2p + 1$, $p \geq 0$ quand
-  %   \begin{itemize}
-  %     \item $p$ est pair ;
-  %     \item $p$ est impair.
-  %   \end{itemize}
-  % \end{exercice}
-
-  % \begin{indice}
-  %   Les nombres de $1$ à $n$ avec $n = 2p + 1$ peuvent être représentés ainsi :
-
-  %   \begin{tabular}{|*{6}{c |}}
-  %     \hline
-  %     1 & 2 & 3 & $\cdots$ & $p$ & $p + 1$\\
-  %     & $2p + 1$ & $2p$ & $\cdots$ & $p+3$ & $p+2$\\\hline
-  %   \end{tabular}
-
-  %   Que remarquez-vous pour chacune des colonnes (exceptée la première) de ce tableau ?
-  % \end{indice}
-
-
-  % \begin{solution}
-  %   Dans l'indice on remarque que la somme des nombres de chaque colonne est la même $2p + 3$ sauf pour la première colonne où la somme est égale à 1. On fait donc pareil que précédemment en supprimant la première colonne.
-
-  %   Quand $p$ est pair on met les nombres des $\frac{p}{2}$ premières colonnes dans un ensemble et ceux des $\frac{p}{2}$ colonnes suivantes dans l'autre ensemble. Les deux ensembles ont donc la même somme. On ajoute le 1 à $S_1$ Soit
-
-  %   $$\begin{align*}
-  %     S_1 = & \left\{1, 2, \dots, \frac{p}{2} + 1, 2p - \frac{p}{2}+2, 2p - \frac{p}{2}+3, \dots, 2p + 1\right\}\\
-  %     S_2 = & \left\{\frac{p}{2} + 2, \frac{p}{2} + 3, \dots, 2p - \frac{p}{2} + 1\right\}.
-  %   \end{align*}$$
-
-  %   Quand $p$ est impair on met les nombres des $\frac{p-1}{2}$ premières colonnes dans un ensemble et ceux des $\frac{p-1}{2}$ colonnes suivantes dans l'autre ensemble. Il reste la dernière colonne contenant $p+1$ et $p+2$, on met donc $p+1$ dans $S_1$ et $p+2$ dans $S_2$. On ajoute le 1 à $S_1$. Soit
-
-  %   $$\begin{align*}
-  %     S_1 = & \left\{1, 2, \dots, \frac{p+1}{2}, p+1, 2p - \frac{p-1}{2}+2, 2p - \frac{p-1}{2}+3, \dots, 2p + 1\right\}\\
-  %     S_2 = & \left\{\frac{p+1}{2} + 1, \frac{p+1}{2} + 2, \dots, p, p+2, p+3, \dots, 2p - \frac{p-1}{2} + 1\right\}.
-  %   \end{align*}$$
-  % \end{solution}
-
-
+\begin{table}[htbp]
+  \centering
+      \begin{tabular}{llll}
+      \toprule
+      Type & Niveau & Sac & Capacité \\
+      \midrule
+             & Facile & 11, 8, 7, 5, 2, 1 & 17 \\
+      1 & Intermédiaire & 16, 12, 10, 9, 6, 5, 3, 2, 1 & 32 \\
+             & Difficile & 16, 15, 13, 12, 9, 8, 6, 5, 4, 3, 2, 1 & 47 \\
+      \midrule
+             & Facile & 14, 13, 11, 7, 5, 3 & 26 \\
+      2 & Intermédiaire & 16, 15, 14, 13, 12, 9, 8, 6, 1 & 47 \\
+             & Difficile & 16, 15, 13, 12, 11, 10, 8, 7, 6, 4, 3, 2 & 53 \\
+      \midrule
+             & Facile & 13, 11, 9, 8, 6, 4 & 25 \\
+      3 & Intermédiaire & 16, 15, 14, 10, 9, 8, 6, 5, 3 & 43 \\
+             & Difficile & 16, 15, 14, 13, 12, 11, 10, 8, 7, 6, 4, 3 & 59 \\
+      \midrule
+             & Facile & 16, 15, 11, 4, 2, 1 & 24 \\
+      4 & Intermédiaire & 18, 15, 13, 10, 8, 5, 3, 2 & 37 \\
+             & Difficile & 18, 17, 16, 15, 14, 5, 2, 1 & 44 \\
+      \bottomrule
+      \end{tabular}
+  \caption{Instances du problème de partitionnement.}
+  \label{tab:instances}
+\end{table}
 
     \section{Algorithmes gloutons}
 
@@ -247,198 +217,276 @@
 
 
   \begin{algorithme}{Algorithme glouton}
+    \label{algo:gs}
     \begin{itemize}
-    \item Calculer le somme des objets divisée par deux pour déterminer la capacité du sac.
-    \item Trier les objets du sac par ordre décroissant.
-    \item Sélectionner le premier objet.
+    \item Déterminer la capacité du sac : la somme des objets divisée par deux.
+    \item Trier les objets par ordre décroissant.
     \item  Répéter tant qu'il reste des objets et que le sac n'est pas rempli :
       \begin{itemize}
-      \item Ranger l'objet dans le sac si la capacité le permet, ou éliminer l'objet.
-      \item Sélectionner l'objet suivant.
+      \item ranger le plus grand objet dans le sac si la capacité le permet.
+      \item Sinon éliminer l'objet.
       \end{itemize}
   \end{itemize}
   \end{algorithme}
 
-  \begin{exercice}{Application de l'algorithme glouton}
-    \label{ex:ex1}
-    Appliquer l'algorithme glouton sur une instance.\\
-    \begin{tabular}{lll}
-      \toprule
-      Niveau & Sac & Capacité \\
-      \midrule
-      Facile & 11, 8, 7, 5, 2, 1 & 17 \\
-      Intermédiaire & 16, 12, 10, 9, 6, 5, 3, 2, 1 & 32 \\
-      Difficile & ? & ? \\
-      \bottomrule
-      \end{tabular}
+
+
+  \begin{exercice}{}
+    Appliquer l'algorithme glouton sur une \instance{1}.
   \end{exercice}
 
   \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.6\linewidth]{ex1-6-GS.pdf}
-    \caption{Solution de l'instance facile de l'exercice \ref{ex:ex1}}
+    \caption{Solution de l'instance facile de de type 1.}
   \end{figure}
 
     \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.6\linewidth]{ex1-9-GS.pdf}
-    \caption{Solution de l'instance intermédiaire de l'exercice \ref{ex:ex1}}
+    \caption{Solution de l'instance intermédiaire de type 1.}
   \end{figure}
 
-
-  \begin{exercice}{}
-    \label{ex:ex2}
-    Appliquer l'algorithme glouton sur une instance.\\
-    \begin{tabular}{lll}
-      \toprule
-      Niveau & Sac & Capacité \\
-      \midrule
-      Facile & 14, 13, 11, 7, 5, 3 & 26 \\
-      Intermédiaire & 16, 15, 14, 13, 12, 9, 8, 6, 1 & 47 \\
-      Difficile & ? & ? \\
-      \bottomrule
-      \end{tabular}
+\begin{exercice}{}
+    Appliquer l'algorithme glouton sur une \instance{2}.
   \end{exercice}
 
   \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.6\linewidth]{ex2-6-GS.pdf}
-    \caption{Solution de l'instance facile de l'exercice~\ref{ex:ex2}}
+    \caption{Solution de l'instance facile de type 2.}
   \end{figure}
 
   \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.6\linewidth]{ex2-9-GS.pdf}
-    \caption{Solution de l'instance intermédiaire de l'exercice~\ref{ex:ex2}}
+    \caption{Solution de l'instance intermédiaire de type 2.}
   \end{figure}
 
 
   \begin{algorithme}{Algorithme glouton répété}
-     \label{ex:ex3}
+     \label{algo:mtgs}
     Répéter jusqu'à ce que le sac soit rempli ou contienne tous les objets :
     \begin{itemize}
-    \item Appliquer l'algorithme glouton.
-    \item Éliminer le plus grand objet
+    \item appliquer l'algorithme glouton ;
+    \item éliminer le plus grand objet.
     \end{itemize}
   \end{algorithme}
 
   \begin{exercice}{}
-    Appliquer l'algorithme glouton sur une instance de l'exercice~\ref{ex:ex2}.
+    Appliquer l'algorithme glouton répété sur une \instance{2}.
   \end{exercice}
+
  \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.6\linewidth]{ex2-6-MTGS.pdf}
-    \caption{Solution de l'instance facile de l'exercice~\ref{ex:ex3}}
+    \caption{Solution de l'instance facile de type 2.}
   \end{figure}
 
   \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.6\linewidth]{ex2-9-MTGS.pdf}
-    \caption{Solution de l'instance intermédiaire de l'exercice \ref{ex:ex3}}
+    \caption{Solution de l'instance intermédiaire de type 2.}
   \end{figure}
 
 
    \begin{exercice}{}
     \label{ex:ex4}
-    Appliquer l'algorithme glouton répété sur une instance.\\
-    \begin{tabular}{lll}
-      \toprule
-      Niveau & Sac & Capacité \\
-      \midrule
-      Facile & 13, 11, 9, 8, 6, 4 & 25 \\
-      Intermédiaire & 16, 15, 14, 10, 9, 8, 6, 5, 3 & 43 \\
-      Difficile & ? & ? \\
-      \bottomrule
-      \end{tabular}
+    Appliquer l'algorithme glouton répété sur une \instance{3}
   \end{exercice}
 
  \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.6\linewidth]{ex3-6-MTGS.pdf}
-    \caption{Solution de l'instance facile de l'exercice~\ref{ex:ex4}}
+    \caption{Solution de l'instance facile de type 3.}
   \end{figure}
 
   \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.6\linewidth]{ex3-9-MTGS.pdf}
-    \caption{Solution de l'instance intermédiaire de l'exercice \ref{ex:ex4}}
+    \caption{Solution de l'instance intermédiaire de type 3.}
   \end{figure}
 
 
-  \section{Méthodes exactes}
+  \section{Programmation dynamique}
+
 
 
   \begin{algorithme}{Algorithme de programmation dynamique}
-
+    \begin{itemize}
+    \item Déterminer la capacité du sac.
+    \item Trier les objets par ordre décroissant.
+    \item  Répéter tant qu'il reste des objets et que le sac n'est pas rempli (la dernière case n'est pas marquée) :
+      \begin{itemize}
+      \item répéter pour chaque case marquée en partant de la dernière :
+      \begin{itemize}
+      \item déterminer la case atteinte en rangeant l'objet immédiatement après la case marquée (utiliser l'objet comme règle).
+      \item Si la case atteinte n'est pas marquée, placer un marqueur de l'objet.
+      \end{itemize}
+      \end{itemize}
     \end{itemize}
   \end{algorithme}
 
 
    \begin{exercice}{}
-    \label{ex:ex3}
-    Appliquer la programmation dynamique sur une instance de l'exercice~\ref{ex:ex4}.\\
+    \label{ex:ex5}
+    Appliquer la programmation dynamique sur une \instance{3}.
+  \end{exercice}
+
+\begin{verbatim}
+Inf  0  0  0  0  0  0  0  0  0  0  0  0  1  0  0  0  0  0  0  0  0  0  0  0  0
+Inf  0  0  0  0  0  0  0  0  0  0  2  0  1  0  0  0  0  0  0  0  0  0  0  2  0
+Inf  0  0  0  0  0  0  0  0  3  0  2  0  1  0  0  0  0  0  0  3  0  3  0  2  0
+Inf  0  0  0  0  0  0  0  4  3  0  2  0  1  0  0  0  4  0  4  3  4  3  0  2  0
+Inf  0  0  0  0  0  5  0  4  3  0  2  0  1  5  5  0  4  0  4  3  4  3  5  2  5
+\end{verbatim}
+\begin{figure}[htbp]
+  \centering
+
+    \includegraphics[width=0.6\linewidth]{ex3-6-DP.pdf}
+    \caption{Solution de l'instance facile de type 3.}
+  \end{figure}
+
+\begin{verbatim}
+ [1] Inf   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   1   0   0
+[20]   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+[39]   0   0   0   0   0   0
+ [1] Inf   0   0   0   0   0   0   0   0   0   0   0   0   0   0   2   1   0   0
+[20]   0   0   0   0   0   0   0   0   0   0   0   0   2   0   0   0   0   0   0
+[39]   0   0   0   0   0   0
+ [1] Inf   0   0   0   0   0   0   0   0   0   0   0   0   0   3   2   1   0   0
+[20]   0   0   0   0   0   0   0   0   0   0   3   3   2   0   0   0   0   0   0
+[39]   0   0   0   0   0   0
+ [1] Inf   0   0   0   0   0   0   0   0   0   4   0   0   0   3   2   1   0   0
+[20]   0   0   0   0   0   4   4   4   0   0   3   3   2   0   0   0   0   0   0
+[39]   0   4   4   4   0   0
+ [1] Inf   0   0   0   0   0   0   0   0   5   4   0   0   0   3   2   1   0   0
+[20]   5   0   0   0   5   4   4   4   0   0   3   3   2   0   5   5   5   0   0
+[39]   5   4   4   4   0   0
+ [1] Inf   0   0   0   0   0   0   0   6   5   4   0   0   0   3   2   1   6   6
+[20]   5   0   0   6   5   4   4   4   6   0   3   3   2   6   5   5   5   0   6
+[39]   5   4   4   4   6   6
+ [1] Inf   0   0   0   0   0   0   0   6   5   4   0   0   0   3   2   1   6   6
+[20]   5   0   0   6   5   4   4   4   6   0   3   3   2   6   5   5   5   0   6
+[39]   5   4   4   4   6   6
+\end{verbatim}
+  \begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.6\linewidth]{ex3-9-DP.pdf}
+    \caption{Solution de l'instance intermédiaire de type 3.}
+  \end{figure}
+
+
+  \begin{exercice}{}
+    Appliquer la programmation dynamique sur une \instance{4}
+  \end{exercice}
+
+\begin{verbatim}
+ [1] Inf   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   1   0   0
+[20]   0   0   0   0   0   0
+ [1] Inf   0   0   0   0   0   0   0   0   0   0   0   0   0   0   2   1   0   0
+[20]   0   0   0   0   0   0
+ [1] Inf   0   0   0   0   0   0   0   0   0   0   3   0   0   0   2   1   0   0
+[20]   0   0   0   0   0   0
+ [1] Inf   0   0   0   4   0   0   0   0   0   0   3   0   0   0   2   1   0   0
+[20]   4   4   0   0   0   0
+ [1] Inf   0   5   0   4   0   5   0   0   0   0   3   0   5   0   2   1   5   5
+[20]   4   4   5   5   0   0
+ [1] Inf   6   5   6   4   6   5   6   0   0   0   3   6   5   6   2   1   5   5
+[20]   4   4   5   5   6   0
+ [1] Inf   6   5   6   4   6   5   6   0   0   0   3   6   5   6   2   1   5   5
+[20]   4   4   5   5   6   0
+\end{verbatim}
+    \begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.6\linewidth]{ex4-6-DP.pdf}
+    \caption{Solution de l'instance facile de type 4.}
+  \end{figure}
+
+\begin{verbatim}
+ [1] Inf   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   1
+[20]   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+ [1] Inf   0   0   0   0   0   0   0   0   0   0   0   0   0   0   2   0   0   1
+[20]   0   0   0   0   0   0   0   0   0   0   0   0   0   0   2   0   0   0   0
+ [1] Inf   0   0   0   0   0   0   0   0   0   0   0   0   3   0   2   0   0   1
+[20]   0   0   0   0   0   0   0   0   0   3   0   0   3   0   2   0   0   0   0
+ [1] Inf   0   0   0   0   0   0   0   0   0   4   0   0   3   0   2   0   0   1
+[20]   0   0   0   0   4   0   4   0   0   3   0   0   3   0   2   0   0   0   0
+ [1] Inf   0   0   0   0   0   0   0   5   0   4   0   0   3   0   2   0   0   1
+[20]   0   0   5   0   4   0   4   5   0   3   0   0   3   0   2   0   0   5   0
+ [1] Inf   0   0   0   0   6   0   0   5   0   4   0   0   3   0   2   0   0   1
+[20]   0   6   5   0   4   0   4   5   0   3   0   6   3   0   2   0   0   5   0
+ [1] Inf   0   0   7   0   6   0   0   5   0   4   7   0   3   0   2   7   0   1
+[20]   0   6   5   0   4   7   4   5   0   3   7   6   3   0   2   7   0   5   0
+ [1] Inf   0   8   7   0   6   0   8   5   0   4   7   8   3   0   2   7   8   1
+[20]   0   6   5   8   4   7   4   5   8   3   7   6   3   8   2   7   8   5   0
+ [1] Inf   0   8   7   0   6   0   8   5   0   4   7   8   3   0   2   7   8   1
+[20]   0   6   5   8   4   7   4   5   8   3   7   6   3   8   2   7   8   5   0
+\end{verbatim}
+  \begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.6\linewidth]{ex4-8-DP.pdf}
+    \caption{Solution de l'instance intermédiaire de type 4.}
+  \end{figure}
+
+
+
+  \section{Tester et Générer}
+
+  \begin{algorithme}{Algorithme Tester-et-Générer}
+    \begin{itemize}
+    \item Déterminer la capacité.
+    \item Trier les objets par ordre décroissant.
+    \item  Descente : Répéter tant que le dernier objet n'est pas dans le sac :
+      \begin{itemize}
+      \item Répéter pour chaque objet :
+        \begin{itemize}
+        \item ranger l'objet dans le sac si la capacité le permet.
+        \end{itemize}
+      \item Si le sac est rempli, arrêter l'algorithme.
+      \item Sinon, effectuer un retour arrière simple : retirer le plus petit objet du sac.
+        \end{itemize}
+      \item Retour arrière sautée quand le plus petit objet du deck est dans le sac.
+      \begin{itemize}
+      \item Retirer les objets du sac trouver jusqu'à ce que vous trouviez le plus petit objet que vous n'avez pas pu faire rentrer.
+
+
+      \item Sinon éliminer l'objet.
+      \end{itemize}
+    % \item  Répéter tant qu'il reste des objets et que le sac n'est pas rempli (la dernière case n'est pas marquée) :
+    %   \begin{itemize}
+    %   \item répéter pour chaque case marquée en partant de la dernière :
+    %   \begin{itemize}
+    %   \item déterminer la case atteinte en rangeant l'objet immédiatement après la case marquée (utiliser l'objet comme règle).
+    %   \item Si la case atteinte n'est pas marquée, placer un marqueur de l'objet.
+    %   \end{itemize}
+    %   \end{itemize}
+    \end{itemize}
+  \end{algorithme}
+
+
+
+  \begin{exercice}{}
+    Appliquer Tester-et-Générer sur une \instance{3}.
   \end{exercice}
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.6\linewidth]{ex3-6-DP.pdf}
+    \includegraphics[width=0.6\linewidth]{ex4-6-TG.pdf}
     \caption{Solution de l'instance facile de l'exercice~\ref{ex:ex4}}
   \end{figure}
 
   \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.6\linewidth]{ex3-9-DP.pdf}
+    % \includegraphics[width=0.6\linewidth]{ex4-8-TG.pdf}
     \caption{Solution de l'instance intermédiaire de l'exercice \ref{ex:ex4}}
   \end{figure}
 
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.6\linewidth]{ex3-6-TG.pdf}
-    \caption{Solution de l'instance facile de l'exercice~\ref{ex:ex4}}
-  \end{figure}
-
-  \begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.6\linewidth]{ex3-9-TG.pdf}
-    \caption{Solution de l'instance intermédiaire de l'exercice \ref{ex:ex4}}
-  \end{figure}
+  \begin{exercice}{}
+    Appliquer Tester-et-Générer sur une \instance{4}.
+  \end{exercice}
 
 
-
-
-    \begin{exercice}{}
-    \label{ex:ex4}
-    Appliquer la programmation dynamique sur une instance.\\
-    \begin{tabular}{lll}
-      \toprule
-      Niveau & Sac & Capacité \\
-      \midrule
-      Facile & 16, 15, 11, 4, 2, 1 & 24 \\
-      Intermédiaire & 18, 15, 13, 10, 8, 5, 3, 2 & 37 \\
-      Difficile & ? & ? \\
-      \bottomrule
-      \end{tabular}
-    \end{exercice}
-
-
-    \begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.6\linewidth]{ex4-6-DP.pdf}
-    \caption{Solution de l'instance facile de l'exercice~\ref{ex:ex4}}
-  \end{figure}
-
-  \begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.6\linewidth]{ex4-8-DP.pdf}
-    \caption{Solution de l'instance intermédiaire de l'exercice \ref{ex:ex4}}
-  \end{figure}
-
-
-  \subsection{Programmation dynamique}
-
-  \subsection{Tester et Générer}
-
-  \appendix
   \section{Problèmes connexes}
 
   % \subsection{Subset Sum Problem}

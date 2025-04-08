@@ -20,14 +20,7 @@ ExportTikz <- function(solution, sizes, capacity = sum(sizes) %/% 2, picX = 0, p
     )
 }
 
-ExportPartition1N <- function(n) {
-    BeginTikz(sprintf("partition-%d.tex", n))
-    for(i in seq(4, n)) {
-        part <- Partition1N(i)
-        ExportTikz(part$solution, part$sizes, picY = -4 * i)
-    }
-    EndTikz()
-}
+
 
 Partition1N <- function(n) {
     r <- n %% 4
@@ -53,6 +46,14 @@ Partition1N <- function(n) {
     return(list(sizes = sizes, solution = solution))
 }
 
+ExportPartition1N <- function(n) {
+    BeginTikz(sprintf("partition-%d.tex", n))
+    for(i in seq(4, n)) {
+        part <- Partition1N(i)
+        ExportTikz(part$solution, part$sizes, picY = -4 * i)
+    }
+    EndTikz()
+}
 
 GreedySearchSSP <- function(sizes, capacity = sum(sizes) %/% 2, tikz = FALSE) {
     solution <- logical(length(sizes))
@@ -104,7 +105,7 @@ DynamicProgrammingSSP <- function(sizes, capacity = sum(sizes) %/% 2, tikz = FAL
         newInd <- setdiff(curInd + sizes[i], curInd)
         newInd <- subset(newInd, newInd <= capacity)
         reached[newInd] <- i
-        ## print(reached)
+        if(tikz) print(reached) ##cat(sprintf("%2s", reached), '\n')
         if(tail(reached, 1) > 0) break
     }
     return(reached)
@@ -121,7 +122,8 @@ GetSolutionDP <- function(sizes, tableDP) {
     return(solution)
 }
 
-TestAndGenerateSSP <- function(sizes, capacity = sum(sizes) %/% 2, tikz = FALSE, return.nodes = FALSE) {
+
+TestAndGenerateSSP2 <- function(sizes, capacity = sum(sizes) %/% 2, tikz = FALSE, return.nodes = FALSE) {
     nodes <- 0
     ExportTikzTG <- function(solution) {
         if(tikz) {
@@ -130,33 +132,39 @@ TestAndGenerateSSP <- function(sizes, capacity = sum(sizes) %/% 2, tikz = FALSE,
             ExportTikz(solution, sizes, capacity, picY = -4 * nodes)
         }
     }
+
+
     TestAndGenerate <- function(solution, index) {
-        ##if(tikz) ExportTikz(solution, sizes, capacity, picY = -4 * nodes)
         ExportTikzTG(solution)
         nodes <<- nodes + 1
         total <- sum(sizes[which(solution)])
         if(total <= capacity) {
             if(total == capacity) return(solution)
-            if(index <= length(solution)) {
-                solutionT <- solution
-                solutionT[index] <- TRUE
-                solutionT <- TestAndGenerate(solutionT, index + 1)
-                if(length(solutionT) == 0) {
-                    return(TestAndGenerate(solution, index + 1))
-
+            while(index <= length(solution)) {
+                if(total + sizes[index] > capacity) {
+                    index <- index + 1
                 } else {
-                    return(solutionT)
+                    solutionT <- solution
+                    solutionT[index] <- TRUE
+                    solutionT <- TestAndGenerate(solutionT, index + 1)
+                    if(length(solutionT) == 0) {
+                        return(TestAndGenerate(solution, index + 1))
+                  } else {
+                        return(solutionT)
+                  }
+                    break
                 }
             }
         }
         return(logical(0))
     }
     solution <- TestAndGenerate(solution = logical(length(sizes)), index = 1)
-    if(return.nodes) return(list( solution = solution, nodes = nodes))
+    if(return.nodes) return(list(solution = solution, nodes = nodes))
     else return(solution)
 }
 
-TestAndGenerateSSP2 <- function(sizes, capacity = sum(sizes) %/% 2, tikz = FALSE, return.nodes = FALSE) {
+
+TestAndGenerateSSP <- function(sizes, capacity = sum(sizes) %/% 2, tikz = FALSE, return.nodes = FALSE) {
     nodes <- 0
     ExportTikzTG <- function(solution) {
         if(tikz) {
@@ -190,7 +198,7 @@ TestAndGenerateSSP2 <- function(sizes, capacity = sum(sizes) %/% 2, tikz = FALSE
         return(logical(0))
     }
     solution <- TestAndGenerate(solution = logical(length(sizes)), index = 1)
-    if(return.nodes) return(list( solution = solution, nodes = nodes))
+    if(return.nodes) return(list(solution = solution, nodes = nodes))
     else return(solution)
 }
 
@@ -241,7 +249,7 @@ GenerateExamples <- function(inputs) {
     GreedySearchEx <- function(idx) invisible(GreedySearchSSP(inputs[[idx]], tikz = TRUE))
     MultipleTimesGreedySearchEx <- function(idx) invisible(IteratedGreedySearchSSP(inputs[[idx]], tikz = TRUE))
     DynamicProgrammingEx <- function(idx) ExportTikz(GetSolutionDP(inputs[[idx]], DynamicProgrammingSSP(inputs[[idx]], tikz = TRUE)), inputs[[idx]])
-    TestAndGenerateEx <- function(idx) invisible(TestAndGenerateSSP2(inputs[[idx]], tikz = TRUE))
+    TestAndGenerateEx <- function(idx) invisible(TestAndGenerateSSP(inputs[[idx]], tikz = TRUE))
 
     BeginTikzEx(1, "GS")
     GreedySearchEx(1)
@@ -290,10 +298,15 @@ inputs <-
             c(16, 15, 14, 13, 12, 9, 8, 6, 1),
             c(16, 15, 14, 10, 9, 8, 6, 5, 3),
             c(18, 15, 13, 10, 8, 5, 3, 2) ## too large items / too many nodes
-            ##c(20, 18, 16, 14, 12, 10, 6, 4, 2) ## too large items / too many nodes
-            ## c(15, 7, 6, 5, 3, 2, 1) ## too few items ?
+        ),
+        hard = list(
+            c(16, 15, 13, 12, 9, 8, 6, 5, 4, 3, 2, 1),
+            c(16, 15, 13, 12, 11, 10, 8, 7, 6, 4, 3, 2),
+            c(16, 15, 14, 13, 12, 11, 10, 8, 7, 6, 4, 3),
+            c(18, 17, 16, 15, 14, 5, 2, 1)
         )
 )
 
-#GenerateExamples(inputs$easy)
-#GenerateExamples(inputs$medium)
+t(sapply(unlist(inputs, recursive = F), SolveSSP))
+## GenerateExamples(inputs$easy)
+## GenerateExamples(inputs$medium)
