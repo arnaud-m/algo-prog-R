@@ -4,30 +4,31 @@
 \usepackage{ifthen}
 
 \def\name#1{\ifthenelse{\equal{#1}{}}{}{~-- #1}}
+\def\colorbg#1{\ifdraftmode white\else #1\fi}
 
 %%% DEFINITION %%%
 \newtcolorbox[auto counter,number within=section]{definition}[2][]{%
-colback=jeuBG,colframe=jeuCol,fonttitle=\bfseries,
+colback=\colorbg{jeuBG},colframe=jeuCol,fonttitle=\bfseries,
 title=Définition~\thetcbcounter\name{#2},
 #1}
 
 %%% EXEMPLE %%%
 \newtcolorbox[auto counter,number within=section]{exemple}[2][]{%
-colback=exBG,colframe=exCol,fonttitle=\bfseries,
+colback=\colorbg{exBG},colframe=exCol,fonttitle=\bfseries,
 title=Exemple~\name{#2}, 
 %breakable, % Coupe la boîte avec les paramètres par défaut
 #1}
 
 %%% EXERCICE %%%
 \newtcolorbox[auto counter,number within=section]{exercice}[2][]{%
-colback=pedagoBG,colframe=pedagoCol,fonttitle=\bfseries,
+colback=\colorbg{pedagoBG},colframe=pedagoCol,fonttitle=\bfseries,
 title=Exercice~\thetcbcounter #2,
 %breakable, title after break=Probl\`eme~\thetcbcounter. #2 (suite),  % Ajout du titre avec (suite) pour les autres parties
 #1}
 
 %%% REMARQUE %%%
 \newtcolorbox[auto counter,number within=section]{remarque}[2][]{%
-colback=pbBG,colframe=pbCol,fonttitle=\bfseries,
+colback=\colorbg{pbBG},colframe=pbCol,fonttitle=\bfseries,
 title=Remarque~\thetcbcounter #2, 
 #1}
 
@@ -35,14 +36,14 @@ title=Remarque~\thetcbcounter #2,
 
 %%% ALGORITHME %%%
 \newtcolorbox[auto counter,number within=section]{algorithme}[2][]{%
-colback=algoBG,colframe=algoCol,fonttitle=\bfseries,
+colback=\colorbg{algoBG},colframe=algoCol,fonttitle=\bfseries,
 title=Algorithme~\thetcbcounter\name{#2},
 %enhanced, breakable, % Coupe la boîte sans bordure de fin
 #1}
 
 %%% PLUS LOIN %%%
 \newtcolorbox[auto counter,number within=section]{plusloin}[2][]{%
-colback=loinBG,colframe=loinCol,fonttitle=\bfseries,
+colback=\colorbg{loinBG},colframe=loinCol,fonttitle=\bfseries,
 title=Allons plus loin\name{#2}, 
 %enhanced, breakable, 
 %overlay first={

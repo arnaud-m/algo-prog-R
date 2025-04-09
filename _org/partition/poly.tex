@@ -14,7 +14,11 @@
 
 
 \usepackage{graphicx}
-\graphicspath{{./fig/}}
+\graphicspath{{./fig}}
+
+\newif\ifdraftmode
+\draftmodetrue
+% \draftmodefalse
 
 \usepackage{amsmath,amsthm,amssymb}
 \usepackage[normalem]{ulem}
@@ -36,6 +40,10 @@
 \date{}
 
 \begin{document}
+
+\ifdraftmode
+\selectcolormodel{gray}
+\fi
 
 \maketitle
 \tableofcontents
@@ -118,7 +126,10 @@
 
   \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.6\linewidth]{partition-8.pdf}
+    \resizebox{0.6\linewidth}{!}{
+      \input{fig/partition-8_tikz.tex}
+    }
+    % \includegraphics[width=0.6\linewidth]{partition-8.pdf}
     \caption{Partition parfaite des entiers de 1 à $n$.}
   \end{figure}
 
