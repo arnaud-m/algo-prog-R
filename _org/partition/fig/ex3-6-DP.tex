@@ -5,7 +5,12 @@
 
 \begin{document}
 \begin{tikzpicture}
-\pic at (0, 0) {subset sum = {capacity = 25, sizes = {13,11,9,8,6,4}, deck = {2,1,2,1,1,0}}};
+  \pic at (0, 0) {prog dyn = {capacity = 25, sizes = {13,11,9,8,6,4}, deck = {1,0,0,0,0,0}, marks = {13/1}}};
+  \pic at (0, -4) {prog dyn = {capacity = 25, sizes = {13,11,9,8,6,4}, deck = {1,1,0,0,0,0}, marks = {13/1, 11/2, 24/2}}};
+  \pic at (0, -8) {prog dyn = {capacity = 25, sizes = {13,11,9,8,6,4}, deck = {1,1,1,0,0,0}, marks = {13/1, 11/2, 24/2, 9/3, 20/3, 22/3}}};
+  \pic at (0, -12) {prog dyn = {capacity = 25, sizes = {13,11,9,8,6,4}, deck = {1,1,1,1,0,0}, marks = {13/1, 11/2, 24/2, 9/3, 20/3, 22/3, 8/4, 17/4, 19/4, 21/4}}};
+  \pic at (0, -16) {prog dyn = {capacity = 25, sizes = {13,11,9,8,6,4}, deck = {1,1,1,1,1,0}, marks = {13/1, 11/2, 24/2, 9/3, 20/3, 22/3, 8/4, 17/4, 19/4, 21/4, 6/5, 14/5, 15/5, 23/5, 25/5}}};
+\pic at (0, -21) {subset sum = {capacity = 25, sizes = {13,11,9,8,6,4}, deck = {2,1,2,1,1,0}}};
 
 \end{tikzpicture}
 \end{document}

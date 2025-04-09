@@ -8,8 +8,7 @@
 \def\yep{\textcolor{vert}{\ding{51}}\xspace}
 \def\nope{\textcolor{rouge}{\ding{55}}\xspace}
 
-
-\readlist\colors{"bleuPastel", "jeuCol", "teal", "exCol", "jaunePastel", "jauneTN", "pedagoCol", "appCol", "magenta", "algoCol"}
+\readlist\colors{"bleuPastel", "bleuTN", "teal", "vert", "jaunePastel", "jauneTN", "orange", "rouge", "magenta", "violet"}
 \def\nbcol{10}
 
 \tikzset{
@@ -88,4 +87,61 @@
       \draw ({\x - \unit/2}, {\ypart + \unit}) node [above] {\i};
     }
   }}, subset sum/.cd, unit/.initial = 1, capacity/.initial = 10, sizes/.initial={1}, deck/.initial={0}, no deck/.initial=0, no deck/.default=1
+}
+
+
+\tikzset{
+  pics/prog dyn/.style = {code = {
+    \tikzset{prog dyn/.cd,#1}%
+    \def\arg##1{\pgfkeysvalueof{/tikz/prog dyn/##1}}%
+    \edef\sizes{\pgfkeysvalueof{/tikz/prog dyn/sizes}}
+    \edef\deck{\pgfkeysvalueof{/tikz/prog dyn/deck}}
+    \edef\marks{\pgfkeysvalueof{/tikz/prog dyn/marks}}
+
+    \readlist\indeck\deck
+
+    \readlist\tailles\sizes
+
+    \def\capa{\arg{capacity}}
+    \def\unit{\arg{unit}}
+    \def\nd{\arg{no deck}}
+
+    \ifnum\nd>0
+    \edef\ypart{0}
+    \else
+    \edef\ypart{1.5*\unit}
+
+    \foreach \s [count = \i, evaluate = \i as \di using {\indeck[\i]}, evaluate = \i as \x using {(\i-1)*\unit}, evaluate = \s as \c using {int(Mod(\s-1, \nbcol)+1)}, evaluate = \c as \col using {\colors[\c]}, evaluate = \s as \o using {int(20*\s/\nbcol)}] in \sizes {
+      \ifnum\di=1
+        \node [black!\o!\col] at ({\x + \unit/2}, {\unit/2}) {\large\textbf{\s}};
+      \else
+        \ifnum\di=0
+          \fill [black!\o!\col] (\x, 0) rectangle ++ (\unit, \unit);
+          \node [white] at ({\x + \unit/2}, {\unit/2}) {\large\s};
+        \else
+          \node [gray] at ({\x + \unit/2}, {\unit/2}) {\large\s};
+          \draw [thick] (\x, 0) -- ++ (\unit, \unit);
+        \fi
+      \fi
+      \draw (\x, 0) rectangle ++ (\unit, \unit);
+    }
+    \fi
+
+    \foreach \i/\m [evaluate = \i as \x using {(\i-1)*\unit}, evaluate = \m as \s using {\tailles[\m]}, evaluate = \s as \c using {int(Mod(\s-1, \nbcol)+1)}, evaluate = \c as \col using {\colors[\c]}, evaluate = \s as \o using {int(20*\s/\nbcol)}] in \marks {
+        \node [black!\o!\col] at ({\x + \unit/2}, {\ypart + \unit/2}) {\large\ding{51}};
+    }
+
+    \draw (0, \ypart) rectangle ++ (\capa*\unit, \unit);
+
+    \foreach \i [evaluate = \i as \x using {\i*\unit}, evaluate = \i as \m using {int(Mod(\i, 5))}] in {1, ..., \capa} {
+      \ifnum\i<\capa
+        \ifnum\m>0
+          \draw (\x, \ypart) -- ++ (0, \unit);
+        \else
+          \draw [very thick] (\x, \ypart) -- ++ (0, \unit);
+        \fi
+      \fi
+      \draw ({\x - \unit/2}, {\ypart + \unit}) node [above] {\i};
+    }
+  }}, prog dyn/.cd, unit/.initial = 1, capacity/.initial = 10, sizes/.initial={1}, deck/.initial={0}, no deck/.initial=0, no deck/.default=1, marks/.initial = {0}
 }
