@@ -128,7 +128,7 @@
     \fi
 
     \foreach \i/\m [evaluate = \i as \x using {(\i-1)*\unit}, evaluate = \m as \s using {\tailles[\m]}, evaluate = \s as \c using {int(Mod(\s-1, \nbcol)+1)}, evaluate = \c as \col using {\colors[\c]}, evaluate = \s as \o using {int(20*\s/\nbcol)}] in \marks {
-        \node [black!\o!\col] at ({\x + \unit/2}, {\ypart + \unit/2}) {\large\ding{51}};
+        \node [black!\o!\col] at ({\x + \unit/2}, {\ypart + \unit/2}) {\large\textbf{\s}};
     }
 
     \draw (0, \ypart) rectangle ++ (\capa*\unit, \unit);
