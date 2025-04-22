@@ -33,11 +33,66 @@
 \usepackage{tikzstyles}
 \usepackage{theoremes}
 \usepackage{macros}
-
+\usepackage{ifthen}
+\usepackage{cleveref}
 
 \newcommand{\instance}[1]{instance de type #1 du tableau~\ref{tab:instances} page~\pageref{tab:instances}}
 \title{Activité : Partition}
 \date{}
+
+\newif\ifnotikz
+\notikztrue
+\notikzfalse % <---- comment/uncomment that line
+
+\ifnotikz
+\renewenvironment{tikzpicture}[1][]{
+  \comment%
+}{%
+  \endcomment%
+}
+\fi
+
+\newcommand{\TabularInstances}[1]{%
+  \begin{tabular}{lllc}
+    \toprule
+    Type & Niveau & Entiers & Capacité
+    \ifthenelse{\equal{#1}{1} \OR \equal{#1}{0}}{%
+    \\ \midrule
+         & Facile & 11, 8, 7, 5, 2, 1 & 17 \\
+    1 & Intermédiaire & 16, 12, 10, 9, 6, 5, 3, 2, 1 & 32 \\
+         & Difficile & 16, 15, 13, 12, 9, 8, 6, 5, 4, 3, 2, 1 & 47
+  }{}
+  \ifthenelse{\equal{#1}{2} \OR \equal{#1}{0}}{%
+    \\ \midrule
+         & Facile & 14, 13, 11, 7, 5, 3 & 26 \\
+    2 & Intermédiaire & 16, 15, 14, 13, 12, 9, 8, 6, 1 & 47 \\
+         & Difficile & 16, 15, 13, 12, 11, 10, 8, 7, 6, 4, 3, 2 & 53
+    }{}
+    \ifthenelse{\equal{#1}{3} \OR \equal{#1}{0}}{%
+    \\ \midrule
+         & Facile & 13, 11, 9, 8, 6, 4 & 25 \\
+    3 & Intermédiaire & 16, 15, 14, 10, 9, 8, 6, 5, 3 & 43 \\
+         & Difficile & 16, 15, 14, 13, 12, 11, 10, 8, 7, 6, 4, 3 & 59
+    }{}
+    \ifthenelse{\equal{#1}{4} \OR \equal{#1}{0}}{%
+    \\ \midrule
+         & Facile & 16, 15, 11, 4, 2, 1 & 24 \\
+    4 & Intermédiaire & 18, 15, 13, 10, 8, 5, 3, 2 & 37 \\
+         & Difficile & 18, 17, 16, 15, 14, 5, 2, 1 & 44
+    }{}
+    \\ \bottomrule
+  \end{tabular}
+}
+
+\newcommand{\PExercice}[2]{%
+  \begin{exercice}{}
+    Appliquer #1 sur une instance de type #2.
+    \begin{center}
+      \TabularInstances{#2}
+    \end{center}
+  \end{exercice}
+}
+
 
 \begin{document}
 
@@ -48,7 +103,13 @@
 \maketitle
 \tableofcontents
 
+
+
+
+
+
 \section{Description du problème}
+
 
   \begin{definition}{Partition d'un ensemble}
     Un \emph{multiensemble} (parfois appelé sac) est un ensemble dans lequel chaque élément peut apparaître plusieurs fois.
@@ -116,20 +177,23 @@
   % Le problème de partitionnement se décline aussi en problème d'optimisation dans lequel on recherche une partition minimisant la valeur absolue de la différence entre la somme des entiers des deux sous-ensembles de la partition.
   % Ce problème d'optimisation est \emph{NP-difficile}.
 
+\begin{remarque}{}
+    Ce problème admet une symétrie évidente puisque l'on peut inverser la partition, c'est-à-dire échanger les ensembles $S_1$ et $S_2$.
+    De manière générale, on peut toujours échanger des objets entre $S_1$ et $S_2$ si cela ne change pas leurs sommes.
+ \end{remarque}
 
 \section{Partition parfaite des entiers de 1 à $n$}
 
-  \begin{exercice}{}
-    Trouver une partition parfaite des entiers de 1 à $n$ pour $n =4, 5, 6, 7, 8$.
+\begin{exercice}{}
+  Trouver une partition parfaite des entiers de 1 à $n$ pour $n =4, 5, 6, 7, 8$.
   \end{exercice}
 
 
   \begin{figure}[htbp]
     \centering
     \resizebox{0.6\linewidth}{!}{
-      \input{fig/partition-8_tikz.tex}
+      \input{fig/partition-8}
     }
-    % \includegraphics[width=0.6\linewidth]{partition-8.pdf}
     \caption{Partition parfaite des entiers de 1 à $n$.}
   \end{figure}
 
@@ -152,12 +216,6 @@
 
   \begin{indice}
     Distinguer les cas en fonction du reste $r$ de la division euclidienne de $n$ par 4. C'est-à-dire qu'il existe $k \geq 0$ et $0 \leq r \leq 3$ tels quel $n = 4 \times k + r$.
-    % \begin{tabular}{|*{5}{c |}}
-    %   \hline
-    %   1 & 2 & $\cdots$ & $p-1$ & $p$\\
-    %   $2p$ & $2p-1$ & $\cdots$ & $p+2$ & $p+1$\\\hline
-    % \end{tabular}
-    % Que remarquez-vous pour chacune des colonnes de ce tableau ?
   \end{indice}
 
 
@@ -176,45 +234,45 @@
   \end{itemize}
   \end{algorithme}
 
+  \begin{exercice}[label=ex-16]{}
+    Trouver une partition parfaite des entiers de 1 à 16.
+  \end{exercice}
+
+
 \begin{remarque}{}
-    Ce problème admet une symétrie évidente puisque l'on peut inverser la partition, c'est-à-dire échanger les ensembles $S_1$ et $S_2$.
-    De manière générale, on peut toujours échanger des objets entre $S_1$ et $S_2$ si cela ne change pas leurs sommes.
-  \end{remarque}
+  Toutes les paires d'objets formées par l'algorithme ont la même somme.
+\end{remarque}
 
 
 \begin{exercice}{}
-  \begin{itemize}
-  \item Trouver une partition parfaite des entiers de 1 à 16.
-  \item Remarquez que toutes les paires d'objets formées par l'algorithme ont la même somme.
-    Trouvez d'autres partitions parfaites par échanges successifs.
-  \end{itemize}
-
+  Trouvez d'autres partitions parfaites par échanges successifs.
 \end{exercice}
 
 
 \begin{table}[htbp]
   \centering
-      \begin{tabular}{llll}
-      \toprule
-      Type & Niveau & Sac & Capacité \\
-      \midrule
-             & Facile & 11, 8, 7, 5, 2, 1 & 17 \\
-      1 & Intermédiaire & 16, 12, 10, 9, 6, 5, 3, 2, 1 & 32 \\
-             & Difficile & 16, 15, 13, 12, 9, 8, 6, 5, 4, 3, 2, 1 & 47 \\
-      \midrule
-             & Facile & 14, 13, 11, 7, 5, 3 & 26 \\
-      2 & Intermédiaire & 16, 15, 14, 13, 12, 9, 8, 6, 1 & 47 \\
-             & Difficile & 16, 15, 13, 12, 11, 10, 8, 7, 6, 4, 3, 2 & 53 \\
-      \midrule
-             & Facile & 13, 11, 9, 8, 6, 4 & 25 \\
-      3 & Intermédiaire & 16, 15, 14, 10, 9, 8, 6, 5, 3 & 43 \\
-             & Difficile & 16, 15, 14, 13, 12, 11, 10, 8, 7, 6, 4, 3 & 59 \\
-      \midrule
-             & Facile & 16, 15, 11, 4, 2, 1 & 24 \\
-      4 & Intermédiaire & 18, 15, 13, 10, 8, 5, 3, 2 & 37 \\
-             & Difficile & 18, 17, 16, 15, 14, 5, 2, 1 & 44 \\
-      \bottomrule
-      \end{tabular}
+  \TabularInstances{0}
+      % \begin{tabular}{llll}
+      % \toprule
+      % Type & Niveau & Entiers & Capacité \\
+      % \midrule
+      %        & Facile & 11, 8, 7, 5, 2, 1 & 17 \\
+      % 1 & Intermédiaire & 16, 12, 10, 9, 6, 5, 3, 2, 1 & 32 \\
+      %        & Difficile & 16, 15, 13, 12, 9, 8, 6, 5, 4, 3, 2, 1 & 47 \\
+      % \midrule
+      %        & Facile & 14, 13, 11, 7, 5, 3 & 26 \\
+      % 2 & Intermédiaire & 16, 15, 14, 13, 12, 9, 8, 6, 1 & 47 \\
+      %        & Difficile & 16, 15, 13, 12, 11, 10, 8, 7, 6, 4, 3, 2 & 53 \\
+      % \midrule
+      %        & Facile & 13, 11, 9, 8, 6, 4 & 25 \\
+      % 3 & Intermédiaire & 16, 15, 14, 10, 9, 8, 6, 5, 3 & 43 \\
+      %        & Difficile & 16, 15, 14, 13, 12, 11, 10, 8, 7, 6, 4, 3 & 59 \\
+      % \midrule
+      %        & Facile & 16, 15, 11, 4, 2, 1 & 24 \\
+      % 4 & Intermédiaire & 18, 15, 13, 10, 8, 5, 3, 2 & 37 \\
+      %        & Difficile & 18, 17, 16, 15, 14, 5, 2, 1 & 44 \\
+      % \bottomrule
+      % \end{tabular}
   \caption{Instances du problème de partitionnement.}
   \label{tab:instances}
 \end{table}
@@ -248,13 +306,17 @@
 
   \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.6\linewidth]{ex1-6-GS.pdf}
+    \resizebox{0.6\linewidth}{!}{
+      \input{fig/ex1-6-GS.tex}
+    }
     \caption{Solution de l'instance facile de de type 1.}
   \end{figure}
 
     \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.6\linewidth]{ex1-9-GS.pdf}
+    \resizebox{0.6\linewidth}{!}{
+      \input{fig/ex1-9-GS.tex}
+    }
     \caption{Solution de l'instance intermédiaire de type 1.}
   \end{figure}
 
@@ -264,13 +326,17 @@
 
   \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.6\linewidth]{ex2-6-GS.pdf}
+    \resizebox{0.6\linewidth}{!}{
+      \input{fig/ex2-6-GS.tex}
+    }
     \caption{Solution de l'instance facile de type 2.}
   \end{figure}
 
   \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.6\linewidth]{ex2-9-GS.pdf}
+    \resizebox{0.6\linewidth}{!}{
+      \input{fig/ex2-9-GS.tex}
+    }
     \caption{Solution de l'instance intermédiaire de type 2.}
   \end{figure}
 
@@ -289,14 +355,18 @@
   \end{exercice}
 
  \begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.6\linewidth]{ex2-6-MTGS.pdf}
+   \centering
+   \resizebox{0.6\linewidth}{!}{
+      \input{fig/ex2-6-MTGS.tex}
+    }
     \caption{Solution de l'instance facile de type 2.}
   \end{figure}
 
   \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.6\linewidth]{ex2-9-MTGS.pdf}
+    \resizebox{0.6\linewidth}{!}{
+      \input{fig/ex2-9-MTGS.tex}
+    }
     \caption{Solution de l'instance intermédiaire de type 2.}
   \end{figure}
 
@@ -308,22 +378,32 @@
 
  \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.6\linewidth]{ex3-6-MTGS.pdf}
+    \resizebox{0.6\linewidth}{!}{
+      \input{fig/ex3-6-MTGS.tex}
+    }
     \caption{Solution de l'instance facile de type 3.}
   \end{figure}
 
   \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.6\linewidth]{ex3-9-MTGS.pdf}
+    \resizebox{0.6\linewidth}{!}{
+      \input{fig/ex3-9-MTGS.tex}
+    }
     \caption{Solution de l'instance intermédiaire de type 3.}
   \end{figure}
 
 
   \section{Programmation dynamique}
 
-
-
+Ref : \ref{algo-DP}
+    \\
+    Cref : \cref{algo-DP}
+    \\
+    Nref: \namecref{algo-DP}
+    \nameref{algo-DP}
   \begin{algorithme}{Algorithme de programmation dynamique}
+    \label{algo-DP}
+
     \begin{itemize}
     \item Déterminer la capacité du sac.
     \item Trier les objets par ordre décroissant.
@@ -344,46 +424,28 @@
     Appliquer la programmation dynamique sur une \instance{3}.
   \end{exercice}
 
-\begin{verbatim}
-Inf  0  0  0  0  0  0  0  0  0  0  0  0  1  0  0  0  0  0  0  0  0  0  0  0  0
-Inf  0  0  0  0  0  0  0  0  0  0  2  0  1  0  0  0  0  0  0  0  0  0  0  2  0
-Inf  0  0  0  0  0  0  0  0  3  0  2  0  1  0  0  0  0  0  0  3  0  3  0  2  0
-Inf  0  0  0  0  0  0  0  4  3  0  2  0  1  0  0  0  4  0  4  3  4  3  0  2  0
-Inf  0  0  0  0  0  5  0  4  3  0  2  0  1  5  5  0  4  0  4  3  4  3  5  2  5
-\end{verbatim}
+
 \begin{figure}[htbp]
   \centering
+  \resizebox{0.6\linewidth}{!}{
+    \input{fig/ex3-6-DP.tex}
+  }
+  \caption{Solution de l'instance facile de type 3.}
+\end{figure}
 
-    \includegraphics[width=0.6\linewidth]{ex3-6-DP.pdf}
-    \caption{Solution de l'instance facile de type 3.}
-  \end{figure}
+\begin{algorithme}{Reconstruction du sac en programmation dynamique}
 
-\begin{verbatim}
- [1] Inf   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   1   0   0
-[20]   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
-[39]   0   0   0   0   0   0
- [1] Inf   0   0   0   0   0   0   0   0   0   0   0   0   0   0   2   1   0   0
-[20]   0   0   0   0   0   0   0   0   0   0   0   0   2   0   0   0   0   0   0
-[39]   0   0   0   0   0   0
- [1] Inf   0   0   0   0   0   0   0   0   0   0   0   0   0   3   2   1   0   0
-[20]   0   0   0   0   0   0   0   0   0   0   3   3   2   0   0   0   0   0   0
-[39]   0   0   0   0   0   0
- [1] Inf   0   0   0   0   0   0   0   0   0   4   0   0   0   3   2   1   0   0
-[20]   0   0   0   0   0   4   4   4   0   0   3   3   2   0   0   0   0   0   0
-[39]   0   4   4   4   0   0
- [1] Inf   0   0   0   0   0   0   0   0   5   4   0   0   0   3   2   1   0   0
-[20]   5   0   0   0   5   4   4   4   0   0   3   3   2   0   5   5   5   0   0
-[39]   5   4   4   4   0   0
- [1] Inf   0   0   0   0   0   0   0   6   5   4   0   0   0   3   2   1   6   6
-[20]   5   0   0   6   5   4   4   4   6   0   3   3   2   6   5   5   5   0   6
-[39]   5   4   4   4   6   6
- [1] Inf   0   0   0   0   0   0   0   6   5   4   0   0   0   3   2   1   6   6
-[20]   5   0   0   6   5   4   4   4   6   0   3   3   2   6   5   5   5   0   6
-[39]   5   4   4   4   6   6
-\end{verbatim}
+  \begin{itemize}
+      \item
+    \end{itemize}
+  \end{algorithme}
+
+
   \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.6\linewidth]{ex3-9-DP.pdf}
+    \resizebox{0.6\linewidth}{!}{
+      \input{fig/ex3-9-DP.tex}
+    }
     \caption{Solution de l'instance intermédiaire de type 3.}
   \end{figure}
 
@@ -392,51 +454,19 @@ Inf  0  0  0  0  0  5  0  4  3  0  2  0  1  5  5  0  4  0  4  3  4  3  5  2  5
     Appliquer la programmation dynamique sur une \instance{4}
   \end{exercice}
 
-\begin{verbatim}
- [1] Inf   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   1   0   0
-[20]   0   0   0   0   0   0
- [1] Inf   0   0   0   0   0   0   0   0   0   0   0   0   0   0   2   1   0   0
-[20]   0   0   0   0   0   0
- [1] Inf   0   0   0   0   0   0   0   0   0   0   3   0   0   0   2   1   0   0
-[20]   0   0   0   0   0   0
- [1] Inf   0   0   0   4   0   0   0   0   0   0   3   0   0   0   2   1   0   0
-[20]   4   4   0   0   0   0
- [1] Inf   0   5   0   4   0   5   0   0   0   0   3   0   5   0   2   1   5   5
-[20]   4   4   5   5   0   0
- [1] Inf   6   5   6   4   6   5   6   0   0   0   3   6   5   6   2   1   5   5
-[20]   4   4   5   5   6   0
- [1] Inf   6   5   6   4   6   5   6   0   0   0   3   6   5   6   2   1   5   5
-[20]   4   4   5   5   6   0
-\end{verbatim}
-    \begin{figure}[htbp]
+  \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.6\linewidth]{ex4-6-DP.pdf}
+    \resizebox{0.6\linewidth}{!}{
+      \input{fig/ex4-6-DP.tex}
+    }
     \caption{Solution de l'instance facile de type 4.}
   \end{figure}
 
-\begin{verbatim}
- [1] Inf   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   1
-[20]   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
- [1] Inf   0   0   0   0   0   0   0   0   0   0   0   0   0   0   2   0   0   1
-[20]   0   0   0   0   0   0   0   0   0   0   0   0   0   0   2   0   0   0   0
- [1] Inf   0   0   0   0   0   0   0   0   0   0   0   0   3   0   2   0   0   1
-[20]   0   0   0   0   0   0   0   0   0   3   0   0   3   0   2   0   0   0   0
- [1] Inf   0   0   0   0   0   0   0   0   0   4   0   0   3   0   2   0   0   1
-[20]   0   0   0   0   4   0   4   0   0   3   0   0   3   0   2   0   0   0   0
- [1] Inf   0   0   0   0   0   0   0   5   0   4   0   0   3   0   2   0   0   1
-[20]   0   0   5   0   4   0   4   5   0   3   0   0   3   0   2   0   0   5   0
- [1] Inf   0   0   0   0   6   0   0   5   0   4   0   0   3   0   2   0   0   1
-[20]   0   6   5   0   4   0   4   5   0   3   0   6   3   0   2   0   0   5   0
- [1] Inf   0   0   7   0   6   0   0   5   0   4   7   0   3   0   2   7   0   1
-[20]   0   6   5   0   4   7   4   5   0   3   7   6   3   0   2   7   0   5   0
- [1] Inf   0   8   7   0   6   0   8   5   0   4   7   8   3   0   2   7   8   1
-[20]   0   6   5   8   4   7   4   5   8   3   7   6   3   8   2   7   8   5   0
- [1] Inf   0   8   7   0   6   0   8   5   0   4   7   8   3   0   2   7   8   1
-[20]   0   6   5   8   4   7   4   5   8   3   7   6   3   8   2   7   8   5   0
-\end{verbatim}
   \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.6\linewidth]{ex4-8-DP.pdf}
+    \resizebox{0.6\linewidth}{!}{
+      \input{fig/ex4-8-DP.tex}
+    }
     \caption{Solution de l'instance intermédiaire de type 4.}
   \end{figure}
 
@@ -482,15 +512,16 @@ Inf  0  0  0  0  0  5  0  4  3  0  2  0  1  5  5  0  4  0  4  3  4  3  5  2  5
   \end{exercice}
 
 \begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.6\linewidth]{ex4-6-TG.pdf}
-    \caption{Solution de l'instance facile de l'exercice~\ref{ex:ex4}}
+  \centering
+  \resizebox{0.6\linewidth}{!}{
+    \input{fig/ex4-6-TG.tex}
+  }
+  \caption{Solution de l'instance facile de type 4}
   \end{figure}
 
   \begin{figure}[htbp]
     \centering
-    % \includegraphics[width=0.6\linewidth]{ex4-8-TG.pdf}
-    \caption{Solution de l'instance intermédiaire de l'exercice \ref{ex:ex4}}
+    \caption{Solution de l'instance intermédiaire de l'exercice}
   \end{figure}
 
   \begin{exercice}{}

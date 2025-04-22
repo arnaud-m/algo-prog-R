@@ -1,11 +1,9 @@
-\documentclass[border = 5mm]{standalone}
-
-\usepackage{colors}
-\usepackage{tikzstyles}
-
-\begin{document}
 \begin{tikzpicture}
+\pic at (0, -4) {prog dyn = {capacity = 24, sizes = {16,15,11,4,2,1}, deck = {1,0,0,0,0,0}, marks = {16/1}}};
+\pic at (0, -8) {prog dyn = {capacity = 24, sizes = {16,15,11,4,2,1}, deck = {1,1,0,0,0,0}, marks = {15/2, 16/1}}};
+\pic at (0, -12) {prog dyn = {capacity = 24, sizes = {16,15,11,4,2,1}, deck = {1,1,1,0,0,0}, marks = {11/3, 15/2, 16/1}}};
+\pic at (0, -16) {prog dyn = {capacity = 24, sizes = {16,15,11,4,2,1}, deck = {1,1,1,1,0,0}, marks = {4/4, 11/3, 15/2, 16/1, 19/4, 20/4}}};
+\pic at (0, -20) {prog dyn = {capacity = 24, sizes = {16,15,11,4,2,1}, deck = {1,1,1,1,1,0}, marks = {2/5, 4/4, 6/5, 11/3, 13/5, 15/2, 16/1, 17/5, 18/5, 19/4, 20/4, 21/5, 22/5}}};
+\pic at (0, -24) {prog dyn = {capacity = 24, sizes = {16,15,11,4,2,1}, deck = {1,1,1,1,1,1}, marks = {1/6, 2/5, 3/6, 4/4, 5/6, 6/5, 7/6, 11/3, 12/6, 13/5, 14/6, 15/2, 16/1, 17/5, 18/5, 19/4, 20/4, 21/5, 22/5, 23/6}}};
 \pic at (0, 0) {subset sum = {capacity = 24, sizes = {16,15,11,4,2,1}, deck = {1,2,2,1,1,1}}};
-
 \end{tikzpicture}
-\end{document}

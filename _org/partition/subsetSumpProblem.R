@@ -1,12 +1,18 @@
-BeginTikz <- function(filename = NA) {
+BeginTikz <- function(filename = NA, standalone = FALSE) {
     if(is.character(filename) && nchar(filename) > 0) {
         sink(filename)
     }
-    cat("\\documentclass[border = 5mm]{standalone}\n\n\\usepackage{colors}\n\\usepackage{tikzstyles}\n\n\\begin{document}\n\\begin{tikzpicture}\n")
+    if(standalone) {
+        cat("\\documentclass[border = 5mm]{standalone}\n\n\\usepackage{colors}\n\\usepackage{tikzstyles}\n\n\\begin{document}\n")
+    }
+    cat("\\begin{tikzpicture}\n")
 }
 
-EndTikz <- function() {
-    cat("\n\\end{tikzpicture}\n\\end{document}\n")
+EndTikz <- function(standalone = FALSE) {
+    cat("\\end{tikzpicture}\n")
+    if(standalone) {
+        cat("\\end{document}\n")
+    }
     sink()
 }
 
@@ -16,6 +22,18 @@ ExportTikz <- function(solution, sizes, capacity = sum(sizes) %/% 2, picX = 0, p
         sprintf(
         "\\pic at (%d, %d) {subset sum = {capacity = %d, sizes = {%s}, deck = {%s}}};\n",
         picX, picY, capacity, paste(sizes, collapse = ","), paste(solution, collapse = ",")
+        )
+    )
+}
+
+ExportTikzDP <- function(sizes, reached, capacity = sum(sizes) %/% 2, picX = 0, picY = 0) {
+    ind <- tail(which(reached > 0), -1)
+    solution <- rep(0, length(sizes))
+    solution[ unique(reached[ind]) ] <- 1
+    cat(
+        sprintf(
+            "\\pic at (%d, %d) {prog dyn = {capacity = %d, sizes = {%s}, deck = {%s}, marks = {%s}}};\n",
+            picX, picY, capacity, paste(sizes, collapse = ","), paste(solution, collapse = ","), paste( ind - 1, reached[ind], sep = "/", collapse = ", ")
         )
     )
 }
@@ -105,7 +123,7 @@ DynamicProgrammingSSP <- function(sizes, capacity = sum(sizes) %/% 2, tikz = FAL
         newInd <- setdiff(curInd + sizes[i], curInd)
         newInd <- subset(newInd, newInd <= capacity)
         reached[newInd] <- i
-        if(tikz) print(reached) ##cat(sprintf("%2s", reached), '\n')
+        if(tikz) ExportTikzDP(sizes, reached, picY = - 4 * i)
         if(tail(reached, 1) > 0) break
     }
     return(reached)
@@ -120,47 +138,6 @@ GetSolutionDP <- function(sizes, tableDP) {
         idx <- idx - sizes[tableDP[idx]]
     }
     return(solution)
-}
-
-
-TestAndGenerateSSP2 <- function(sizes, capacity = sum(sizes) %/% 2, tikz = FALSE, return.nodes = FALSE) {
-    nodes <- 0
-    ExportTikzTG <- function(solution) {
-        if(tikz) {
-            firstT <- head(which(solution), 1)
-            if(length(firstT) == 1 && firstT > 1) solution[seq(firstT - 1)] <- NA
-            ExportTikz(solution, sizes, capacity, picY = -4 * nodes)
-        }
-    }
-
-
-    TestAndGenerate <- function(solution, index) {
-        ExportTikzTG(solution)
-        nodes <<- nodes + 1
-        total <- sum(sizes[which(solution)])
-        if(total <= capacity) {
-            if(total == capacity) return(solution)
-            while(index <= length(solution)) {
-                if(total + sizes[index] > capacity) {
-                    index <- index + 1
-                } else {
-                    solutionT <- solution
-                    solutionT[index] <- TRUE
-                    solutionT <- TestAndGenerate(solutionT, index + 1)
-                    if(length(solutionT) == 0) {
-                        return(TestAndGenerate(solution, index + 1))
-                  } else {
-                        return(solutionT)
-                  }
-                    break
-                }
-            }
-        }
-        return(logical(0))
-    }
-    solution <- TestAndGenerate(solution = logical(length(sizes)), index = 1)
-    if(return.nodes) return(list(solution = solution, nodes = nodes))
-    else return(solution)
 }
 
 
@@ -265,6 +242,7 @@ GenerateExamples <- function(inputs) {
     BeginTikzEx(3, "MTGS")
     MultipleTimesGreedySearchEx(3)
     EndTikz()
+
     BeginTikzEx(3, "DP")
     DynamicProgrammingEx(3)
     EndTikz()
@@ -287,23 +265,35 @@ GenerateExamples <- function(inputs) {
 
 inputs <-
     list(
-        easy = list(
+        easy1 = list(
             c(11, 8, 7, 5, 2, 1),
             c(14, 13, 11, 7, 5, 3),
             c(13, 11, 9, 8, 6, 4),
             c(16, 15, 11, 4, 2, 1)
         ),
-        medium = list(
+        easy2 = list(
+            c(16, 11, 10, 8, 4, 1),
+            c(13, 12, 11, 10, 7, 4),
+            c(16, 13, 12, 11, 7, 3),
+            c(15, 14, 9, 8, 6, 1)
+        ),
+        medium1 = list(
             c(16, 12, 10, 9, 6, 5, 3, 2, 1),
             c(16, 15, 14, 13, 12, 9, 8, 6, 1),
             c(16, 15, 14, 10, 9, 8, 6, 5, 3),
-            c(18, 15, 13, 10, 8, 5, 3, 2) ## too large items / too many nodes
+            c(18, 15, 13, 10, 8, 5, 3, 2) ## too large item / too many nodes
+        ),
+        medium2 = list(
+            c(15, 13, 8, 7, 6, 5, 4, 2, 1),
+            c(15, 14, 13, 12, 11, 10, 7, 4, 3),
+            c(16, 15, 13, 11, 9, 7, 5, 4, 3),
+            c(18, 15, 13, 10, 8, 5, 3, 2) ## too large item / too many nodes
         ),
         hard = list(
             c(16, 15, 13, 12, 9, 8, 6, 5, 4, 3, 2, 1),
             c(16, 15, 13, 12, 11, 10, 8, 7, 6, 4, 3, 2),
             c(16, 15, 14, 13, 12, 11, 10, 8, 7, 6, 4, 3),
-            c(18, 17, 16, 15, 14, 5, 2, 1)
+            c(18, 17, 16, 15, 14, 5, 2, 1) ## too large item / too many nodes
         )
 )
 
