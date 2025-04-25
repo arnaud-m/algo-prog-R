@@ -68,7 +68,7 @@ ExportPartition1N <- function(n) {
     BeginTikz(sprintf("partition-%d.tex", n))
     for(i in seq(4, n)) {
         part <- Partition1N(i)
-        ExportTikz(part$solution, part$sizes, picY = -4 * i)
+        ExportTikz(part$solution, part$sizes, picY = -2 * i)
     }
     EndTikz()
 }
@@ -84,7 +84,7 @@ GreedySearchSSP <- function(sizes, capacity = sum(sizes) %/% 2, tikz = FALSE) {
         } else {
             solution[i] <- NA
         }
-        if(tikz) ExportTikz(solution, sizes, capacity, picY = - 4 * i)
+        if(tikz) ExportTikz(solution, sizes, capacity, picY = -2 * i)
         if(total == capacity) return(solution)
     }
     return(solution)
@@ -186,6 +186,7 @@ SolveSSP <-function(sizes, capacity = sum(sizes) %/% 2) {
     solTG <- TestAndGenerateSSP(sizes, capacity, return.nodes = TRUE)
 
     results <- data.frame(
+        IN.n = length(sizes),
         IN.even = sum(sizes) %% 2 == 0,
         GS.status = IsFeasible(solGS, sizes, capacity),
         GS.iterations = sum( is.na(solGS) | solGS),
@@ -196,7 +197,12 @@ SolveSSP <-function(sizes, capacity = sum(sizes) %/% 2) {
         TG.status = IsFeasible(solTG$solution, sizes, capacity),
         TG.nodes = solTG$nodes
     )
-    return(results)
+    type <- ifelse(results$DP.status,
+                 ifelse(results$MTGS.status,
+                 ifelse(results$GS.status, 1, 2),
+                 3),
+                 4)
+    return(cbind(results, type = type))
 }
 
 GenerateItems <- function(n, size) sort(sample(n, size = size, replace = FALSE), decreasing = TRUE)
@@ -262,41 +268,108 @@ GenerateExamples <- function(inputs) {
 
 }
 
+GenerateTikz <- function(sizes, algorithm) {
+    cat("\\begin{tikzpicture}\n")
+    if(algorithm == "GS") {
+        invisible(GreedySearchSSP(sizes, tikz = TRUE))
+    } else if(algorithm == "MTGS") {
+        invisible(IteratedGreedySearchSSP(sizes, tikz = TRUE))
+    } else if(algorithm == "DP") {
+        ExportTikz(GetSolutionDP(sizes, DynamicProgrammingSSP(sizes, tikz = TRUE)), sizes)
+    } else if(algorithm == "TG") {
+        invisible(TestAndGenerateSSP(sizes, tikz = TRUE))
+    }
+    cat("\\end{tikzpicture}\n")
+}
+
+
+GenerateTable <- function(inputs, outputs, ind = seq_along(inputs)) {
+    ## TODO Add parameter to enable/disable the type column
+    ToRow <- function(i) {
+        paste(i, "&",  outputs[i, "type"], "&", length(inputs[[i]]), "&", paste(inputs[[i]], collapse = ", "), "&", sum(inputs[[i]]) %/% 2, "\\\\")
+    }
+    cat("\\begin{tabular}{ccclc}\n\\toprule\n")
+    cat("\\# & Type & Taille & Entiers & Capacité \\\\\n\\midrule\n")
+    cat(sapply(ind, ToRow), sep = "\n")
+    cat("\\bottomrule\n\\end{tabular}\n")
+}
+
+GenerateExercise <- function(inputs, outputs, type, algorithm) {
+    ind <- which(outputs$type == type)
+    filename <- sprintf("ex%d-%s", type, algorithm)
+    sink(paste0(filename,".tex"))
+    algonames = c(GS = "l'algorithme glouton", MTGS = "l'algorithme glouton répété",
+                  DP = "la programmation dynamique", TG = "tester et générer")
+
+    cat(sprintf("\\begin{exercice}[label=%s]{}\n", filename))
+    cat(sprintf("Appliquer %s sur une instance de type %d.\n", algonames[algorithm], type))
+    cat("\\begin{center}\n")
+    GenerateTable(inputs, outputs, ind)
+    cat("\\end{center}\n\\end{exercice}\n")
+
+    for(i in seq_along(ind)) {
+        cat("\\begin{figure}[htbp]\n\\centering\n")
+        cat("\\resizebox{0.8\\linewidth}{!}{\n")
+        GenerateTikz(inputs[[ind[i]]], algorithm)
+        cat("}\n")
+        cat(sprintf("\\caption{Application de %s sur l'instance \\#%d de type %d.}\n", algonames[algorithm], ind[i], type))
+        cat("\\end{figure}\n")
+        if(i == 1) {
+            cat("\n\\ifshowsols\n")
+        }
+    }
+    cat("\\fi\n")
+    sink()
+}
 
 inputs <-
     list(
-        easy1 = list(
-            c(11, 8, 7, 5, 2, 1),
-            c(14, 13, 11, 7, 5, 3),
-            c(13, 11, 9, 8, 6, 4),
-            c(16, 15, 11, 4, 2, 1)
-        ),
-        easy2 = list(
-            c(16, 11, 10, 8, 4, 1),
-            c(13, 12, 11, 10, 7, 4),
-            c(16, 13, 12, 11, 7, 3),
-            c(15, 14, 9, 8, 6, 1)
-        ),
-        medium1 = list(
-            c(16, 12, 10, 9, 6, 5, 3, 2, 1),
-            c(16, 15, 14, 13, 12, 9, 8, 6, 1),
-            c(16, 15, 14, 10, 9, 8, 6, 5, 3),
-            c(18, 15, 13, 10, 8, 5, 3, 2) ## too large item / too many nodes
-        ),
-        medium2 = list(
-            c(15, 13, 8, 7, 6, 5, 4, 2, 1),
-            c(15, 14, 13, 12, 11, 10, 7, 4, 3),
-            c(16, 15, 13, 11, 9, 7, 5, 4, 3),
-            c(18, 15, 13, 10, 8, 5, 3, 2) ## too large item / too many nodes
-        ),
-        hard = list(
-            c(16, 15, 13, 12, 9, 8, 6, 5, 4, 3, 2, 1),
-            c(16, 15, 13, 12, 11, 10, 8, 7, 6, 4, 3, 2),
-            c(16, 15, 14, 13, 12, 11, 10, 8, 7, 6, 4, 3),
-            c(18, 17, 16, 15, 14, 5, 2, 1) ## too large item / too many nodes
-        )
+        ## Easy
+        c(11, 8, 7, 5, 2, 1),
+        c(14, 13, 11, 7, 5, 3),
+        c(13, 11, 9, 8, 6, 4),
+        c(16, 15, 11, 4, 2, 1),
+        c(16, 11, 10, 8, 4, 1),
+        c(13, 12, 11, 10, 7, 4),
+        c(16, 13, 12, 11, 7, 3),
+        c(15, 14, 9, 8, 6, 1),
+        ## Medium
+        c(16, 12, 10, 9, 6, 5, 3, 2, 1),
+        c(16, 15, 14, 13, 12, 9, 8, 6, 1),
+        c(16, 15, 14, 10, 9, 8, 6, 5, 3),
+        c(18, 15, 13, 10, 8, 5, 3, 2), ## too large item / too many nodes
+        c(15, 13, 8, 7, 6, 5, 4, 2, 1),
+        c(15, 14, 13, 12, 11, 10, 7, 4, 3),
+        c(16, 15, 13, 11, 9, 7, 5, 4, 3),
+        c(18, 15, 13, 10, 8, 5, 3, 2), ## too large item / too many nodes
+        ## Hard
+        c(16, 15, 13, 12, 9, 8, 6, 5, 4, 3, 2, 1),
+        c(16, 15, 13, 12, 11, 10, 8, 7, 6, 4, 3, 2),
+        c(16, 15, 14, 13, 12, 11, 10, 8, 7, 6, 4, 3),
+        c(18, 17, 16, 15, 14, 5, 2, 1) ## too large item / too many nodes
 )
+outputs <- do.call(rbind, lapply(inputs, SolveSSP))
 
-t(sapply(unlist(inputs, recursive = F), SolveSSP))
-## GenerateExamples(inputs$easy)
-## GenerateExamples(inputs$medium)
+ord <- order(outputs$type, outputs$IN.n, outputs$DP.iterations)
+inputs <- inputs[ord]
+outputs <- outputs[ord, ]
+
+sink("instances.tex")
+GenerateTable(inputs, outputs)
+sink()
+
+ExportPartition1N(8)
+ExportPartition1N(16)
+
+
+GenerateExercise(inputs, outputs, 1, "GS")
+GenerateExercise(inputs, outputs, 2, "GS")
+
+GenerateExercise(inputs, outputs, 2, "MTGS")
+GenerateExercise(inputs, outputs, 3, "MTGS")
+
+GenerateExercise(inputs, outputs, 3, "DP")
+GenerateExercise(inputs, outputs, 4, "DP")
+
+GenerateExercise(inputs, outputs, 3, "TG")
+GenerateExercise(inputs, outputs, 4, "TG")

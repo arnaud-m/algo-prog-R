@@ -1,0 +1,94 @@
+\begin{exercice}[label=ex3-DP]{}
+Appliquer la programmation dynamique sur une instance de type 3.
+\begin{center}
+\begin{tabular}{ccclc}
+\toprule
+\# & Type & Taille & Entiers & Capacité \\
+\midrule
+11 & 3 & 6 & 13, 11, 9, 8, 6, 4 & 25 \\
+12 & 3 & 6 & 16, 13, 12, 11, 7, 3 & 31 \\
+13 & 3 & 9 & 16, 15, 14, 10, 9, 8, 6, 5, 3 & 43 \\
+14 & 3 & 9 & 16, 15, 13, 11, 9, 7, 5, 4, 3 & 41 \\
+15 & 3 & 12 & 16, 15, 14, 13, 12, 11, 10, 8, 7, 6, 4, 3 & 59 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{exercice}
+\begin{figure}[htbp]
+\centering
+\resizebox{0.8\linewidth}{!}{
+\begin{tikzpicture}
+\pic at (0, -4) {prog dyn = {capacity = 25, sizes = {13,11,9,8,6,4}, deck = {1,0,0,0,0,0}, marks = {13/1}}};
+\pic at (0, -8) {prog dyn = {capacity = 25, sizes = {13,11,9,8,6,4}, deck = {1,1,0,0,0,0}, marks = {11/2, 13/1, 24/2}}};
+\pic at (0, -12) {prog dyn = {capacity = 25, sizes = {13,11,9,8,6,4}, deck = {1,1,1,0,0,0}, marks = {9/3, 11/2, 13/1, 20/3, 22/3, 24/2}}};
+\pic at (0, -16) {prog dyn = {capacity = 25, sizes = {13,11,9,8,6,4}, deck = {1,1,1,1,0,0}, marks = {8/4, 9/3, 11/2, 13/1, 17/4, 19/4, 20/3, 21/4, 22/3, 24/2}}};
+\pic at (0, -20) {prog dyn = {capacity = 25, sizes = {13,11,9,8,6,4}, deck = {1,1,1,1,1,0}, marks = {6/5, 8/4, 9/3, 11/2, 13/1, 14/5, 15/5, 17/4, 19/4, 20/3, 21/4, 22/3, 23/5, 24/2, 25/5}}};
+\pic at (0, 0) {subset sum = {capacity = 25, sizes = {13,11,9,8,6,4}, deck = {2,1,2,1,1,0}}};
+\end{tikzpicture}
+}
+\caption{Application de la programmation dynamique sur l'instance \#11 de type 3.}
+\end{figure}
+\ifshowsols
+\begin{figure}[htbp]
+\centering
+\resizebox{0.8\linewidth}{!}{
+\begin{tikzpicture}
+\pic at (0, -4) {prog dyn = {capacity = 31, sizes = {16,13,12,11,7,3}, deck = {1,0,0,0,0,0}, marks = {16/1}}};
+\pic at (0, -8) {prog dyn = {capacity = 31, sizes = {16,13,12,11,7,3}, deck = {1,1,0,0,0,0}, marks = {13/2, 16/1, 29/2}}};
+\pic at (0, -12) {prog dyn = {capacity = 31, sizes = {16,13,12,11,7,3}, deck = {1,1,1,0,0,0}, marks = {12/3, 13/2, 16/1, 25/3, 28/3, 29/2}}};
+\pic at (0, -16) {prog dyn = {capacity = 31, sizes = {16,13,12,11,7,3}, deck = {1,1,1,1,0,0}, marks = {11/4, 12/3, 13/2, 16/1, 23/4, 24/4, 25/3, 27/4, 28/3, 29/2}}};
+\pic at (0, -20) {prog dyn = {capacity = 31, sizes = {16,13,12,11,7,3}, deck = {1,1,1,1,1,0}, marks = {7/5, 11/4, 12/3, 13/2, 16/1, 18/5, 19/5, 20/5, 23/4, 24/4, 25/3, 27/4, 28/3, 29/2, 30/5, 31/5}}};
+\pic at (0, 0) {subset sum = {capacity = 31, sizes = {16,13,12,11,7,3}, deck = {2,1,2,1,1,0}}};
+\end{tikzpicture}
+}
+\caption{Application de la programmation dynamique sur l'instance \#12 de type 3.}
+\end{figure}
+\begin{figure}[htbp]
+\centering
+\resizebox{0.8\linewidth}{!}{
+\begin{tikzpicture}
+\pic at (0, -4) {prog dyn = {capacity = 43, sizes = {16,15,14,10,9,8,6,5,3}, deck = {1,0,0,0,0,0,0,0,0}, marks = {16/1}}};
+\pic at (0, -8) {prog dyn = {capacity = 43, sizes = {16,15,14,10,9,8,6,5,3}, deck = {1,1,0,0,0,0,0,0,0}, marks = {15/2, 16/1, 31/2}}};
+\pic at (0, -12) {prog dyn = {capacity = 43, sizes = {16,15,14,10,9,8,6,5,3}, deck = {1,1,1,0,0,0,0,0,0}, marks = {14/3, 15/2, 16/1, 29/3, 30/3, 31/2}}};
+\pic at (0, -16) {prog dyn = {capacity = 43, sizes = {16,15,14,10,9,8,6,5,3}, deck = {1,1,1,1,0,0,0,0,0}, marks = {10/4, 14/3, 15/2, 16/1, 24/4, 25/4, 26/4, 29/3, 30/3, 31/2, 39/4, 40/4, 41/4}}};
+\pic at (0, -20) {prog dyn = {capacity = 43, sizes = {16,15,14,10,9,8,6,5,3}, deck = {1,1,1,1,1,0,0,0,0}, marks = {9/5, 10/4, 14/3, 15/2, 16/1, 19/5, 23/5, 24/4, 25/4, 26/4, 29/3, 30/3, 31/2, 33/5, 34/5, 35/5, 38/5, 39/4, 40/4, 41/4}}};
+\pic at (0, -24) {prog dyn = {capacity = 43, sizes = {16,15,14,10,9,8,6,5,3}, deck = {1,1,1,1,1,1,0,0,0}, marks = {8/6, 9/5, 10/4, 14/3, 15/2, 16/1, 17/6, 18/6, 19/5, 22/6, 23/5, 24/4, 25/4, 26/4, 27/6, 29/3, 30/3, 31/2, 32/6, 33/5, 34/5, 35/5, 37/6, 38/5, 39/4, 40/4, 41/4, 42/6, 43/6}}};
+\pic at (0, 0) {subset sum = {capacity = 43, sizes = {16,15,14,10,9,8,6,5,3}, deck = {1,2,2,1,1,1,0,0,0}}};
+\end{tikzpicture}
+}
+\caption{Application de la programmation dynamique sur l'instance \#13 de type 3.}
+\end{figure}
+\begin{figure}[htbp]
+\centering
+\resizebox{0.8\linewidth}{!}{
+\begin{tikzpicture}
+\pic at (0, -4) {prog dyn = {capacity = 41, sizes = {16,15,13,11,9,7,5,4,3}, deck = {1,0,0,0,0,0,0,0,0}, marks = {16/1}}};
+\pic at (0, -8) {prog dyn = {capacity = 41, sizes = {16,15,13,11,9,7,5,4,3}, deck = {1,1,0,0,0,0,0,0,0}, marks = {15/2, 16/1, 31/2}}};
+\pic at (0, -12) {prog dyn = {capacity = 41, sizes = {16,15,13,11,9,7,5,4,3}, deck = {1,1,1,0,0,0,0,0,0}, marks = {13/3, 15/2, 16/1, 28/3, 29/3, 31/2}}};
+\pic at (0, -16) {prog dyn = {capacity = 41, sizes = {16,15,13,11,9,7,5,4,3}, deck = {1,1,1,1,0,0,0,0,0}, marks = {11/4, 13/3, 15/2, 16/1, 24/4, 26/4, 27/4, 28/3, 29/3, 31/2, 39/4, 40/4}}};
+\pic at (0, -20) {prog dyn = {capacity = 41, sizes = {16,15,13,11,9,7,5,4,3}, deck = {1,1,1,1,1,0,0,0,0}, marks = {9/5, 11/4, 13/3, 15/2, 16/1, 20/5, 22/5, 24/4, 25/5, 26/4, 27/4, 28/3, 29/3, 31/2, 33/5, 35/5, 36/5, 37/5, 38/5, 39/4, 40/4}}};
+\pic at (0, -24) {prog dyn = {capacity = 41, sizes = {16,15,13,11,9,7,5,4,3}, deck = {1,1,1,1,1,1,0,0,0}, marks = {7/6, 9/5, 11/4, 13/3, 15/2, 16/1, 18/6, 20/5, 22/5, 23/6, 24/4, 25/5, 26/4, 27/4, 28/3, 29/3, 31/2, 32/6, 33/5, 34/6, 35/5, 36/5, 37/5, 38/5, 39/4, 40/4}}};
+\pic at (0, -28) {prog dyn = {capacity = 41, sizes = {16,15,13,11,9,7,5,4,3}, deck = {1,1,1,1,1,1,1,0,0}, marks = {5/7, 7/6, 9/5, 11/4, 12/7, 13/3, 14/7, 15/2, 16/1, 18/6, 20/5, 21/7, 22/5, 23/6, 24/4, 25/5, 26/4, 27/4, 28/3, 29/3, 30/7, 31/2, 32/6, 33/5, 34/6, 35/5, 36/5, 37/5, 38/5, 39/4, 40/4, 41/7}}};
+\pic at (0, 0) {subset sum = {capacity = 41, sizes = {16,15,13,11,9,7,5,4,3}, deck = {1,2,2,1,1,2,1,0,0}}};
+\end{tikzpicture}
+}
+\caption{Application de la programmation dynamique sur l'instance \#14 de type 3.}
+\end{figure}
+\begin{figure}[htbp]
+\centering
+\resizebox{0.8\linewidth}{!}{
+\begin{tikzpicture}
+\pic at (0, -4) {prog dyn = {capacity = 59, sizes = {16,15,14,13,12,11,10,8,7,6,4,3}, deck = {1,0,0,0,0,0,0,0,0,0,0,0}, marks = {16/1}}};
+\pic at (0, -8) {prog dyn = {capacity = 59, sizes = {16,15,14,13,12,11,10,8,7,6,4,3}, deck = {1,1,0,0,0,0,0,0,0,0,0,0}, marks = {15/2, 16/1, 31/2}}};
+\pic at (0, -12) {prog dyn = {capacity = 59, sizes = {16,15,14,13,12,11,10,8,7,6,4,3}, deck = {1,1,1,0,0,0,0,0,0,0,0,0}, marks = {14/3, 15/2, 16/1, 29/3, 30/3, 31/2, 45/3}}};
+\pic at (0, -16) {prog dyn = {capacity = 59, sizes = {16,15,14,13,12,11,10,8,7,6,4,3}, deck = {1,1,1,1,0,0,0,0,0,0,0,0}, marks = {13/4, 14/3, 15/2, 16/1, 27/4, 28/4, 29/3, 30/3, 31/2, 42/4, 43/4, 44/4, 45/3, 58/4}}};
+\pic at (0, -20) {prog dyn = {capacity = 59, sizes = {16,15,14,13,12,11,10,8,7,6,4,3}, deck = {1,1,1,1,1,0,0,0,0,0,0,0}, marks = {12/5, 13/4, 14/3, 15/2, 16/1, 25/5, 26/5, 27/4, 28/4, 29/3, 30/3, 31/2, 39/5, 40/5, 41/5, 42/4, 43/4, 44/4, 45/3, 54/5, 55/5, 56/5, 57/5, 58/4}}};
+\pic at (0, -24) {prog dyn = {capacity = 59, sizes = {16,15,14,13,12,11,10,8,7,6,4,3}, deck = {1,1,1,1,1,1,0,0,0,0,0,0}, marks = {11/6, 12/5, 13/4, 14/3, 15/2, 16/1, 23/6, 24/6, 25/5, 26/5, 27/4, 28/4, 29/3, 30/3, 31/2, 36/6, 37/6, 38/6, 39/5, 40/5, 41/5, 42/4, 43/4, 44/4, 45/3, 50/6, 51/6, 52/6, 53/6, 54/5, 55/5, 56/5, 57/5, 58/4}}};
+\pic at (0, -28) {prog dyn = {capacity = 59, sizes = {16,15,14,13,12,11,10,8,7,6,4,3}, deck = {1,1,1,1,1,1,1,0,0,0,0,0}, marks = {10/7, 11/6, 12/5, 13/4, 14/3, 15/2, 16/1, 21/7, 22/7, 23/6, 24/6, 25/5, 26/5, 27/4, 28/4, 29/3, 30/3, 31/2, 33/7, 34/7, 35/7, 36/6, 37/6, 38/6, 39/5, 40/5, 41/5, 42/4, 43/4, 44/4, 45/3, 46/7, 47/7, 48/7, 49/7, 50/6, 51/6, 52/6, 53/6, 54/5, 55/5, 56/5, 57/5, 58/4}}};
+\pic at (0, -32) {prog dyn = {capacity = 59, sizes = {16,15,14,13,12,11,10,8,7,6,4,3}, deck = {1,1,1,1,1,1,1,1,0,0,0,0}, marks = {8/8, 10/7, 11/6, 12/5, 13/4, 14/3, 15/2, 16/1, 18/8, 19/8, 20/8, 21/7, 22/7, 23/6, 24/6, 25/5, 26/5, 27/4, 28/4, 29/3, 30/3, 31/2, 32/8, 33/7, 34/7, 35/7, 36/6, 37/6, 38/6, 39/5, 40/5, 41/5, 42/4, 43/4, 44/4, 45/3, 46/7, 47/7, 48/7, 49/7, 50/6, 51/6, 52/6, 53/6, 54/5, 55/5, 56/5, 57/5, 58/4, 59/8}}};
+\pic at (0, 0) {subset sum = {capacity = 59, sizes = {16,15,14,13,12,11,10,8,7,6,4,3}, deck = {2,1,2,1,1,1,2,1,0,0,0,0}}};
+\end{tikzpicture}
+}
+\caption{Application de la programmation dynamique sur l'instance \#15 de type 3.}
+\end{figure}
+\fi

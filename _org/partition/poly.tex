@@ -1,4 +1,4 @@
-\documentclass[11pt]{article}
+\documentclass[11pt,a4paper]{article}
 
 \usepackage[french]{babel}
 \usepackage[utf8]{inputenc}
@@ -33,11 +33,8 @@
 \usepackage{tikzstyles}
 \usepackage{theoremes}
 \usepackage{macros}
-\usepackage{ifthen}
-\usepackage{cleveref}
 
-\newcommand{\instance}[1]{instance de type #1 du tableau~\ref{tab:instances} page~\pageref{tab:instances}}
-\title{Activité : Partition}
+\title{Activité : Partition parfaite}
 \date{}
 
 \newif\ifnotikz
@@ -52,49 +49,11 @@
 }
 \fi
 
-\newcommand{\TabularInstances}[1]{%
-  \begin{tabular}{lllc}
-    \toprule
-    Type & Niveau & Entiers & Capacité
-    \ifthenelse{\equal{#1}{1} \OR \equal{#1}{0}}{%
-    \\ \midrule
-         & Facile & 11, 8, 7, 5, 2, 1 & 17 \\
-    1 & Intermédiaire & 16, 12, 10, 9, 6, 5, 3, 2, 1 & 32 \\
-         & Difficile & 16, 15, 13, 12, 9, 8, 6, 5, 4, 3, 2, 1 & 47
-  }{}
-  \ifthenelse{\equal{#1}{2} \OR \equal{#1}{0}}{%
-    \\ \midrule
-         & Facile & 14, 13, 11, 7, 5, 3 & 26 \\
-    2 & Intermédiaire & 16, 15, 14, 13, 12, 9, 8, 6, 1 & 47 \\
-         & Difficile & 16, 15, 13, 12, 11, 10, 8, 7, 6, 4, 3, 2 & 53
-    }{}
-    \ifthenelse{\equal{#1}{3} \OR \equal{#1}{0}}{%
-    \\ \midrule
-         & Facile & 13, 11, 9, 8, 6, 4 & 25 \\
-    3 & Intermédiaire & 16, 15, 14, 10, 9, 8, 6, 5, 3 & 43 \\
-         & Difficile & 16, 15, 14, 13, 12, 11, 10, 8, 7, 6, 4, 3 & 59
-    }{}
-    \ifthenelse{\equal{#1}{4} \OR \equal{#1}{0}}{%
-    \\ \midrule
-         & Facile & 16, 15, 11, 4, 2, 1 & 24 \\
-    4 & Intermédiaire & 18, 15, 13, 10, 8, 5, 3, 2 & 37 \\
-         & Difficile & 18, 17, 16, 15, 14, 5, 2, 1 & 44
-    }{}
-    \\ \bottomrule
-  \end{tabular}
-}
-
-\newcommand{\PExercice}[2]{%
-  \begin{exercice}{}
-    Appliquer #1 sur une instance de type #2.
-    \begin{center}
-      \TabularInstances{#2}
-    \end{center}
-  \end{exercice}
-}
-
-
 \begin{document}
+
+\newif\ifshowsols
+\showsolstrue
+\showsolsfalse % <---- comment/uncomment that line
 
 \ifdraftmode
 \selectcolormodel{gray}
@@ -143,7 +102,7 @@
   \end{exemple}
 
   \begin{definition}{Partition parfaite d'un multiensemble pair}
-    Un multiensemble d'entiers $S$ est dit \emph{pair} si la somme des entiers de $S$ est pair.
+    Un multiensemble d'entiers $S$ est dit \emph{pair} si la somme des entiers de $S$ est paire.
 
     Une \emph{partition parfaite} d'un multiensemble pair est une partition telle que la valeur absolue de la différence entre la somme des entiers de $S_1$ et la somme des entiers de $S_2$ est 0.
   \end{definition}
@@ -157,7 +116,7 @@
   \end{exemple}
 
   \begin{definition}{Partition parfaite d'un multiensemble impair}
-    Un multiensemble d'entiers $S$ est dit \emph{impair} si la somme des entiers de $S$ est impair.
+    Un multiensemble d'entiers $S$ est dit \emph{impair} si la somme des entiers de $S$ est impaire.
 
     Une \emph{partition parfaite} d'un multiensemble impair est une partition telle que la valeur absolue de la différence entre la somme des entiers de $S_1$ et la somme des entiers de $S_2$ est 1.
   \end{definition}
@@ -172,7 +131,11 @@
   \end{exemple}
 
   \begin{definition}{Problème de partitionnement}
-  En informatique, le problème de partitionnement consiste à déterminer si une partition parfaite d'un ensembles d'entiers existe. C'est un problème \emph{NP-complet}. Cependant, il existe plusieurs algorithmes qui résolvent efficacement le problème que ce soit de manière approchée ou optimale. Pour ces raisons, il est réputé ``le plus facile des problèmes difficiles" \cite{Mertens2003}.
+    En informatique, le problème de partitionnement consiste à déterminer si une partition parfaite d'un ensembles d'entiers existe. C'est un problème \emph{NP-complet}. Cependant, il existe plusieurs algorithmes qui résolvent efficacement le problème que ce soit de manière approchée ou optimale. Pour ces raisons, il est réputé
+    \begin{center}
+      \emph{le plus facile des problèmes difficiles}.
+    \end{center}
+
 \end{definition}
   % Le problème de partitionnement se décline aussi en problème d'optimisation dans lequel on recherche une partition minimisant la valeur absolue de la différence entre la somme des entiers des deux sous-ensembles de la partition.
   % Ce problème d'optimisation est \emph{NP-difficile}.
@@ -221,13 +184,13 @@
 
   \begin{algorithme}{Partition parfaite des entiers de 1 à $n$.}
     \begin{itemize}
-    \item Soit $n = 4 \times k + r$ le quotient $k$ et le reste $r$ ($0 \leq r \leq 3$) de la division euclidienne de $n$ par 4.
+    \item Soit $n = 4 \times k + r$ le quotient $k$ et le reste $r$ de la division euclidienne de $n$ par 4.
       \begin{itemize}
       \item Si $r=1$, alors éliminer l'objet 1.
       \item Si $r=2$, alors ranger l'objet 1 et éliminer l'objet 2.
       \item Si $r=3$, alors ranger les objets 1 et 2 et éliminer l'objet 3.
       \end{itemize}
-  \item Répéter $2 \times k$ fois l'action suivante \\ (ou de manière équivalente, répéter tant que le sac n'est pas rempli) :
+  \item Répéter tant que le sac n'est pas rempli :
     \begin{itemize}
     \item ranger le plus petit et le plus grand objet.
     \end{itemize}
@@ -235,7 +198,7 @@
   \end{algorithme}
 
   \begin{exercice}[label=ex-16]{}
-    Trouver une partition parfaite des entiers de 1 à 16.
+    Trouver une partition parfaite des entiers de 1 à 18.
   \end{exercice}
 
 
@@ -249,35 +212,8 @@
 \end{exercice}
 
 
-\begin{table}[htbp]
-  \centering
-  \TabularInstances{0}
-      % \begin{tabular}{llll}
-      % \toprule
-      % Type & Niveau & Entiers & Capacité \\
-      % \midrule
-      %        & Facile & 11, 8, 7, 5, 2, 1 & 17 \\
-      % 1 & Intermédiaire & 16, 12, 10, 9, 6, 5, 3, 2, 1 & 32 \\
-      %        & Difficile & 16, 15, 13, 12, 9, 8, 6, 5, 4, 3, 2, 1 & 47 \\
-      % \midrule
-      %        & Facile & 14, 13, 11, 7, 5, 3 & 26 \\
-      % 2 & Intermédiaire & 16, 15, 14, 13, 12, 9, 8, 6, 1 & 47 \\
-      %        & Difficile & 16, 15, 13, 12, 11, 10, 8, 7, 6, 4, 3, 2 & 53 \\
-      % \midrule
-      %        & Facile & 13, 11, 9, 8, 6, 4 & 25 \\
-      % 3 & Intermédiaire & 16, 15, 14, 10, 9, 8, 6, 5, 3 & 43 \\
-      %        & Difficile & 16, 15, 14, 13, 12, 11, 10, 8, 7, 6, 4, 3 & 59 \\
-      % \midrule
-      %        & Facile & 16, 15, 11, 4, 2, 1 & 24 \\
-      % 4 & Intermédiaire & 18, 15, 13, 10, 8, 5, 3, 2 & 37 \\
-      %        & Difficile & 18, 17, 16, 15, 14, 5, 2, 1 & 44 \\
-      % \bottomrule
-      % \end{tabular}
-  \caption{Instances du problème de partitionnement.}
-  \label{tab:instances}
-\end{table}
 
-    \section{Algorithmes gloutons}
+  \section{Algorithmes gloutons}
 
   \begin{definition}{Algorithme glouton}
     Un \emph{algorithme glouton} est un algorithme qui suit le principe de faire, étape par étape, un choix optimum local.
@@ -288,188 +224,73 @@
   \begin{algorithme}{Algorithme glouton}
     \label{algo:gs}
     \begin{itemize}
-    \item Déterminer la capacité du sac : la somme des objets divisée par deux.
+    \item Déterminer la capacité du sac.
     \item Trier les objets par ordre décroissant.
-    \item  Répéter tant qu'il reste des objets et que le sac n'est pas rempli :
+    \item  Répéter tant qu'il reste des objets :
       \begin{itemize}
-      \item ranger le plus grand objet dans le sac si la capacité le permet.
-      \item Sinon éliminer l'objet.
+      \item ranger le plus grand objet dans le sac si sa capacité le permet ;
+      \item Sinon, retirer l'objet ;
+      \item Si le sac est rempli, arrêter.
       \end{itemize}
   \end{itemize}
   \end{algorithme}
 
+  \input{ex/ex1-GS}
+  \input{ex/ex2-GS}
 
+  \begin{remarque}
 
-  \begin{exercice}{}
-    Appliquer l'algorithme glouton sur une \instance{1}.
-  \end{exercice}
-
-  \begin{figure}[htbp]
-    \centering
-    \resizebox{0.6\linewidth}{!}{
-      \input{fig/ex1-6-GS.tex}
-    }
-    \caption{Solution de l'instance facile de de type 1.}
-  \end{figure}
-
-    \begin{figure}[htbp]
-    \centering
-    \resizebox{0.6\linewidth}{!}{
-      \input{fig/ex1-9-GS.tex}
-    }
-    \caption{Solution de l'instance intermédiaire de type 1.}
-  \end{figure}
-
-\begin{exercice}{}
-    Appliquer l'algorithme glouton sur une \instance{2}.
-  \end{exercice}
-
-  \begin{figure}[htbp]
-    \centering
-    \resizebox{0.6\linewidth}{!}{
-      \input{fig/ex2-6-GS.tex}
-    }
-    \caption{Solution de l'instance facile de type 2.}
-  \end{figure}
-
-  \begin{figure}[htbp]
-    \centering
-    \resizebox{0.6\linewidth}{!}{
-      \input{fig/ex2-9-GS.tex}
-    }
-    \caption{Solution de l'instance intermédiaire de type 2.}
-  \end{figure}
-
+    \begin{itemize}
+    \item Trouver une autre solution en changeant l'ordre du glouton.
+    \item Remarquer que plusieurs ordres donne la même solution : échanger 8 et 7 dans \#1.
+    \item Le glouton répété garantit de trouver des solutions distinctes.
+    \end{itemize}
+  \end{remarque}
 
   \begin{algorithme}{Algorithme glouton répété}
      \label{algo:mtgs}
-    Répéter jusqu'à ce que le sac soit rempli ou contienne tous les objets :
+    Répéter jusqu'à ce que le sac contienne tous les objets :
     \begin{itemize}
     \item appliquer l'algorithme glouton ;
-    \item éliminer le plus grand objet.
+    \item Si le sac est rempli, arrêter;
+    \item Sinon éliminer le plus grand objet.
     \end{itemize}
   \end{algorithme}
 
-  \begin{exercice}{}
-    Appliquer l'algorithme glouton répété sur une \instance{2}.
-  \end{exercice}
-
- \begin{figure}[htbp]
-   \centering
-   \resizebox{0.6\linewidth}{!}{
-      \input{fig/ex2-6-MTGS.tex}
-    }
-    \caption{Solution de l'instance facile de type 2.}
-  \end{figure}
-
-  \begin{figure}[htbp]
-    \centering
-    \resizebox{0.6\linewidth}{!}{
-      \input{fig/ex2-9-MTGS.tex}
-    }
-    \caption{Solution de l'instance intermédiaire de type 2.}
-  \end{figure}
-
-
-   \begin{exercice}{}
-    \label{ex:ex4}
-    Appliquer l'algorithme glouton répété sur une \instance{3}
-  \end{exercice}
-
- \begin{figure}[htbp]
-    \centering
-    \resizebox{0.6\linewidth}{!}{
-      \input{fig/ex3-6-MTGS.tex}
-    }
-    \caption{Solution de l'instance facile de type 3.}
-  \end{figure}
-
-  \begin{figure}[htbp]
-    \centering
-    \resizebox{0.6\linewidth}{!}{
-      \input{fig/ex3-9-MTGS.tex}
-    }
-    \caption{Solution de l'instance intermédiaire de type 3.}
-  \end{figure}
+  \input{ex/ex2-MTGS}
+  \input{ex/ex3-MTGS}
 
 
   \section{Programmation dynamique}
 
-Ref : \ref{algo-DP}
-    \\
-    Cref : \cref{algo-DP}
-    \\
-    Nref: \namecref{algo-DP}
-    \nameref{algo-DP}
   \begin{algorithme}{Algorithme de programmation dynamique}
     \label{algo-DP}
 
     \begin{itemize}
     \item Déterminer la capacité du sac.
     \item Trier les objets par ordre décroissant.
-    \item  Répéter tant qu'il reste des objets et que le sac n'est pas rempli (la dernière case n'est pas marquée) :
+    \item  Répéter tant qu'il reste des objets :
       \begin{itemize}
       \item répéter pour chaque case marquée en partant de la dernière :
       \begin{itemize}
-      \item déterminer la case atteinte en rangeant l'objet immédiatement après la case marquée (utiliser l'objet comme règle).
+      \item déterminer la case atteinte en rangeant l'objet immédiatement après la case marquée (utiliser l'objet comme règle) ;
       \item Si la case atteinte n'est pas marquée, placer un marqueur de l'objet.
       \end{itemize}
+    \item Si le sac est rempli (la dernière case est marquée), alors arrêter.
       \end{itemize}
     \end{itemize}
   \end{algorithme}
 
-
-   \begin{exercice}{}
-    \label{ex:ex5}
-    Appliquer la programmation dynamique sur une \instance{3}.
-  \end{exercice}
-
-
-\begin{figure}[htbp]
-  \centering
-  \resizebox{0.6\linewidth}{!}{
-    \input{fig/ex3-6-DP.tex}
-  }
-  \caption{Solution de l'instance facile de type 3.}
-\end{figure}
-
 \begin{algorithme}{Reconstruction du sac en programmation dynamique}
-
+  Tant qu'il reste des marqueurs dans le sac :
   \begin{itemize}
-      \item
-    \end{itemize}
+  \item sélectionner le marqueur le plus à droite ;
+  \item ranger l'objet à la place du marqueur en retirant des marqueurs si nécessaire.
+  \end{itemize}
   \end{algorithme}
 
-
-  \begin{figure}[htbp]
-    \centering
-    \resizebox{0.6\linewidth}{!}{
-      \input{fig/ex3-9-DP.tex}
-    }
-    \caption{Solution de l'instance intermédiaire de type 3.}
-  \end{figure}
-
-
-  \begin{exercice}{}
-    Appliquer la programmation dynamique sur une \instance{4}
-  \end{exercice}
-
-  \begin{figure}[htbp]
-    \centering
-    \resizebox{0.6\linewidth}{!}{
-      \input{fig/ex4-6-DP.tex}
-    }
-    \caption{Solution de l'instance facile de type 4.}
-  \end{figure}
-
-  \begin{figure}[htbp]
-    \centering
-    \resizebox{0.6\linewidth}{!}{
-      \input{fig/ex4-8-DP.tex}
-    }
-    \caption{Solution de l'instance intermédiaire de type 4.}
-  \end{figure}
-
+  \input{ex/ex3-DP}
+  \input{ex/ex4-DP}
 
 
   \section{Tester et Générer}
@@ -490,8 +311,6 @@ Ref : \ref{algo-DP}
       \item Retour arrière sautée quand le plus petit objet du deck est dans le sac.
       \begin{itemize}
       \item Retirer les objets du sac trouver jusqu'à ce que vous trouviez le plus petit objet que vous n'avez pas pu faire rentrer.
-
-
       \item Sinon éliminer l'objet.
       \end{itemize}
     % \item  Répéter tant qu'il reste des objets et que le sac n'est pas rempli (la dernière case n'est pas marquée) :
@@ -507,28 +326,6 @@ Ref : \ref{algo-DP}
 
 
 
-  \begin{exercice}{}
-    Appliquer Tester-et-Générer sur une \instance{3}.
-  \end{exercice}
-
-\begin{figure}[htbp]
-  \centering
-  \resizebox{0.6\linewidth}{!}{
-    \input{fig/ex4-6-TG.tex}
-  }
-  \caption{Solution de l'instance facile de type 4}
-  \end{figure}
-
-  \begin{figure}[htbp]
-    \centering
-    \caption{Solution de l'instance intermédiaire de l'exercice}
-  \end{figure}
-
-  \begin{exercice}{}
-    Appliquer Tester-et-Générer sur une \instance{4}.
-  \end{exercice}
-
-
   \section{Problèmes connexes}
 
   % \subsection{Subset Sum Problem}
@@ -542,29 +339,8 @@ Ref : \ref{algo-DP}
   % \cite{KP}
   % \cite{MartelloToth1990}
 
-  % \begin{tikzpicture}
-  %   \filldraw [fill = bleuTN] (0, 2) rectangle (8, 3);
-  %   \filldraw [fill = rouge] (8, 2) rectangle (14, 3);
 
-  %   \draw [<->, very thick, exCol] (7, 3.25) -- (8, 3.25) node [right] {Ordonnancement};
-
-  %   \filldraw [fill = rouge] (0, 0) rectangle (6, 1);
-  %   \filldraw [fill = bleuTN] (6, 0) rectangle (14, 1);
-
-  %   \draw [<->, very thick, orange] (7, -0.25) -- (6, -0.25) node [left] {Sac-à-dos};
-
-  %   \draw [<->, very thick, violet] (6.5, 1.5) -- (7.5, 1.5) node [right] {Partition};
-
-  %   \draw [dashed, very thick] (7, -0.75) -- (7, 3.75) node [above] {C};
-  % \end{tikzpicture}
-
-
-
-
-  \begin{algorithme}{}
-    test
-  \end{algorithme}
-
+  \input{instances}
 
   \begin{plusloin}{}
     test
