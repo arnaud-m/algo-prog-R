@@ -7,13 +7,9 @@
 #+HTML_LINK_HOME:
 * Tasks                                                   :noexport:TEACHING:
 ** TODO Exercice sur le calcul de la note finale en session 1 et 2.
-
 - Exercice au TP 2 avec seulement deux notes d'activités, puis au TP 6 avec un vecteur
 - Exercice UCAnCODE pour la première version. Pour la seconde ?
 - Mini-projet shiny
-
-
-
 ** TODO https://mgimond.github.io/ES218/index.html
  Added: [2018-06-14 jeu. 17:26]
 ** TODO simulation [[https://blogdemaths.wordpress.com/2015/02/23/arnaquez-vos-amis-a-pile-ou-face/][pile ou face]]
@@ -47,8 +43,6 @@
    ## Convert to decimal
    GetWords(1:10, k=4, alphabet=0:9)
  #+END_SRC
-** TODO Améliorer la recherche dicho du TP6
- Added: [2017-05-03 mer. 17:54]
 ** TODO [[http://pbil.univ-lyon1.fr/R/pdf/exp3.pdf][nombres de Kaprekar]]
 ** TODO http://www.economie.gouv.fr/recrutement/aide-a-preparation-lexamen-professionnel-programmeur
  Added: [2016-12-19 lun. 13:40]
@@ -58,13 +52,10 @@ Added: [2016-03-21 lun. 09:07]
 http://villemin.gerard.free.fr/Wwwgvmm/Geometri/NbOrEtoi.htm
 ** TODO http://web.archive.org/web/20090227091533/http://www.math.okstate.edu/mathdept/dynamics/lecnotes/lecnotes.html
 Added: [2016-02-29 lun. 11:26]
-** TODO http://www.cyclismo.org/tutorial/R/time.html
-Added: [2016-01-15 ven. 21:37]
 ** TODO courbe de blancmanger
 Added: [2016-01-14 jeu. 13:45]
 https://fr.wikipedia.org/wiki/Courbe_du_blancmanger
 ** STARTED Le compte est bon !
-http://www.apmep.fr/Le-compte-est-souvent-bon
 http://www.dcode.fr/compte-est-bon
 
 #+BEGIN_SRC R :results output :session cpt
@@ -118,15 +109,10 @@ http://www.dcode.fr/compte-est-bon
 : [1]  9  1 25  3  2  4
 
 ** IDEA https://fr.wikipedia.org/wiki/Suite_de_Conway
-** IDEA http://www.dptinfo.ens-cachan.fr/concours-ens/annales-info-ecrit.html
-** IDEA http://www.pge-pgo.fr/annales-entrainez-vous/annales-concours-edhec-ast1.html
 ** IDEA http://bcb.dfci.harvard.edu/~aedin/courses/Bioconductor/
 ** IDEA Nlle question pour la courbe du dragon :
    rotation 180 deg. puis dessiner une 2e courbe pour la refermer !
 ** STARTED Sélectionner exos de http://alain.troesch.free.fr/
-** IDEA More Turtle drawings
-   - http://artscript.co.uk/Draw
-   - http://www.java-online.ch/lego/legoEnglish/index.php?inhalt_links=turtle/nav_turtle.inc.php&inhalt_mitte=turtle/aufgaben/aufgaben.inc.php
 * Intervenants
  - Arnaud Malapert (responsable), Marie Pelleau, Kenza Benjelloun.
 * Introduction
@@ -173,14 +159,14 @@ https://phdcomics.com/comics/archive/phd051013s.gif
    La salle M118/120 du jeudi est à l'étage le plus bas du bâtiment M.
    Les initiales de l'intervenant sont indiquées dans la troisième colonne.
 
-| Créneau          | Salle    | Intervenant |
-|------------------+----------+-------------|
-| Jeu. 15h30-18h00 | M118/120 | AM          |
-| Ven. 09h15-11h45 | PV214    | AM          |
-| Ven. 09h15-11h45 | PV215    | KB          |
-| Ven. 09h15-11h45 | PV313    | MP          |
-| Ven. 13h15-15h45 | PV214    | AM          |
-| Ven. 13h15-15h45 | PV215    | MP          |
+| Créneau          | Salle | Intervenant |
+|------------------+-------+-------------|
+| Jeu. 15h30-18h00 | ?     | ?           |
+| Ven. 09h15-11h45 | ?     | ?           |
+| Ven. 09h15-11h45 | ?     | ?           |
+| Ven. 09h15-11h45 | ?     | ?           |
+| Ven. 13h15-15h45 | ?     | ?           |
+| Ven. 13h15-15h45 | ?     | ?           |
 
 
 * Contenu
@@ -262,6 +248,9 @@ Entrez votre adresse étudiante @etu.univ-cotedazur.fr dans le formulaire d'accu
  | Problème          | Barème | Période         |
  |-------------------+--------+-----------------|
  | [[https://upinfo.univ-cotedazur.fr/ucancode/tutoriel/][Tutoriel UCAnCODE]] | -      |                 |
+
+#+begin_comment
+
  |-------------------+--------+-----------------|
  | **[[https://51364960.widgets.sphere-engine.com/lp?hash=2YT9CnbZPy][JO2024]]**        | **12** | **24/10-25/10** |
  | [[https://51364960.widgets.sphere-engine.com/lp?hash=6s6sTmdXHZ][ADDREV]]            | + 1    | 24/10-25/10     |
@@ -281,9 +270,7 @@ Entrez votre adresse étudiante @etu.univ-cotedazur.fr dans le formulaire d'accu
  | Bonifications     | + 3    |                 |
 
 L'exercice GOODIES a des bonifications pour les premiers binômes à résoudre le problème : 3pts pour le premier ; 2pts pour le second ; 1pt pour le troisième.
-
-**** Table Formatting                                              :noexport:
-https://stackoverflow.com/questions/294885/how-to-put-spacing-between-tbody-elements
+#+end_comment
 *** Mini-projets
     Les mini-projets complètent et étendent des notions abordées en cours et vous font découvrir différentes applications.
     Vous devez déposer le projet sur moodle (un seul fichier de code source commenté) et faire une démonstration du projet.
@@ -413,7 +400,7 @@ Toutes les notes calculées sont arrondies au quart de point supérieur.
   #+BEGIN_SRC R :var exercices=exercices :session grade
 
     ## Load grades from moodle
-    file <- "~/download/SPUA31 Notes-20240626_0744-comma_separated.csv"
+    file <- "~/download/SPUA300 Notes-20250707_1431-comma_separated.csv"
     df <- read.csv(file, stringsAsFactors = FALSE, na.strings = c("-", "NA"), header = TRUE)
     df <- subset(df, ! is.na(df$Numéro.d.identification))
     QuarterCeiling <- function(x) ceiling(4 * x)/4
@@ -435,6 +422,7 @@ Toutes les notes calculées sont arrondies au quart de point supérieur.
   #+END_SRC
 
   #+RESULTS:
+
 
 **** Analyse des notes
 
