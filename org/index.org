@@ -177,12 +177,12 @@ https://phdcomics.com/comics/archive/phd051013s.gif
 ** Organisation
 
  1. Le matériel pédagogique est ici,
- 2. Les évaluations et le carnet de notes sont sur [[https://lms.univ-cotedazur.fr/2024/course/view.php?id=7319][moodle]] et [[https://sphere-engine.com/][sphere engine]],
+ 2. Les évaluations et le carnet de notes sont sur [[https://lms.univ-cotedazur.fr/2025/course/view.php?id=11529][moodle]] et [[https://sphere-engine.com/][sphere engine]],
  3. Le code source est sur [[https://github.com/arnaud-m/algo-prog-R][github]] !
  4. On communique surtout à l'oral pendant les cours,
  5. et plus rarement par courriel pour les communications importantes.
 
-**** Inscrivez-vous au [[https://lms.univ-cotedazur.fr/2024/course/view.php?id=7319][cours]] sur moodle !
+**** Inscrivez-vous au [[https://lms.univ-cotedazur.fr/2025/course/view.php?id=11529][cours]] sur moodle !
 
 ** Autoformation
 
@@ -216,7 +216,7 @@ https://phdcomics.com/comics/archive/phd051013s.gif
 
 ** Activités
 
-   Choisissez votre binôme sur [[https://lms.univ-cotedazur.fr/2024/course/view.php?id=7319][moodle]] pour toutes vos activités !
+   Choisissez votre binôme sur [[https://lms.univ-cotedazur.fr/2025/course/view.php?id=11529][moodle]] pour toutes vos activités !
    Les activités sont évaluées pour le contrôle continu, mais ne sont pas au programme de l'examen.
    Les corrigés des activités ne sont pas publiés.
 
