@@ -18,10 +18,10 @@
   \frametitle{Épluchage d'un entier chiffre à chiffre}
 
   \begin{itemize}
-  \item Seul le chiffre des unités (le plus à droite) est accessible, 
+  \item Seul le chiffre des unités (le plus à droite) est accessible,
   \item ainsi que l'entier obtenu en supprimant le chiffre des unités (décalage à droite).
   \end{itemize}
- 
+
   \begin{columns}[c]
     \begin{column}{0.6\textwidth}
       \begin{center}
@@ -32,7 +32,7 @@
     \texttt{\%/\%} &     \texttt{\%\%} \\
     \bottomrule
   \end{tabular}
-\end{center}  
+\end{center}
 \end{column}
 \begin{column}{0.4\textwidth}
   \begin{lstlisting}
@@ -52,19 +52,19 @@
 \begin{lstlisting}[style=editor]
 Eplucher <- function(n) {
   while(n > 0) {
-    cat(n,"j enleve", n %% 10, "\n")
+    cat(n,"j'enleve", n %% 10, "\n")
     n <- n %/% 10
   }
-}  
+}
 \end{lstlisting}
 \end{column}
 \begin{column}{0.38\textwidth}
 \begin{lstlisting}
 > Eplucher(3456)
-3456 j enleve 6 
-345 j enleve 5 
-34 j enleve 4 
-3 j enleve 3   
+3456 j'enleve 6
+345 j'enleve 5
+34 j'enleve 4
+3 j'enleve 3
 \end{lstlisting}
 \end{column}
 \end{columns}
@@ -85,10 +85,10 @@ Eplucher <- function(n) {
   \begin{lstlisting}[style=editor]
 Eplucher <- function(n) {
   if(n > 0) {
-    cat(n,"j enleve", n %% 10, "\n")
+    cat(n,"j'enleve", n %% 10, "\n")
     Eplucher(n %/% 10)
   }
-}    
+}
   \end{lstlisting}
 
   \begin{block}{Procédure}
@@ -104,17 +104,17 @@ Eplucher <- function(n) {
   \begin{center}
     \alert{\textbf{Le principe reste le même !}}
   \end{center}
- 
+
 
 \begin{columns}[t]
 \begin{column}{0.62\textwidth}
 \begin{lstlisting}[style=editor]
 Eplucher <- function(n) {
   while(n > 0) {
-    print(n %% 2)
+    cat(n,"j'enleve", n %% 2, "\n")
     n <- n %/% 2
   }
-}  
+}
 \end{lstlisting}
 Épluchage de la droite vers le gauche.
 $$
@@ -125,18 +125,18 @@ $$
 \begin{column}{0.38\textwidth}
   \begin{lstlisting}
 > Eplucher(3456)
-[1] 0
-[1] 0
-[1] 0
-[1] 0
-[1] 0
-[1] 0
-[1] 0
-[1] 1
-[1] 1
-[1] 0
-[1] 1
-[1] 1    
+3456 j'enleve 0
+1728 j'enleve 0
+864 j'enleve 0
+432 j'enleve 0
+216 j'enleve 0
+108 j'enleve 0
+54 j'enleve 0
+27 j'enleve 1
+13 j'enleve 1
+6 j'enleve 0
+3 j'enleve 1
+1 j'enleve 1
 \end{lstlisting}
 \end{column}
 \end{columns}
@@ -163,7 +163,7 @@ MSB <- function(n) {
     msb <- 2 * msb
   }
   return(msb / 2)
-}  
+}
 \end{lstlisting}
 \end{column}
 \begin{column}{0.38\textwidth}
@@ -187,10 +187,10 @@ MSB <- function(n) {
 \begin{frame}[fragile]
   \frametitle{Épluchage d'un nombre fractionnaire}
   \begin{itemize}
-  \item Seul le chiffre le plus à gauche est accessible, 
+  \item Seul le chiffre le plus à gauche est accessible,
   \item ainsi que le nombre fractionnaire obtenu en supprimant le chiffre des le plus à gauche (décalage à gauche).
   \end{itemize}
- 
+
   \begin{columns}[c]
     \begin{column}{0.6\textwidth}
       \begin{center}
@@ -201,7 +201,7 @@ MSB <- function(n) {
     \texttt{floor(10*n)} & \texttt{10*n - floor(10*n)} \\
     \bottomrule
   \end{tabular}
-\end{center}  
+\end{center}
 \end{column}
 \begin{column}{0.4\textwidth}
   \begin{lstlisting}
@@ -224,24 +224,23 @@ Eplucher <- function(n) {
   while(n > 0) {
     m <- 10 * n
     f <- floor(m)
-    cat(n,"j enleve", f, "\n")
+    cat(n,"j'enleve", f, "\n")
     n <- m - f
   }
-}  
+}
 \end{lstlisting}
 \end{column}
 \begin{column}{0.4\textwidth}
 \begin{lstlisting}
 > Eplucher(1/32)
-0.03125 j enleve 0 
-0.3125 j enleve 3 
-0.125 j enleve 1 
-0.25 j enleve 2 
-0.5 j enleve 5 
+0.03125 j'enleve 0
+0.3125 j'enleve 3
+0.125 j'enleve 1
+0.25 j'enleve 2
+0.5 j'enleve 5
 \end{lstlisting}
 \end{column}
 \end{columns}
-
 \end{frame}
 
 
@@ -250,22 +249,22 @@ Eplucher <- function(n) {
   \frametitle{Surprise ! Le calcul fractionnaire n'est pas exact !}
 \begin{lstlisting}
 > Eplucher(0.3456)
-0.3456 j enleve 3 
-0.456 j enleve 4 
-0.56 j enleve 5 
-0.6 j enleve 6 
-4.050094e-13 j enleve 0 
-4.050094e-12 j enleve 0 
-4.050094e-11 j enleve 0 
-4.050094e-10 j enleve 0 
-4.050094e-09 j enleve 0 
-4.050094e-08 j enleve 0 
-4.050094e-07 j enleve 0 
+0.3456 j'enleve 3
+0.456 j'enleve 4
+0.56 j'enleve 5
+0.6 j'enleve 6
+4.050094e-13 j'enleve 0
+4.050094e-12 j'enleve 0
+4.050094e-11 j'enleve 0
+4.050094e-10 j'enleve 0
+4.050094e-09 j'enleve 0
+4.050094e-08 j'enleve 0
+4.050094e-07 j'enleve 0
 ...
-0.3125 j enleve 3 
-0.125 j enleve 1 
-0.25 j enleve 2 
-0.5 j enleve 5  
+0.3125 j'enleve 3
+0.125 j'enleve 1
+0.25 j'enleve 2
+0.5 j'enleve 5
 \end{lstlisting}
 \end{frame}
 
