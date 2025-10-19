@@ -2,7 +2,7 @@
 #+TITLE:     Travaux Pratiques #2
 #+SUBTITLE:     Algo & Prog avec R
 #+OPTIONS: num:1 toc:1
-#+PROPERTY: header-args :results output replace :exports none
+#+PROPERTY: header-args :results output replace :exports both
 * Travail au CRIPS (Petit Valrose)
    Vous allez travailler sur des ordinateurs sous le système d'exploitation Windows (2ème étage) ou Linux (3ème étage).
    Peut-être utilisez-vous un ordinateur MacOS-X (basé sur UNIX comme Linux) ?
@@ -34,7 +34,8 @@
 ** Calcul du résultat par une fonction
    Définissez la fonction ~Somme2Max(x,y,z)~ prenant trois entiers x, y, z et retournant la somme des deux plus grands.
      1. Écrivez une première version en emboîtant des ~if~,
-     2. Écrivez une seconde version utilisant les fonctions prédéfinies ~max~ ou ~min~.
+     2. Écrivez une seconde version utilisant la fonction prédéfinie ~max~.
+     3. Écrivez une troisième version utilisant la fonction prédéfinie ~min~.
 
    #+BEGIN_SRC R :results silent :session maxsom
      Somme2Max <- function(x,y,z) {
@@ -81,6 +82,7 @@
 
      ## Avec la fonction prédéfinie min
      Somme2Max <- function(x,y,z) {x+y+z-min(x,y,z)}
+
      ## Avec la fonction prédéfinie max
      Somme2Max <- function(x,y,z) {max(x+y,y+z,x+z)}
    #+END_SRC
@@ -347,44 +349,44 @@ Maintenant, programmez la fonction ~Circuit2(R1,R2,R3)~ retournant la résistanc
 
 ** TODO Calcul du taux global d'imposition et de la courbe d'imposition :noexport:
 
-* Calcul de votre note finale                             :UCANCODE:noexport:
+* Calcul de la note finale                                     :UCANCODE:KEY:
 
+Chaque année, votre professeur est assailli de questions existentielles sur le calcul de la note finale.
+Plutôt que de sombrer dans la répétition éternelle, il a flairé une excellente occasion pédagogique !
 
-Définissez la fonction ~ CalculerNoteFinale(ct1, ct2, cp, ca1, ca2)~ calculant votre note finale pour une note selon le barème décrit dans le [[file:index.org::#Barème][syllabus]] avec les arguments donnés ci-dessous :
+Votre mission est d'écrire un programme qui calcule la note finale.
+
+Définissez la fonction ~CalculerNoteFinale(ct1, ct2, cp, ca1, ca2)~ calculant votre note finale pour une note selon le barème décrit dans le [[file:index.org::*Barème][syllabus]] avec les arguments donnés ci-dessous :
 - ~ct1~ : note d'examen terminal ;
 - ~ct2~ : note de seconde chance ;
 - ~cp~ : note de partiel ;
 - ~ca1~ : une des deux meilleures notes d'activité.
-- ~ca2~ : l'autre des des deux meilleures notes d'activité.
+- ~ca2~ : l'autre des deux meilleures notes d'activité.
 
-Remarquez que les arguments peuvent avoir la valeur ~NA~.
+Remarquez que les arguments peuvent avoir la valeur ~NA~ si la note associée est manquante.
+Si la note finale ne peut pas être calculée, car la note d'examen terminal et de seconde chance sont manquantes, alors la fonction renvoie ~NA~.
 
-/Conseils/
-- Définissez une fonction auxiliaire ~ArrondirNote(x)~, car il faut réaliser plusieurs arrondis.
-- Définissez une fonction ~CalculerControleContinu(ct1, cp, ca1, ca2)~ pour remplacer des calculs complexes par un simple appel de fonction.
-
-/Indices/ : Utiliser les fonctions ~sum~ et ~max~ avec l'argument ~na.rm~
-sum/max avec nombre de params variables et na.rm
+ Testez plus finement votre fonction grâce à l'[[https://51364960.widgets.sphere-engine.com/lp?hash=5Mlcr3EdrZ][exercice UCAnCODE]].
 
 #+BEGIN_SRC R :session note :results silent
   ArrondirNote <- function(x) ceiling(4 * x) / 4
 
   CalculerControleContinu <- function(ct1, cp, ca1, ca2) {
     cp <- max(0, ct1, cp, na.rm = TRUE)
-    return(ArrondirNote(sum(cp, ca1, ca2, na.rm = TRUE)) / 3)
+    return(ArrondirNote(sum(cp, ca1, ca2, na.rm = TRUE) / 3))
   }
 
   CalculerNoteFinale <- function(ct1, ct2, cp, ca1, ca2) {
     cc <- CalculerControleContinu(ct1, cp, ca1, ca2)
-    n <- ArrondirNote(max(ct1, 0.4 * cc + 0.6 *ct1))
+    n <- ArrondirNote(max(ct1, 0.4 * cc + 0.6 * ct1))
     if(!is.na(ct2)) {
-      n <- ArrondirNote(max(ct2, 0.2 * cc + 0.8 *ct2, n, na.rm = TRUE))
+      n <- ArrondirNote(max(ct2, 0.2 * cc + 0.8 * ct2, n, na.rm = TRUE))
     }
     return(n)
   }
 #+END_SRC
 
-#+BEGIN_SRC R :session note
+#+BEGIN_SRC R :exports both :session note
   CalculerNoteFinale(NA, NA, NA, NA, NA)
   CalculerNoteFinale(20, NA, NA, NA, NA)
   CalculerNoteFinale(NA, 20, NA, NA, NA)
@@ -396,7 +398,7 @@ sum/max avec nombre de params variables et na.rm
 : [1] 20
 
 
-#+BEGIN_SRC R :session note
+#+BEGIN_SRC R :exports both :session note
   CalculerNoteFinale(8, NA, 8, 12, 14)
   CalculerNoteFinale(8, NA, 10, 12, 14)
   CalculerNoteFinale(8, NA, 12, 12, 14)
@@ -404,25 +406,27 @@ sum/max avec nombre de params variables et na.rm
   CalculerNoteFinale(9, NA, NA, 12, 14)
 #+END_SRC
 
-
-#+BEGIN_SRC R :session note
-  CalculerNoteFinale(7, NA, 7, 20, 20)
-#+END_SRC
-
 #+RESULTS:
-: [1] 10.5
+: [1] 9.5
+: [1] 9.75
+: [1] 10
+: [1] 10.25
 
-
-#+BEGIN_SRC R :session note
+#+BEGIN_SRC R :exports both :session note
+  CalculerNoteFinale(7, NA, 7, 20, 20)
   CalculerNoteFinale(7, NA, 12, 14, 16)
   CalculerNoteFinale(NA, 9, 12, 14, 16)
 #+END_SRC
 
 #+RESULTS:
+: [1] 10.5
 : [1] 10
 : [1] 10
 
-
+/Conseils/ :
+- Définir une fonction auxiliaire ~ArrondirNote(x)~, car il faut réaliser plusieurs arrondis.
+- Définir une fonction auxiliaire ~CalculerControleContinu(ct1, cp, ca1, ca2)~ pour remplacer des calculs complexes par un appel de fonction.
+- Utiliser les fonctions ~sum~ et ~max~ avec l'argument ~na.rm~
 
 * Calcul de l'hypoténuse
   1. Calculez l’hypoténuse d’un triangle connaissant les deux côtés de l’angle droit (~a~ et ~b~).

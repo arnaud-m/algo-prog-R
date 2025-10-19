@@ -34,13 +34,13 @@ Les choix algorithmiques et d'implémentation que vous ferez influent sur la qua
     }
     return(acc)
   }
-  cat('FactRec(0) =',FactRec(0), '\n')
-  cat('FactRec(5) =',FactRec(5), '\n')
+  cat('Fact(0) =',Fact(0), '\n')
+  cat('Fact(5) =',Fact(5), '\n')
 #+END_SRC
 
 #+RESULTS:
-: FactRec(0) = 1
-: FactRec(5) = 120
+: Fact(0) = 1
+: Fact(5) = 120
 
 
 *** R est-il capable de calculer 1000! ?
@@ -379,7 +379,7 @@ Nous utiliserons la définition du [[https://fr.wikipedia.org/wiki/Plus_grand_co
     b <- abs(b)
     if(a == 0) return(b)
     while(b != 0) {
-      #cat(a, b, "\n")
+      # cat(a, b, "\n")
       if(b  >= a) {
         b <- b - a
       } else {

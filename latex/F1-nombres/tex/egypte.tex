@@ -19,7 +19,7 @@
 
   \begin{itemize}
   \item On construit la ligne $i+1$ en multipliant par deux $2^i$ et $x \times 2^i$ tant que $2^{i+1}< y$.
-  \item<2> On traduit $21$ en binaire en remontant dans le tableau. 
+  \item<2> On traduit $21$ en binaire en remontant dans le tableau.
   \item<2> On calcule $\sum_0^{n} a_i (x \times  2^i)$.
   \end{itemize}
 
@@ -48,7 +48,7 @@ Des opérations plus complexes faisant intervenir par exemple des fractions exig
 \begin{itemize}
 \item  les puissances de deux,
 \item les fractions fondamentales,
-\item les dizaines. 
+\item les dizaines.
 \end{itemize}
 La technique est rigoureusement la même mais offre plus de liberté au scribe quant à la décomposition du petit nombre.
 \begin{columns}
@@ -60,7 +60,7 @@ La technique est rigoureusement la même mais offre plus de liberté au scribe q
       4 & 972 \\
       20 & 4860 \\ \hline
       27 & 6561
-      \end{tabular}    
+      \end{tabular}
   \end{exampleblock}
 \end{column}
 
@@ -69,8 +69,8 @@ La technique est rigoureusement la même mais offre plus de liberté au scribe q
     \begin{tabular}{r|rl}
       $1$ & $\frac{1}{14}$& \\[3pt]
       $\frac{1}{2}$ & $\frac{1}{28}$& \\[3pt]
-      $\frac{1}{4}$ & $\frac{1}{56}$& \\[3pt] \cline{1-2} \\[-1.0em] 
-      $\frac{7}{4}$ & $\frac{1}{8}$& $(\frac{4+2+1}{56})$ 
+      $\frac{1}{4}$ & $\frac{1}{56}$& \\[3pt] \cline{1-2} \\[-1.0em]
+      $\frac{7}{4}$ & $\frac{1}{8}$& $(\frac{4+2+1}{56})$
     \end{tabular}
   \end{exampleblock}
 \end{column}
@@ -84,7 +84,7 @@ La technique est rigoureusement la même mais offre plus de liberté au scribe q
   \begin{block}{Par quoi doit-on multiplier $y$ pour trouver $x$ ?}
     \begin{itemize}
     \item On construit la ligne $i+1$ en multipliant par deux $2^i$ et $y\times 2^i$ tant que $y \times 2^{i+1}< x$.
-    \item<2> On décompose $x$ par les $y\times 2^i$ en remontant dans le tableau. 
+    \item<2> On décompose $x$ par les $y\times 2^i$ en remontant dans le tableau.
     \item<2> On calcule la somme des $2^i$ de la décomposition.
 
     \end{itemize}
@@ -100,10 +100,10 @@ La technique est rigoureusement la même mais offre plus de liberté au scribe q
     2& 4&28 &\onslide<2>{\checkmark & ($35-28=7$)}\\
     3& 8&56 & \onslide<2>{\checkmark & ($91-56=35$)}\\
     4& 16&112 & \\
-    5& 32&224 & \\        
-    6& 64&448 & \onslide<2>{\checkmark & ($539-448=91$)}\\  
+    5& 32&224 & \\
+    6& 64&448 & \onslide<2>{\checkmark & ($539-448=91$)}\\
     \cline{1-3}
-    &  \onslide<2->{77} & 
+    &  \onslide<2->{77} &
   \end{tabular}
 \end{exampleblock}
 \end{frame}
@@ -122,7 +122,7 @@ La technique est rigoureusement la même mais offre plus de liberté au scribe q
     3& 8&96 & \\
     4& 16&192 & \onslide<2->{\checkmark & ($42$)}\\
     \cline{1-3}
-    &  \onslide<3->{19.5} & 
+    &  \onslide<3->{19.5} &
   \end{tabular}
 \end{exampleblock}
 \end{frame}
@@ -130,7 +130,7 @@ La technique est rigoureusement la même mais offre plus de liberté au scribe q
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Exercices}
-  
+
   \begin{enumerate}
   \item Multipliez 187 par 11.
   \item Multipliez 2012 par 1515 (indice: utilisez la méthode genérale).
@@ -139,14 +139,14 @@ La technique est rigoureusement la même mais offre plus de liberté au scribe q
 \begin{column}[t]{0.48\textwidth}
   \begin{exampleblock}<2->{$187\times 11$}
     \begin{tabular}{c|c|r|r}
-        $i$ & $a_i$ & $2^i$ & $11 \times 2^i$ \\
+        $i$ & $a_i$ & $2^i$ & $187 \times 2^i$ \\
         \hline
         0& 1 & 1 & 187\\
         1& 1 & 2 & 374\\
         2& 0 & 4 & 748\\
         3& 1 & 8 & 1496\\ \hline
         &  & 11 &2057
-      \end{tabular}    
+      \end{tabular}
   \end{exampleblock}
 \end{column}
 \begin{column}[t]{0.48\textwidth}
@@ -156,7 +156,7 @@ La technique est rigoureusement la même mais offre plus de liberté au scribe q
         10& 20120 \\
         500 & 1006000 \\
         1000 & 2012000\\ \hline
-        1515 & 3048180 
+        1515 & 3048180
       \end{tabular}
   \end{exampleblock}
 \end{column}
