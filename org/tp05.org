@@ -153,8 +153,7 @@ Foo(10,15,20)
   TableMult <- function(n) {
     stopifnot(length(n) == 1, n > 0, n < 10, floor(n) == n)
     x <- 1:10
-    cat(' ')
-    cat(sprintf("%d x%2d = %3d\n",n,x,n*x))
+    cat(sprintf("%d x%2d = %3d\n",n,x,n*x), sep = "")
   }
 #+END_SRC
 
@@ -224,7 +223,7 @@ Foo(10,15,20)
      BinToInt <- function(s) {
        digits <- utf8ToInt(s)-utf8ToInt("0")
        pows <- seq(from = length(digits)-1, to = 0)
-       return(sum( 2**pows * digits))
+       return(sum( (2 ** pows) * digits))
      }
     #+END_SRC
 2. Programmez la fonction avec le schéma de Horner qui calcule de manière optimale la valeur d'un polynôme en un point sans calcul de puissance.

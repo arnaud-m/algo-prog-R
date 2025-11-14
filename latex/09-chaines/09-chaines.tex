@@ -277,7 +277,7 @@ acc <- paste(res, acc) ## accumulation préfixe
   \begin{lstlisting}[style=edblock]
 Renverser <- function(n) {
   acc <- ""
-  while(n > 9) {
+  while(n >= 10) {
     acc <- paste(acc, n %% 10, sep = "")
     n <- n %/% 10
   }

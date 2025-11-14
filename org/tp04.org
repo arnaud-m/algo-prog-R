@@ -113,8 +113,6 @@ On part de la situation suivante: $p_0 = 0.1$, $w_A=1$, $w_B=0.9$. L'allèle A a
     EvolutionFrequence(100000, 1-2**-10, 2**-10, 1-2**-10)
   #+END_SRC
 
-  #+END_SRC
-
   #+BEGIN_SRC R :exports both :session genpop
     ProchaineFrequence(0.1, 1, 0.9)
   #+END_SRC
