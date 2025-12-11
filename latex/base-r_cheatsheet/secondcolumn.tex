@@ -2,14 +2,15 @@
 
 \begin{block}{Vectors}
   \begin{subblock}{Creating Vectors}
-    \footnotesize\vspace{5pt}\hspace{-8pt}
-    \begin{tableau}{| >{\color{black}}m{2.4cm} | >{\color{white}\cellcolor{codebg}}m{1.6cm} | >{\color{black}\centering\arraybackslash}m{2.4cm} |}
+    \footnotesize\vskip+1ex
+    \begin{tableau}{| >{\color{black}}m{2.95cm} | >{\color{white}\cellcolor{codebg}}m{1.55cm} | >{\color{black}\centering\arraybackslash}m{2.2cm} |}
       \hline
-      \inl{c(2, 4, 6)} & \inl{2 4 6} & Join elements into a vector\\\hline
+      \inl{c(2, 4, 6)} & \inl{2 4 6} & Join elements\\\hline% into a vector\\\hline
       \rowcolor{secondary} \inl{2:6} & \inl{2 3 4 5 6} & An integer sequence\\\hline
       \inl{seq(2, 3, by=0.5)} & \inl{2.0 2.5 3.0} & A complex sequence\\\hline
       \rowcolor{secondary} \inl{rep(1:2, times=3)} & \inl{1 2 1 2 1 2} & Repeat a vector\\\hline
       \inl{rep(1:2, each=3)} & \inl{1 1 1 2 2 2} & Repeat elements of a vector\\\hline
+      \inl{seq_along(c('a','b'))} & \inl{1 2} & Indexes of a vector\\\hline
     \end{tableau}
     \vskip-2ex
   \end{subblock}
