@@ -2,8 +2,8 @@
 
 \begin{block}{Vectors}
   \begin{subblock}{Creating Vectors}
-    \scriptsize\vspace{5pt}\hspace{-8pt}
-    \begin{tableau}{| >{\color{black}}m{2.2cm} | >{\color{white}\cellcolor{codebg}}m{1.401cm} | >{\color{black}\centering\arraybackslash}m{1.45cm} |}
+    \footnotesize\vspace{5pt}\hspace{-8pt}
+    \begin{tableau}{| >{\color{black}}m{2.4cm} | >{\color{white}\cellcolor{codebg}}m{1.6cm} | >{\color{black}\centering\arraybackslash}m{2.4cm} |}
       \hline
       \inl{c(2, 4, 6)} & \inl{2 4 6} & Join elements into a vector\\\hline
       \rowcolor{secondary} \inl{2:6} & \inl{2 3 4 5 6} & An integer sequence\\\hline
@@ -11,9 +11,10 @@
       \rowcolor{secondary} \inl{rep(1:2, times=3)} & \inl{1 2 1 2 1 2} & Repeat a vector\\\hline
       \inl{rep(1:2, each=3)} & \inl{1 1 1 2 2 2} & Repeat elements of a vector\\\hline
     \end{tableau}
-    \vskip-1ex
+    \vskip-2ex
   \end{subblock}
-  
+    \vskip-0.5ex
+
   \begin{subblock}{Vectors Functions}
     \begin{columns}[t]
       \hspace{4ex}
@@ -28,23 +29,37 @@
       \hspace{4ex}
     \end{columns}
   \end{subblock}
-  
+    \vskip-0.5ex
+
   \begin{subblock}{Selecting Vector Elements}
     \renewcommand{\arraystretch}{1.411}\hspace{-17.5pt}
-    \begin{tabular}{>{\centering}m{0.48\linewidth} >{\centering\arraybackslash}m{0.47\linewidth}}
-      \multicolumn{2}{c}{\textcolor{gray}{\textbf{By Position}}}\\
-      \inlc{x[4]} & The fourth element.\\
-      \inlc{x[-4]} & All but the fourth.\\
-      \inlc{x[2:4]} & Elements two to four.\\
-      \inlc{x[-(2:4)]} & All elements except two to four.\\
-      \inlc{x[c(1, 5)]} & Elements one and five.\\
-      \multicolumn{2}{c}{\textcolor{gray}{\textbf{By Value}}}\\
-      \inlc{x[x == 10]} & Element which are equal to 10.\\
-      \inlc{x[which(x==10)]} & Element which are equal to 10.\\
-      \inlc{x[x < 0]} & All elements less than zero.\\
-      \inlc{x[x \%in\% c(1,2,5)]} & Elements in the set \{1, 2, 5\}.\\
-      \multicolumn{2}{c}{\textcolor{gray}{\textbf{Named Vectors}}}\\
-      \inlc{x['apple']} & Element with name 'apple'.
+    \begin{tabular}{>{\centering}m{0.35\linewidth} >{\centering\arraybackslash}m{0.6\linewidth}}
+      \multicolumn{2}{c}{\textcolor{gray}{\textbf{By Position}}}   \\
+      \inlc{x[4]}            & The fourth element.                 \\
+      \inlc{x[-4]}           & All but the fourth.                 \\
+      \inlc{x[2:4]}          & Elements two to four.               \\
+      \inlc{x[-(2:4)]}       & All elements except two to four.    \\
+      \inlc{x[c(1, 5)]}      & Elements one and five.              \\
+      \inlc{head(x, 3)}      & The first three elements.           \\
+      \inlc{tail(x, 3)}      & The last three elements.            \\
+      \multicolumn{2}{c}{\textcolor{gray}{\textbf{By Value}}}      \\
+      \inlc{x[x == 10]}      & Element which are equal to 10.      \\
+      \inlc{x[which(}        & Element which are                   \\[-2mm]
+      \inlc{x == 10)]}       & equal to 10.                        \\
+      \inlc{x[x < 0]}        & All elements less than zero.        \\
+      \inlc{x[x \%in\%}      & Elements in the set                 \\[-2mm]
+      \inlc{c(1, 2, 5)]}     & \{1, 2, 5\}.                        \\
+      \multicolumn{2}{c}{\textcolor{gray}{\textbf{Named Vectors}}} \\
+      \inlc{x['apple']}      & Element with name 'apple'.
+    \end{tabular}
+  \end{subblock}
+    \vskip-0.5ex
+
+  \begin{subblock}{Testing Vector Elements}
+    \renewcommand{\arraystretch}{1.411}\hspace{-17.5pt}
+    \begin{tabular}{>{\centering}m{0.3\linewidth} >{\centering\arraybackslash}m{0.66\linewidth}}
+      \inlc{all(x == 5)} & All elements are equal to 5? \\
+      \inlc{any(x < 10)} & An element is less than 10? \\
     \end{tabular}
   \end{subblock}
 \end{block}

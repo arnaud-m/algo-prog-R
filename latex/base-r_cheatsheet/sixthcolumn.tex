@@ -9,11 +9,15 @@
     \inline{gsub(pattern, replace, x)} & Replace matches in \inl{x} with a string.\\
     \inline{toupper(x)} & Convert to uppercase.\\
     \inline{tolower(x)} & Convert to lowercase.\\
-    \inline{nchar(x)} & Number of characters in a string.
-%    \inl{sprintf(fmt, ...)} & Return a character vector containing a formatted combination of text and variable values.
+    \inline{nchar(x)} & Number of characters in a string.\\
+    % \inline{sprintf(fmt, ...)} & Return a character vector containing a formatted combination of text and variable values.\\
+    \inline{utf8ToInt(x)} & ASCII code of character \inline{x}.\\
+    \inline{intToUtf8(x)} & Character with ASCII code \inline{x}.
   \end{tabular}
+  \vskip-1.5ex
 \end{seeblock}
 
+\vskip+0.5ex
 \begin{block}{Factors}
   \begin{columns}[t]\hfill
     \begin{column}{.45\linewidth}\centering
@@ -48,7 +52,7 @@
   \end{columns}
 \end{block}
 
-\vspace{-0.5em}
+\vskip-1.5ex
 \begin{block}{Distributions}\small
   \renewcommand{\arraystretch}{1.5}
   \begin{tableau}{| >{\color{black}} c | *{2}{>{\color{black}\centering}m{0.15\linewidth} |} >{\color{black}\centering}m{0.2\linewidth} | >{\color{black}} c |}
@@ -106,6 +110,7 @@
       \inline{hist(x)}\\Histogram of x.
     \end{column}\hfill
   \end{columns}
+  \vskip-0.5ex
 \end{seeblock}
 
 %\begin{annotedblock}{Dates}{See the \textbf{lubridate} package.}
