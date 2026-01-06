@@ -335,16 +335,16 @@ Le code ci-dessous répond aux questions avec des fonctions prédéfinies.
       n <- length(x)
       k <- min(n, k)
       if(k == 0) return(numeric(0))
-      for(i in seq(n)) {
-        k <- i
+      for(i in seq(k)) {
+        p <- i
         for(j in seq(i, n)) {
-          if(x[j] > x[k]) {
-            k <- j
+          if(x[j] > x[p]) {
+            p <- j
           }
         }
         v <- x[i]
-        x[i] <- x[k]
-        x[k] <- v
+        x[i] <- x[p]
+        x[p] <- v
       }
       return(head(x, k))
     }
@@ -360,11 +360,11 @@ Le code ci-dessous répond aux questions avec des fonctions prédéfinies.
   #+END_SRC
 
   #+RESULTS:
-  : [1]  77  51 100  72  30  41
+  : [1] 45 52 16 70 39 35
   : numeric(0)
-  : [1] 100  77  72  51  41  30
-  : [1] 100  77  72  51  41  30
-  : [1] 100  77  72  51  41  30
+  : [1] 70 52
+  : [1] 70 52 45 39
+  : [1] 70 52 45 39 35 16
 
 *** Reprogrammez une fonction ~MaxK(x, k)~ avec des fonctions prédéfinies. /Indices/ : ~sort~ et ~head~.
 
