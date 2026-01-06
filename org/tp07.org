@@ -2,7 +2,7 @@
 #+TITLE:     Travaux Pratiques #7
 #+SUBTITLE:     Algo & Prog avec R
 #+OPTIONS: num:1 toc:1
-#+PROPERTY: header-args :results output replace :exports none
+#+PROPERTY: header-args :results output replace :exports both
 * Ensembles et Dictionnaires
 ** Ensemble d'entiers aléatoires
    1. Définissez deux ensemble ~e2~ et ~e3~ de 10 entiers aléatoires de [0,20].

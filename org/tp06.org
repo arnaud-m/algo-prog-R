@@ -2,7 +2,7 @@
 #+TITLE:     Travaux Pratiques #6
 #+SUBTITLE:     Algo & Prog avec R
 #+OPTIONS: num:1 toc:1
-#+PROPERTY: header-args :results output replace :exports none
+#+PROPERTY: header-args :results output replace :exports both
 * Recherche d'éléments dans un vecteur
 
 Programmez des fonctions avec boucle répondant aux questions ci-dessous.
@@ -18,9 +18,9 @@ Le code ci-dessous répond aux questions avec des fonctions prédéfinies.
   #+BEGIN_SRC R :exports code
     Count0 <- function(vec) sum(vec == 0)
     Which0 <- function(vec) head(which(vec == 0), 1)
-    Min0 <- function(vec) min(vec[ vec != 0])
+    Min0 <- function(vec) min(vec[ vec != 0 ])
 
-    vec <- sample(0:10,12, replace=TRUE)
+    vec <- sample(0:10, size = 12, replace=TRUE)
     print(vec)
     Count0(vec)
     Which0(vec)
@@ -679,7 +679,6 @@ La fonction ~EstPremier(n)~  retourne False si elle trouve un diviseur non trivi
      utilisateur     système      écoulé
            0.054       0.000       0.054
      #+end_example
-
 
 * Nombres aléatoires absents
    1. Utilisez la fonction ~sample~ pour créer une liste de 100 entiers compris entre 1 et 100 tirés au hasard avec remise.

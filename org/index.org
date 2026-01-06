@@ -1,15 +1,11 @@
 #+SETUPFILE: base-template.org
 #+TITLE: Algo & Prog avec R
 #+SUBTITLE: Université Côte d'Azur
-#+AUTHOR: A. Malapert
+#+AUTHOR: Arnaud Malapert
 #+OPTIONS: H:4 num:2 toc:2
 #+HTML_LINK_UP:
 #+HTML_LINK_HOME:
 * Tasks                                                   :noexport:TEACHING:
-** TODO Exercice sur le calcul de la note finale en session 1 et 2.
-- Exercice au TP 2 avec seulement deux notes d'activités, puis au TP 6 avec un vecteur
-- Exercice UCAnCODE pour la première version. Pour la seconde ?
-- Mini-projet shiny
 ** TODO https://mgimond.github.io/ES218/index.html
  Added: [2018-06-14 jeu. 17:26]
 ** TODO simulation [[https://blogdemaths.wordpress.com/2015/02/23/arnaquez-vos-amis-a-pile-ou-face/][pile ou face]]
@@ -155,18 +151,19 @@ https://phdcomics.com/comics/archive/phd051013s.gif
  #+END_EXPORT
 
 ** Salles
-   Toutes les salles du vendredi sont au 2ème et 3ème étage du Petit Valrose.
-   La salle M118/120 du jeudi est à l'étage le plus bas du bâtiment M.
+   Toutes les salles sont au 2ème et 3ème étage du Petit Valrose.
    Les initiales de l'intervenant sont indiquées dans la troisième colonne.
 
 | Créneau          | Salle | Intervenant |
 |------------------+-------+-------------|
-| Jeu. 15h30-18h00 | ?     | ?           |
-| Ven. 09h15-11h45 | ?     | ?           |
-| Ven. 09h15-11h45 | ?     | ?           |
-| Ven. 09h15-11h45 | ?     | ?           |
-| Ven. 13h15-15h45 | ?     | ?           |
-| Ven. 13h15-15h45 | ?     | ?           |
+| Jeu. 15h30-18h00 |   214 | AM          |
+| Jeu. 15h30-18h00 |   215 | MP          |
+| Ven. 09h15-11h45 |   213 | MP          |
+| Ven. 09h15-11h45 |   214 | KB          |
+| Ven. 09h15-11h45 |   215 | AM          |
+| Ven. 13h15-15h45 |   214 | MP          |
+| Ven. 13h15-15h45 |   215 | AM          |
+
 
 
 * Contenu
@@ -204,13 +201,13 @@ https://phdcomics.com/comics/archive/phd051013s.gif
 
 | #. | Cours (Partie I)         | Cours (Partie II)                       | Travaux pratiques |
 |----+--------------------------+-----------------------------------------+-------------------|
-| 1. | Présentation du syllabus | [[file:pdf/01-variables.pdf][Expressions, instructions, et variables]] | [[file:tp01.org][TP 1]]              |
-| 2. | [[file:pdf/02-fonctions.pdf][Conditions et fonctions]]  | [[file:pdf/03-jeu-roulette.pdf][Jeu de roulette]]                         | [[file:tp02.org][TP 2]]              |
-| 3. | [[file:pdf/04-iterations-while.pdf][Itérations (while)]]       | [[file:pdf/05-conversions.pdf][Conversions]]                             | [[file:tp03.org][TP 3]]              |
-| 4. | [[file:pdf/06-nombres-approches.pdf][Nombres réels approchés]]  | [[file:pdf/07-calcul-pi.pdf][Approximation du nombre \pi]]             | [[file:tp04.org][TP 4]]              |
-| 5. | [[file:pdf/08-iterations-for.pdf][Itérations (for)]]         | [[file:pdf/09-chaines.pdf][Chaînes de caractères]]                   | [[file:tp05.org][TP 5]]              |
-| 6. | [[file:pdf/10-vecteurs.pdf][Les séquences : vecteurs]] | [[file:pdf/11-premiers.pdf][Nombres premiers]]                        | [[file:tp06.org][TP 6]]              |
-| 7. | [[file:pdf/12-listes.pdf][Les séquences : listes]]   | [[file:pdf/13-dictionnaires.pdf][Ensembles et dictionnaires]]              | [[file:tp07.org][TP 7]]              |
+| 1. | Présentation du syllabus | [[file:pdf/01-variables.pdf][Expressions, instructions, et variables]] | [[file:tp01.org][TP 1 (corrigés)]]   |
+| 2. | [[file:pdf/02-fonctions.pdf][Conditions et fonctions]]  | [[file:pdf/03-jeu-roulette.pdf][Jeu de roulette]]                         | [[file:tp02.org][TP 2 (corrigés)]]   |
+| 3. | [[file:pdf/04-iterations-while.pdf][Itérations (while)]]       | [[file:pdf/05-conversions.pdf][Conversions]]                             | [[file:tp03.org][TP 3 (corrigés)]]   |
+| 4. | [[file:pdf/06-nombres-approches.pdf][Nombres réels approchés]]  | [[file:pdf/07-calcul-pi.pdf][Approximation du nombre \pi]]             | [[file:tp04.org][TP 4 (corrigés)]]   |
+| 5. | [[file:pdf/08-iterations-for.pdf][Itérations (for)]]         | [[file:pdf/09-chaines.pdf][Chaînes de caractères]]                   | [[file:tp05.org][TP 5 (corrigés)]]   |
+| 6. | [[file:pdf/10-vecteurs.pdf][Les séquences : vecteurs]] | [[file:pdf/11-premiers.pdf][Nombres premiers]]                        | [[file:tp06.org][TP 6 (corrigés)]]   |
+| 7. | [[file:pdf/12-listes.pdf][Les séquences : listes]]   | [[file:pdf/13-dictionnaires.pdf][Ensembles et dictionnaires]]              | [[file:tp07.org][TP 7 (corrigés)]]   |
 | 8. | [[file:pdf/14-fibonacci.pdf][Suite de Fibonacci]]       |                                         | [[file:tp08.org][TP 8]]              |
 
 
@@ -243,49 +240,48 @@ https://phdcomics.com/comics/archive/phd051013s.gif
 
 Entrez votre adresse étudiante @etu.univ-cotedazur.fr dans le formulaire d'accueil.
 
-
-    #+NAME: exercices
+#+NAME: exercices
  | Problème          | Barème | Période         |
  |-------------------+--------+-----------------|
  | [[https://upinfo.univ-cotedazur.fr/ucancode/tutoriel/][Tutoriel UCAnCODE]] | -      |                 |
+ | [[https://51364960.widgets.sphere-engine.com/lp?hash=1L607lu5Yq][ROULETTE]]          | -      |                 |
+ | [[https://51364960.widgets.sphere-engine.com/lp?hash=wC2XsjJYZC][SMPDIV]]            | -      |                 |
+ |-------------------+--------+-----------------|
+ | **[[https://51364960.widgets.sphere-engine.com/lp?hash=XeJdO3K2LL][POW24]]**         | **12** | **23/10-24/10** |
+ | [[https://51364960.widgets.sphere-engine.com/lp?hash=FlQP1lVgbZ][EXFLOT]]            | + 1    | 23/10-24/10     |
+ | [[https://51364960.widgets.sphere-engine.com/lp?hash=kMqlJF5reY][FIRSTDIG]]          | + 0.5  | 23/10-24/10     |
+ | [[https://51364960.widgets.sphere-engine.com/lp?hash=SrRVS8ssDK][LASTDIG]]           | + 0.5  | 23/10-24/10     |
+ |-------------------+--------+-----------------|
+ | **[[https://51364960.widgets.sphere-engine.com/lp?hash=hjXtSvahn9][CDP]]**           | **13** | **20/11-21/11** |
+ | [[https://51364960.widgets.sphere-engine.com/lp?hash=2trxy9v7gl][INET1_A]]           | +0.5   | 20/11-21/11     |
+ | [[https://51364960.widgets.sphere-engine.com/lp?hash=KFSUgPCWKy][INET1_B]]           |        | 20/11-21/11     |
+ | [[https://51364960.widgets.sphere-engine.com/lp?hash=h1PHA14KLM][INET2_A]]           | +0.5   | 20/11-21/11     |
+ | [[https://51364960.widgets.sphere-engine.com/lp?hash=CJUkKazsTn][INET2_B]]           |        | 20/11-21/11     |
+ | [[https://51364960.widgets.sphere-engine.com/lp?hash=FIfAHaSGIy][INET3_A]]           | +1     | 20/11-21/11     |
+ | [[https://51364960.widgets.sphere-engine.com/lp?hash=gc0vYQfB4w][INET3_B]]           |        | 20/11-21/11     |
+ |-------------------+--------+-----------------|
+ | **[[https://51364960.widgets.sphere-engine.com/lp?hash=Aen0PdQ2Yy][RAINFALL]]**      | **14** | **04/12-05/12** |
+ | [[https://51364960.widgets.sphere-engine.com/lp?hash=ZB6Dvs8Xdc][LAKEFALL]]          | +1.5   | 04/12-05/12     |
+ | [[https://51364960.widgets.sphere-engine.com/lp?hash=eA9fsumIdL][LAKESFALL]]         | +1.5   | 04/12-05/12     |
+ | Bonifications     | +3     | 04/12-05/12     |
 
-#+begin_comment
+ Les bonifications sont attribuées aux premiers binômes à résoudre tous les problèmes : 3pts pour le premier ; 2pts pour le second ; 1pt pour le troisième.
 
- |-------------------+--------+-----------------|
- | **[[https://51364960.widgets.sphere-engine.com/lp?hash=2YT9CnbZPy][JO2024]]**        | **12** | **24/10-25/10** |
- | [[https://51364960.widgets.sphere-engine.com/lp?hash=6s6sTmdXHZ][ADDREV]]            | + 1    | 24/10-25/10     |
- | [[https://51364960.widgets.sphere-engine.com/lp?hash=1L607lu5Yq][ROULETTE]]          | + 0.5  | 19/09-25/10     |
- | [[https://51364960.widgets.sphere-engine.com/lp?hash=MQZj6SbdQU][RWC2023]]           | + 0.5  | 04/10-25/10     |
- | [[https://51364960.widgets.sphere-engine.com/lp?hash=Dg1rBpfz1r][LUHN10]]            | + 0.5  | 18/10-25/10     |
- | [[https://51364960.widgets.sphere-engine.com/lp?hash=Dg1rBpfz1r][HELLOKIT]]          | + 0.5  | 18/10-25/10     |
- |-------------------+--------+-----------------|
- | **[[https://51364960.widgets.sphere-engine.com/lp?hash=iCbiokj5lK][URL]]**           | **13** | **21/11-22/11** |
- | [[https://51364960.widgets.sphere-engine.com/lp?hash=g2vkFj8IdT][TOILE]]             | + 3    | 21/11-22/11     |
- |-------------------+--------+-----------------|
- | **[[https://51364960.widgets.sphere-engine.com/lp?hash=PuC77IuuJZ][FISHNET]]**       | **13** | **05/12-06/12** |
- | [[https://51364960.widgets.sphere-engine.com/lp?hash=KoiSv8Yr1Q][DAMIER]]            | + 3    | 05/12-06/12     |
- |-------------------+--------+-----------------|
- | **[[https://51364960.widgets.sphere-engine.com/lp?hash=v3zELaYW0r][GOODIES_EZ]]**    | **14** | **05/12-12/12** |
- | [[https://51364960.widgets.sphere-engine.com/lp?hash=lMfGXki5gU][GOODIES]]           | + 3    | 05/12-12/12     |
- | Bonifications     | + 3    |                 |
-
-L'exercice GOODIES a des bonifications pour les premiers binômes à résoudre le problème : 3pts pour le premier ; 2pts pour le second ; 1pt pour le troisième.
-#+end_comment
 *** Mini-projets
     Les mini-projets complètent et étendent des notions abordées en cours et vous font découvrir différentes applications.
     Vous devez déposer le projet sur moodle (un seul fichier de code source commenté) et faire une démonstration du projet.
     Le barème indique la note maximale possible pour une activité.
 
     #+NAME: projets
-    | #. | Activité                                         | Cours | Niveau      | Barème |
-    |----+--------------------------------------------------+-------+-------------+--------|
-    | 1. | [[file:act01.org][Graphisme tortue]]                                 | [[file:pdf/A1-tortue.pdf][A1]]    | Tout niveau |     20 |
-    | 2. | Graphisme tortue 3D                              | A2    | Difficile   |     20 |
-    | 3. | [[file:act03.org][Convertisseur de base (shiny)]]                    | [[https://shiny.rstudio.com/tutorial/][A3]]    | Facile      |     12 |
-    | 4. | [[file:act04.org][Coefficient de Gini (shiny)]]                      | [[https://shiny.rstudio.com/tutorial/][A3]]    | Facile      |     12 |
-    | 5. | [[file:act05.org][Estimation de la moyenne (shiny)]]                 | [[https://shiny.rstudio.com/tutorial/][A3]]    | Facile      |     12 |
-    | 6. | [[file:act06.org][Manipulation de polynômes]]                        | [[file:pdf/A4-Polynomes.pdf][A4]]    | Difficile   |     20 |
-    | 7. | [[file:act07.org][Estimation d'aires par la méthode de Monte Carlo]] | A5    | Difficile   |     20 |
+    | #. | Activité                                         | Cours | Niveau      | Pré-requis | Barème |
+    |----+--------------------------------------------------+-------+-------------+------------+--------|
+    | 1. | [[file:act01.org][Graphisme tortue]]                                 | [[file:pdf/A1-tortue.pdf][A1]]    | Tout niveau | Cours 3    |     20 |
+    | 2. | Graphisme tortue 3D                              | A2    | Difficile   |            |     20 |
+    | 3. | [[file:act03.org][Convertisseur de base (shiny)]]                    | [[https://shiny.rstudio.com/tutorial/][A3]]    | Facile      | Cours 5    |     12 |
+    | 4. | [[file:act04.org][Coefficient de Gini (shiny)]]                      | [[https://shiny.rstudio.com/tutorial/][A3]]    | Facile      | Cours 6    |     12 |
+    | 5. | [[file:act05.org][Estimation de la moyenne (shiny)]]                 | [[https://shiny.rstudio.com/tutorial/][A3]]    | Facile      | Cours 6    |     12 |
+    | 6. | [[file:act06.org][Manipulation de polynômes]]                        | [[file:pdf/A4-Polynomes.pdf][A4]]    | Difficile   | Cours 7    |     20 |
+    | 7. | [[file:act07.org][Estimation d'aires par la méthode de Monte Carlo]] | A5    | Difficile   | Cours 7    |     20 |
 
 *** Bug bounty
     Toutes les contributions significatives au cours sont valables, par exemple :
