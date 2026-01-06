@@ -23,8 +23,10 @@
   \begin{lstlisting}[style=editor]
 Diviseurs <- function(n) {
   res <- numeric(0);
-  for(d in 2:(n-1)) {
-    if( n %% d == 0) res <- append(res, d);
+  if(n > 2) { # Attention à seq !
+    for(d in 2:(n-1)) {
+      if( n %% d == 0) res <- append(res, d);
+    }
   }
   return(res)
 }
@@ -52,15 +54,15 @@ Diviseurs <- function(n) {
 
 
   \begin{lstlisting}
-> vec <- 1:5
+>  vec <- c("a", "b", "c", "d", "e")
 > vec[1] # Les indices commencent à 1.
-[1] 1
+[1] "a"
 > vec[2]
-[1] 2
+[1] "b"
 > vec[c(1,5)] #  accéder simultanément à plusieurs éléments.
-[1] 1 5
+[1] "a" "e"
 > vec[-3] # suppression d'éléments avec un index négatif
-[1] 1 2 4 5
+[1] "a" "b" "d" "e"
 > vec[0] # Les indices commencent à 1 !
 integer(0)
 > vec[6] # valeur spéciale pour les éléments manquants.
@@ -79,7 +81,7 @@ integer(0)
 \begin{lstlisting}[style=editor]
 Index <- function(x, vec) {
   for(i in seq_along(vec)) {
-    if( vec[i] == x) return(i)
+    if(vec[i] == x) return(i)
   }
   return(NA)
 }
@@ -188,11 +190,11 @@ Elle permet d’extraire une sous-séquence à partir d’un \alert{vecteur num�
 \item Les indices peuvent être dans n'importe quel ordre.
 \end{itemize}
 \begin{lstlisting}
-> vec <- 1:5
-> vec[c(1,3,5)]
-[1] 1 3 5
-> vec[c(5,1,5)]
-[1] 5 1 5
+  > vec <- c("a", "b", "c", "d", "e")
+> vec[c(1, 3, 5)]
+[1] "a" "c" "e"
+> vec[c(5, 1, 5)]
+[1] "e", "a", "e"
 \end{lstlisting}
 \end{frame}
 
@@ -675,7 +677,7 @@ En bonus, la fonction \texttt{Cacher} est elle-même vectorisée.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Évaluation des performances}
-    Le protocol expérimental consiste à cacher 2000 mots aléatoires de différentes longueurs avec les trois versions.
+    Le protocole expérimental consiste à cacher 2000 mots aléatoires de différentes longueurs avec les trois versions.
   \begin{description}[Version III]
   \item[Version I] accumulation dans une chaîne de caractères.
   \item[Version II] vectorisation dans un vecteur de codes.

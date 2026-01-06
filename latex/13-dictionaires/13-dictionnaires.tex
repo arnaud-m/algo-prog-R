@@ -192,7 +192,7 @@ as.integer(42))
     En pratique, nous allons \alert{émuler un dictionnaire} dont les clés sont des chaînes de caractères avec un \alert{vecteur nommé} ou une \alert{liste nommée}.
   \end{alertblock}
 
-  \begin{block}{Vecteurs et listes nommées}
+  \begin{block}{Vecteurs et listes nommés}
     \begin{itemize}
     \item Écrire un code plus lisible.
     \item Utiliser les fonctions avancées de R (par ex. graphiques).
@@ -320,7 +320,7 @@ poires pommes fraises
 
 \begin{block}{Par défaut, on itère sur les valeurs}
 \begin{lstlisting}[style=block]
-> for(i in stock) {print(i)}
+> for(v in stock) {print(v)}
 [1] 51
 [1] 250
 [1] 50
@@ -329,7 +329,7 @@ poires pommes fraises
 
 \begin{block}{Mais, on peut itérer sur les clés}
 \begin{lstlisting}[style=block]
-> for(i in names(stock)) {print(i)}
+> for(v in names(stock)) {print(v)}
 [1] "poires"
 [1] "pommes"
 [1] "fraises"

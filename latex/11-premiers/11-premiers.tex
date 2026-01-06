@@ -67,9 +67,9 @@
   \begin{lstlisting}[style=editor]
 EstPremier <- function(n) { # version I
   if(n < 2) return(FALSE) # 0 et 1 ne sont pas premiers
-  d <- 2 #le premier diviseur non trivial
+  d <- 2 # le premier diviseur non trivial
   while( d < n) {
-    if( n %% d == 0) return(FALSE) # Échappement
+    if( n %% d == 0) return(FALSE) # échappement
     d <- d + 1
   }
   return(TRUE)
@@ -109,7 +109,7 @@ EstPremier <- function(n) { # version II
   d <- 3 # le deuxième diviseur non trivial
   m <- floor(sqrt(n)) # on calcule la racine une seule fois
   while( d <= m) { # on compare avec la racine
-    if( n %% d == 0) return(FALSE) # Échappement
+    if( n %% d == 0) return(FALSE) # échappement
     d <- d + 2 # on itére sur les nombres impairs
   }
   return(TRUE)
@@ -156,7 +156,7 @@ utilisateur     système      écoulé
   \textbf{Seuls les nombres impairs peuvent être premiers.}
 
 \begin{lstlisting}[style=editor]
-Premiers <- function(n) { # Version I
+Premiers <- function(n) { # version I
   if(n < 2) return(numeric(0))
   prems <- c(2)
   if(n > 2) {
@@ -170,7 +170,7 @@ Premiers <- function(n) { # Version I
 
 
 \begin{lstlisting}[style=editor]
-Premiers <- function(n) { # Version II
+Premiers <- function(n) { # version II
   if(n < 2) return(numeric(0))
   if(n == 2) return(c(2))
   return(c(2, Filter(EstPremier, seq(3, n, 2))))
@@ -187,7 +187,7 @@ Premiers <- function(n) { # Version II
   \textbf{Seuls les nombres impairs peuvent être premiers.}
 
 \begin{lstlisting}[style=editor]
-Premiers <- function(n) { # Version III
+Premiers <- function(n) { # version III
   if(n < 2) return(numeric(0))
   if(n == 2) return(c(2))
   require(parallel) # chargement d'un package
