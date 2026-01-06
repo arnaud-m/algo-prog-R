@@ -190,13 +190,16 @@ Foo(10,15,20)
      IntToBin <- function(n) {
        n <- abs(n);
        acc <- "";
-       while(n > 2) {
+       while(n > 1) {
          acc <- paste(n %% 2, acc, sep="");
          n  <- n %/% 2;
        }
        return( paste(n, acc, sep=""))
        }
     #+END_SRC
+
+    #+RESULTS:
+
 2. Programmez une version récursive.
    #+BEGIN_SRC R :session strbin
      IntToBin <- function(n) {
@@ -205,6 +208,8 @@ Foo(10,15,20)
        else return(paste(IntToBin(n %/% 2), n %% 2, sep = ""))
      }
     #+END_SRC
+
+    #+RESULTS:
 
 
 #+BEGIN_SRC R :exports both :session strbin
