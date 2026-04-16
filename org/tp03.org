@@ -279,15 +279,15 @@ Voici les factorielles (rapides) des entiers de [1,10] :
 : [1] "cba"
 
 * Jeu de hasard                                                         :KEY:
-  Virginie lance trois dés numérotés de 1 à 6.
-    - Si elle obtient une somme de 18, elle gagne 50 euros,
-    - entre 10 et 17, elle gagne 5 euros,
-    - sinon elle ne gagne rien.
+
+*** Virginie lance trois dés numérotés de 1 à 6 :
+    1. Si elle obtient une somme de 18, elle gagne 50 euros,
+    2. entre 10 et 17, elle gagne 5 euros,
+    3. sinon elle ne gagne rien.
 
 
-*** Écrivez une fonction ~JeuHasard~ utilisant la fonction ~sample~ pour simuler un lancer de dés, puis renvoyant le gain.
-    Pour faire la somme des valeurs renvoyées par ~sample~, utilisez la fonction ~sum~ ainsi : ~sum(sample(...))~.
- #+BEGIN_SRC R :session jeuHasard
+*** Écrivez une fonction ~JeuHasard~ utilisant la fonction ~sample~ pour simuler un lancer de dés, puis renvoyant le gain. Pour faire la somme des valeurs renvoyées par ~sample~, utilisez la fonction ~sum~ ainsi : ~sum(sample(...))~.
+ #+BEGIN_SRC R :results output silent :session jeuHasard
    JeuHasard <- function() {
      somme <- sum(sample(1:6, 3, replace=TRUE))
      if(somme <10) {return(0)}
@@ -296,58 +296,69 @@ Voici les factorielles (rapides) des entiers de [1,10] :
    }
   #+END_SRC
 
- #+RESULTS:
 
-*** Écrire une simulation où Virginie joue jusqu'à ce que son gain total dépasse 50.
 
-    #+BEGIN_SRC R :session jeuHasard
-      gain <- 0
-      partie <- 0
-      while(gain < 50) {
-        gain <- gain + JeuHasard()
-        partie <- partie + 1
-        cat("Partie", partie, ":", gain, "\n")
-      }
+*** Quelle est la probabilité de gagner 50 euros ? Utiliser l'appel ~table(replicate(1000, JeuHasard()))~ pour vérifier le hasard engendré par votre fonction.
+
+*** Écrire une fonction ~SimulationJeuHasard(n)~ qui simule une stratégie où Virginie joue jusqu'à ce que son gain total dépasse le montant ~n~ en affichant un message après chaque partie.
+
+   #+BEGIN_SRC R :results output silent :session jeuHasard
+     SimulationJeuHasard <- function(n) {
+       gain <- 0
+       partie <- 0
+       cat(sprintf("|%6s|%5s|%5s|\n", "Partie", "Gain", "Total"))
+       while(gain < n) {
+         g <- JeuHasard()
+         gain <- gain + g
+         partie <- partie + 1
+         cat(sprintf("|%6d|%5d|%5d|\n", partie, g, gain))
+       }
+     }
     #+END_SRC
+
+   #+BEGIN_SRC R :exports both :session jeuHasard
+     SimulationJeuHasard(25)
+    #+END_SRC
+
 
     #+RESULTS:
     #+begin_example
-    Partie 1 : 5
-    Partie 2 : 5
-    Partie 3 : 5
-    Partie 4 : 10
-    Partie 5 : 10
-    Partie 6 : 10
-    Partie 7 : 10
-    Partie 8 : 15
-    Partie 9 : 20
-    Partie 10 : 25
-    Partie 11 : 30
-    Partie 12 : 30
-    Partie 13 : 35
-    Partie 14 : 40
-    Partie 15 : 45
-    Partie 16 : 50
+    |Partie| Gain|Total|
+    |     1|    0|    0|
+    |     2|    0|    0|
+    |     3|    0|    0|
+    |     4|    5|    5|
+    |     5|    5|   10|
+    |     6|    5|   15|
+    |     7|    5|   20|
+    |     8|    0|   20|
+    |     9|    5|   25|
     #+end_example
 
 
-*** Quelle est la probabilité de gagner 50 euros ? Quelle est l'espérance de gain ? Proposer un tarif pour jouer à ce jeu ? Justifier.
+*** Quelle est l'espérance de gain ? Écrire une fonction ~EstimationEsperance(n)~ qui calcule l'espérance de gain obtenue expérimentalement après ~n~ parties. Proposer un tarif pour jouer à ce jeu. Justifier.
 
      #+BEGIN_SRC R :session jeuHasard
        ## Estimation de l'espérance par simulation
-       n <- 10000
-       gains <- replicate(n, JeuHasard())
-       cat("Esperance simulée :", sum(gains)/n, "\n")
+       EstimationEsperance <- function(n) {
+         return(mean(replicate(n, JeuHasard())))
+       }
+       cat("Esperance simulée :", EstimationEsperance(1000), "\n")
+
        ## Calcul théorique de l'espérance
-       prob50 <- 1 / 6**3
-       tirages <- expand.grid(1:6, 1:6, 1:6)
-       sommes <- rowSums(tirages)
-       prob5 <- (sum(sommes >= 10) - 1)/ nrow(tirages)
-       cat("Esperance théorique", 50*prob50 + 5*prob5, '\n')
+       CalculEsperance <- function() {
+         tirages <- expand.grid(1:6, 1:6, 1:6)
+         sommes <- rowSums(tirages)
+         ##  print(cbind(tirages, sommes))
+         prob50 <-  mean(sommes == 18)
+         prob5 <- mean(sommes >= 10 & sommes <= 17)
+         return( 50*prob50 + 5*prob5)
+       }
+       cat("Esperance théorique", CalculEsperance(), '\n')
      #+END_SRC
 
      #+RESULTS:
-     : Esperance simulée : 3.3375
+     : Esperance simulée : 3.5
      : Esperance théorique 3.333333
 
 * Algorithme d'Euclide                                             :UCANCODE:
