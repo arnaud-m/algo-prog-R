@@ -25,7 +25,6 @@ Le code ci-dessous répond aux questions avec des fonctions prédéfinies.
     Count0(vec)
     Which0(vec)
     Min0(vec)
-    median(vec)
   #+END_SRC
 
   #+RESULTS:
@@ -111,7 +110,7 @@ Le code ci-dessous répond aux questions avec des fonctions prédéfinies.
       }
     }
 
-    Max3 <- function(a, b) {
+    Max3 <- function(a, b, c) {
       if(a > b) {
         return(ifelse(a > c, a, c))
       } else {
@@ -261,7 +260,7 @@ Le code ci-dessous répond aux questions avec des fonctions prédéfinies.
 ** Recherche des k plus grands éléments.
 *** Programmez une fonction avec une boucle ~Max2(x)~ prenant un vecteur ~x~ numérique, et retournant le couple des deux plus grands éléments de ~x~, le maximum étant en première position.
 
-  #+BEGIN_SRC R :session max2 :results none
+  #+BEGIN_SRC R :session max2 :results output
     Max2 <- function(x) {
       v1=-Inf
       v2=-Inf
@@ -281,23 +280,26 @@ Le code ci-dessous répond aux questions avec des fonctions prédéfinies.
     Max2Rec <- function(x) {
       DoMax2Rec <- function(x, i, j) {
         if(i == j) {
-          return(list(max = x[i], max2 = numeric(0)))
+          return(c(x[i], -Inf))
         }
         m <- (i + j) %/% 2
         l <- DoMax2Rec(x, i, m)
         r <- DoMax2Rec(x, m + 1, j)
-        if(l$max > r$max) {
-          return(list(max = l$max, max2 = append(l$max2, r$max)))
+        if(l[1] > r[1]) {
+          return(c(l, r[1]))
         } else {
-          return(list(max = r$max, max2 = append(r$max2, l$max)))
+          return(c(r, l[1]))
         }
       }
 
+      if(length(x) == 0) return(c(-Inf, -Inf))
       x <- DoMax2Rec(x, 1, length(x))
-      return(c(x$max, max(-Inf, x$max2)))
+      return(c(x[1], max(x[-1])))
     }
 
+
     Max2Vec <- function(x) {
+      if(length(x) == 0) return(c(-Inf, -Inf))
       idx <- which.max(x)
       return(c(x[idx], max(x[-idx])))
     }
@@ -308,12 +310,20 @@ Le code ci-dessous répond aux questions avec des fonctions prédéfinies.
     }
 
 
-    x <- GenerateTestCases(1000, c(100))
+    x <- GenerateTestCases(2000, c(100, 1000))
     system.time(sapply(x, Max2))
     system.time(sapply(x, Max2Rec))
     system.time(sapply(x, Max2Vec))
 
   #+END_SRC
+
+  #+RESULTS:
+  : utilisateur     système      écoulé
+  :       0.037       0.000       0.037
+  : utilisateur     système      écoulé
+  :       4.190       0.002       4.210
+  : utilisateur     système      écoulé
+  :       0.027       0.009       0.036
 
 
   #+BEGIN_SRC R :session max2 :exports both
@@ -672,7 +682,7 @@ La fonction ~EstPremier(n)~  retourne False si elle trouve un diviseur non trivi
      utilisateur     système      écoulé
            0.005       0.000       0.005
      n= 3
-     Avec vectorisationy
+     Avec vectorisation
      utilisateur     système      écoulé
            0.025       0.000       0.025
      Avec pgcd

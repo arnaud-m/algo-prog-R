@@ -318,17 +318,17 @@ Toutes les notes calculées sont arrondies au quart de point supérieur.
 
 *** Première session
 
- - L'*examen terminal* obligatoire (note $N_t$) est une épreuve écrite de 3h (barème indicatif - 3/4/16).
+ - L'*examen terminal* obligatoire (note $N_t$) est une épreuve écrite de 3h (barème indicatif - 3/3/17).
  - La note $N_c$ de *contrôle continu* est la moyenne :
    - de la note maximale entre
-     - la note de partiel, une épreuve écrite de 2h (barème indicatif - 4/6/12) et
+     - la note de partiel, une épreuve écrite de 2h (barème indicatif - 4/4/15) et
      - la note d'examen terminal;
    - et des 2 meilleures notes obtenues aux activités en les pondérant par leur barème.
  - La *note finale* est $N_1 = \max(N_t, 0.4 \times N_c + 0.6 \times N_t)$
 
 *** Seconde session
 
- - La *seconde chance* ($N_t^2$) est une épreuve écrite de 3h (barème indicatif - 3/4/16).
+ - La *seconde chance* ($N_t^2$) est une épreuve écrite de 3h (barème indicatif - 3/3/17).
  - La *note finale* est $N_2 = \max(N_1, N_t^2, 0.2 \times N_c + 0.8 \times N_t^2)$. Elle est arrondie au quart de point supérieur.
 
 
