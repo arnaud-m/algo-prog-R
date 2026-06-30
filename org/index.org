@@ -174,12 +174,12 @@ https://phdcomics.com/comics/archive/phd051013s.gif
 ** Organisation
 
  1. Le matériel pédagogique est ici,
- 2. Les évaluations et le carnet de notes sont sur [[https://lms.univ-cotedazur.fr/2025/course/view.php?id=11529][moodle]] et [[https://sphere-engine.com/][sphere engine]],
+ 2. Les évaluations et le carnet de notes sont sur [[https://lms.univ-cotedazur.fr/2026/course/view.php?id=13287][moodle]] et [[https://sphere-engine.com/][sphere engine]],
  3. Le code source est sur [[https://github.com/arnaud-m/algo-prog-R][github]] !
  4. On communique surtout à l'oral pendant les cours,
  5. et plus rarement par courriel pour les communications importantes.
 
-**** Inscrivez-vous au [[https://lms.univ-cotedazur.fr/2025/course/view.php?id=11529][cours]] sur moodle !
+**** Inscrivez-vous au [[https://lms.univ-cotedazur.fr/2026/course/view.php?id=13287][cours]] sur moodle !
 
 ** Autoformation
 
@@ -213,7 +213,7 @@ https://phdcomics.com/comics/archive/phd051013s.gif
 
 ** Activités
 
-   Choisissez votre binôme sur [[https://lms.univ-cotedazur.fr/2025/course/view.php?id=11529][moodle]] pour toutes vos activités !
+   Choisissez votre binôme sur [[https://lms.univ-cotedazur.fr/2026/course/view.php?id=13287][moodle]] pour toutes vos activités !
    Les activités sont évaluées pour le contrôle continu, mais ne sont pas au programme de l'examen.
    Les corrigés des activités ne sont pas publiés.
 
@@ -245,6 +245,12 @@ Entrez votre adresse étudiante @etu.univ-cotedazur.fr dans le formulaire d'accu
  |-------------------+--------+-----------------|
  | [[https://upinfo.univ-cotedazur.fr/ucancode/tutoriel/][Tutoriel UCAnCODE]] | -      |                 |
  | [[https://51364960.widgets.sphere-engine.com/lp?hash=1L607lu5Yq][ROULETTE]]          | -      |                 |
+
+#+BEGIN_COMMENT
+ | Problème          | Barème | Période         |
+ |-------------------+--------+-----------------|
+ | [[https://upinfo.univ-cotedazur.fr/ucancode/tutoriel/][Tutoriel UCAnCODE]] | -      |                 |
+ | [[https://51364960.widgets.sphere-engine.com/lp?hash=1L607lu5Yq][ROULETTE]]          | -      |                 |
  | [[https://51364960.widgets.sphere-engine.com/lp?hash=wC2XsjJYZC][SMPDIV]]            | -      |                 |
  |-------------------+--------+-----------------|
  | **[[https://51364960.widgets.sphere-engine.com/lp?hash=XeJdO3K2LL][POW24]]**         | **12** | **23/10-24/10** |
@@ -266,6 +272,9 @@ Entrez votre adresse étudiante @etu.univ-cotedazur.fr dans le formulaire d'accu
  | Bonifications     | +3     | 04/12-05/12     |
 
  Les bonifications sont attribuées aux premiers binômes à résoudre tous les problèmes : 3pts pour le premier ; 2pts pour le second ; 1pt pour le troisième.
+
+#+END_COMMENT
+
 
 *** Mini-projets
     Les mini-projets complètent et étendent des notions abordées en cours et vous font découvrir différentes applications.
@@ -391,7 +400,7 @@ Toutes les notes calculées sont arrondies au quart de point supérieur.
   #+BEGIN_SRC R :var exercices=exercices :session grade
 
     ## Load grades from moodle
-    file <- "~/download/SPUA300 Notes-20250707_1431-comma_separated.csv"
+    file <- "~/download/SPUA300 Notes-20260623_1457-comma_separated.csv"
     df <- read.csv(file, stringsAsFactors = FALSE, na.strings = c("-", "NA"), header = TRUE)
     df <- subset(df, ! is.na(df$Numéro.d.identification))
     QuarterCeiling <- function(x) ceiling(4 * x)/4

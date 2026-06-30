@@ -2,7 +2,7 @@
 #+TITLE:     Travaux Pratiques #6
 #+SUBTITLE:     Algo & Prog avec R
 #+OPTIONS: num:1 toc:1
-#+PROPERTY: header-args :results output replace :exports both
+#+PROPERTY: header-args :results output replace :exports none
 * Recherche d'éléments dans un vecteur
 
 Programmez des fonctions avec boucle répondant aux questions ci-dessous.
@@ -260,7 +260,7 @@ Le code ci-dessous répond aux questions avec des fonctions prédéfinies.
 ** Recherche des k plus grands éléments.
 *** Programmez une fonction avec une boucle ~Max2(x)~ prenant un vecteur ~x~ numérique, et retournant le couple des deux plus grands éléments de ~x~, le maximum étant en première position.
 
-  #+BEGIN_SRC R :session max2 :results output
+  #+BEGIN_SRC R :session max2
     Max2 <- function(x) {
       v1=-Inf
       v2=-Inf
