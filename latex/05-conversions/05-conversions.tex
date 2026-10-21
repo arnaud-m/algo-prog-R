@@ -183,6 +183,49 @@ MSB <- function(n) {
 \end{columns}
 \end{frame}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Limite et correction : bit de poids fort}
+
+  \begin{alertblock}{Correct en théorie, incorrect en machine}
+    Supposons que \texttt{n} est le plus grand entier représentable en machine, alors la condition d'arrêt est toujours vraie :
+    \lstinline!msb <= n!.
+  \end{alertblock}
+
+  \begin{block}{Robustesse versus exactitude : conversion implicite de types}
+    La fonction renvoie un résultat en convertissant automatiquement les grands entiers en flottants.
+    Cela évite le dépassement de capacité, au risque de perdre en précision, mais ne fait que repousser le problème.
+  \end{block}
+  \begin{columns}[t]
+    \begin{column}{0.48\textwidth}
+
+      \begin{lstlisting}
+> n <- as.integer(2**31-1)
+> as.integer(n+1)
+[1] NA
+> n+1
+[1] 2147483648
+> typeof(n+1)
+[1] "double"
+      \end{lstlisting}
+    \end{column}
+    \begin{column}{0.52\textwidth}
+      \begin{lstlisting}[style=editor]
+MSB <- function(n) {
+  if(n <= 0) return(0);
+  msb <- 1;
+  while(n - msb >= msb) {
+    msb <- 2 * msb
+  }
+  return(msb)
+}
+      \end{lstlisting}
+    \end{column}
+
+  \end{columns}
+\end{frame}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Épluchage d'un nombre fractionnaire}
