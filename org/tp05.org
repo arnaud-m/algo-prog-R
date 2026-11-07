@@ -256,6 +256,14 @@ Foo(10,15,20)
 
 *** Vous avez maintenant tous les pré-requis pour commencer le mini-projet [[file:act03.org][Convertisseur de base (shiny)]].
 
+* Radar automatique                                                :UCANCODE:
+
+  Un radar automatique produit à chaque flash, une chaîne de caractères correspondant à l'immatriculation du véhicule potentiellement verbalisable.
+
+   Écrire un programme qui analyse la chaîne produite par le radar et déduit le type du véhicule.
+
+   Allez résoudre l'[[https://51364960.widgets.sphere-engine.com/lp?hash=bECoMHMX1J][exercice UCAnCODE]] !
+
 * Code de César                                                        :HARD:
   Le codage des messages secrets selon Jules César consistait à choisir une clé entière ~k~ dans [1,25] pour fabriquer à partir d'un message ~msg~ un nouveau message codé avec la technique suivante.
 Chaque lettre majuscule de ~msg~ est décalée de ~k~ positions vers la droite (l'alphabet est circulaire : après 'Z' on revient sur 'A').
