@@ -804,7 +804,7 @@ Les Shadox ont une mission de la plus extrême importance à vous confier!
 
 Venez vite résoudre l'[[https://51364960.widgets.sphere-engine.com/lp?hash=cFUjQNMVBi][exercice UCAnCODE]]!
 
-[[file:shadox/shadok-verite.jpg]]
+[[file:shadok/shadok-verite.jpg]]
 
 * Nombres aléatoires absents                                   :HOME:
 *** Programmer une fonction ~NbAbsents(n, m)~ prenant deux entiers ~n~ et ~m~, et réalisant la simulation suivante :
