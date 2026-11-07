@@ -573,11 +573,11 @@ La fonction ~EstPremier(n)~  retourne False si elle trouve un diviseur non trivi
 : PlusPetitDiv( 1000003 ) Version O(sqrt(n))
 : utilisateur     système      écoulé
 :       0.003       0.000       0.003
-* Vectorisation ou fonction prédéfinie ~Filter~
+* Vectorisation et sélection
   /Vous ne devez utiliser aucune boucle./
 ** Nombres non multiples d'un entier k
    Programmez une fonction ~NoMult(k,a,b)~ retournant le vecteur des entiers non multiples de ~k~ dans l’intervalle ~[a,b]~.
-   Essayez de programmer une fonction sans boucle, en la vectorisant ou utilisant la fonction ~filter~.
+   Essayez de programmer une fonction sans boucle, en la vectorisant ou en utilisant la fonction ~filter~.
    #+BEGIN_SRC R :session nomult :results none
      NoMult <- function(k,a,b) {
        x <- a:b;
@@ -690,37 +690,24 @@ La fonction ~EstPremier(n)~  retourne False si elle trouve un diviseur non trivi
            0.054       0.000       0.054
      #+end_example
 
-* Nombres aléatoires absents
-   1. Utilisez la fonction ~sample~ pour créer une liste de 100 entiers compris entre 1 et 100 tirés au hasard avec remise.
-   2. Calculer le nombre d’éléments compris entre 1 et 100 qui n’appartiennent pas à cette liste.
-   3. Recommencer cette expérience un grand nombre de fois et calculer la moyenne du nombre d’absents.
-   4. Comparer à la valeur théorique.
+* Masque d'une chaîne
+Programmer une fonction ~Masque(s,x)~ prenant un vecteur ~x~ numérique et une chaîne ~s~, et retournant une nouvelle chaîne contenant les caractères dont les positions dans ~s~ figurent dans la liste ~x~.
 
-  #+BEGIN_SRC R
-    n <- 100
-    xp <- 1000
+#+BEGIN_SRC R :session mask :results none
+  Masque <- function(str, pos) intToUtf8(utf8ToInt(str)[pos])
+#+END_SRC
 
-    ## Réalise l'expérience et renvoie le nombre d'absents
-    CountMissing <- function(n) {
-      x <- sample.int(n, n, replace=TRUE)
-      missing <- !(1:n %in% x)
-      return(sum(missing))
-    }
+#+RESULTS:
 
-    ## Répétons l'expérience avec une boucle
-    absents <- 0
-    for(i in 1:xp) {
-      absents <- absents + CountMissing(n)
-    }
-    print(absents/xp)
+#+BEGIN_SRC R :session mask :exports both
+  Masque("CAGCTACCTA",c(2,5,3,8))
+#+END_SRC
 
-    ## Répétons l'expérience par vectorisation
-    print(mean(replicate(xp, CountMissing(n))))
-  #+END_SRC
+#+RESULTS:
+: [1] "ATGC"
 
-  #+RESULTS:
-  : [1] 36.578
-  : [1] 36.514
+/Attention/ : les chaînes de caractères ne sont pas des vecteurs.
+
 * Compression d'un vecteur
 *** Programmez une fonction ~Compacter(x)~ prenant un vecteur ~x~ et remplaçant toute suite d’éléments consécutifs ~x~, ~x~,\dots, ~x~ par le seul élément ~x~.
 
@@ -768,7 +755,7 @@ La fonction ~EstPremier(n)~  retourne False si elle trouve un diviseur non trivi
  : [1] 3 8 5 7
  : [1] 1 3 8 5 7 9
 
-*** Modifiez la fonction ~Compacter~ de sorte qu’elle indique en plus la longueur de chaque sous-suite d’éléments consécutifs. :HARD:
+*** Modifiez la fonction ~Compacter~ de sorte qu’elle indique en plus la longueur de chaque sous-suite d’éléments consécutifs.
     La fonction renvoie une liste nommée contenant deux vecteurs.
  #+BEGIN_SRC R :session compact1 :results none
    Compacter <- function(x) {
@@ -811,23 +798,79 @@ La fonction ~EstPremier(n)~  retourne False si elle trouve un diviseur non trivi
  :
  : $lengths
  : [1] 1 3 1 3 2 1
-* Masque d'une chaîne
-Programmez une fonction ~Masque(s,x)~ prenant un vecteur ~x~ numérique et une chaîne ~s~, et retournant une nouvelle chaîne contenant les caractères dont les positions dans ~s~ figurent dans la liste ~x~.
+* Notation Shadok inversée                                    :HARD:UCANCODE:
 
-#+BEGIN_SRC R :session mask :results none
-  Masque <- function(str, pos) intToUtf8(utf8ToInt(str)[pos])
+Les Shadox ont une mission de la plus extrême importance à vous confier!
+
+Venez vite résoudre l'[[https://51364960.widgets.sphere-engine.com/lp?hash=cFUjQNMVBi][exercice UCAnCODE]]!
+
+[[file:shadox/shadok-verite.jpg]]
+
+* Nombres aléatoires absents                                   :HOME:
+*** Programmer une fonction ~NbAbsents(n, m)~ prenant deux entiers ~n~ et ~m~, et réalisant la simulation suivante :
+   - Générer un vecteur de ~m~ entiers compris entre 1 et ~n~ tirés au hasard avec remise.
+   - Calculer le nombre d’éléments compris entre 1 et ~n~ absents de cette liste.
+
+  #+BEGIN_SRC R :session absents
+    NbAbsents <- function(n, m) {
+      x <- sample.int(n, m, replace = TRUE)
+      missing <- !(1:n %in% x)
+      return(sum(missing))
+    }
+  #+END_SRC
+
+  #+RESULTS:
+
+#+BEGIN_SRC R :session absents :exports both
+  NbAbsents(100, 100)
 #+END_SRC
 
 #+RESULTS:
+: [1] 34
 
-#+BEGIN_SRC R :session mask :exports both
-  Masque("CAGCTACCTA",c(2,5,3,8))
+*** Programmer une fonction ~SimulationNbAbsents(p, n, m)~ calculant la moyenne de ~p~ simulations.
+
+
+  #+BEGIN_SRC R :session absents
+    SimulationNbAbsents <- function(p = 100, n = 100, m = 100) {
+      return(mean(replicate(p, NbAbsents(n, m))))
+    }
+  #+END_SRC
+
+  #+RESULTS:
+
+
+#+BEGIN_SRC R :session absents :exports both
+  SimulationNbAbsents(100, 100, 100)
 #+END_SRC
 
 #+RESULTS:
-: [1] "ATGC"
+: [1] 36.87
 
-/Attention/ : les chaînes de caractères ne sont pas des vecteurs.
+
+*** Programmer une fonction ~EsperanceNbAbsents(p, n, m)~ calculant l'espérance théorique du nombre d'absents.
+
+  #+BEGIN_SRC R :session absents
+
+       EsperanceNbAbsents <- function(n, m) {
+         ## Chaque entier a une probabilité ((n-1)/n)^m de ne jamais être tiré.
+         ## L'espérance du nombre d'entiers absents est la somme de ces probabilités.
+         return(m *  (((n-1)/n) ** m))
+       }
+  #+END_SRC
+
+  #+RESULTS:
+
+
+#+BEGIN_SRC R :session absents :exports both
+  EsperanceNbAbsents(100, 100)
+#+END_SRC
+
+#+RESULTS:
+: [1] 36.60323
+
+
+/Indice/ : considérer séparément chaque entier et calculer la probabilité qu'il soit absent après les ~m~ tirages.
 
 * Recherche d'un motif                                       :HOME:
 
