@@ -52,6 +52,9 @@
 
   #+RESULTS:
   : 100 * 0.1 = 9.9999999999999805
+
+ 5. [@5] Trouver deux nombres fractionnaires similaires à 0.1 et 1 pour illustrer les particularités du calcul flottant.
+
 * Formule d'Euler
 Le cours de maths de seconde année vous démontrera peut-être la formule suivante : $\sum_{i=1}^{+\infty} \frac{1}{i^2}=\frac{\pi^2}{6}$. \\
 Écrire une fonction ~PiEuler(n)~ qui calcule une estimation de $\pi$ à partir de la somme partielle d'ordre ~n~ : $\sum_{i=1}^{n} \frac{1}{i^2}$.
@@ -91,6 +94,13 @@ Le code ci-dessous sert à TESTER la fonction ~PiEuler~.
 : PiEuler(100000) --> 3.1415831043
 : PiEuler(1000000) --> 3.1415916987
 : PiEuler(10000000) --> 3.1415925581
+
+
+Comparez la formule d’Euler ci-dessus et la formule de Leibniz présentée en cours, notamment en termes de précision et de vitesse de convergence.
+
+Laquelle recommanderiez-vous pour calculer une approximation de $\pi$ ? Justifiez votre réponse.
+
+
 * Génétique des populations
 
 Un gène donné peut exister en plusieurs allèles, avec des conséquences phénotypiques différentes: un exemple assez simple est celui des groupes sanguins, où le même gène existe en plusieurs allèles et dont le résultat observable est le groupe A,B, AB ou O. En génétique des populations, on s'intéresse à l'évolution temporelle de la fréquence des allèles dans une population.
@@ -397,9 +407,9 @@ On suppose que l'approximation courante est $a > 0$. Calculez l'équation de la 
 N.B. Au moment d'utiliser la fonction ~Solve(f,a,h)~, il n'est pas nécessaire que la fonction f soit déjà définie. On peut *passer une "fonction anonyme" en paramètre de ~Solve~*.
 
 Par exemple, la fonction  QUI N'A AUCUN NOM s'écrit en R :
-: function(x) x**2 – 1
+: function(x) x**2 - 1
 On pourra donc demander par exemple
-: Solve((function(x) x**2 – 1), 3, 0.01)
+: Solve((function(x) x**2 - 1), 3, 0.01)
 
 ** Comparaison avec la fonction ~uniroot~
 
@@ -408,6 +418,25 @@ Le langage R propose une fonction pour trouver la racine d'une fonction d'une se
 f <- function(x) x**2 - 1
 uniroot(f, c(0, 10))
 #+end_src
+
+#+RESULTS:
+#+begin_example
+$root
+[1] 0.9999941
+
+$f.root
+[1] -1.188064e-05
+
+$iter
+[1] 11
+
+$init.it
+[1] NA
+
+$estim.prec
+[1] 6.103516e-05
+#+end_example
+
 Refaites les applications numériques avec ~uniroot~ et comparez les résultats avec ceux de votre fonction ~Solve~.
 
 

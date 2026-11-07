@@ -2,7 +2,7 @@
 #+TITLE:     Travaux Pratiques #2
 #+SUBTITLE:     Algo & Prog avec R
 #+OPTIONS: num:1 toc:1
-#+PROPERTY: header-args :results output replace :exports none
+#+PROPERTY: header-args :results output replace :exports both
 * Travail au CRIPS (Petit Valrose)
    Vous allez travailler sur des ordinateurs sous le système d'exploitation Windows (2ème étage) ou Linux (3ème étage).
    Peut-être utilisez-vous un ordinateur MacOS-X (basé sur UNIX comme Linux) ?
@@ -100,6 +100,9 @@
      Somme2Max(3, 2, 2)
      Somme2Max(2, 3, 2)
      Somme2Max(2, 2, 3)
+     Somme2Max(2, 2.5, 2.5)
+     Somme2Max(2.5, 2, 2.5)
+     Somme2Max(2.5, 2.5, 2)
      Somme2Max(2.5, 2.5, 2.5)
    #+END_SRC
 
@@ -157,7 +160,7 @@ Faites afficher un entier aléatoire de [100,200] avec un appel à ~sample~.
     return(2*sample(n%/%2, size = 1))
   }
 #+END_SRC
-Malheureusement, cette fonction est buggée : elle ne respecte sa spécification.
+Malheureusement, cette fonction est buggée : elle ne respecte pas sa spécification.
 Votre tâche consiste à corriger cette fonction.
 Faites suivre la définition de votre fonction d'une instruction pour la tester.
 

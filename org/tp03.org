@@ -2,7 +2,7 @@
 #+TITLE:     Travaux Pratiques #3
 #+SUBTITLE:     Algo & Prog avec R
 #+OPTIONS: num:1 toc:1
-#+PROPERTY: header-args :results output replace :exports none
+#+PROPERTY: header-args :results output replace :exports both
 
 * Factorielles
 Les choix algorithmiques et d'implémentation que vous ferez influent sur la qualité du programme en terme de complexité et donc de vitesse d'exécution.
@@ -366,7 +366,6 @@ Voici les factorielles (rapides) des entiers de [1,10] :
 Lisez le début de la page [[https://fr.wikipedia.org/wiki/Plus_grand_commun_diviseur_de_nombres_entiers][wikipedia du Plus Grand Diviseur Commun (PGCD)]], puis attentivement la [[https://fr.wikipedia.org/wiki/Plus_grand_commun_diviseur_de_nombres_entiers#Algorithme_d'Euclide][section sur l'algorithme d'Euclide]]. Calculer le PGCD de 8 et 20 par la méthode soustractive, puis par divisions.
 
 Nous allons implémenter plusieurs fonctions pour le calcul du *PGCD de deux entiers relatifs*.
-Nous utiliserons la définition du [[https://fr.wikipedia.org/wiki/Plus_grand_commun_diviseur_de_nombres_entiers#Plus_grand_au_sens_de_la_divisibilit%C3%A9][plus grand au sens de la divisibilité]].
 
 ** Méthode soustractive
 

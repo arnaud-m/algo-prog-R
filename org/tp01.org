@@ -2,7 +2,7 @@
 #+TITLE:     Travaux Pratiques #1
 #+SUBTITLE:     Algo & Prog avec R
 #+OPTIONS: num:1 toc:1
-#+PROPERTY: header-args :results output replace :exports none
+#+PROPERTY: header-args :results output replace :exports both
 #+BEGIN_abstract
 Cette séance de travaux pratiques peut être réalisée en distanciel.
 #+END_abstract
@@ -117,7 +117,7 @@ Inf / Inf = NaN
   N.B. La solution suivante n'est PAS celle que l'on attend :
   ~cat('p vaut 5 et q vaut 15, leur somme fait 20\n')~.
  3. Demandez en R "q est-il un multiple de p?".
- 4. Au toplevel, traduisez en R la phrase suivante : si q est un multiple de p, afficher OUI sinon afficher NON
+ 4. Au toplevel, traduisez en R la phrase suivante : si q est un multiple de p, afficher ~TRUE~ sinon afficher ~FALSE~.
  5. Sans consulter vos notes de cours, écrivez au toplevel les lignes de code permettant d'échanger les valeurs de ~p~ et ~q~, en utilisant une variable temporaire ~tmp~. Vérifiez ensuite que les valeurs de p et q ont bien été permutées.
  6. Echangez à nouveau les valeurs de p et q, mais SANS utiliser de variable temporaire! Soyez astucieux, jouez avec des opérations arithmétiques \dots
 
