@@ -107,7 +107,7 @@ Erreur : unexpected symbol in "'Mais j'ai"
 > substr(texte,4,4)
 [1] "4"
 > substr(texte,nchar(texte),nchar(texte))
-[1] "! "
+[1] "!"
 > substr(texte,nchar(texte)+1,nchar(texte)+1)
 [1] ""
     \end{lstlisting}
@@ -199,12 +199,12 @@ La fonction \alert{\texttt{strsplit}} sépare une chaîne de caractères en une 
 \item R propose une famille de fonctions similaires aux commandes shell \texttt{grep} pour la recherche et \texttt{sed} pour le remplacement.
 \end{itemize}
 \begin{lstlisting}
-> l <- c("apple","banana","grape","10","green.pepper")
-> grep("a",l)
+> vec <- c("apple","banana","grape","10","green.pepper")
+> grep("a", vec)
 [1] 1 2 3
-> sub("a","$",l)
+> sub("a","$", vec)
 [1] "$pple" "b$nana" "gr$pe" "10" "green.pepper"
-> gsub("a","$",l)
+> gsub("a","$", vec)
 [1] "$pple" "b$n$n$" "gr$pe" "10" "green.pepper"
 \end{lstlisting}
 \end{frame}
@@ -226,20 +226,20 @@ La fonction \alert{\texttt{strsplit}} sépare une chaîne de caractères en une 
 \begin{frame}[fragile]
   \frametitle{Autres méthodes sur des chaînes}
   \begin{lstlisting}
-> l <- c('', 'pommes', '12', 'CERISES')
-> grepl("^[[:digit:]]+$", l) # que des chiffres ?
+> vec <- c('', 'pommes', '12', 'CERISES')
+> grepl("^[[:digit:]]+$", vec) # que des chiffres ?
 [1] FALSE FALSE TRUE FALSE
-> grepl("^[[:lower:]]+$", l) # que des minuscules ?
+> grepl("^[[:lower:]]+$", vec) # que des minuscules ?
 [1] FALSE TRUE FALSE FALSE
-> grepl("^[[:alpha:]]+$", l) # que des lettres?
+> grepl("^[[:alpha:]]+$", vec) # que des lettres?
 [1] FALSE TRUE FALSE TRUE
-> grepl("^[[:alnum:]]+$", l) # que des chiffres ou des lettres?
+> grepl("^[[:alnum:]]+$", vec) # que des chiffres ou des lettres?
 [1] FALSE TRUE TRUE TRUE
-> tolower(l) # mettre en minuscules
+> tolower(vec) # mettre en minuscules
 [1] "" "pommes" "12" "cerises"
-> toupper(l) # mettre en majuscules
+> toupper(vec) # mettre en majuscules
 [1] "" "POMMES" "12" "CERISES"
-> chartr("oei", "OEI", l) #remplacement (c.f. tr en shell)
+> chartr("oei", "OEI", vec) #remplacement (c.f. tr en shell)
 [1] "" "pOmmEs" "12" "CERISES"
   \end{lstlisting}
 \end{frame}
@@ -469,13 +469,13 @@ langues du monde (plus de 65000 caractères !) \dots
   \begin{block}{Pour coder un message}
     \begin{itemize}
     \item Choisir une clé de codage \texttt{k} dans [1,25].
-    \item Initialiser la chaîne résultat à la chaîne vide.
+    \item Initialiser l'accumulateur à la chaîne vide.
     \item Pour chaque caractère \texttt{c} du message à coder :
       \begin{itemize}
-      \item Si le caractère c est une lettre majuscule : coder le caractère c en le décalant de k positions à droite insérer le nouveau caractère dans la chaîne résultat.
-      \item sinon : insérer c dans la chaîne résultat
+      \item si le caractère c est une lettre majuscule : coder le caractère c en le décalant de k positions à droite et insérer le nouveau caractère dans l'accumulateur ;
+      \item sinon : insérer c dans l'accumulateur.
       \end{itemize}
-    \item Rendre en résultat la chaîne résultat
+    \item Rendre en résultat l'accumulateur.
 
     \end{itemize}
   \end{block}
