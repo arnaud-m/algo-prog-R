@@ -315,6 +315,11 @@ Obtenez-vous la même chose avec votre simulation ? Pourquoi?
 **** Que se passe-t'il au bout de 100 générations avec la situation suivante: $N_0=100$, $K=1000$, $r=-0.1$ ?
 **** Et si $r=0.1$ ? Quelle est la limite atteinte par la population au bout d'un grand nombre de générations ? Cette limite est-elle atteinte ou simplement approchée ?
 **** Que se passe-t-il si $r=2.5$ ?
+* Exercice flottant                                                :UCANCODE:
+
+L'arrondi, tout un art ! Arrondir au supérieur, à l'inférieur ou au plus proche : encore faut-il connaître les règles du jeu !
+
+Venez résoudre l'[[https://51364960.widgets.sphere-engine.com/lp?hash=sACbNcUOXS][exercice UCAnCODE]] et révélez l'artiste de l'arrondi qui sommeille en vous.
 
 
 * Méthode des tangentes de Newton                              :HARD:
@@ -440,7 +445,7 @@ $estim.prec
 Refaites les applications numériques avec ~uniroot~ et comparez les résultats avec ceux de votre fonction ~Solve~.
 
 
-* Racines d'un trinôme                                                 :HARD:
+* Racines d'un trinôme                                            :HOME:HARD:
 
   Il est fortement conseillé de lire la page wikipedia sur les [[https://fr.wikipedia.org/wiki/%C3%89quation_du_second_degr%C3%A9][équations du second degré]] ou encore mieux [[https://www.scilab.org/sites/default/files/scilabisnotnaive.pdf][Scilab is not naive]].
 
